@@ -45,7 +45,7 @@ const SignIn = props => {
       password: values.password
     }
     signIn(user);
-    history.push('/');
+    history.push('/meus-pacientes');
   };
 
   return (

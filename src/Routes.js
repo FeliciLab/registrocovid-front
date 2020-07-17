@@ -22,7 +22,8 @@ const Routes = () => {
   return (
 
     <Switch>
-      {/* <Redirect
+      {/*
+      <Redirect
         exact
         from="/"
         to="/meus-pacientes"
@@ -74,13 +75,14 @@ const Routes = () => {
       exact
       layout={MinimalLayout}
       path="/not-found"
-    /> */}
+    />
       <RouteWithLayout
         component={SignUpView}
         exact
         layout={MinimalLayout}
         path="/sign-up"
       />
+    */}
       <RouteWithLayout
         component={SignInView}
         exact
