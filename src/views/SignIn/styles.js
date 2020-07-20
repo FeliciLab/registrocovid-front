@@ -4,7 +4,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     flexDirection: 'column',
     backgroundColor: theme.palette.background.default,
-    height: '100%'
+    height: '100%',
   },
   grid: {
     height: '100%',
@@ -57,7 +57,19 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(3)
   },
   textField: {
-    marginTop: theme.spacing(2)
+    marginTop: theme.spacing(2),
+  },
+  signInButtonWrapper: {
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  errorLoginMessage: {
+    display: 'flex',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
+  errorLoginMessageLabel: {
+    marginLeft: theme.spacing(1)
   },
   signInButton: {
     margin: theme.spacing(2, 0)

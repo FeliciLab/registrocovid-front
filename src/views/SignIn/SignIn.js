@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
 import useStyles from './styles';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
+import InfoIcon from '@material-ui/icons/Info';
 import { Formik, Form, Field } from 'formik';
 import {
   Grid,
@@ -11,6 +13,7 @@ import {
   IconButton,
   TextField,
   Typography,
+  InputAdornment,
 } from '@material-ui/core';
 
 import { useAuth } from '../../hooks/auth';
@@ -28,18 +31,21 @@ const schema = Yup.object().shape({
 const SignIn = props => {
   const { history } = props;
 
-  // Contexto do Usuário.
-  const { signIn } = useAuth();
-
   const classes = useStyles();
 
-  const handleBack = () => {
-    history.goBack();
+  const { signIn } = useAuth(); // Contexto do Usuário.
+
+  const [erroLogin, setErroLogin] = useState(true);
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleClickShowPassword = () => {
+    setShowPassword(showPassword => !showPassword);
   };
 
   // Essa function está só pomo teste.
   const handleSignIn = (values) => {
-    console.log(values);
+    console.log(values); // TODO: [testando] -> remover depois.
     const user = {
       cpf: values.cpf,
       password: values.password
@@ -61,32 +67,28 @@ const SignIn = props => {
           xs={12}
         >
           <div className={classes.content}>
-            <div className={classes.contentHeader}>
-              {/* <IconButton onClick={handleBack}>
-                <ArrowBackIcon />
-              </IconButton> */}
-            </div>
             <div className={classes.contentBody}>
               <Formik
                 initialValues={{
                   cpf: '',
                   password: ''
                 }}
+                validateOnMount
                 onSubmit={handleSignIn}
-                render={({ values, handleChange, isValid, errors }) => (
+                validationSchema={schema}>
+                {({ values, touched, handleChange, isValid, errors }) => (
                   <Form className={classes.form}>
-                    <Typography
-                      className={classes.title}
-                      variant="h2"
-                    >
+                    <Typography className={classes.title} variant="h2">
                       Entrar no sistema
                     </Typography>
                     <Field
                       as={TextField}
                       className={classes.textField}
-                      error={errors.email}
+                      error={(errors.cpf && touched.cpf)}
                       fullWidth
-                      helperText={errors.cpf ? errors.cpf : null}
+                      helperText={
+                        (errors.cpf && touched.cpf) ? errors.cpf : null
+                      }
                       label="cpf"
                       name="cpf"
                       onChange={handleChange}
@@ -97,31 +99,58 @@ const SignIn = props => {
                     <Field
                       as={TextField}
                       className={classes.textField}
-                      error={errors.email}
+                      error={(errors.password && touched.password)}
                       fullWidth
-                      helperText={errors.password ? errors.password : null}
+                      helperText={
+                        (errors.password && touched.password) ? errors.password : null
+                      }
                       label="Password"
                       name="password"
                       onChange={handleChange}
-                      type="password"
+                      type={showPassword ? 'text' : 'password'}
                       value={values.password}
                       variant="outlined"
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="Mudar a visibilidade da senha"
+                              onClick={handleClickShowPassword}
+                              edge="end"
+                            >
+                              {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
                     />
-                    <Button
-                      className={classes.signInButton}
-                      color="primary"
-                      disabled={!isValid}
-                      fullWidth
-                      size="large"
-                      type="submit"
-                      variant="contained"
-                    >
-                      Entrar
-                    </Button>
+                    <div className={classes.signInButtonWrapper}>
+                      <Button
+                        className={classes.signInButton}
+                        color="primary"
+                        disabled={!(isValid && touched.cpf && touched.password)}
+                        fullWidth
+                        size="large"
+                        type="submit"
+                        variant="contained"
+                      >
+                        Entrar
+                      </Button>
+
+                      {erroLogin && (
+                        <div className={classes.errorLoginMessage}>
+                          <InfoIcon />
+                          <Typography className={classes.errorLoginMessageLabel}
+                            variant="caption"
+                          >
+                            Usuário ou senha incorretos, tente novamente.
+                        </Typography>
+                        </div>
+                      )}
+                    </div>
                   </Form>
                 )}
-                validationSchema={schema}
-              />
+              </Formik>
             </div>
           </div>
         </Grid>

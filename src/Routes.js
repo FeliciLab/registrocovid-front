@@ -22,12 +22,12 @@ const Routes = () => {
   return (
 
     <Switch>
-      {/*
       <Redirect
         exact
         from="/"
         to="/meus-pacientes"
       />
+      {/*
       <RouteWithLayout
         component={DashboardView}
         exact
