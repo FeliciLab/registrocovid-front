@@ -17,7 +17,7 @@ import {
   InputAdornment,
 } from '@material-ui/core';
 
-import { useAuth } from '../../hooks/auth';
+import useAuth from '../../context/hooks/useAuth';
 
 // Schema do Yup para validação dos campos.
 const schema = Yup.object().shape({
@@ -34,7 +34,7 @@ const SignIn = props => {
 
   const classes = useStyles();
 
-  const { signIn, setData } = useAuth(); // Contexto do Usuário.
+  const { authenticated, handleLogin } = useAuth(); // Contexto do Usuário.
 
   const [erroLogin, setErroLogin] = useState(false);
 
@@ -50,31 +50,7 @@ const SignIn = props => {
       cpf: values.cpf,
       password: values.password
     }
-
-
-    api.post('/auth/login', user).then(response => {
-      console.log(response);
-
-      const { access_token } = response.data;
-
-      localStorage.setItem('@RegistroCovid:token', access_token);
-
-      api.defaults.headers.authorization = `Bearer ${access_token}`;
-
-      setData({ access_token });
-
-      history.push('/meus-pacientes');
-    }).catch(err => {
-      setErroLogin(true);
-    });
-
-    // try {
-    //   await signIn(user, history);
-    // } catch (err) {
-    //   setErroLogin(true);
-    // }
-    // console.log('Chegou aqui');
-    // history.push('/meus-pacientes');
+    handleLogin(user);
   };
 
   return (
