@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
@@ -7,6 +7,7 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import InfoIcon from '@material-ui/icons/Info';
 import { Formik, Form, Field } from 'formik';
+import { Context } from '../../context/AuthContext';
 import {
   Grid,
   Button,
@@ -15,8 +16,6 @@ import {
   Typography,
   InputAdornment,
 } from '@material-ui/core';
-
-import useAuth from '../../context/hooks/useAuth';
 
 // Schema do Yup para validação dos campos.
 const schema = Yup.object().shape({
@@ -34,7 +33,8 @@ const SignIn = props => {
 
   const classes = useStyles();
 
-  const { handleLogin, erroLogin } = useAuth();
+  // Contexto de autenticação.
+  const { handleLogin, erroLogin } = useContext(Context);
 
   const [showPassword, setShowPassword] = useState(false);
 

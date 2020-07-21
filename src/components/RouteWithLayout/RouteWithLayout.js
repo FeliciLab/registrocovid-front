@@ -9,9 +9,9 @@ const RouteWithLayout = props => {
 
   const { layout: Layout, component: Component, isPrivate = false, ...rest } = props;
 
-  if (loading) {
-    return <h1>Loading...</h1>;
-  }
+  // if (loading) {
+  //   return <h1>Loading...</h1>;
+  // }
 
   if (isPrivate && !authenticated) {
     return (
