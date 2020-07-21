@@ -5,13 +5,9 @@ import { Context } from '../../context/AuthContext';
 
 const RouteWithLayout = props => {
 
-  const { loading, authenticated } = useContext(Context);
+  const { authenticated } = useContext(Context);
 
   const { layout: Layout, component: Component, isPrivate = false, ...rest } = props;
-
-  // if (loading) {
-  //   return <h1>Loading...</h1>;
-  // }
 
   if (isPrivate && !authenticated) {
     return (
