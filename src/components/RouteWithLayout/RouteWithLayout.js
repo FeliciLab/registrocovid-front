@@ -1,29 +1,28 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { useAuth } from '../../hooks/auth';
+import { Context } from '../../context/AuthContext';
 
 const RouteWithLayout = props => {
 
-  const { user } = useAuth();
+  const { authenticated } = useContext(Context);
 
   const { layout: Layout, component: Component, isPrivate = false, ...rest } = props;
 
+  if (isPrivate && !authenticated) {
+    return (
+      <Redirect to="/sign-in" />
+    );
+  }
+
   return (
-    <Route
-      {...rest}
-      render={matchProps => {
-        return isPrivate === !!user ? (
-          <Layout>
-            <Component {...matchProps} />
-          </Layout>
-        ) : (
-            <Redirect to={{
-              pathname: isPrivate ? '/sign-in' : 'meus-pacientes',
-              state: { from: matchProps.location },
-            }} />
-          );
-      }}
+    <Route {...rest} render={matchProps => {
+      return (
+        <Layout>
+          <Component {...matchProps} />
+        </Layout>
+      )
+    }}
     />
   );
 };

@@ -10,7 +10,7 @@ import { Divider, Drawer } from '@material-ui/core';
 // import ImageIcon from '@material-ui/icons/Image';
 // import AccountBoxIcon from '@material-ui/icons/AccountBox';
 // import SettingsIcon from '@material-ui/icons/Settings';
-import LockOpenIcon from '@material-ui/icons/LockOpen';
+// import LockOpenIcon from '@material-ui/icons/LockOpen';
 import ListIcon from '@material-ui/icons/List';
 
 import { Profile, SidebarNav } from './components';
@@ -64,11 +64,11 @@ const Sidebar = props => {
       href: '/meus-pacientes',
       icon: <ListIcon />
     },
-    {
-      title: 'Authentication',
-      href: '/sign-in',
-      icon: <LockOpenIcon />
-    },
+    // {
+    //   title: 'Authentication',
+    //   href: '/sign-in',
+    //   icon: <LockOpenIcon />
+    // },
     // {
     //   title: 'Typography',
     //   href: '/typography',

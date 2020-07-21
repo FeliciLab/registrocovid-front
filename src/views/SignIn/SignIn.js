@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
@@ -7,6 +7,7 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import InfoIcon from '@material-ui/icons/Info';
 import { Formik, Form, Field } from 'formik';
+import { Context } from '../../context/AuthContext';
 import {
   Grid,
   Button,
@@ -16,8 +17,6 @@ import {
   InputAdornment,
 } from '@material-ui/core';
 
-import { useAuth } from '../../hooks/auth';
-
 // Schema do Yup para validação dos campos.
 const schema = Yup.object().shape({
   cpf: Yup.string()
@@ -25,17 +24,17 @@ const schema = Yup.object().shape({
     // .matches(/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/, 'Digite um CPF válido (xxx.xxx.xxx-xx).')
     .required('Campo obrigatório'),
   password: Yup.string()
+    .min(6, 'O campo Password deve ter pelo menos 6 caracteres.')
     .required('Campo obrigatório')
 });
 
 const SignIn = props => {
-  const { history } = props;
+  // const { history } = props;
 
   const classes = useStyles();
 
-  const { signIn } = useAuth(); // Contexto do Usuário.
-
-  const [erroLogin, setErroLogin] = useState(true);
+  // Contexto de autenticação.
+  const { handleLogin, erroLogin } = useContext(Context);
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -44,18 +43,17 @@ const SignIn = props => {
   };
 
   // Essa function está só pomo teste.
-  const handleSignIn = (values) => {
-    console.log(values); // TODO: [testando] -> remover depois.
+  const handleSignIn = async (values) => {
     const user = {
       cpf: values.cpf,
       password: values.password
     }
-    signIn(user);
-    history.push('/meus-pacientes');
+    handleLogin(user);
   };
 
   return (
     <div className={classes.root}>
+
       <Grid
         className={classes.grid}
         container
