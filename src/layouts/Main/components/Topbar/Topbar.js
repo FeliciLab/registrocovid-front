@@ -7,6 +7,7 @@ import { AppBar, Toolbar, Badge, Hidden, IconButton } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
 import InputIcon from '@material-ui/icons/Input';
+import { useAuth } from 'hooks/auth';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -24,6 +25,8 @@ const Topbar = props => {
   const { className, onSidebarOpen, ...rest } = props;
 
   const classes = useStyles();
+
+  const { signOut } = useAuth();
 
   const [notifications] = useState([]);
 
@@ -50,7 +53,7 @@ const Topbar = props => {
               <NotificationsIcon />
             </Badge>
           </IconButton>
-          <IconButton
+          <IconButton onClick={signOut}
             className={classes.signOutButton}
             color="inherit"
           >

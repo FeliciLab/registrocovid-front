@@ -7,6 +7,7 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import InfoIcon from '@material-ui/icons/Info';
 import { Formik, Form, Field } from 'formik';
+import api from '../../services/api';
 import {
   Grid,
   Button,
@@ -33,9 +34,9 @@ const SignIn = props => {
 
   const classes = useStyles();
 
-  const { signIn } = useAuth(); // Contexto do Usuário.
+  const { signIn, setData } = useAuth(); // Contexto do Usuário.
 
-  const [erroLogin, setErroLogin] = useState(true);
+  const [erroLogin, setErroLogin] = useState(false);
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -44,14 +45,36 @@ const SignIn = props => {
   };
 
   // Essa function está só pomo teste.
-  const handleSignIn = (values) => {
-    console.log(values); // TODO: [testando] -> remover depois.
+  const handleSignIn = async (values) => {
     const user = {
       cpf: values.cpf,
       password: values.password
     }
-    signIn(user);
-    history.push('/meus-pacientes');
+
+
+    api.post('/auth/login', user).then(response => {
+      console.log(response);
+
+      const { access_token } = response.data;
+
+      localStorage.setItem('@RegistroCovid:token', access_token);
+
+      api.defaults.headers.authorization = `Bearer ${access_token}`;
+
+      setData({ access_token });
+
+      history.push('/meus-pacientes');
+    }).catch(err => {
+      setErroLogin(true);
+    });
+
+    // try {
+    //   await signIn(user, history);
+    // } catch (err) {
+    //   setErroLogin(true);
+    // }
+    // console.log('Chegou aqui');
+    // history.push('/meus-pacientes');
   };
 
   return (

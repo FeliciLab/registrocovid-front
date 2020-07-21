@@ -2,24 +2,29 @@ import React, {
   createContext,
   useState,
   useContext,
-  useCallback
+  useCallback,
 } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import api from '../services/api';
 
 // Criando Contexto
 const AuthContext = createContext();
 
+
 // Provider
 export function AuthProvider({ children }) {
+
+  const history = useHistory();
+
   const [data, setData] = useState(() => {
     const token = localStorage.getItem('@RegistroCovid:token');
-    const user = localStorage.getItem('@RegistroCovid:user');
 
-    if (token && user) {
+    if (token) {
+
       api.defaults.headers.authorization = `Bearer ${token}`;
 
-      return { token, user: JSON.parse(user) };
+      return { token };
     }
 
     return {};
@@ -27,30 +32,33 @@ export function AuthProvider({ children }) {
 
   const signIn = useCallback(async ({ cpf, password }) => {
     // Ainda não está funcional.
-    // const response = await api.post('sessions', {
-    //   cpf,
-    //   password,
-    // });
 
-    // const { token, user } = response.data;
+    const response = await api.post('/auth/login', {
+      cpf,
+      password,
+    });
 
-    // localStorage.setItem('@RegistroCovid:token', token);
-    // localStorage.setItem('@RegistroCovid:user', JSON.stringify(user));
+    console.log(response);
 
-    // api.defaults.headers.authorization = `Bearer ${token}`;
+    const { access_token } = response.data;
 
-    // setData({ token, user });
+    localStorage.setItem('@RegistroCovid:token', access_token);
+
+    api.defaults.headers.authorization = `Bearer ${access_token}`;
+
+    setData({ access_token });
+
+    history.push('/meus-pacientes');
   }, []);
 
   const signOut = useCallback(() => {
     localStorage.removeItem('@RegistroCovid:token');
-    localStorage.removeItem('@RegistroCovid:user');
 
     setData({});
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user: data.user, signIn, signOut }}>
+    <AuthContext.Provider value={{ signIn, signOut, token: data.token, setData }}>
       {children}
     </AuthContext.Provider>
   );
@@ -61,11 +69,12 @@ export function AuthProvider({ children }) {
 export function useAuth() {
   const context = useContext(AuthContext);
 
-  const { user, signIn, signOut } = context;
+  const { token, signIn, signOut, setData } = context;
 
   return {
-    user,
+    token,
     signIn,
-    signOut
+    signOut,
+    setData
   };
 }
