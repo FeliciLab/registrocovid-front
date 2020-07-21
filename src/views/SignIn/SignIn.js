@@ -7,7 +7,6 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import InfoIcon from '@material-ui/icons/Info';
 import { Formik, Form, Field } from 'formik';
-import api from '../../services/api';
 import {
   Grid,
   Button,
@@ -26,17 +25,16 @@ const schema = Yup.object().shape({
     // .matches(/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/, 'Digite um CPF válido (xxx.xxx.xxx-xx).')
     .required('Campo obrigatório'),
   password: Yup.string()
+    .min(6, 'O campo Password deve ter pelo menos 6 caracteres.')
     .required('Campo obrigatório')
 });
 
 const SignIn = props => {
-  const { history } = props;
+  // const { history } = props;
 
   const classes = useStyles();
 
-  const { authenticated, handleLogin } = useAuth(); // Contexto do Usuário.
-
-  const [erroLogin, setErroLogin] = useState(false);
+  const { handleLogin, erroLogin } = useAuth();
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -55,6 +53,7 @@ const SignIn = props => {
 
   return (
     <div className={classes.root}>
+
       <Grid
         className={classes.grid}
         container

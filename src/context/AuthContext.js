@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext } from 'react';
 
 import useAuth from './hooks/useAuth';
 
@@ -6,11 +6,18 @@ const Context = createContext();
 
 function AuthProvider({ children }) {
   const {
-    authenticated, loading, handleLogin, handleLogout,
+    loading,
+    authenticated,
+    handleLogin,
+    handleLogout,
+    erroLogin,
+    isLogged,
   } = useAuth();
 
   return (
-    <Context.Provider value={{ loading, authenticated, handleLogin, handleLogout }}>
+    <Context.Provider
+      value={{ loading, authenticated, handleLogin, handleLogout, erroLogin, isLogged }}
+    >
       {children}
     </Context.Provider>
   );

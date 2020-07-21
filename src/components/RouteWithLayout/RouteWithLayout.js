@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Context } from '../../context/AuthContext';
@@ -13,18 +13,20 @@ const RouteWithLayout = props => {
     return <h1>Loading...</h1>;
   }
 
+  if (isPrivate && !authenticated) {
+    return (
+      <Redirect to="/sign-in" />
+    );
+  }
+
   return (
-    <Route
-      {...rest}
-      render={matchProps => {
-        return (isPrivate && !authenticated) ? (
-          <Redirect to="/sign-in" />
-        ) : (
-            <Layout>
-              <Component {...matchProps} />
-            </Layout>
-          );
-      }}
+    <Route {...rest} render={matchProps => {
+      return (
+        <Layout>
+          <Component {...matchProps} />
+        </Layout>
+      )
+    }}
     />
   );
 };

@@ -12,7 +12,7 @@ import {
   // Icons as IconsView,
   // Account as AccountView,
   // Settings as SettingsView,
-  SignUp as SignUpView,
+  // SignUp as SignUpView,
   SignIn as SignInView,
   // NotFound as NotFoundView,
   ListPatients as ListPatientsView,
