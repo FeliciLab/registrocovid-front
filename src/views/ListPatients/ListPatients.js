@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-
-import useStyles from './styles';
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
-import SearchIcon from '@material-ui/icons/Search';
 import { Link } from 'react-router-dom';
 import TablePatients from './components/TablePatients';
+import useStyles from './styles';
 
+// Icons
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import SearchIcon from '@material-ui/icons/Search';
+import AddIcon from '@material-ui/icons/Add';
+
+// Material-UI Components
 import {
   Typography,
   Button,
@@ -33,51 +36,51 @@ const ListPatients = () => {
   return (
     <div className={classes.root}>
 
-      {/*
-        TODO: Acho que esse component deve estar nos layouts básicos.
-        Muito provavelmente, será um componente separado.
-      */}
-      <Breadcrumbs
-        aria-label="breadcrumb"
-        separator={
-          <NavigateNextIcon fontSize="small" />
-        }
-      >
-        <MuiLink component={Link} color="inherit" to="/meus-pacientes" >
-          Meus pacientes
-        </MuiLink>
-        <MuiLink component={Link} color="textPrimary" to="/meus-pacientes" >
-          Meus pacientes
-        </MuiLink>
-      </Breadcrumbs>
+      <div className={classes.header}>
+        {/* TODO: Acho que esse component deve estar nos layouts básicos.
+          Muito provavelmente, será um componente separado. */}
+        <Breadcrumbs
+          aria-label="breadcrumb"
+          separator={
+            <NavigateNextIcon fontSize="small" />
+          }
+        >
+          <MuiLink component={Link} color="textPrimary" to="/meus-pacientes" >
+            Meus pacientes
+          </MuiLink>
+        </Breadcrumbs>
 
-      {/* TODO: remover essa grid e colocar tudo em uma div com className */}
-      <Grid
-        container
-        direction="row"
-        justify="space-between"
-        alignItems="center" >
+        <div className={classes.titleWrapper}>
 
-        <Typography variant="h2">Meus pacientes</Typography>
+          <Typography variant="h1">Meus pacientes</Typography>
 
-        <TextField className={classes.fieldNumProntuario}
-          id="num-prontuario"
-          label="Buscar por número de prontuário"
-          variant="outlined"
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-          }}
-        />
+          <div className={classes.actionsWrapper}>
 
-        <Button color="primary" variant="contained">
-          Cadastrar Paciente
-        </Button>
+            <TextField className={classes.fieldNumProntuario}
+              id="num-prontuario"
+              label="Buscar por número de prontuário"
+              variant="outlined"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+              }}
+            />
 
-      </Grid>
+            <Button
+              className={classes.buttonAddPatient}
+              color="primary"
+              variant="contained"
+              startIcon={<AddIcon />}
+            >
+              Cadastrar Paciente
+            </Button>
+
+          </div>
+        </div>
+      </div>
 
       <TablePatients patients={patients} />
 

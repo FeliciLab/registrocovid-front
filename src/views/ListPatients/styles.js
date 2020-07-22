@@ -6,12 +6,29 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     padding: theme.spacing(4)
   },
-  fieldNumProntuario: {
-    margin: theme.spacing(1),
-    width: '300px'
+  header: {
+    display: 'flex',
+    flexDirection: 'column'
   },
-  table: {
-    marginTop: theme.spacing(4)
+  titleWrapper: {
+    display: 'flex',
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(3),
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  actionsWrapper: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  fieldNumProntuario: {
+    width: '362px',
+    height: '48px',
+    marginRight: theme.spacing(3),
+  },
+  buttonAddPatient: {
+    width: '258px',
+    height: '48px',
   }
 }));
 
