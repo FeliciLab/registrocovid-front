@@ -4,13 +4,9 @@ import useStyles from './styles';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import SearchIcon from '@material-ui/icons/Search';
 import { Link } from 'react-router-dom';
+import TablePatients from './components/TablePatients';
 
 import {
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
   Typography,
   Button,
   Grid,
@@ -25,7 +21,7 @@ const ListPatients = () => {
   const classes = useStyles();
 
   // TODO: usar a api para popular essas informações.
-  const [patientes, /* setPatientes */] = useState([
+  const [patients, /* setPatientes */] = useState([
     { numProntuario: '#546546464', dataInternacao: '24/05/2020', dataCadastro: '13/07/2020' },
     { numProntuario: '#546546464', dataInternacao: '24/05/2020', dataCadastro: '13/07/2020' },
     { numProntuario: '#546546464', dataInternacao: '24/05/2020', dataCadastro: '13/07/2020' },
@@ -83,33 +79,8 @@ const ListPatients = () => {
 
       </Grid>
 
-      {/* TODO: Separar essa tabela em um component separado. */}
-      <Table className={classes.table} size="small" >
-        <TableHead>
-          <TableRow>
-            <TableCell align="left">Número do prontuário</TableCell>
-            <TableCell align="left">Data de internação</TableCell>
-            <TableCell align="left">Data do cadastro</TableCell>
-            <TableCell align="left"></TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
+      <TablePatients patients={patients} />
 
-          {patientes.map(({ numProntuario, dataCadastro, dataInternacao }, index) => (
-            <TableRow key={index}>
-              <TableCell align="left">{numProntuario}</TableCell>
-              <TableCell align="left">{dataInternacao}</TableCell>
-              <TableCell align="left">{dataCadastro}</TableCell>
-              <TableCell align="right">
-                <Button color="inherit">
-                  <NavigateNextIcon fontSize="small" />
-                </Button>
-              </TableCell>
-            </TableRow>
-          ))}
-
-        </TableBody>
-      </Table>
     </div >
   );
 }
