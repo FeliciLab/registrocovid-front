@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import { makeStyles } from '@material-ui/styles';
-import VisibilityIcon from '@material-ui/icons/Visibility';
+import useStyles from './styles';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import SearchIcon from '@material-ui/icons/Search';
+import { Link } from 'react-router-dom';
 
 import {
   Table,
@@ -15,31 +16,46 @@ import {
   Grid,
   TextField,
   InputAdornment,
+  Breadcrumbs,
+  Link as MuiLink,
 } from '@material-ui/core';
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    padding: theme.spacing(4)
-  },
-
-  fieldNumProntuario: {
-    margin: theme.spacing(1),
-    width: '300px'
-  },
-  table: {
-    marginTop: theme.spacing(4)
-  },
-  functionalities: {
-    alignItems: 'center'
-  }
-}));
 
 const ListPatients = () => {
 
   const classes = useStyles();
 
+  // TODO: usar a api para popular essas informações.
+  const [patientes, /* setPatientes */] = useState([
+    { numProntuario: '#546546464', dataInternacao: '24/05/2020', dataCadastro: '13/07/2020' },
+    { numProntuario: '#546546464', dataInternacao: '24/05/2020', dataCadastro: '13/07/2020' },
+    { numProntuario: '#546546464', dataInternacao: '24/05/2020', dataCadastro: '13/07/2020' },
+    { numProntuario: '#546546464', dataInternacao: '24/05/2020', dataCadastro: '13/07/2020' },
+    { numProntuario: '#546546464', dataInternacao: '24/05/2020', dataCadastro: '13/07/2020' },
+    { numProntuario: '#546546464', dataInternacao: '24/05/2020', dataCadastro: '13/07/2020' },
+  ]);
+
   return (
     <div className={classes.root}>
+
+      {/*
+        TODO: Acho que esse component deve estar nos layouts básicos.
+        Muito provavelmente, será um componente separado.
+      */}
+      <Breadcrumbs
+        aria-label="breadcrumb"
+        separator={
+          <NavigateNextIcon fontSize="small" />
+        }
+      >
+        <MuiLink component={Link} color="inherit" to="/meus-pacientes" >
+          Meus pacientes
+        </MuiLink>
+        <MuiLink component={Link} color="textPrimary" to="/meus-pacientes" >
+          Meus pacientes
+        </MuiLink>
+      </Breadcrumbs>
+
+      {/* TODO: remover essa grid e colocar tudo em uma div com className */}
       <Grid
         container
         direction="row"
@@ -67,7 +83,8 @@ const ListPatients = () => {
 
       </Grid>
 
-      <Table className={classes.table}>
+      {/* TODO: Separar essa tabela em um component separado. */}
+      <Table className={classes.table} size="small" >
         <TableHead>
           <TableRow>
             <TableCell align="left">Número do prontuário</TableCell>
@@ -77,76 +94,20 @@ const ListPatients = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          <TableRow>
-            <TableCell align="left">#546546464</TableCell>
-            <TableCell align="left">24/05/2020</TableCell>
-            <TableCell align="left">13/07/2020</TableCell>
-            <TableCell align="left">
-              <Button color="primary">
-                <VisibilityIcon />
-              </Button>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="left">#546546464</TableCell>
-            <TableCell align="left">24/05/2020</TableCell>
-            <TableCell align="left">13/07/2020</TableCell>
-            <TableCell align="left">
-              <Button color="primary">
-                <VisibilityIcon />
-              </Button>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="left">#546546464</TableCell>
-            <TableCell align="left">24/05/2020</TableCell>
-            <TableCell align="left">13/07/2020</TableCell>
-            <TableCell align="left">
-              <Button color="primary">
-                <VisibilityIcon />
-              </Button>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="left">#546546464</TableCell>
-            <TableCell align="left">24/05/2020</TableCell>
-            <TableCell align="left">13/07/2020</TableCell>
-            <TableCell align="left">
-              <Button color="primary">
-                <VisibilityIcon />
-              </Button>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="left">#546546464</TableCell>
-            <TableCell align="left">24/05/2020</TableCell>
-            <TableCell align="left">13/07/2020</TableCell>
-            <TableCell align="left">
-              <Button color="primary">
-                <VisibilityIcon />
-              </Button>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="left">#546546464</TableCell>
-            <TableCell align="left">24/05/2020</TableCell>
-            <TableCell align="left">13/07/2020</TableCell>
-            <TableCell align="left">
-              <Button color="primary">
-                <VisibilityIcon />
-              </Button>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="left">#546546464</TableCell>
-            <TableCell align="left">24/05/2020</TableCell>
-            <TableCell align="left">13/07/2020</TableCell>
-            <TableCell align="left">
-              <Button color="primary">
-                <VisibilityIcon />
-              </Button>
-            </TableCell>
-          </TableRow>
+
+          {patientes.map(({ numProntuario, dataCadastro, dataInternacao }, index) => (
+            <TableRow key={index}>
+              <TableCell align="left">{numProntuario}</TableCell>
+              <TableCell align="left">{dataInternacao}</TableCell>
+              <TableCell align="left">{dataCadastro}</TableCell>
+              <TableCell align="right">
+                <Button color="inherit">
+                  <NavigateNextIcon fontSize="small" />
+                </Button>
+              </TableCell>
+            </TableRow>
+          ))}
+
         </TableBody>
       </Table>
     </div >
