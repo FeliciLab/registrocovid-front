@@ -20,6 +20,8 @@ const PatientRow = props => {
     ...rest
   } = props;
 
+  // TODO: encontrar e colocar im icon para o caractere '#'.
+
   return (
     <TableRow {...rest}>
       <TableCell align="left">{numProntuario}</TableCell>

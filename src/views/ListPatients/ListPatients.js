@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import TablePatients from './components/TablePatients';
 import useStyles from './styles';
@@ -29,8 +29,8 @@ const ListPatients = () => {
 
   const [filter, setFilter] = useState('');
 
+  // TODO: colocar uma coisa melhor aqui.
   if (!data) {
-    console.debug('teste:', data);
     return <p>Carregando...</p>
   }
 
@@ -84,7 +84,9 @@ const ListPatients = () => {
         </div>
       </div>
 
-      <TablePatients patients={data} />
+      <TablePatients
+        patients={data.filter((paciente => paciente.numProntuario.includes(filter)))}
+      />
 
     </div >
   );

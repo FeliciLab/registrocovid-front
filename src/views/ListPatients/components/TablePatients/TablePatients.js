@@ -10,6 +10,8 @@ import {
   TableBody,
 } from '@material-ui/core';
 
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+
 const TablePatients = props => {
 
   const { patients, ...rest } = props;
@@ -21,7 +23,9 @@ const TablePatients = props => {
           <TableCell align="left">Número do prontuário</TableCell>
           <TableCell align="left">Data de internação</TableCell>
           <TableCell align="left">Data do cadastro</TableCell>
-          <TableCell align="left"></TableCell>
+          <TableCell align="right">
+            <NavigateNextIcon color="disabled" fontSize="small" />
+          </TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
