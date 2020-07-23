@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import TablePatients from './components/TablePatients';
 import useStyles from './styles';
@@ -18,21 +18,21 @@ import {
   Link as MuiLink,
 } from '@material-ui/core';
 
+// TODO: acho que seria interesante mudar o nome desse arquivo de 'axios' para 'useAxios'
+import { useAxios } from 'hooks/axios'
+
 const ListPatients = () => {
 
   const classes = useStyles();
 
+  const { data } = useAxios('pacientes');
+
   const [filter, setFilter] = useState('');
 
-  // TODO: usar a api para popular essas informações.
-  const [patients, /* setPatientes */] = useState([
-    { numProntuario: '#546546464', dataInternacao: '24/05/2020', dataCadastro: '13/07/2020' },
-    { numProntuario: '#546546464', dataInternacao: '24/05/2020', dataCadastro: '13/07/2020' },
-    { numProntuario: '#546546464', dataInternacao: '24/05/2020', dataCadastro: '13/07/2020' },
-    { numProntuario: '#546546464', dataInternacao: '24/05/2020', dataCadastro: '13/07/2020' },
-    { numProntuario: '#546546464', dataInternacao: '24/05/2020', dataCadastro: '13/07/2020' },
-    { numProntuario: '#546546464', dataInternacao: '24/05/2020', dataCadastro: '13/07/2020' },
-  ]);
+  if (!data) {
+    console.debug('teste:', data);
+    return <p>Carregando...</p>
+  }
 
   return (
     <div className={classes.root}>
@@ -84,7 +84,7 @@ const ListPatients = () => {
         </div>
       </div>
 
-      <TablePatients patients={patients} />
+      <TablePatients patients={data} />
 
     </div >
   );
