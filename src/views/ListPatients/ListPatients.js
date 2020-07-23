@@ -12,7 +12,6 @@ import AddIcon from '@material-ui/icons/Add';
 import {
   Typography,
   Button,
-  Grid,
   TextField,
   InputAdornment,
   Breadcrumbs,
@@ -22,6 +21,8 @@ import {
 const ListPatients = () => {
 
   const classes = useStyles();
+
+  const [filter, setFilter] = useState('');
 
   // TODO: usar a api para popular essas informações.
   const [patients, /* setPatientes */] = useState([
@@ -60,6 +61,7 @@ const ListPatients = () => {
               id="num-prontuario"
               label="Buscar por número de prontuário"
               variant="outlined"
+              onChange={e => setFilter(e.target.value)}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">

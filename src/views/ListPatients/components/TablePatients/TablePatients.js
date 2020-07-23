@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import PatientRow from '../PatientRow';
 
 import {
   Table,
@@ -9,8 +8,6 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  Typography,
-  Button,
 } from '@material-ui/core';
 
 const TablePatients = props => {
@@ -29,17 +26,8 @@ const TablePatients = props => {
       </TableHead>
       <TableBody>
 
-        {patients.map(({ numProntuario, dataCadastro, dataInternacao }, index) => (
-          <TableRow key={index}>
-            <TableCell align="left">{numProntuario}</TableCell>
-            <TableCell align="left">{dataInternacao}</TableCell>
-            <TableCell align="left">{dataCadastro}</TableCell>
-            <TableCell align="right">
-              <Button color="inherit">
-                <NavigateNextIcon fontSize="small" />
-              </Button>
-            </TableCell>
-          </TableRow>
+        {patients.map((patient, index) => (
+          <PatientRow key={index} patient={patient} />
         ))}
 
       </TableBody>
@@ -49,11 +37,13 @@ const TablePatients = props => {
 
 TablePatients.propTypes = {
   className: PropTypes.string,
-  patients: PropTypes.arrayOf({
-    numProntuario: PropTypes.string,
-    dataInternacao: PropTypes.string,
-    dataCadastro: PropTypes.string,
-  }).isRequired
+  patients: PropTypes.arrayOf(
+    PropTypes.exact({
+      numProntuario: PropTypes.string,
+      dataInternacao: PropTypes.string,
+      dataCadastro: PropTypes.string,
+    })
+  ).isRequired
 };
 
 export default TablePatients;
