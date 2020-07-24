@@ -30,11 +30,6 @@ const ListPatients = () => {
 
   const [filter, setFilter] = useState('');
 
-  // TODO: colocar uma coisa melhor aqui.
-  // if (!data) {
-  //   return <CircularProgress />
-  // }
-
   return (
     <div className={classes.root}>
 
