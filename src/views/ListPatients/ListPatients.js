@@ -16,6 +16,7 @@ import {
   InputAdornment,
   Breadcrumbs,
   Link as MuiLink,
+  CircularProgress,
 } from '@material-ui/core';
 
 // TODO: acho que seria interesante mudar o nome desse arquivo de 'axios' para 'useAxios'
@@ -25,68 +26,76 @@ const ListPatients = () => {
 
   const classes = useStyles();
 
-  const { data } = useAxios('pacientes');
+  const { data } = useAxios('/pacientes');
 
   const [filter, setFilter] = useState('');
 
   // TODO: colocar uma coisa melhor aqui.
-  if (!data) {
-    return <p>Carregando...</p>
-  }
+  // if (!data) {
+  //   return <CircularProgress />
+  // }
 
   return (
     <div className={classes.root}>
 
-      <div className={classes.header}>
-        {/* TODO: Acho que esse component deve estar nos layouts básicos.
+      {!data ? (
+        <CircularProgress />
+      ) : (
+          <>
+            <div className={classes.header}>
+              {/* TODO: Acho que esse component deve estar nos layouts básicos.
           Muito provavelmente, será um componente separado. */}
-        <Breadcrumbs
-          aria-label="breadcrumb"
-          separator={
-            <NavigateNextIcon fontSize="small" />
-          }
-        >
-          <MuiLink component={Link} color="textPrimary" to="/meus-pacientes" >
-            Meus pacientes
+              <Breadcrumbs
+                aria-label="breadcrumb"
+                separator={
+                  <NavigateNextIcon fontSize="small" />
+                }
+              >
+                <MuiLink component={Link} color="textPrimary" to="/meus-pacientes" >
+                  Meus pacientes
           </MuiLink>
-        </Breadcrumbs>
+              </Breadcrumbs>
 
-        <div className={classes.titleWrapper}>
+              <div className={classes.titleWrapper}>
 
-          <Typography variant="h1">Meus pacientes</Typography>
+                <Typography variant="h1">Meus pacientes</Typography>
 
-          <div className={classes.actionsWrapper}>
+                <div className={classes.actionsWrapper}>
 
-            <TextField className={classes.fieldNumProntuario}
-              id="num-prontuario"
-              label="Buscar por número de prontuário"
-              variant="outlined"
-              onChange={e => setFilter(e.target.value)}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-              }}
-            />
+                  <TextField className={classes.fieldNumProntuario}
+                    id="num-prontuario"
+                    label="Buscar por número de prontuário"
+                    variant="outlined"
+                    onChange={e => setFilter(e.target.value)}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <SearchIcon />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
 
-            <Button
-              className={classes.buttonAddPatient}
-              color="primary"
-              variant="contained"
-              startIcon={<AddIcon />}
-            >
-              Cadastrar Paciente
+                  <Button
+                    className={classes.buttonAddPatient}
+                    color="primary"
+                    variant="contained"
+                    startIcon={<AddIcon />}
+                  >
+                    Cadastrar Paciente
             </Button>
 
-          </div>
-        </div>
-      </div>
+                </div>
+              </div>
+            </div>
 
-      <TablePatients
-        patients={data.filter((paciente => paciente.numProntuario.includes(filter)))}
-      />
+            <div className={classes.tableWrapper}>
+              <TablePatients
+                patients={data.filter((paciente => paciente.numProntuario.includes(filter)))}
+              />
+            </div>
+          </>
+        )}
 
     </div >
   );

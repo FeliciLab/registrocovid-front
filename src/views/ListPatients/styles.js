@@ -4,7 +4,9 @@ const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    padding: theme.spacing(4)
+    padding: theme.spacing(4),
+    // overflowY: 'auto',
+    // scrollbarWidth: 'none',
   },
   header: {
     display: 'flex',
@@ -29,6 +31,9 @@ const useStyles = makeStyles(theme => ({
   buttonAddPatient: {
     width: '258px',
     height: '48px',
+  },
+  tableWrapper: {
+    display: 'flex',
   }
 }));
 
