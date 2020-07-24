@@ -24,7 +24,7 @@ const PatientRow = props => {
 
   return (
     <TableRow {...rest}>
-      <TableCell align="left">{numProntuario}</TableCell>
+      <TableCell align="left"><strong>#</strong> {numProntuario}</TableCell>
       <TableCell align="left">{dataInternacao}</TableCell>
       <TableCell align="left">{dataCadastro}</TableCell>
       <TableCell align="right">
