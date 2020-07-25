@@ -26,7 +26,28 @@ const ListPatients = () => {
 
   const classes = useStyles();
 
-  const { data } = useAxios('/pacientes');
+  const { data } = useAxios('/pacientes', {
+    transformResponse: [
+      data => {
+        const aux = JSON.parse(data).sort((a, b) => {
+          const [diaA, mesA, anoA] = a.dataCadastro.split('/');
+          const [diaB, mesB, anoB] = b.dataCadastro.split('/');
+
+          const aDate = new Date(anoA, mesA - 1, diaA);
+          const bDate = new Date(anoB, mesB - 1, diaB);
+
+          if (aDate.getTime() < bDate.getTime()) {
+            return 1;
+          } else if (aDate.getTime() > bDate.getTime()) {
+            return -1;
+          } else {
+            return 0;
+          }
+        });
+        return aux;
+      }
+    ],
+  });
 
   const [filter, setFilter] = useState('');
 
@@ -38,8 +59,6 @@ const ListPatients = () => {
       ) : (
           <>
             <div className={classes.header}>
-              {/* TODO: Acho que esse component deve estar nos layouts básicos.
-          Muito provavelmente, será um componente separado. */}
               <Breadcrumbs
                 aria-label="breadcrumb"
                 separator={
@@ -48,7 +67,7 @@ const ListPatients = () => {
               >
                 <MuiLink component={Link} color="textPrimary" to="/meus-pacientes" >
                   Meus pacientes
-          </MuiLink>
+                </MuiLink>
               </Breadcrumbs>
 
               <div className={classes.titleWrapper}>
@@ -78,7 +97,7 @@ const ListPatients = () => {
                     startIcon={<AddIcon />}
                   >
                     Cadastrar Paciente
-            </Button>
+                  </Button>
 
                 </div>
               </div>
