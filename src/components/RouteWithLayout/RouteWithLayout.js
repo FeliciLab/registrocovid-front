@@ -5,11 +5,11 @@ import { Context } from '../../context/AuthContext';
 
 const RouteWithLayout = props => {
 
-  const { authenticated } = useContext(Context);
+  const { authenticated, loading } = useContext(Context);
 
   const { layout: Layout, component: Component, isPrivate = false, ...rest } = props;
 
-  if (isPrivate && !authenticated) {
+  if (isPrivate && !authenticated && !loading) {
     return (
       <Redirect to="/sign-in" />
     );
