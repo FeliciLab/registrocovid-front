@@ -35,8 +35,8 @@ const TablePatients = props => {
         </TableHead>
         <TableBody>
 
-          {patients.map((patient, index) => (
-            <PatientRow key={index} patient={patient} />
+          {patients.map((patient) => (
+            <PatientRow key={patient.id} patient={patient} />
           ))}
 
         </TableBody>
@@ -44,14 +44,15 @@ const TablePatients = props => {
     </TableContainer>
   );
 }
-
+// id,prontuario,data_internacao,created_at
 TablePatients.propTypes = {
   className: PropTypes.string,
   patients: PropTypes.arrayOf(
     PropTypes.exact({
-      numProntuario: PropTypes.string,
-      dataInternacao: PropTypes.string,
-      dataCadastro: PropTypes.string,
+      id: PropTypes.number,
+      prontuario: PropTypes.string,
+      data_internacao: PropTypes.string,
+      created_at: PropTypes.string,
     })
   ).isRequired
 };

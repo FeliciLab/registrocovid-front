@@ -13,20 +13,20 @@ const PatientRow = props => {
 
   const {
     patient: {
-      numProntuario,
-      dataInternacao,
-      dataCadastro
+      prontuario,
+      data_internacao,
+      created_at
     },
     ...rest
   } = props;
 
-  // TODO: encontrar e colocar im icon para o caractere '#'.
+  // TODO: encontrar e colocar um icon para o caractere '#'.
 
   return (
     <TableRow {...rest}>
-      <TableCell align="left"><strong>#</strong> {numProntuario}</TableCell>
-      <TableCell align="left">{dataInternacao}</TableCell>
-      <TableCell align="left">{dataCadastro}</TableCell>
+      <TableCell align="left"><strong>#</strong> {prontuario}</TableCell>
+      <TableCell align="left">{new Date(data_internacao).toLocaleDateString()}</TableCell>
+      <TableCell align="left">{new Date(created_at).toLocaleDateString()}</TableCell>
       <TableCell align="right">
         <Button color="inherit">
           <NavigateNextIcon fontSize="small" />
@@ -36,12 +36,14 @@ const PatientRow = props => {
   );
 }
 
+// id,prontuario,data_internacao,created_at
 PatientRow.propTypes = {
   className: PropTypes.string,
   patient: PropTypes.exact({
-    numProntuario: PropTypes.string,
-    dataInternacao: PropTypes.string,
-    dataCadastro: PropTypes.string,
+    id: PropTypes.number,
+    prontuario: PropTypes.string,
+    data_internacao: PropTypes.string,
+    created_at: PropTypes.string,
   }).isRequired
 };
 

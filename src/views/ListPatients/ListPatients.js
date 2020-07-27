@@ -26,25 +26,34 @@ const ListPatients = () => {
 
   const classes = useStyles();
 
-  const { data } = useAxios('/pacientes', {
+  const { data } = useAxios('/pacientes?fields=id,prontuario,data_internacao,created_at', {
     transformResponse: [
       data => {
-        const aux = JSON.parse(data).sort((a, b) => {
-          const [diaA, mesA, anoA] = a.dataCadastro.split('/');
-          const [diaB, mesB, anoB] = b.dataCadastro.split('/');
+        const aux = JSON.parse(data);
 
-          const aDate = new Date(anoA, mesA - 1, diaA);
-          const bDate = new Date(anoB, mesB - 1, diaB);
+        // sort((a, b) => {
+        //   const [diaA, mesA, anoA] = a.dataCadastro.split('/');
+        //   const [diaB, mesB, anoB] = b.dataCadastro.split('/');
 
-          if (aDate.getTime() < bDate.getTime()) {
-            return 1;
-          } else if (aDate.getTime() > bDate.getTime()) {
-            return -1;
-          } else {
-            return 0;
+        //   const aDate = new Date(anoA, mesA - 1, diaA);
+        //   const bDate = new Date(anoB, mesB - 1, diaB);
+
+        //   if (aDate.getTime() < bDate.getTime()) {
+        //     return 1;
+        //   } else if (aDate.getTime() > bDate.getTime()) {
+        //     return -1;
+        //   } else {
+        //     return 0;
+        //   }
+        // });
+        return aux.map(paciente => {
+          paciente = {
+            ...paciente,
+            data_internacao: new Date(paciente.data_internacao),
+            created_at: new Date(paciente.created_at)
           }
+          return paciente;
         });
-        return aux;
       }
     ],
   });
@@ -113,7 +122,7 @@ const ListPatients = () => {
             ) : (
                 <div className={classes.tableWrapper}>
                   <TablePatients
-                    patients={data.filter((paciente => paciente.numProntuario.includes(filter)))}
+                    patients={data.filter((paciente => paciente.prontuario.includes(filter)))}
                   />
                 </div>
               )}
