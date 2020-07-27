@@ -19,6 +19,8 @@ import {
   CircularProgress,
 } from '@material-ui/core';
 
+import formatDate from '../../helpers/formatDate';
+
 // TODO: acho que seria interesante mudar o nome desse arquivo de 'axios' para 'useAxios'
 import { useAxios } from 'hooks/axios'
 
@@ -29,29 +31,15 @@ const ListPatients = () => {
   const { data } = useAxios('/pacientes?fields=id,prontuario,data_internacao,created_at', {
     transformResponse: [
       data => {
-        const aux = JSON.parse(data);
+        const patienteRow = JSON.parse(data);
 
-        // sort((a, b) => {
-        //   const [diaA, mesA, anoA] = a.dataCadastro.split('/');
-        //   const [diaB, mesB, anoB] = b.dataCadastro.split('/');
-
-        //   const aDate = new Date(anoA, mesA - 1, diaA);
-        //   const bDate = new Date(anoB, mesB - 1, diaB);
-
-        //   if (aDate.getTime() < bDate.getTime()) {
-        //     return 1;
-        //   } else if (aDate.getTime() > bDate.getTime()) {
-        //     return -1;
-        //   } else {
-        //     return 0;
-        //   }
-        // });
-        return aux.map(paciente => {
+        return patienteRow.map(paciente => {
           paciente = {
             ...paciente,
-            data_internacao: new Date(paciente.data_internacao),
-            created_at: new Date(paciente.created_at)
+            data_internacao: paciente.data_internacao.split('-').reverse().join('/'),
+            created_at: formatDate(paciente.created_at)
           }
+
           return paciente;
         });
       }
@@ -66,68 +54,74 @@ const ListPatients = () => {
       {!data ? (
         <CircularProgress />
       ) : (
-          <>
-            <div className={classes.header}>
-              <Breadcrumbs
-                aria-label="breadcrumb"
-                separator={
-                  <NavigateNextIcon fontSize="small" />
-                }
+        <>
+          <div className={classes.header}>
+            <Breadcrumbs
+              aria-label="breadcrumb"
+              separator={
+                <NavigateNextIcon fontSize="small" />
+              }
+            >
+              <MuiLink
+                color="textPrimary"
+                component={Link}
+                to="/meus-pacientes"
               >
-                <MuiLink component={Link} color="textPrimary" to="/meus-pacientes" >
                   Meus pacientes
-                </MuiLink>
-              </Breadcrumbs>
+              </MuiLink>
+            </Breadcrumbs>
 
-              <div className={classes.titleWrapper}>
+            <div className={classes.titleWrapper}>
 
-                <Typography variant="h1">Meus pacientes</Typography>
+              <Typography variant="h1">Meus pacientes</Typography>
 
-                <div className={classes.actionsWrapper}>
+              <div className={classes.actionsWrapper}>
 
-                  <TextField className={classes.fieldNumProntuario}
-                    id="num-prontuario"
-                    label="Buscar por número de prontuário"
-                    variant="outlined"
-                    onChange={e => setFilter(e.target.value)}
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <SearchIcon />
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
+                <TextField
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <SearchIcon />
+                      </InputAdornment>
+                    ),
+                  }}
+                  className={classes.fieldNumProntuario}
+                  id="num-prontuario"
+                  label="Buscar por número de prontuário"
+                  onChange={e => setFilter(e.target.value)}
+                  variant="outlined"
+                />
 
-                  <Button
-                    className={classes.buttonAddPatient}
-                    color="secondary"
-                    variant="contained"
-                    startIcon={<AddIcon />}
-                  >
+                <Button
+                  className={classes.buttonAddPatient}
+                  color="secondary"
+                  startIcon={<AddIcon />}
+                  variant="contained"
+                >
                     Cadastrar Paciente
-                  </Button>
+                </Button>
 
-                </div>
               </div>
             </div>
+          </div>
 
-            {(data.length === 0) ? (
-              <div className={classes.notPatients}>
-                <img className={classes.logoImg}
-                  alt="nenhum paciente cadastrado"
-                  src="/images/not_patients.svg"
-                />
-              </div>
-            ) : (
-                <div className={classes.tableWrapper}>
-                  <TablePatients
-                    patients={data.filter((paciente => paciente.prontuario.includes(filter)))}
-                  />
-                </div>
-              )}
-          </>
-        )}
+          {(data.length === 0) ? (
+            <div className={classes.notPatients}>
+              <img
+                alt="nenhum paciente cadastrado"
+                className={classes.logoImg}
+                src="/images/not_patients.svg"
+              />
+            </div>
+          ) : (
+            <div className={classes.tableWrapper}>
+              <TablePatients
+                patients={data.filter((paciente => paciente.prontuario.includes(filter)))}
+              />
+            </div>
+          )}
+        </>
+      )}
 
     </div >
   );

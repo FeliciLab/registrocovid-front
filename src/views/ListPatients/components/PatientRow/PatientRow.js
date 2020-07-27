@@ -25,8 +25,8 @@ const PatientRow = props => {
   return (
     <TableRow {...rest}>
       <TableCell align="left"><strong>#</strong> {prontuario}</TableCell>
-      <TableCell align="left">{new Date(data_internacao).toLocaleDateString()}</TableCell>
-      <TableCell align="left">{new Date(created_at).toLocaleDateString()}</TableCell>
+      <TableCell align="left">{data_internacao}</TableCell>
+      <TableCell align="left">{created_at}</TableCell>
       <TableCell align="right">
         <Button color="inherit">
           <NavigateNextIcon fontSize="small" />
