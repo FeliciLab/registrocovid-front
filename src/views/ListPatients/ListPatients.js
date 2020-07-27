@@ -92,7 +92,7 @@ const ListPatients = () => {
 
                   <Button
                     className={classes.buttonAddPatient}
-                    color="primary"
+                    color="secondary"
                     variant="contained"
                     startIcon={<AddIcon />}
                   >
@@ -103,11 +103,20 @@ const ListPatients = () => {
               </div>
             </div>
 
-            <div className={classes.tableWrapper}>
-              <TablePatients
-                patients={data.filter((paciente => paciente.numProntuario.includes(filter)))}
-              />
-            </div>
+            {(data.length === 0) ? (
+              <div className={classes.notPatients}>
+                <img className={classes.logoImg}
+                  alt="nenhum paciente cadastrado"
+                  src="/images/not_patients.svg"
+                />
+              </div>
+            ) : (
+                <div className={classes.tableWrapper}>
+                  <TablePatients
+                    patients={data.filter((paciente => paciente.numProntuario.includes(filter)))}
+                  />
+                </div>
+              )}
           </>
         )}
 

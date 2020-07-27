@@ -34,6 +34,13 @@ const useStyles = makeStyles(theme => ({
   },
   tableWrapper: {
     display: 'flex',
+  },
+  notPatients: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: theme.spacing(10),
   }
 }));
 

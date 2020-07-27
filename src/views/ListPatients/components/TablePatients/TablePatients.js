@@ -20,7 +20,7 @@ const TablePatients = props => {
 
   return (
 
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} elevation={2}>
 
       <Table {...rest} size="small" >
         <TableHead>
