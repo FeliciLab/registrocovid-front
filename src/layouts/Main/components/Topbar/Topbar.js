@@ -3,7 +3,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import { AppBar, Toolbar, Badge, Hidden, IconButton } from '@material-ui/core';
+import { AppBar, Toolbar, Badge, Hidden, IconButton, Typography } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
 import InputIcon from '@material-ui/icons/Input';
@@ -17,7 +17,14 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1
   },
   signOutButton: {
-    marginLeft: theme.spacing(1)
+    marginLeft: theme.spacing(1),
+  },
+  logoLink: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  logoImg: {
+    marginRight: theme.spacing(1)
   }
 }));
 
@@ -36,11 +43,14 @@ const Topbar = props => {
       className={clsx(classes.root, className)}
     >
       <Toolbar>
-        <RouterLink to="/">
-          <img
+        <RouterLink to="/" className={classes.logoLink}>
+          <img className={classes.logoImg}
             alt="Logo"
-            src="/images/logos/logo--white.svg"
+            src="/images/logos/logo-registro-covid.svg"
           />
+          <Typography variant="h3" color="initial">
+            Registro Covid
+          </Typography>
         </RouterLink>
         <div className={classes.flexGrow} />
         <Hidden mdDown>
@@ -69,7 +79,7 @@ const Topbar = props => {
           </IconButton>
         </Hidden>
       </Toolbar>
-    </AppBar>
+    </AppBar >
   );
 };
 

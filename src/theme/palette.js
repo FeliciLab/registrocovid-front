@@ -8,15 +8,15 @@ export default {
   white,
   primary: {
     contrastText: white,
-    dark: colors.indigo[900],
-    main: colors.indigo[500],
-    light: colors.indigo[100]
+    dark: '#0B4F2F', //colors.indigo[900],
+    main: '#068D4E', // colors.indigo[500],
+    light: '#02A32A', // colors.indigo[100]
   },
   secondary: {
     contrastText: white,
-    dark: colors.blue[900],
-    main: colors.blue['A400'],
-    light: colors.blue['A400']
+    dark: '#E8260C', // colors.blue[900],
+    main: '#FF4500', //colors.blue['A400'],
+    light: 'rgba(245, 175, 88, 0.38)' //colors.blue['A400']
   },
   success: {
     contrastText: white,

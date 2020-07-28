@@ -3,11 +3,18 @@ import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import { AppBar, Toolbar } from '@material-ui/core';
+import { AppBar, Toolbar, Typography } from '@material-ui/core';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     boxShadow: 'none'
+  },
+  logoLink: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  logoImg: {
+    marginRight: theme.spacing(1)
   }
 }));
 
@@ -24,11 +31,14 @@ const Topbar = props => {
       position="fixed"
     >
       <Toolbar>
-        <RouterLink to="/">
-          <img
+        <RouterLink to="/" className={classes.logoLink}>
+          <img className={classes.logoImg}
             alt="Logo"
-            src="/images/logos/logo--white.svg"
+            src="/images/logos/logo-registro-covid.svg"
           />
+          <Typography variant="h3" color="initial">
+            Registro Covid
+          </Typography>
         </RouterLink>
       </Toolbar>
     </AppBar>

@@ -8,7 +8,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "server": "json-server -p 4000 -d 500 dbfake.json"
   },
   "eslintConfig": {
     "extends": "react-app"

@@ -1,154 +1,128 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import TablePatients from './components/TablePatients';
+import useStyles from './styles';
 
-import { makeStyles } from '@material-ui/styles';
-import VisibilityIcon from '@material-ui/icons/Visibility';
+// Icons
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import SearchIcon from '@material-ui/icons/Search';
+import AddIcon from '@material-ui/icons/Add';
 
+// Material-UI Components
 import {
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
   Typography,
   Button,
-  Grid,
   TextField,
   InputAdornment,
+  Breadcrumbs,
+  Link as MuiLink,
+  CircularProgress,
 } from '@material-ui/core';
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    padding: theme.spacing(4)
-  },
+import formatDate from '../../helpers/formatDate';
 
-  fieldNumProntuario: {
-    margin: theme.spacing(1),
-    width: '300px'
-  },
-  table: {
-    marginTop: theme.spacing(4)
-  },
-  functionalities: {
-    alignItems: 'center'
-  }
-}));
+// TODO: acho que seria interesante mudar o nome desse arquivo de 'axios' para 'useAxios'
+import { useAxios } from 'hooks/axios'
 
 const ListPatients = () => {
 
   const classes = useStyles();
 
+  const { data } = useAxios('/pacientes', {
+    transformResponse: [
+      data => {
+        const patienteRow = JSON.parse(data);
+
+        return patienteRow.map(paciente => {
+          paciente = {
+            ...paciente,
+            data_internacao: paciente.data_internacao.split('-').reverse().join('/'),
+            created_at: formatDate(paciente.created_at)
+          }
+
+          return paciente;
+        });
+      }
+    ],
+  });
+
+  const [filter, setFilter] = useState('');
+
   return (
     <div className={classes.root}>
-      <Grid
-        container
-        direction="row"
-        justify="space-between"
-        alignItems="center" >
 
-        <Typography variant="h2">Meus pacientes</Typography>
+      {!data ? (
+        <CircularProgress />
+      ) : (
+          <>
+            <div className={classes.header}>
+              <Breadcrumbs
+                aria-label="breadcrumb"
+                separator={
+                  <NavigateNextIcon fontSize="small" />
+                }
+              >
+                <MuiLink
+                  color="textPrimary"
+                  component={Link}
+                  to="/meus-pacientes"
+                >
+                  Meus pacientes
+              </MuiLink>
+              </Breadcrumbs>
 
-        <TextField className={classes.fieldNumProntuario}
-          id="num-prontuario"
-          label="Buscar por número de prontuário"
-          variant="outlined"
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-          }}
-        />
+              <div className={classes.titleWrapper}>
 
-        <Button color="primary" variant="contained">
-          Cadastrar Paciente
-        </Button>
+                <Typography variant="h1">Meus pacientes</Typography>
 
-      </Grid>
+                <div className={classes.actionsWrapper}>
 
-      <Table className={classes.table}>
-        <TableHead>
-          <TableRow>
-            <TableCell align="left">Número do prontuário</TableCell>
-            <TableCell align="left">Data de internação</TableCell>
-            <TableCell align="left">Data do cadastro</TableCell>
-            <TableCell align="left"></TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          <TableRow>
-            <TableCell align="left">#546546464</TableCell>
-            <TableCell align="left">24/05/2020</TableCell>
-            <TableCell align="left">13/07/2020</TableCell>
-            <TableCell align="left">
-              <Button color="primary">
-                <VisibilityIcon />
-              </Button>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="left">#546546464</TableCell>
-            <TableCell align="left">24/05/2020</TableCell>
-            <TableCell align="left">13/07/2020</TableCell>
-            <TableCell align="left">
-              <Button color="primary">
-                <VisibilityIcon />
-              </Button>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="left">#546546464</TableCell>
-            <TableCell align="left">24/05/2020</TableCell>
-            <TableCell align="left">13/07/2020</TableCell>
-            <TableCell align="left">
-              <Button color="primary">
-                <VisibilityIcon />
-              </Button>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="left">#546546464</TableCell>
-            <TableCell align="left">24/05/2020</TableCell>
-            <TableCell align="left">13/07/2020</TableCell>
-            <TableCell align="left">
-              <Button color="primary">
-                <VisibilityIcon />
-              </Button>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="left">#546546464</TableCell>
-            <TableCell align="left">24/05/2020</TableCell>
-            <TableCell align="left">13/07/2020</TableCell>
-            <TableCell align="left">
-              <Button color="primary">
-                <VisibilityIcon />
-              </Button>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="left">#546546464</TableCell>
-            <TableCell align="left">24/05/2020</TableCell>
-            <TableCell align="left">13/07/2020</TableCell>
-            <TableCell align="left">
-              <Button color="primary">
-                <VisibilityIcon />
-              </Button>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="left">#546546464</TableCell>
-            <TableCell align="left">24/05/2020</TableCell>
-            <TableCell align="left">13/07/2020</TableCell>
-            <TableCell align="left">
-              <Button color="primary">
-                <VisibilityIcon />
-              </Button>
-            </TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
+                  <TextField
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <SearchIcon />
+                        </InputAdornment>
+                      ),
+                    }}
+                    className={classes.fieldNumProntuario}
+                    id="num-prontuario"
+                    label="Buscar por número de prontuário"
+                    onChange={e => setFilter(e.target.value)}
+                    variant="outlined"
+                  />
+
+                  <Button
+                    className={classes.buttonAddPatient}
+                    color="secondary"
+                    startIcon={<AddIcon />}
+                    variant="contained"
+                  >
+                    Cadastrar Paciente
+                </Button>
+
+                </div>
+              </div>
+            </div>
+
+            {(data.length === 0) ? (
+              <div className={classes.notPatients}>
+                <img
+                  alt="nenhum paciente cadastrado"
+                  className={classes.logoImg}
+                  src="/images/not_patients.svg"
+                />
+              </div>
+            ) : (
+                <div className={classes.tableWrapper}>
+                  <TablePatients
+                    patients={data.filter((paciente => paciente.prontuario.includes(filter)))}
+                  />
+                </div>
+              )}
+          </>
+        )}
+
     </div >
   );
 }
