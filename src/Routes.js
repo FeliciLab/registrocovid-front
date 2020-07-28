@@ -89,7 +89,7 @@ const Routes = () => {
         layout={MinimalLayout}
         path="/sign-in"
       />
-      <RouteWithLayout
+      <RouteWithLayout isPrivate
         component={ListPatientsView}
         exact
         layout={MainLayout}
