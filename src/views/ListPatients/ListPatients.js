@@ -28,7 +28,7 @@ const ListPatients = () => {
 
   const classes = useStyles();
 
-  const { data } = useAxios('/pacientes?fields=id,prontuario,data_internacao,created_at', {
+  const { data } = useAxios('/pacientes', {
     transformResponse: [
       data => {
         const patienteRow = JSON.parse(data);
@@ -54,74 +54,74 @@ const ListPatients = () => {
       {!data ? (
         <CircularProgress />
       ) : (
-        <>
-          <div className={classes.header}>
-            <Breadcrumbs
-              aria-label="breadcrumb"
-              separator={
-                <NavigateNextIcon fontSize="small" />
-              }
-            >
-              <MuiLink
-                color="textPrimary"
-                component={Link}
-                to="/meus-pacientes"
+          <>
+            <div className={classes.header}>
+              <Breadcrumbs
+                aria-label="breadcrumb"
+                separator={
+                  <NavigateNextIcon fontSize="small" />
+                }
               >
+                <MuiLink
+                  color="textPrimary"
+                  component={Link}
+                  to="/meus-pacientes"
+                >
                   Meus pacientes
               </MuiLink>
-            </Breadcrumbs>
+              </Breadcrumbs>
 
-            <div className={classes.titleWrapper}>
+              <div className={classes.titleWrapper}>
 
-              <Typography variant="h1">Meus pacientes</Typography>
+                <Typography variant="h1">Meus pacientes</Typography>
 
-              <div className={classes.actionsWrapper}>
+                <div className={classes.actionsWrapper}>
 
-                <TextField
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <SearchIcon />
-                      </InputAdornment>
-                    ),
-                  }}
-                  className={classes.fieldNumProntuario}
-                  id="num-prontuario"
-                  label="Buscar por número de prontuário"
-                  onChange={e => setFilter(e.target.value)}
-                  variant="outlined"
-                />
+                  <TextField
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <SearchIcon />
+                        </InputAdornment>
+                      ),
+                    }}
+                    className={classes.fieldNumProntuario}
+                    id="num-prontuario"
+                    label="Buscar por número de prontuário"
+                    onChange={e => setFilter(e.target.value)}
+                    variant="outlined"
+                  />
 
-                <Button
-                  className={classes.buttonAddPatient}
-                  color="secondary"
-                  startIcon={<AddIcon />}
-                  variant="contained"
-                >
+                  <Button
+                    className={classes.buttonAddPatient}
+                    color="secondary"
+                    startIcon={<AddIcon />}
+                    variant="contained"
+                  >
                     Cadastrar Paciente
                 </Button>
 
+                </div>
               </div>
             </div>
-          </div>
 
-          {(data.length === 0) ? (
-            <div className={classes.notPatients}>
-              <img
-                alt="nenhum paciente cadastrado"
-                className={classes.logoImg}
-                src="/images/not_patients.svg"
-              />
-            </div>
-          ) : (
-            <div className={classes.tableWrapper}>
-              <TablePatients
-                patients={data.filter((paciente => paciente.prontuario.includes(filter)))}
-              />
-            </div>
-          )}
-        </>
-      )}
+            {(data.length === 0) ? (
+              <div className={classes.notPatients}>
+                <img
+                  alt="nenhum paciente cadastrado"
+                  className={classes.logoImg}
+                  src="/images/not_patients.svg"
+                />
+              </div>
+            ) : (
+                <div className={classes.tableWrapper}>
+                  <TablePatients
+                    patients={data.filter((paciente => paciente.prontuario.includes(filter)))}
+                  />
+                </div>
+              )}
+          </>
+        )}
 
     </div >
   );
