@@ -42,7 +42,6 @@ const SignIn = props => {
     setShowPassword(showPassword => !showPassword);
   };
 
-  // Essa function está só pomo teste.
   const handleSignIn = async (values) => {
     const user = {
       cpf: values.cpf,

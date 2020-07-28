@@ -17,9 +17,23 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  actionsWrapper: {
+  buttonSave: {
+    width: '258px',
+    height: '48px',
+  },
+  formWrapper: {
     display: 'flex',
+    flexDirection: 'column',
     alignItems: 'center',
+  },
+  form: {
+    display: 'flex',
+    flex: 'auto',
+    flexDirection: 'column',
+
+  },
+  textField: {
+    marginTop: theme.spacing(2),
   },
 }));
 
