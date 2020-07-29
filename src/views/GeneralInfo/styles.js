@@ -24,16 +24,16 @@ const useStyles = makeStyles(theme => ({
   formWrapper: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'left',
   },
-  form: {
-    display: 'flex',
-    flex: 'auto',
-    flexDirection: 'column',
-
+  formGroup: {
+    marginTop: theme.spacing(2),
   },
   textField: {
-    marginTop: theme.spacing(2),
+    marginTop: theme.spacing(1),
+  },
+  dateField: {
+    marginTop: theme.spacing(1),
   },
 }));
 
