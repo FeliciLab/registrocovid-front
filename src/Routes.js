@@ -13,15 +13,15 @@ import {
   // Account as AccountView,
   // Settings as SettingsView,
   // SignUp as SignUpView,
+  NotFound as NotFoundView,
   SignIn as SignInView,
-  // NotFound as NotFoundView,
   ListPatients as ListPatientsView,
+  Categories as CategoriesView,
   GeneralInfo as GeneralInfoView,
 } from './views';
 
 const Routes = () => {
   return (
-
     <Switch>
       <Redirect
         exact
@@ -71,30 +71,39 @@ const Routes = () => {
         layout={MainLayout}
         path="/settings"
       />
-      <RouteWithLayout
-      component={NotFoundView}
-      exact
-      layout={MinimalLayout}
-      path="/not-found"
-    />
-  */}
-      <RouteWithLayout
-        component={GeneralInfoView}
-        exact
-        layout={MainLayout}
-        path="/categorias/informacoes-gerais"
-      />
+    */}
       <RouteWithLayout
         component={SignInView}
         exact
         layout={MinimalLayout}
         path="/sign-in"
       />
-      <RouteWithLayout isPrivate
+      <RouteWithLayout
         component={ListPatientsView}
         exact
+        isPrivate
         layout={MainLayout}
         path="/meus-pacientes"
+      />
+      <RouteWithLayout
+        component={CategoriesView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias"
+      />
+      <RouteWithLayout
+        component={GeneralInfoView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/informacoes-gerais"
+      />
+      <RouteWithLayout
+        component={NotFoundView}
+        exact
+        layout={MinimalLayout}
+        path="/not-found"
       />
       <Redirect to="/not-found" />
     </Switch>

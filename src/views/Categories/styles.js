@@ -5,6 +5,8 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     padding: theme.spacing(4),
+    // overflowY: 'auto',
+    // scrollbarWidth: 'none',
   },
   header: {
     display: 'flex',
@@ -17,24 +19,29 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  buttonSave: {
+  actionsWrapper: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  fieldNumProntuario: {
+    width: '362px',
+    height: '48px',
+    marginRight: theme.spacing(3),
+  },
+  buttonAddPatient: {
     width: '258px',
     height: '48px',
   },
-  formWrapper: {
+  tableWrapper: {
+    display: 'flex',
+  },
+  notPatients: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'left',
-  },
-  formGroup: {
-    marginTop: theme.spacing(4),
-  },
-  textField: {
-    marginTop: theme.spacing(1),
-  },
-  dateField: {
-    marginTop: theme.spacing(1),
-  },
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: theme.spacing(10),
+  }
 }));
 
 export default useStyles;

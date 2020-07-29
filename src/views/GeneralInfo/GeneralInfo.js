@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import useStyles from './styles';
 import * as Yup from 'yup';
 import { Formik, Form, Field } from 'formik';
@@ -22,9 +22,11 @@ import {
   Switch,
   Checkbox,
   FormGroup,
-  FormHelperText,
 } from '@material-ui/core';
 
+import { toast } from 'react-toastify';
+
+import api from 'services/api';
 // prontuario -> obrigatório
 // data_internacao -> obrigatório
 // unidade_primeiro_atendimento
@@ -36,7 +38,8 @@ import {
 
 // Schema do Yup para validação dos campos.
 const schema = Yup.object().shape({
-  prontuario: Yup.string()
+  prontuario: Yup.number()
+    .integer('Número de prontuário inválido')
     .required('Campo obrigatório'),
   data_internacao: Yup.date()
     .required('Campo obrigatório'),
@@ -49,11 +52,32 @@ const schema = Yup.object().shape({
 });
 
 const GeneralInfo = () => {
-
+  const history = useHistory();
   const classes = useStyles();
 
-  const handleSave = async (values) => {
-    // TODO: implementar a action do button save aqui.
+  const handleSubmit = async (values) => {
+    if (!values.prontuario && !values.data_internacao) {
+      toast.warning('Existem campos obrigatórios em branco');
+      return;
+    }
+
+    const patient = {
+      prontuario: values.prontuario,
+      data_internacao: values.data_internacao,
+    };
+
+    try {
+      await api.post('/pacientes', patient);
+
+      toast.success('Dados salvos com sucesso');
+      history.push('/categorias');
+    } catch (err) {
+      if (err.response.data?.prontuario) {
+        toast.info('Paciente já cadastrado');
+      } else {
+        toast.error('Erro ao tentar inserir novo paciente, tente novamente');
+      }
+    }
   };
 
   return (
@@ -76,30 +100,20 @@ const GeneralInfo = () => {
           <MuiLink
             color="inherit"
             component={Link}
-            to="/meus-pacientes/categorias"
+            to="/categorias"
           >
             Categorias
           </MuiLink>
           <MuiLink
             color="textPrimary"
             component={Link}
-            to="/meus-pacientes/categorias"
+            to="/categorias/informacoes-gerais"
           >
             Informações gerais
           </MuiLink>
-
         </Breadcrumbs>
-        <div className={classes.titleWrapper}>
-          <Typography variant="h1">Informações Gerias</Typography>
-          <Button
-            className={classes.buttonSave}
-            color="secondary"
-            variant="contained"
-          >
-            Salvar
-          </Button>
-        </div>
       </div>
+
       <div className={classes.formWrapper}>
         <Formik
           initialValues={{
@@ -112,19 +126,32 @@ const GeneralInfo = () => {
             tipo_suport_respiratorio: '',
             reinternacao: false
           }}
+          onSubmit={handleSubmit}
           validateOnMount
-          onSubmit={handleSave}
           validationSchema={schema}
         >
           {({ values, touched, handleChange, isValid, errors }) => (
             <Form component={FormControl}>
+              <div className={classes.titleWrapper}>
+                <Typography variant="h1">Informações Gerais</Typography>
+
+                <Button
+                  className={classes.buttonSave}
+                  color="secondary"
+                  type="submit"
+                  variant="contained"
+                >
+                  Salvar
+                </Button>
+              </div>
               {/* prontuario */}
               <FormGroup className={classes.formGroup}>
                 <FormLabel>
                   <Typography variant="h4">Número do prontuário</Typography>
                 </FormLabel>
-                <Field className={classes.textField}
+                <Field
                   as={TextField}
+                  className={classes.textField}
                   error={(errors.prontuario && touched.prontuario)}
                   helperText={
                     (errors.prontuario && touched.prontuario) ? errors.prontuario : null
@@ -132,7 +159,7 @@ const GeneralInfo = () => {
                   label="Número do prontuário"
                   name="prontuario"
                   onChange={handleChange}
-                  type="text"
+                  type="number"
                   value={values.prontuario}
                   variant="outlined"
                 />
@@ -143,20 +170,21 @@ const GeneralInfo = () => {
                 <FormLabel>
                   <Typography variant="h4">Data de internação</Typography>
                 </FormLabel>
-                <Field className={classes.dateField}
+                <Field
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
                   as={TextField}
+                  className={classes.dateField}
                   error={(errors.data_internacao && touched.data_internacao)}
+                  // label="Data de internação"
                   helperText={
                     (errors.data_internacao && touched.data_internacao) ? errors.data_internacao : null
                   }
-                  // label="Data de internação"
                   name="data_internacao"
                   onChange={handleChange}
                   type="date"
                   value={values.data_internacao}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
                 />
               </FormGroup>
 
@@ -171,9 +199,21 @@ const GeneralInfo = () => {
                   onChange={handleChange}
                   value={values.unidade_primeiro_atendimento}
                 >
-                  <FormControlLabel value="UPA - Autran Nunes" control={<Radio />} label="UPA - Autran Nunes" />
-                  <FormControlLabel value="UPA - Conjunto Ceará" control={<Radio />} label="UPA - Conjunto Ceará" />
-                  <FormControlLabel value="Outro" control={<Radio />} label="Outro:" />
+                  <FormControlLabel
+                    control={<Radio />}
+                    label="UPA - Autran Nunes"
+                    value="UPA - Autran Nunes"
+                  />
+                  <FormControlLabel
+                    control={<Radio />}
+                    label="UPA - Conjunto Ceará"
+                    value="UPA - Conjunto Ceará"
+                  />
+                  <FormControlLabel
+                    control={<Radio />}
+                    label="Outro:"
+                    value="Outro"
+                  />
                 </Field>
               </FormGroup>
 
@@ -188,9 +228,21 @@ const GeneralInfo = () => {
                   onChange={handleChange}
                   value={values.unidade_de_saude}
                 >
-                  <FormControlLabel value="UPA - Autran Nunes" control={<Radio />} label="UPA - Autran Nunes" />
-                  <FormControlLabel value="UPA - Conjunto Ceará" control={<Radio />} label="UPA - Conjunto Ceará" />
-                  <FormControlLabel value="Outro" control={<Radio />} label="Outro:" />
+                  <FormControlLabel
+                    control={<Radio />}
+                    label="UPA - Autran Nunes"
+                    value="UPA - Autran Nunes"
+                  />
+                  <FormControlLabel
+                    control={<Radio />}
+                    label="UPA - Conjunto Ceará"
+                    value="UPA - Conjunto Ceará"
+                  />
+                  <FormControlLabel
+                    control={<Radio />}
+                    label="Outro:"
+                    value="Outro"
+                  />
                 </Field>
               </FormGroup>
 
@@ -199,15 +251,16 @@ const GeneralInfo = () => {
                 <FormLabel>
                   <Typography variant="h4">Data do atendimento na unidade que referenciou o paciente</Typography>
                 </FormLabel>
-                <Field className={classes.dateField}
+                <Field
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
                   as={TextField}
+                  className={classes.dateField}
                   name="data_internacao"
                   onChange={handleChange}
                   type="date"
                   value={values.data_internacao}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
                 />
               </FormGroup>
 
@@ -215,47 +268,57 @@ const GeneralInfo = () => {
               <FormGroup className={classes.formGroup}>
                 <Field
                   as={FormControlLabel}
-                  name="suporte_respiratorio"
+                  control={
+                    <Switch
+                      checked={values.suporte_respiratorio}
+                      color="primary"
+                      name="suporte_respiratorio"
+                      onChange={handleChange}
+                    />
+                  }
                   label={
                     <Typography variant="h4">
                       Paciente chegou com suporte respiratório?
                     </Typography>
                   }
-                  control={
-                    <Switch
-                      checked={values.suporte_respiratorio}
-                      onChange={handleChange}
-                      name="suporte_respiratorio"
-                      color="primary"
-                    />
-                  }
+                  name="suporte_respiratorio"
                 />
                 {/* tipo_suport_respiratorio */}
-                <FormControl component="fieldset"
+                <FormControl
+                  component="fieldset"
                   disabled={!values.suporte_respiratorio}
                 >
                   <FormLabel component="legend">Em caso afirmativo, qual o suporte respiratório?</FormLabel>
                   <FormGroup>
                     <FormControlLabel
                       control={
-                        <Checkbox onChange={handleChange} name="Máscara de reservatório" />
+                        <Checkbox
+                          name="Máscara de reservatório"
+                          onChange={handleChange}
+                        />
                       }
                       label="Máscara de reservatório"
                     />
                     <FormControlLabel
                       control={
-                        <Checkbox onChange={handleChange} name="Ventilação invasiva" />
+                        <Checkbox
+                          name="Ventilação invasiva"
+                          onChange={handleChange}
+                        />
                       }
                       label="Ventilação invasiva"
                     />
                     <FormControlLabel
                       control={
-                        <Checkbox onChange={handleChange} name="Catéter O2" />
+                        <Checkbox
+                          name="Catéter O2"
+                          onChange={handleChange}
+                        />
                       }
                       label="Catéter O2"
                     />
                   </FormGroup>
-                  <FormHelperText>Selecione pelo menos um. (???)</FormHelperText>
+                  {/* <FormHelperText>Selecione pelo menos um. (???)</FormHelperText> */}
                 </FormControl>
               </FormGroup>
 
@@ -263,20 +326,20 @@ const GeneralInfo = () => {
               <FormGroup className={classes.formGroup}>
                 <Field
                   as={FormControlLabel}
-                  name="reinternacao"
-                  label={
-                    <Typography variant="h4">
-                      Reinternação?
-                  </Typography>
-                  }
                   control={
                     <Switch
                       checked={values.reinternacao}
-                      onChange={handleChange}
-                      name="reinternacao"
                       color="primary"
+                      name="reinternacao"
+                      onChange={handleChange}
                     />
                   }
+                  label={
+                    <Typography variant="h4">
+                      Reinternação?
+                    </Typography>
+                  }
+                  name="reinternacao"
                 />
               </FormGroup>
             </Form>
