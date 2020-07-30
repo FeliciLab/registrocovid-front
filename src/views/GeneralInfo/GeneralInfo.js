@@ -1,19 +1,15 @@
 import React, { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import useStyles from './styles';
 import * as Yup from 'yup';
 import { Formik, Form, Field } from 'formik';
-
-// Icons
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import CustonBreadcrumbs from 'components/CustonBreadcrumbs';
 
 // Material-UI Components
 import {
-  Breadcrumbs,
   Typography,
   Button,
   TextField,
-  Link as MuiLink,
   FormLabel,
   FormControlLabel,
   FormControl,
@@ -106,35 +102,11 @@ const GeneralInfo = () => {
   return (
     <div className={classes.root}>
       <div className={classes.header}>
-        {/* TODO: vamos ter que realmente colocar isso num component a parte. */}
-        <Breadcrumbs
-          aria-label="breadcrumb"
-          separator={
-            <NavigateNextIcon fontSize="small" />
-          }
-        >
-          <MuiLink
-            color="inherit"
-            component={Link}
-            to="/meus-pacientes"
-          >
-            Meus pacientes
-          </MuiLink>
-          <MuiLink
-            color="inherit"
-            component={Link}
-            to="/categorias"
-          >
-            Categorias
-          </MuiLink>
-          <MuiLink
-            color="textPrimary"
-            component={Link}
-            to="/categorias/informacoes-gerais"
-          >
-            Informações gerais
-          </MuiLink>
-        </Breadcrumbs>
+        <CustonBreadcrumbs links={[
+          { label: 'Meus pacientes', route: '/meus-pacientes' },
+          { label: 'Categorias', route: '/categorias' },
+          { label: 'Informações gerais', route: '/categorias/informacoes-gerais' },
+        ]} />
       </div>
 
       <div className={classes.formWrapper}>
