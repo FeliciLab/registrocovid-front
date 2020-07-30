@@ -8,12 +8,8 @@ import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 // Material-UI Components
 import {
   Typography,
-  Button,
-  TextField,
-  InputAdornment,
   Breadcrumbs,
   Link as MuiLink,
-  CircularProgress,
 } from '@material-ui/core';
 
 const Categories = () => {

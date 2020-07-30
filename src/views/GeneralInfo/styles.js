@@ -26,9 +26,6 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     alignItems: 'left',
   },
-  formGroup: {
-    marginTop: theme.spacing(4),
-  },
   textField: {
     marginTop: theme.spacing(1),
   },

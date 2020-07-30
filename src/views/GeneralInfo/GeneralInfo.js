@@ -22,6 +22,7 @@ import {
   Switch,
   Checkbox,
   FormGroup,
+  Grid,
 } from '@material-ui/core';
 
 import { toast } from 'react-toastify';
@@ -144,204 +145,226 @@ const GeneralInfo = () => {
                   Salvar
                 </Button>
               </div>
-              {/* prontuario */}
-              <FormGroup className={classes.formGroup}>
-                <FormLabel>
-                  <Typography variant="h4">Número do prontuário</Typography>
-                </FormLabel>
-                <Field
-                  as={TextField}
-                  className={classes.textField}
-                  error={(errors.prontuario && touched.prontuario)}
-                  helperText={
-                    (errors.prontuario && touched.prontuario) ? errors.prontuario : null
-                  }
-                  label="Número do prontuário"
-                  name="prontuario"
-                  onChange={handleChange}
-                  type="number"
-                  value={values.prontuario}
-                  variant="outlined"
-                />
-              </FormGroup>
 
-              {/* data_internacao */}
-              <FormGroup className={classes.formGroup}>
-                <FormLabel>
-                  <Typography variant="h4">Data de internação</Typography>
-                </FormLabel>
-                <Field
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  as={TextField}
-                  className={classes.dateField}
-                  error={(errors.data_internacao && touched.data_internacao)}
-                  // label="Data de internação"
-                  helperText={
-                    (errors.data_internacao && touched.data_internacao) ? errors.data_internacao : null
-                  }
-                  name="data_internacao"
-                  onChange={handleChange}
-                  type="date"
-                  value={values.data_internacao}
-                />
-              </FormGroup>
+              <Grid container item lg={8} spacing={2}>
 
-              {/* unidade_primeiro_atendimento */}
-              <FormGroup className={classes.formGroup}>
-                <FormLabel>
-                  <Typography variant="h4">Nome do serviço / Unidade de Saúde onde o paciente recebeu o primeiro atendimento</Typography>
-                </FormLabel>
-                <Field
-                  as={RadioGroup}
-                  name="unidade_primeiro_atendimento"
-                  onChange={handleChange}
-                  value={values.unidade_primeiro_atendimento}
-                >
-                  <FormControlLabel
-                    control={<Radio />}
-                    label="UPA - Autran Nunes"
-                    value="UPA - Autran Nunes"
-                  />
-                  <FormControlLabel
-                    control={<Radio />}
-                    label="UPA - Conjunto Ceará"
-                    value="UPA - Conjunto Ceará"
-                  />
-                  <FormControlLabel
-                    control={<Radio />}
-                    label="Outro:"
-                    value="Outro"
-                  />
-                </Field>
-              </FormGroup>
-
-              {/* unidade_de_saude */}
-              <FormGroup className={classes.formGroup}>
-                <FormLabel>
-                  <Typography variant="h4">Nome do serviço / Unidade de Saúde que referenciou o paciente</Typography>
-                </FormLabel>
-                <Field
-                  as={RadioGroup}
-                  name="unidade_de_saude"
-                  onChange={handleChange}
-                  value={values.unidade_de_saude}
-                >
-                  <FormControlLabel
-                    control={<Radio />}
-                    label="UPA - Autran Nunes"
-                    value="UPA - Autran Nunes"
-                  />
-                  <FormControlLabel
-                    control={<Radio />}
-                    label="UPA - Conjunto Ceará"
-                    value="UPA - Conjunto Ceará"
-                  />
-                  <FormControlLabel
-                    control={<Radio />}
-                    label="Outro:"
-                    value="Outro"
-                  />
-                </Field>
-              </FormGroup>
-
-              {/* data_atendimento */}
-              <FormGroup className={classes.formGroup}>
-                <FormLabel>
-                  <Typography variant="h4">Data do atendimento na unidade que referenciou o paciente</Typography>
-                </FormLabel>
-                <Field
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  as={TextField}
-                  className={classes.dateField}
-                  name="data_internacao"
-                  onChange={handleChange}
-                  type="date"
-                  value={values.data_internacao}
-                />
-              </FormGroup>
-
-              {/* suporte_respiratorio */}
-              <FormGroup className={classes.formGroup}>
-                <Field
-                  as={FormControlLabel}
-                  control={
-                    <Switch
-                      checked={values.suporte_respiratorio}
-                      color="primary"
-                      name="suporte_respiratorio"
-                      onChange={handleChange}
-                    />
-                  }
-                  label={
-                    <Typography variant="h4">
-                      Paciente chegou com suporte respiratório?
-                    </Typography>
-                  }
-                  name="suporte_respiratorio"
-                />
-                {/* tipo_suport_respiratorio */}
-                <FormControl
-                  component="fieldset"
-                  disabled={!values.suporte_respiratorio}
-                >
-                  <FormLabel component="legend">Em caso afirmativo, qual o suporte respiratório?</FormLabel>
+                {/* prontuario */}
+                <Grid item sm={12} md={6}>
                   <FormGroup>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          name="Máscara de reservatório"
-                          onChange={handleChange}
-                        />
+                    <FormLabel>
+                      <Typography variant="h4">Número do prontuário</Typography>
+                    </FormLabel>
+                    <Field
+                      as={TextField}
+                      className={classes.textField}
+                      error={(errors.prontuario && touched.prontuario)}
+                      helperText={
+                        (errors.prontuario && touched.prontuario) ? errors.prontuario : null
                       }
-                      label="Máscara de reservatório"
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          name="Ventilação invasiva"
-                          onChange={handleChange}
-                        />
-                      }
-                      label="Ventilação invasiva"
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          name="Catéter O2"
-                          onChange={handleChange}
-                        />
-                      }
-                      label="Catéter O2"
+                      label="Número do prontuário"
+                      name="prontuario"
+                      onChange={handleChange}
+                      type="number"
+                      value={values.prontuario}
+                      variant="outlined"
                     />
                   </FormGroup>
-                  {/* <FormHelperText>Selecione pelo menos um. (???)</FormHelperText> */}
-                </FormControl>
-              </FormGroup>
+                </Grid>
 
-              {/* reinternacao */}
-              <FormGroup className={classes.formGroup}>
-                <Field
-                  as={FormControlLabel}
-                  control={
-                    <Switch
-                      checked={values.reinternacao}
-                      color="primary"
-                      name="reinternacao"
+                {/* data_internacao */}
+                <Grid item sm={12} md={6}>
+                  <FormGroup>
+                    <FormLabel>
+                      <Typography variant="h4">Data de internação</Typography>
+                    </FormLabel>
+                    <Field
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      as={TextField}
+                      className={classes.dateField}
+                      error={(errors.data_internacao && touched.data_internacao)}
+                      // label="Data de internação"
+                      helperText={
+                        (errors.data_internacao && touched.data_internacao) ? errors.data_internacao : null
+                      }
+                      name="data_internacao"
                       onChange={handleChange}
+                      type="date"
+                      value={values.data_internacao}
                     />
-                  }
-                  label={
-                    <Typography variant="h4">
-                      Reinternação?
+                  </FormGroup>
+                </Grid>
+
+                {/* unidade_primeiro_atendimento */}
+                <Grid item xs={12}>
+                  <FormGroup>
+                    <FormLabel>
+                      <Typography variant="h4">Nome do serviço / Unidade de Saúde onde o paciente recebeu o primeiro atendimento</Typography>
+                    </FormLabel>
+                    <Field
+                      as={RadioGroup}
+                      name="unidade_primeiro_atendimento"
+                      onChange={handleChange}
+                      value={values.unidade_primeiro_atendimento}
+                    >
+                      <FormControlLabel
+                        control={<Radio />}
+                        label="UPA - Autran Nunes"
+                        value="UPA - Autran Nunes"
+                      />
+                      <FormControlLabel
+                        control={<Radio />}
+                        label="UPA - Conjunto Ceará"
+                        value="UPA - Conjunto Ceará"
+                      />
+                      <FormControlLabel
+                        control={<Radio />}
+                        label="Outro:"
+                        value="Outro"
+                      />
+                    </Field>
+                  </FormGroup>
+                </Grid>
+
+                {/* unidade_de_saude */}
+                <Grid item xs={12}>
+                  <FormGroup>
+                    <FormLabel>
+                      <Typography variant="h4">Nome do serviço / Unidade de Saúde que referenciou o paciente</Typography>
+                    </FormLabel>
+                    <Field
+                      as={RadioGroup}
+                      name="unidade_de_saude"
+                      onChange={handleChange}
+                      value={values.unidade_de_saude}
+                    >
+                      <FormControlLabel
+                        control={<Radio />}
+                        label="UPA - Autran Nunes"
+                        value="UPA - Autran Nunes"
+                      />
+                      <FormControlLabel
+                        control={<Radio />}
+                        label="UPA - Conjunto Ceará"
+                        value="UPA - Conjunto Ceará"
+                      />
+                      <FormControlLabel
+                        control={<Radio />}
+                        label="Outro:"
+                        value="Outro"
+                      />
+                    </Field>
+                  </FormGroup>
+                </Grid>
+
+
+                {/* data_atendimento */}
+                <Grid item xs={12}>
+                  <FormGroup>
+                    <FormLabel>
+                      <Typography variant="h4">Data do atendimento na unidade que referenciou o paciente</Typography>
+                    </FormLabel>
+                    <Field
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      as={TextField}
+                      className={classes.dateField}
+                      name="data_internacao"
+                      onChange={handleChange}
+                      type="date"
+                      value={values.data_internacao}
+                    />
+                  </FormGroup>
+                </Grid>
+
+                {/* suporte_respiratorio */}
+                <Grid item xs={12}>
+
+                  <FormGroup>
+                    <Field
+                      as={FormControlLabel}
+                      control={
+                        <Switch
+                          checked={values.suporte_respiratorio}
+                          color="primary"
+                          name="suporte_respiratorio"
+                          onChange={handleChange}
+                        />
+                      }
+                      label={
+                        <Typography variant="h4">
+                          Paciente chegou com suporte respiratório?
                     </Typography>
-                  }
-                  name="reinternacao"
-                />
-              </FormGroup>
+                      }
+                      name="suporte_respiratorio"
+                    />
+                    {/* tipo_suport_respiratorio */}
+                    <FormControl
+                      component="fieldset"
+                      disabled={!values.suporte_respiratorio}
+                    >
+                      <FormLabel component="legend">Em caso afirmativo, qual o suporte respiratório?</FormLabel>
+                      <FormGroup>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              name="Máscara de reservatório"
+                              onChange={handleChange}
+                            />
+                          }
+                          label="Máscara de reservatório"
+                        />
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              name="Ventilação invasiva"
+                              onChange={handleChange}
+                            />
+                          }
+                          label="Ventilação invasiva"
+                        />
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              name="Catéter O2"
+                              onChange={handleChange}
+                            />
+                          }
+                          label="Catéter O2"
+                        />
+                      </FormGroup>
+                      {/* <FormHelperText>Selecione pelo menos um. (???)</FormHelperText> */}
+                    </FormControl>
+                  </FormGroup>
+                </Grid>
+
+                {/* reinternacao */}
+                <Grid item xs={12}>
+                  <FormGroup>
+                    <Field
+                      as={FormControlLabel}
+                      control={
+                        <Switch
+                          checked={values.reinternacao}
+                          color="primary"
+                          name="reinternacao"
+                          onChange={handleChange}
+                        />
+                      }
+                      label={
+                        <Typography variant="h4">
+                          Reinternação?
+                    </Typography>
+                      }
+                      name="reinternacao"
+                    />
+                  </FormGroup>
+                </Grid>
+
+              </Grid>
+
             </Form>
 
           )}
