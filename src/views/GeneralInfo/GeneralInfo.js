@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import useStyles from './styles';
 import * as Yup from 'yup';
@@ -15,29 +15,20 @@ import {
   TextField,
   Link as MuiLink,
   FormLabel,
-  RadioGroup,
   FormControlLabel,
-  Radio,
   FormControl,
   Switch,
   Checkbox,
   FormGroup,
   Grid,
+  Snackbar,
+  MenuItem,
 } from '@material-ui/core';
 
-import { toast } from 'react-toastify';
+import MuiAlert from '@material-ui/lab/Alert';
 
 import api from 'services/api';
-// prontuario -> obrigatório
-// data_internacao -> obrigatório
-// unidade_primeiro_atendimento
-// unidade_de_saude
-// data_atendimento
-// suporte_respiratorio
-// tipo_suport_respiratorio
-// reinternacao
 
-// Schema do Yup para validação dos campos.
 const schema = Yup.object().shape({
   prontuario: Yup.number()
     .integer('Número de prontuário inválido')
@@ -45,20 +36,45 @@ const schema = Yup.object().shape({
   data_internacao: Yup.date()
     .required('Campo obrigatório'),
   unidade_primeiro_atendimento: Yup.string(),
+  outro_unidade_primeiro_atendimento: Yup.string(),
   unidade_de_saude: Yup.string(),
+  outro_unidade_de_saude: Yup.string(),
   data_atendimento: Yup.date(),
   suporte_respiratorio: Yup.boolean(),
   tipo_suport_respiratorio: Yup.array().of(Yup.string()),
   reinternacao: Yup.boolean(),
 });
 
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 const GeneralInfo = () => {
   const history = useHistory();
   const classes = useStyles();
 
+  const [openAlert, setOpenAlert] = useState(false);
+  const [messageAlert, setMessageAlert] = useState('teste');
+  const [stateAlert, setStateAlert] = useState('success');
+
+  // error, warning, info, success
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenAlert(false);
+  };
+
   const handleSubmit = async (values) => {
+
+    // teste
+    setOpenAlert(true);
+
     if (!values.prontuario && !values.data_internacao) {
-      toast.warning('Existem campos obrigatórios em branco');
+      // toast.warning('Existem campos obrigatórios em branco');
+      setStateAlert('warning');
+      setMessageAlert('Existem campos obrigatórios em branco');
       return;
     }
 
@@ -70,13 +86,19 @@ const GeneralInfo = () => {
     try {
       await api.post('/pacientes', patient);
 
-      toast.success('Dados salvos com sucesso');
+      // toast.success('Dados salvos com sucesso');
+      setStateAlert('success');
+      setMessageAlert('Dados salvos com sucesso');
       history.push('/categorias');
     } catch (err) {
       if (err.response.data?.prontuario) {
-        toast.info('Paciente já cadastrado');
+        // toast.info('Paciente já cadastrado');
+        setStateAlert('info');
+        setMessageAlert('Paciente já cadastrado');
       } else {
-        toast.error('Erro ao tentar inserir novo paciente, tente novamente');
+        // toast.error('Erro ao tentar inserir novo paciente, tente novamente');
+        setStateAlert('error');
+        setMessageAlert('Erro ao tentar inserir novo paciente, tente novamente');
       }
     }
   };
@@ -121,7 +143,9 @@ const GeneralInfo = () => {
             prontuario: '',
             data_internacao: '',
             unidade_primeiro_atendimento: '',
+            outro_unidade_primeiro_atendimento: '',
             unidade_de_saude: '',
+            outro_unidade_de_saude: '',
             data_atendimento: '',
             suporte_respiratorio: false,
             tipo_suport_respiratorio: '',
@@ -184,7 +208,7 @@ const GeneralInfo = () => {
                       as={TextField}
                       className={classes.dateField}
                       error={(errors.data_internacao && touched.data_internacao)}
-                      // label="Data de internação"
+                      label="Data de internação"
                       helperText={
                         (errors.data_internacao && touched.data_internacao) ? errors.data_internacao : null
                       }
@@ -203,27 +227,30 @@ const GeneralInfo = () => {
                       <Typography variant="h4">Nome do serviço / Unidade de Saúde onde o paciente recebeu o primeiro atendimento</Typography>
                     </FormLabel>
                     <Field
-                      as={RadioGroup}
+                      as={TextField}
+                      select
                       name="unidade_primeiro_atendimento"
                       onChange={handleChange}
                       value={values.unidade_primeiro_atendimento}
+                      label="Unidade de Saúde"
+                      variant="filled"
                     >
-                      <FormControlLabel
-                        control={<Radio />}
-                        label="UPA - Autran Nunes"
-                        value="UPA - Autran Nunes"
-                      />
-                      <FormControlLabel
-                        control={<Radio />}
-                        label="UPA - Conjunto Ceará"
-                        value="UPA - Conjunto Ceará"
-                      />
-                      <FormControlLabel
-                        control={<Radio />}
-                        label="Outro:"
-                        value="Outro"
-                      />
+                      <MenuItem value={1}>Unidade de Saúde [1]</MenuItem>
+                      <MenuItem value={2}>Unidade de Saúde [2]</MenuItem>
+                      <MenuItem value={3}>Unidade de Saúde [3]</MenuItem>
+                      <MenuItem value={0}>Outro</MenuItem>
                     </Field>
+                    <Field
+                      as={TextField}
+                      className={classes.textField}
+                      name="outro_unidade_primeiro_atendimento"
+                      onChange={handleChange}
+                      label="Outra Unidade de Saúde"
+                      type="text"
+                      value={values.outro_unidade_primeiro_atendimento}
+                      variant="outlined"
+                      disabled={!(values.unidade_primeiro_atendimento === 0)}
+                    />
                   </FormGroup>
                 </Grid>
 
@@ -234,27 +261,30 @@ const GeneralInfo = () => {
                       <Typography variant="h4">Nome do serviço / Unidade de Saúde que referenciou o paciente</Typography>
                     </FormLabel>
                     <Field
-                      as={RadioGroup}
+                      as={TextField}
+                      select
                       name="unidade_de_saude"
                       onChange={handleChange}
                       value={values.unidade_de_saude}
+                      label="Unidade de Saúde"
+                      variant="filled"
                     >
-                      <FormControlLabel
-                        control={<Radio />}
-                        label="UPA - Autran Nunes"
-                        value="UPA - Autran Nunes"
-                      />
-                      <FormControlLabel
-                        control={<Radio />}
-                        label="UPA - Conjunto Ceará"
-                        value="UPA - Conjunto Ceará"
-                      />
-                      <FormControlLabel
-                        control={<Radio />}
-                        label="Outro:"
-                        value="Outro"
-                      />
+                      <MenuItem value={1}>Unidade de Saúde [1]</MenuItem>
+                      <MenuItem value={2}>Unidade de Saúde [2]</MenuItem>
+                      <MenuItem value={3}>Unidade de Saúde [3]</MenuItem>
+                      <MenuItem value={0}>Outro</MenuItem>
                     </Field>
+                    <Field
+                      as={TextField}
+                      className={classes.textField}
+                      name="outro_unidade_de_saude"
+                      onChange={handleChange}
+                      label="Outra Unidade de Saúde"
+                      type="text"
+                      value={values.outro_unidade_de_saude}
+                      variant="outlined"
+                      disabled={!(values.unidade_de_saude === 0)}
+                    />
                   </FormGroup>
                 </Grid>
 
@@ -272,6 +302,7 @@ const GeneralInfo = () => {
                       as={TextField}
                       className={classes.dateField}
                       name="data_internacao"
+                      label="Data internação"
                       onChange={handleChange}
                       type="date"
                       value={values.data_internacao}
@@ -356,7 +387,7 @@ const GeneralInfo = () => {
                       label={
                         <Typography variant="h4">
                           Reinternação?
-                    </Typography>
+                        </Typography>
                       }
                       name="reinternacao"
                     />
@@ -370,7 +401,16 @@ const GeneralInfo = () => {
           )}
         </Formik>
       </div>
-    </div>
+
+      {/* Avisos */}
+      <Snackbar open={openAlert} autoHideDuration={5000} onClose={handleClose}>
+        <Alert onClose={openAlert} severity={stateAlert}>
+          <Typography variant="h3">
+            {messageAlert}
+          </Typography>
+        </Alert>
+      </Snackbar>
+    </div >
   );
 }
 
