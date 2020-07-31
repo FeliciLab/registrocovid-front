@@ -70,10 +70,16 @@ const GeneralInfo = () => {
     const patient = {
       prontuario: values.prontuario,
       data_internacao: values.data_internacao,
+      instituicao_primeiro_atendimento_id: values.unidade_primeiro_atendimento,
+      instituicao_refererencia_id: values.unidade_de_saude,
+      data_atendimento_referencia: values.data_atendimento,
+      suporte_respiratorio: values.suporte_respiratorio,
+      reinternacao: values.reinternacao
     };
 
     try {
       await api.post('/pacientes', patient);
+      console.log(patient);
 
       addToast({
         type: 'success',
@@ -301,8 +307,8 @@ const GeneralInfo = () => {
                       }}
                       as={TextField}
                       className={classes.dateField}
-                      label="Data internação"
-                      name="data_internacao"
+                      label="Data Atendimento"
+                      name="data_atendimento"
                       onChange={handleChange}
                       type="date"
                       value={values.data_internacao}

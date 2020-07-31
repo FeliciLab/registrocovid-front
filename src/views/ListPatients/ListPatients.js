@@ -28,7 +28,7 @@ const ListPatients = () => {
 
   const [filter, setFilter] = useState('');
 
-  const { data } = useAxios('/pacientes', {
+  const { data } = useAxios('/pacientes?fields=id,prontuario,data_internacao,created_at', {
     transformResponse: [
       data => {
         const patienteRow = JSON.parse(data);
