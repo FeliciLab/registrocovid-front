@@ -2,6 +2,8 @@ import React, { createContext } from 'react';
 
 import useAuth from './hooks/useAuth';
 
+import { ToastProvider } from 'hooks/toast';
+
 const Context = createContext();
 
 function AuthProvider({ children }) {
@@ -18,7 +20,9 @@ function AuthProvider({ children }) {
     <Context.Provider
       value={{ loading, authenticated, handleLogin, handleLogout, erroLogin, isLogged }}
     >
-      {children}
+      <ToastProvider>
+        {children}
+      </ToastProvider>
     </Context.Provider>
   );
 }

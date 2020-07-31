@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 import useStyles from './styles';
 import * as Yup from 'yup';
@@ -17,12 +17,10 @@ import {
   Checkbox,
   FormGroup,
   Grid,
-  Snackbar,
   MenuItem,
 } from '@material-ui/core';
 
-import MuiAlert from '@material-ui/lab/Alert';
-
+import { useToast } from 'hooks/toast';
 import api from 'services/api';
 
 const schema = Yup.object().shape({
@@ -41,36 +39,31 @@ const schema = Yup.object().shape({
   reinternacao: Yup.boolean(),
 });
 
-function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
+const unidades_de_saude = [
+  { id: 1, nome: 'Hospital Leonardo da Vinci' },
+  { id: 2, nome: 'Hospital Geral Dr César Cals' },
+  { id: 3, nome: 'Hospital Geral de Fortaleza' },
+  { id: 4, nome: 'Hospital de Messejana' },
+  { id: 5, nome: 'Hospital Regional Norte' },
+  { id: 6, nome: 'Hospital Regional do Sertão Central' },
+  { id: 7, nome: 'Hospital São José' },
+  { id: 8, nome: 'Hospital Regional do Cariri' },
+  { id: 9, nome: 'Hospital Infantil Albert Sabin' },
+  { id: 10, nome: 'Hospital Batista' },
+];
 
 const GeneralInfo = () => {
+  const { addToast } = useToast();
   const history = useHistory();
   const classes = useStyles();
 
-  const [openAlert, setOpenAlert] = useState(false);
-  const [messageAlert, setMessageAlert] = useState('teste');
-  const [stateAlert, setStateAlert] = useState('success');
-
-  // error, warning, info, success
-
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setOpenAlert(false);
-  };
-
   const handleSubmit = async (values) => {
-
-    // teste
-    setOpenAlert(true);
-
     if (!values.prontuario && !values.data_internacao) {
-      // toast.warning('Existem campos obrigatórios em branco');
-      setStateAlert('warning');
-      setMessageAlert('Existem campos obrigatórios em branco');
+      addToast({
+        type: 'warning',
+        message: 'Existem campos obrigatórios em branco'
+      });
+
       return;
     }
 
@@ -82,19 +75,23 @@ const GeneralInfo = () => {
     try {
       await api.post('/pacientes', patient);
 
-      // toast.success('Dados salvos com sucesso');
-      setStateAlert('success');
-      setMessageAlert('Dados salvos com sucesso');
+      addToast({
+        type: 'success',
+        message: 'Dados salvos com sucesso'
+      });
+
       history.push('/categorias');
     } catch (err) {
       if (err.response.data?.prontuario) {
-        // toast.info('Paciente já cadastrado');
-        setStateAlert('info');
-        setMessageAlert('Paciente já cadastrado');
+        addToast({
+          type: 'info',
+          message: 'Paciente já cadastrado',
+        });
       } else {
-        // toast.error('Erro ao tentar inserir novo paciente, tente novamente');
-        setStateAlert('error');
-        setMessageAlert('Erro ao tentar inserir novo paciente, tente novamente');
+        addToast({
+          type: 'error',
+          message: 'Erro ao tentar inserir novo paciente, tente novamente',
+        });
       }
     }
   };
@@ -102,11 +99,13 @@ const GeneralInfo = () => {
   return (
     <div className={classes.root}>
       <div className={classes.header}>
-        <CustonBreadcrumbs links={[
-          { label: 'Meus pacientes', route: '/meus-pacientes' },
-          { label: 'Categorias', route: '/categorias' },
-          { label: 'Informações gerais', route: '/categorias/informacoes-gerais' },
-        ]} />
+        <CustonBreadcrumbs
+          links={[
+            { label: 'Meus pacientes', route: '/meus-pacientes' },
+            { label: 'Categorias', route: '/categorias' },
+            { label: 'Informações gerais', route: '/categorias/informacoes-gerais' },
+          ]}
+        />
       </div>
 
       <div className={classes.formWrapper}>
@@ -127,7 +126,7 @@ const GeneralInfo = () => {
           validateOnMount
           validationSchema={schema}
         >
-          {({ values, touched, handleChange, isValid, errors }) => (
+          {({ values, touched, handleChange, errors, isSubmitting }) => (
             <Form component={FormControl}>
               <div className={classes.titleWrapper}>
                 <Typography variant="h1">Informações Gerais</Typography>
@@ -135,6 +134,7 @@ const GeneralInfo = () => {
                 <Button
                   className={classes.buttonSave}
                   color="secondary"
+                  disable={isSubmitting}
                   type="submit"
                   variant="contained"
                 >
@@ -142,10 +142,19 @@ const GeneralInfo = () => {
                 </Button>
               </div>
 
-              <Grid container item lg={8} spacing={2}>
+              <Grid
+                container
+                item
+                lg={8}
+                spacing={2}
+              >
 
                 {/* prontuario */}
-                <Grid item sm={12} md={6}>
+                <Grid
+                  item
+                  md={6}
+                  sm={12}
+                >
                   <FormGroup>
                     <FormLabel>
                       <Typography variant="h4">Número do prontuário</Typography>
@@ -168,7 +177,11 @@ const GeneralInfo = () => {
                 </Grid>
 
                 {/* data_internacao */}
-                <Grid item sm={12} md={6}>
+                <Grid
+                  item
+                  md={6}
+                  sm={12}
+                >
                   <FormGroup>
                     <FormLabel>
                       <Typography variant="h4">Data de internação</Typography>
@@ -180,10 +193,10 @@ const GeneralInfo = () => {
                       as={TextField}
                       className={classes.dateField}
                       error={(errors.data_internacao && touched.data_internacao)}
-                      label="Data de internação"
                       helperText={
                         (errors.data_internacao && touched.data_internacao) ? errors.data_internacao : null
                       }
+                      label="Data de internação"
                       name="data_internacao"
                       onChange={handleChange}
                       type="date"
@@ -193,76 +206,91 @@ const GeneralInfo = () => {
                 </Grid>
 
                 {/* unidade_primeiro_atendimento */}
-                <Grid item xs={12}>
+                <Grid
+                  item
+                  xs={12}
+                >
                   <FormGroup>
                     <FormLabel>
                       <Typography variant="h4">Nome do serviço / Unidade de Saúde onde o paciente recebeu o primeiro atendimento</Typography>
                     </FormLabel>
                     <Field
                       as={TextField}
-                      select
+                      label="Unidade de Saúde"
                       name="unidade_primeiro_atendimento"
                       onChange={handleChange}
+                      select
                       value={values.unidade_primeiro_atendimento}
-                      label="Unidade de Saúde"
                       variant="filled"
                     >
-                      <MenuItem value={1}>Unidade de Saúde [1]</MenuItem>
-                      <MenuItem value={2}>Unidade de Saúde [2]</MenuItem>
-                      <MenuItem value={3}>Unidade de Saúde [3]</MenuItem>
+                      {unidades_de_saude.map(({ id, nome }) => (
+                        <MenuItem
+                          key={id}
+                          value={id}
+                        >{nome}</MenuItem>
+                      ))}
                       <MenuItem value={0}>Outro</MenuItem>
                     </Field>
                     <Field
                       as={TextField}
                       className={classes.textField}
+                      disabled={!(values.unidade_primeiro_atendimento === 0)}
+                      label="Outra Unidade de Saúde"
                       name="outro_unidade_primeiro_atendimento"
                       onChange={handleChange}
-                      label="Outra Unidade de Saúde"
                       type="text"
                       value={values.outro_unidade_primeiro_atendimento}
                       variant="outlined"
-                      disabled={!(values.unidade_primeiro_atendimento === 0)}
                     />
                   </FormGroup>
                 </Grid>
 
                 {/* unidade_de_saude */}
-                <Grid item xs={12}>
+                <Grid
+                  item
+                  xs={12}
+                >
                   <FormGroup>
                     <FormLabel>
                       <Typography variant="h4">Nome do serviço / Unidade de Saúde que referenciou o paciente</Typography>
                     </FormLabel>
                     <Field
                       as={TextField}
-                      select
+                      label="Unidade de Saúde"
                       name="unidade_de_saude"
                       onChange={handleChange}
+                      select
                       value={values.unidade_de_saude}
-                      label="Unidade de Saúde"
                       variant="filled"
                     >
-                      <MenuItem value={1}>Unidade de Saúde [1]</MenuItem>
-                      <MenuItem value={2}>Unidade de Saúde [2]</MenuItem>
-                      <MenuItem value={3}>Unidade de Saúde [3]</MenuItem>
+                      {unidades_de_saude.map(({ id, nome }) => (
+                        <MenuItem
+                          key={id}
+                          value={id}
+                        >{nome}</MenuItem>
+                      ))}
                       <MenuItem value={0}>Outro</MenuItem>
                     </Field>
                     <Field
                       as={TextField}
                       className={classes.textField}
+                      disabled={!(values.unidade_de_saude === 0)}
+                      label="Outra Unidade de Saúde"
                       name="outro_unidade_de_saude"
                       onChange={handleChange}
-                      label="Outra Unidade de Saúde"
                       type="text"
                       value={values.outro_unidade_de_saude}
                       variant="outlined"
-                      disabled={!(values.unidade_de_saude === 0)}
                     />
                   </FormGroup>
                 </Grid>
 
 
                 {/* data_atendimento */}
-                <Grid item xs={12}>
+                <Grid
+                  item
+                  xs={12}
+                >
                   <FormGroup>
                     <FormLabel>
                       <Typography variant="h4">Data do atendimento na unidade que referenciou o paciente</Typography>
@@ -273,8 +301,8 @@ const GeneralInfo = () => {
                       }}
                       as={TextField}
                       className={classes.dateField}
-                      name="data_internacao"
                       label="Data internação"
+                      name="data_internacao"
                       onChange={handleChange}
                       type="date"
                       value={values.data_internacao}
@@ -283,7 +311,10 @@ const GeneralInfo = () => {
                 </Grid>
 
                 {/* suporte_respiratorio */}
-                <Grid item xs={12}>
+                <Grid
+                  item
+                  xs={12}
+                >
 
                   <FormGroup>
                     <Field
@@ -299,7 +330,7 @@ const GeneralInfo = () => {
                       label={
                         <Typography variant="h4">
                           Paciente chegou com suporte respiratório?
-                    </Typography>
+                        </Typography>
                       }
                       name="suporte_respiratorio"
                     />
@@ -344,7 +375,10 @@ const GeneralInfo = () => {
                 </Grid>
 
                 {/* reinternacao */}
-                <Grid item xs={12}>
+                <Grid
+                  item
+                  xs={12}
+                >
                   <FormGroup>
                     <Field
                       as={FormControlLabel}
@@ -373,15 +407,6 @@ const GeneralInfo = () => {
           )}
         </Formik>
       </div>
-
-      {/* Avisos */}
-      <Snackbar open={openAlert} autoHideDuration={5000} onClose={handleClose}>
-        <Alert onClose={openAlert} severity={stateAlert}>
-          <Typography variant="h3">
-            {messageAlert}
-          </Typography>
-        </Alert>
-      </Snackbar>
     </div >
   );
 }

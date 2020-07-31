@@ -4,8 +4,6 @@ import { Router } from 'react-router-dom';
 import { Chart } from 'react-chartjs-2';
 import { ThemeProvider } from '@material-ui/styles';
 import validate from 'validate.js';
-// import { ToastContainer } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
 
 import { chartjs } from './helpers';
 import theme from './theme';
@@ -35,10 +33,6 @@ export default class App extends Component {
         <AuthProvider>
           <Router history={history}>
             <Routes />
-            {/* <ToastContainer
-              autoClose={5000}
-              position="bottom-right"
-            /> */}
           </Router>
         </AuthProvider>
       </ThemeProvider>
