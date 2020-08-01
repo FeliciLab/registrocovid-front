@@ -63,6 +63,7 @@ const GeneralInfo = () => {
   }, []);
 
   const handleSubmit = async (values) => {
+
     if (!values.prontuario && !values.data_internacao) {
       addToast({
         type: 'warning',
@@ -71,7 +72,7 @@ const GeneralInfo = () => {
       return;
     }
 
-    const patient = {
+    let patient = {
       prontuario: values.prontuario,
       data_internacao: values.data_internacao,
       instituicao_primeiro_atendimento_id: values.unidade_primeiro_atendimento,
@@ -80,6 +81,15 @@ const GeneralInfo = () => {
       suporte_respiratorio: values.suporte_respiratorio,
       reinternacao: values.reinternacao
     };
+
+    if (values.suporte_respiratorio) {
+      patient = {
+        ...patient,
+        tipo_suport_respiratorio_id: values.tipo_suport_respiratorio
+      };
+    }
+
+    console.log(patient);
 
     try {
       await api.post('/pacientes', patient);
@@ -288,7 +298,7 @@ const GeneralInfo = () => {
                       name="data_atendimento"
                       onChange={handleChange}
                       type="date"
-                      value={values.data_internacao}
+                      value={values.data_atendimento}
                     />
                   </FormGroup>
                 </Grid>
