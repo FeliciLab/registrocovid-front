@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import useStyles from './styles';
 import * as Yup from 'yup';
@@ -14,7 +14,6 @@ import {
   FormControlLabel,
   FormControl,
   Switch,
-  Checkbox,
   FormGroup,
   Grid,
   MenuItem,
@@ -23,6 +22,9 @@ import {
 import { useToast } from 'hooks/toast';
 import api from 'services/api';
 
+// API fake para testes.
+import apiFake from 'services/apiFake';
+
 const schema = Yup.object().shape({
   prontuario: Yup.number()
     .integer('Número de prontuário inválido')
@@ -30,32 +32,35 @@ const schema = Yup.object().shape({
   data_internacao: Yup.date()
     .required('Campo obrigatório'),
   unidade_primeiro_atendimento: Yup.string(),
-  outro_unidade_primeiro_atendimento: Yup.string(),
   unidade_de_saude: Yup.string(),
-  outro_unidade_de_saude: Yup.string(),
   data_atendimento: Yup.date(),
   suporte_respiratorio: Yup.boolean(),
-  tipo_suport_respiratorio: Yup.array().of(Yup.string()),
+  tipo_suport_respiratorio: Yup.string(),
   reinternacao: Yup.boolean(),
 });
-
-const unidades_de_saude = [
-  { id: 1, nome: 'Hospital Leonardo da Vinci' },
-  { id: 2, nome: 'Hospital Geral Dr César Cals' },
-  { id: 3, nome: 'Hospital Geral de Fortaleza' },
-  { id: 4, nome: 'Hospital de Messejana' },
-  { id: 5, nome: 'Hospital Regional Norte' },
-  { id: 6, nome: 'Hospital Regional do Sertão Central' },
-  { id: 7, nome: 'Hospital São José' },
-  { id: 8, nome: 'Hospital Regional do Cariri' },
-  { id: 9, nome: 'Hospital Infantil Albert Sabin' },
-  { id: 10, nome: 'Hospital Batista' },
-];
 
 const GeneralInfo = () => {
   const { addToast } = useToast();
   const history = useHistory();
   const classes = useStyles();
+
+  const [instituicoes, setInstituicoes] = useState([]);
+  const [tiposSuporteRespiratorio, setTiposSuporteRespiratorio] = useState([]);
+
+  // TODO: remover quando tivermos os endpoints respectivos.
+  // Carregando informações.
+  useEffect(() => {
+    (() => {
+      apiFake.get('/instituicoes').then(response => {
+        const { data } = response;
+        setInstituicoes(data);
+      });
+      apiFake.get('/tipos_suporterespiratorio').then(response => {
+        const { data } = response;
+        setTiposSuporteRespiratorio(data);
+      });
+    })();
+  }, []);
 
   const handleSubmit = async (values) => {
     if (!values.prontuario && !values.data_internacao) {
@@ -63,7 +68,6 @@ const GeneralInfo = () => {
         type: 'warning',
         message: 'Existem campos obrigatórios em branco'
       });
-
       return;
     }
 
@@ -120,9 +124,7 @@ const GeneralInfo = () => {
             prontuario: '',
             data_internacao: '',
             unidade_primeiro_atendimento: '',
-            outro_unidade_primeiro_atendimento: '',
             unidade_de_saude: '',
-            outro_unidade_de_saude: '',
             data_atendimento: '',
             suporte_respiratorio: false,
             tipo_suport_respiratorio: '',
@@ -229,25 +231,13 @@ const GeneralInfo = () => {
                       value={values.unidade_primeiro_atendimento}
                       variant="filled"
                     >
-                      {unidades_de_saude.map(({ id, nome }) => (
+                      {instituicoes.map(({ id, nome }) => (
                         <MenuItem
                           key={id}
                           value={id}
                         >{nome}</MenuItem>
                       ))}
-                      <MenuItem value={0}>Outro</MenuItem>
                     </Field>
-                    <Field
-                      as={TextField}
-                      className={classes.textField}
-                      disabled={!(values.unidade_primeiro_atendimento === 0)}
-                      label="Outra Unidade de Saúde"
-                      name="outro_unidade_primeiro_atendimento"
-                      onChange={handleChange}
-                      type="text"
-                      value={values.outro_unidade_primeiro_atendimento}
-                      variant="outlined"
-                    />
                   </FormGroup>
                 </Grid>
 
@@ -269,28 +259,15 @@ const GeneralInfo = () => {
                       value={values.unidade_de_saude}
                       variant="filled"
                     >
-                      {unidades_de_saude.map(({ id, nome }) => (
+                      {instituicoes.map(({ id, nome }) => (
                         <MenuItem
                           key={id}
                           value={id}
                         >{nome}</MenuItem>
                       ))}
-                      <MenuItem value={0}>Outro</MenuItem>
                     </Field>
-                    <Field
-                      as={TextField}
-                      className={classes.textField}
-                      disabled={!(values.unidade_de_saude === 0)}
-                      label="Outra Unidade de Saúde"
-                      name="outro_unidade_de_saude"
-                      onChange={handleChange}
-                      type="text"
-                      value={values.outro_unidade_de_saude}
-                      variant="outlined"
-                    />
                   </FormGroup>
                 </Grid>
-
 
                 {/* data_atendimento */}
                 <Grid
@@ -321,7 +298,6 @@ const GeneralInfo = () => {
                   item
                   xs={12}
                 >
-
                   <FormGroup>
                     <Field
                       as={FormControlLabel}
@@ -341,41 +317,24 @@ const GeneralInfo = () => {
                       name="suporte_respiratorio"
                     />
                     {/* tipo_suport_respiratorio */}
-                    <FormControl
-                      component="fieldset"
-                      disabled={!values.suporte_respiratorio}
-                    >
-                      <FormLabel component="legend">Em caso afirmativo, qual o suporte respiratório?</FormLabel>
-                      <FormGroup>
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              name="Máscara de reservatório"
-                              onChange={handleChange}
-                            />
-                          }
-                          label="Máscara de reservatório"
-                        />
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              name="Ventilação invasiva"
-                              onChange={handleChange}
-                            />
-                          }
-                          label="Ventilação invasiva"
-                        />
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              name="Catéter O2"
-                              onChange={handleChange}
-                            />
-                          }
-                          label="Catéter O2"
-                        />
-                      </FormGroup>
-                      {/* <FormHelperText>Selecione pelo menos um. (???)</FormHelperText> */}
+                    <FormControl component="fieldset">
+                      <FormLabel component="legend">
+                        Em caso afirmativo, qual o suporte respiratório?
+                      </FormLabel>
+                      <Field
+                        as={TextField}
+                        label="Tipo suporte respiratorio"
+                        name="tipo_suport_respiratorio"
+                        onChange={handleChange}
+                        select
+                        value={values.tipo_suport_respiratorio}
+                        disabled={!values.suporte_respiratorio}
+                        variant="filled"
+                      >
+                        {tiposSuporteRespiratorio.map(({ id, nome }) => (
+                          <MenuItem key={id} value={id}>{nome}</MenuItem>
+                        ))}
+                      </Field>
                     </FormControl>
                   </FormGroup>
                 </Grid>
@@ -405,11 +364,8 @@ const GeneralInfo = () => {
                     />
                   </FormGroup>
                 </Grid>
-
               </Grid>
-
             </Form>
-
           )}
         </Formik>
       </div>
