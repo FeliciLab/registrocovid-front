@@ -205,15 +205,15 @@ const GeneralInfo = () => {
                       <Typography variant="h4">Data de internação</Typography>
                     </FormLabel>
                     <Field
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
                       as={TextField}
                       className={classes.dateField}
                       error={(errors.data_internacao && touched.data_internacao)}
                       helperText={
                         (errors.data_internacao && touched.data_internacao) ? errors.data_internacao : null
                       }
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
                       label="Data de internação"
                       name="data_internacao"
                       onChange={handleChange}
@@ -234,6 +234,7 @@ const GeneralInfo = () => {
                     </FormLabel>
                     <Field
                       as={TextField}
+                      className={classes.textField}
                       label="Unidade de Saúde"
                       name="unidade_primeiro_atendimento"
                       onChange={handleChange}
@@ -262,6 +263,7 @@ const GeneralInfo = () => {
                     </FormLabel>
                     <Field
                       as={TextField}
+                      className={classes.textField}
                       label="Unidade de Saúde"
                       name="unidade_de_saude"
                       onChange={handleChange}
@@ -289,11 +291,11 @@ const GeneralInfo = () => {
                       <Typography variant="h4">Data do atendimento na unidade que referenciou o paciente</Typography>
                     </FormLabel>
                     <Field
+                      as={TextField}
+                      className={classes.dateField}
                       InputLabelProps={{
                         shrink: true,
                       }}
-                      as={TextField}
-                      className={classes.dateField}
                       label="Data Atendimento"
                       name="data_atendimento"
                       onChange={handleChange}
@@ -333,16 +335,20 @@ const GeneralInfo = () => {
                       </FormLabel>
                       <Field
                         as={TextField}
+                        className={classes.textField}
+                        disabled={!values.suporte_respiratorio}
                         label="Tipo suporte respiratorio"
                         name="tipo_suport_respiratorio"
                         onChange={handleChange}
                         select
                         value={values.tipo_suport_respiratorio}
-                        disabled={!values.suporte_respiratorio}
                         variant="filled"
                       >
                         {tiposSuporteRespiratorio.map(({ id, nome }) => (
-                          <MenuItem key={id} value={id}>{nome}</MenuItem>
+                          <MenuItem
+                            key={id}
+                            value={id}
+                          >{nome}</MenuItem>
                         ))}
                       </Field>
                     </FormControl>
