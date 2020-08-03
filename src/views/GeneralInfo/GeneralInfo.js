@@ -22,9 +22,6 @@ import {
 import { useToast } from 'hooks/toast';
 import api from 'services/api';
 
-// API fake para testes.
-import apiFake from 'services/apiFake';
-
 const schema = Yup.object().shape({
   prontuario: Yup.number()
     .integer('Número de prontuário inválido')
@@ -51,13 +48,13 @@ const GeneralInfo = () => {
   // Carregando informações.
   useEffect(() => {
     (() => {
-      apiFake.get('/instituicoes').then(response => {
-        const { data } = response;
+      api.get('/instituicoes').then(response => {
+        const { instituicoes: data } = response.data;
         setInstituicoes(data);
       });
-      apiFake.get('/tipos_suporterespiratorio').then(response => {
-        const { data } = response;
-        setTiposSuporteRespiratorio(data);
+      api.get('/suportes/respiratorios').then(response => {
+        const { suportes } = response.data;
+        setTiposSuporteRespiratorio(suportes);
       });
     })();
   }, []);
@@ -89,11 +86,8 @@ const GeneralInfo = () => {
       };
     }
 
-    console.log(patient);
-
     try {
       await api.post('/pacientes', patient);
-      console.log(patient);
 
       addToast({
         type: 'success',

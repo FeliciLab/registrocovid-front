@@ -1,6 +1,7 @@
 {
   "parser": "babel-eslint",
   "rules": {
+    "react/prop-types": "off",
     "comma-dangle": 0,
     "indent": [
       2,
