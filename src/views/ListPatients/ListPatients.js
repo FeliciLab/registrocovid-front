@@ -18,7 +18,6 @@ import {
 
 import formatDate from '../../helpers/formatDate';
 
-// TODO: acho que seria interesante mudar o nome desse arquivo de 'axios' para 'useAxios'
 import { useAxios } from 'hooks/axios'
 import { CustonBreadcrumbs } from 'components';
 

@@ -17,6 +17,7 @@ import {
   FormGroup,
   Grid,
   MenuItem,
+  CircularProgress,
 } from '@material-ui/core';
 
 import { useToast } from 'hooks/toast';
@@ -44,10 +45,12 @@ const GeneralInfo = () => {
   const [instituicoes, setInstituicoes] = useState([]);
   const [tiposSuporteRespiratorio, setTiposSuporteRespiratorio] = useState([]);
 
-  // TODO: remover quando tivermos os endpoints respectivos.
+  const [loading, setLoading] = useState(false);
+
   // Carregando informações.
   useEffect(() => {
     (() => {
+      setLoading(true);
       api.get('/instituicoes').then(response => {
         const { instituicoes: data } = response.data;
         setInstituicoes(data);
@@ -56,6 +59,7 @@ const GeneralInfo = () => {
         const { suportes } = response.data;
         setTiposSuporteRespiratorio(suportes);
       });
+      setLoading(false);
     })();
   }, []);
 
@@ -154,227 +158,231 @@ const GeneralInfo = () => {
                 </Button>
               </div>
 
-              <Grid
-                container
-                item
-                lg={8}
-                spacing={2}
-              >
-
-                {/* prontuario */}
+              {loading ? (<CircularProgress />) : (
                 <Grid
+                  container
                   item
-                  md={6}
-                  sm={12}
+                  lg={8}
+                  spacing={2}
                 >
-                  <FormGroup>
-                    <FormLabel>
-                      <Typography variant="h4">Número do prontuário</Typography>
-                    </FormLabel>
-                    <Field
-                      as={TextField}
-                      className={classes.textField}
-                      error={(errors.prontuario && touched.prontuario)}
-                      helperText={
-                        (errors.prontuario && touched.prontuario) ? errors.prontuario : null
-                      }
-                      label="Número do prontuário"
-                      name="prontuario"
-                      onChange={handleChange}
-                      type="number"
-                      value={values.prontuario}
-                      variant="outlined"
-                    />
-                  </FormGroup>
-                </Grid>
-
-                {/* data_internacao */}
-                <Grid
-                  item
-                  md={6}
-                  sm={12}
-                >
-                  <FormGroup>
-                    <FormLabel>
-                      <Typography variant="h4">Data de internação</Typography>
-                    </FormLabel>
-                    <Field
-                      as={TextField}
-                      className={classes.dateField}
-                      error={(errors.data_internacao && touched.data_internacao)}
-                      helperText={
-                        (errors.data_internacao && touched.data_internacao) ? errors.data_internacao : null
-                      }
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      label="Data de internação"
-                      name="data_internacao"
-                      onChange={handleChange}
-                      type="date"
-                      value={values.data_internacao}
-                    />
-                  </FormGroup>
-                </Grid>
-
-                {/* unidade_primeiro_atendimento */}
-                <Grid
-                  item
-                  xs={12}
-                >
-                  <FormGroup>
-                    <FormLabel>
-                      <Typography variant="h4">Nome do serviço / Unidade de Saúde onde o paciente recebeu o primeiro atendimento</Typography>
-                    </FormLabel>
-                    <Field
-                      as={TextField}
-                      className={classes.textField}
-                      label="Unidade de Saúde"
-                      name="unidade_primeiro_atendimento"
-                      onChange={handleChange}
-                      select
-                      value={values.unidade_primeiro_atendimento}
-                      variant="filled"
-                    >
-                      {instituicoes.map(({ id, nome }) => (
-                        <MenuItem
-                          key={id}
-                          value={id}
-                        >{nome}</MenuItem>
-                      ))}
-                    </Field>
-                  </FormGroup>
-                </Grid>
-
-                {/* unidade_de_saude */}
-                <Grid
-                  item
-                  xs={12}
-                >
-                  <FormGroup>
-                    <FormLabel>
-                      <Typography variant="h4">Nome do serviço / Unidade de Saúde que referenciou o paciente</Typography>
-                    </FormLabel>
-                    <Field
-                      as={TextField}
-                      className={classes.textField}
-                      label="Unidade de Saúde"
-                      name="unidade_de_saude"
-                      onChange={handleChange}
-                      select
-                      value={values.unidade_de_saude}
-                      variant="filled"
-                    >
-                      {instituicoes.map(({ id, nome }) => (
-                        <MenuItem
-                          key={id}
-                          value={id}
-                        >{nome}</MenuItem>
-                      ))}
-                    </Field>
-                  </FormGroup>
-                </Grid>
-
-                {/* data_atendimento */}
-                <Grid
-                  item
-                  xs={12}
-                >
-                  <FormGroup>
-                    <FormLabel>
-                      <Typography variant="h4">Data do atendimento na unidade que referenciou o paciente</Typography>
-                    </FormLabel>
-                    <Field
-                      as={TextField}
-                      className={classes.dateField}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      label="Data Atendimento"
-                      name="data_atendimento"
-                      onChange={handleChange}
-                      type="date"
-                      value={values.data_atendimento}
-                    />
-                  </FormGroup>
-                </Grid>
-
-                {/* suporte_respiratorio */}
-                <Grid
-                  item
-                  xs={12}
-                >
-                  <FormGroup>
-                    <Field
-                      as={FormControlLabel}
-                      control={
-                        <Switch
-                          checked={values.suporte_respiratorio}
-                          color="primary"
-                          name="suporte_respiratorio"
-                          onChange={handleChange}
-                        />
-                      }
-                      label={
-                        <Typography variant="h4">
-                          Paciente chegou com suporte respiratório?
-                        </Typography>
-                      }
-                      name="suporte_respiratorio"
-                    />
-                    {/* tipo_suport_respiratorio */}
-                    <FormControl component="fieldset">
-                      <FormLabel component="legend">
-                        Em caso afirmativo, qual o suporte respiratório?
+                  {/* prontuario */}
+                  <Grid
+                    item
+                    md={6}
+                    sm={12}
+                  >
+                    <FormGroup>
+                      <FormLabel>
+                        <Typography variant="h4">Número do prontuário</Typography>
                       </FormLabel>
                       <Field
                         as={TextField}
                         className={classes.textField}
-                        disabled={!values.suporte_respiratorio}
-                        label="Tipo suporte respiratorio"
-                        name="tipo_suport_respiratorio"
+                        error={(errors.prontuario && touched.prontuario)}
+                        helperText={
+                          (errors.prontuario && touched.prontuario) ? errors.prontuario : null
+                        }
+                        label="Número do prontuário"
+                        name="prontuario"
+                        onChange={handleChange}
+                        type="number"
+                        value={values.prontuario}
+                        variant="outlined"
+                      />
+                    </FormGroup>
+                  </Grid>
+
+                  {/* data_internacao */}
+                  <Grid
+                    item
+                    md={6}
+                    sm={12}
+                  >
+                    <FormGroup>
+                      <FormLabel>
+                        <Typography variant="h4">Data de internação</Typography>
+                      </FormLabel>
+                      <Field
+                        as={TextField}
+                        className={classes.dateField}
+                        error={(errors.data_internacao && touched.data_internacao)}
+                        helperText={
+                          (errors.data_internacao && touched.data_internacao) ? errors.data_internacao : null
+                        }
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                        label="Data de internação"
+                        name="data_internacao"
+                        onChange={handleChange}
+                        type="date"
+                        value={values.data_internacao}
+                      />
+                    </FormGroup>
+                  </Grid>
+
+                  {/* unidade_primeiro_atendimento */}
+                  <Grid
+                    item
+                    xs={12}
+                  >
+                    <FormGroup>
+                      <FormLabel>
+                        <Typography variant="h4">Nome do serviço / Unidade de Saúde onde o paciente recebeu o primeiro atendimento</Typography>
+                      </FormLabel>
+                      <Field
+                        as={TextField}
+                        className={classes.textField}
+                        label="Unidade de Saúde"
+                        name="unidade_primeiro_atendimento"
                         onChange={handleChange}
                         select
-                        value={values.tipo_suport_respiratorio}
+                        value={values.unidade_primeiro_atendimento}
                         variant="filled"
                       >
-                        {tiposSuporteRespiratorio.map(({ id, nome }) => (
+                        {instituicoes.map(({ id, nome }) => (
                           <MenuItem
                             key={id}
                             value={id}
                           >{nome}</MenuItem>
                         ))}
                       </Field>
-                    </FormControl>
-                  </FormGroup>
-                </Grid>
+                    </FormGroup>
+                  </Grid>
 
-                {/* reinternacao */}
-                <Grid
-                  item
-                  xs={12}
-                >
-                  <FormGroup>
-                    <Field
-                      as={FormControlLabel}
-                      control={
-                        <Switch
-                          checked={values.reinternacao}
-                          color="primary"
-                          name="reinternacao"
+                  {/* unidade_de_saude */}
+                  <Grid
+                    item
+                    xs={12}
+                  >
+                    <FormGroup>
+                      <FormLabel>
+                        <Typography variant="h4">Nome do serviço / Unidade de Saúde que referenciou o paciente</Typography>
+                      </FormLabel>
+                      <Field
+                        as={TextField}
+                        className={classes.textField}
+                        label="Unidade de Saúde"
+                        name="unidade_de_saude"
+                        onChange={handleChange}
+                        select
+                        value={values.unidade_de_saude}
+                        variant="filled"
+                      >
+                        {instituicoes.map(({ id, nome }) => (
+                          <MenuItem
+                            key={id}
+                            value={id}
+                          >{nome}</MenuItem>
+                        ))}
+                      </Field>
+                    </FormGroup>
+                  </Grid>
+
+                  {/* data_atendimento */}
+                  <Grid
+                    item
+                    xs={12}
+                  >
+                    <FormGroup>
+                      <FormLabel>
+                        <Typography variant="h4">Data do atendimento na unidade que referenciou o paciente</Typography>
+                      </FormLabel>
+                      <Field
+                        as={TextField}
+                        className={classes.dateField}
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                        label="Data Atendimento"
+                        name="data_atendimento"
+                        onChange={handleChange}
+                        type="date"
+                        value={values.data_atendimento}
+                      />
+                    </FormGroup>
+                  </Grid>
+
+                  {/* suporte_respiratorio */}
+                  <Grid
+                    item
+                    xs={12}
+                  >
+                    <FormGroup>
+                      <Field
+                        as={FormControlLabel}
+                        control={
+                          <Switch
+                            checked={values.suporte_respiratorio}
+                            color="primary"
+                            name="suporte_respiratorio"
+                            onChange={handleChange}
+                          />
+                        }
+                        label={
+                          <Typography variant="h4">
+                            Paciente chegou com suporte respiratório?
+                          </Typography>
+                        }
+                        name="suporte_respiratorio"
+                      />
+                      {/* tipo_suport_respiratorio */}
+                      <FormControl component="fieldset">
+                        <FormLabel component="legend">
+                          Em caso afirmativo, qual o suporte respiratório?
+                        </FormLabel>
+                        <Field
+                          as={TextField}
+                          className={classes.textField}
+                          disabled={!values.suporte_respiratorio}
+                          label="Tipo suporte respiratorio"
+                          name="tipo_suport_respiratorio"
                           onChange={handleChange}
-                        />
-                      }
-                      label={
-                        <Typography variant="h4">
-                          Reinternação?
-                        </Typography>
-                      }
-                      name="reinternacao"
-                    />
-                  </FormGroup>
+                          select
+                          value={values.tipo_suport_respiratorio}
+                          variant="filled"
+                        >
+                          {tiposSuporteRespiratorio.map(({ id, nome }) => (
+                            <MenuItem
+                              key={id}
+                              value={id}
+                            >{nome}</MenuItem>
+                          ))}
+                        </Field>
+                      </FormControl>
+                    </FormGroup>
+                  </Grid>
+
+                  {/* reinternacao */}
+                  <Grid
+                    item
+                    xs={12}
+                  >
+                    <FormGroup>
+                      <Field
+                        as={FormControlLabel}
+                        control={
+                          <Switch
+                            checked={values.reinternacao}
+                            color="primary"
+                            name="reinternacao"
+                            onChange={handleChange}
+                          />
+                        }
+                        label={
+                          <Typography variant="h4">
+                            Reinternação?
+                          </Typography>
+                        }
+                        name="reinternacao"
+                      />
+                    </FormGroup>
+                  </Grid>
                 </Grid>
-              </Grid>
+              )}
+
+
+
             </Form>
           )}
         </Formik>
