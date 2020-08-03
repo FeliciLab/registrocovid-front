@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import useStyles from './styles';
 import * as Yup from 'yup';
@@ -42,29 +42,36 @@ const GeneralInfo = () => {
   const history = useHistory();
   const classes = useStyles();
 
+  const [loading, setLoading] = useState(false);
   const [instituicoes, setInstituicoes] = useState([]);
   const [tiposSuporteRespiratorio, setTiposSuporteRespiratorio] = useState([]);
 
-  const [loading, setLoading] = useState(false);
-
-  // Carregando informações.
-  useEffect(() => {
-    (() => {
+  const handleInfos = useCallback(async () => {
+    try {
       setLoading(true);
-      api.get('/instituicoes').then(response => {
-        const { instituicoes: data } = response.data;
-        setInstituicoes(data);
+
+      const responseInstituicoes = await api.get('/instituicoes');
+      setInstituicoes(responseInstituicoes.data.instituicoes);
+
+      const responseSuportesRespiratorio = await api.get('/suportes/respiratorios');
+      setTiposSuporteRespiratorio(responseSuportesRespiratorio.data.suportes);
+    } catch {
+      addToast({
+        type: 'error',
+        message: 'Erro ao tentar carregar informações, tente novamente',
       });
-      api.get('/suportes/respiratorios').then(response => {
-        const { suportes } = response.data;
-        setTiposSuporteRespiratorio(suportes);
-      });
+
+      history.goBack();
+    } finally {
       setLoading(false);
-    })();
-  }, []);
+    }
+  }, [addToast, history]);
+
+  useEffect(() => {
+    handleInfos();
+  }, [handleInfos]);
 
   const handleSubmit = async (values) => {
-
     if (!values.prontuario && !values.data_internacao) {
       addToast({
         type: 'warning',
@@ -203,15 +210,15 @@ const GeneralInfo = () => {
                         <Typography variant="h4">Data de internação</Typography>
                       </FormLabel>
                       <Field
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
                         as={TextField}
                         className={classes.dateField}
                         error={(errors.data_internacao && touched.data_internacao)}
                         helperText={
                           (errors.data_internacao && touched.data_internacao) ? errors.data_internacao : null
                         }
-                        InputLabelProps={{
-                          shrink: true,
-                        }}
                         label="Data de internação"
                         name="data_internacao"
                         onChange={handleChange}
@@ -289,11 +296,11 @@ const GeneralInfo = () => {
                         <Typography variant="h4">Data do atendimento na unidade que referenciou o paciente</Typography>
                       </FormLabel>
                       <Field
-                        as={TextField}
-                        className={classes.dateField}
                         InputLabelProps={{
                           shrink: true,
                         }}
+                        as={TextField}
+                        className={classes.dateField}
                         label="Data Atendimento"
                         name="data_atendimento"
                         onChange={handleChange}
@@ -380,9 +387,6 @@ const GeneralInfo = () => {
                   </Grid>
                 </Grid>
               )}
-
-
-
             </Form>
           )}
         </Formik>
