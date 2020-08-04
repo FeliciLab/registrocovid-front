@@ -4,21 +4,26 @@ import useStyles from './styles';
 // import { useHistory } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import { FormControl, Typography } from '@material-ui/core';
+import { FormControl, Typography, Grid, FormGroup, FormLabel, TextField, Card } from '@material-ui/core';
 
 
 const schema = Yup.object().shape({
-  // prontuario: Yup.number()
-  //   .integer('Número de prontuário inválido')
-  //   .required('Campo obrigatório'),
-  // data_internacao: Yup.date()
-  //   .required('Campo obrigatório'),
-  // unidade_primeiro_atendimento: Yup.string(),
-  // unidade_de_saude: Yup.string(),
-  // data_atendimento: Yup.date(),
-  // suporte_respiratorio: Yup.boolean(),
-  // tipo_suport_respiratorio: Yup.string(),
-  // reinternacao: Yup.boolean(),
+  municipio_id: Yup.number(),
+  outro_municipio: Yup.string(),
+  bairro_id: Yup.number(),
+  outro_bairro: Yup.string(),
+  estado_id: Yup.number(),
+  telefone_de_casa: Yup.string(),
+  telefone_celular: Yup.string(),
+  telefone_do_trabalho: Yup.string(),
+  telefone_de_vizinho: Yup.string(),
+  sexo: Yup.string(),
+  data_nascimento: Yup.string(),
+  cor_id: Yup.number(),
+  estado_civil_id: Yup.number(),
+  escolaridade_id: Yup.number(),
+  atividade_profissional_id: Yup.number(),
+  qtd_pessoas_domicilio: Yup.number()
 });
 
 const PatientIdentification = () => {
@@ -45,14 +50,22 @@ const PatientIdentification = () => {
       <div className={classes.formWrapper}>
         <Formik
           initialValues={{
-            // prontuario: '',
-            // data_internacao: '',
-            // unidade_primeiro_atendimento: '',
-            // unidade_de_saude: '',
-            // data_atendimento: '',
-            // suporte_respiratorio: false,
-            // tipo_suport_respiratorio: '',
-            // reinternacao: false
+            municipio_id: '',
+            outro_municipio: '',
+            bairro_id: '',
+            outro_bairro: '',
+            estado_id: '',
+            telefone_de_casa: '',
+            telefone_celular: '',
+            telefone_do_trabalho: '',
+            telefone_de_vizinho: '',
+            sexo: '',
+            data_nascimento: '',
+            cor_id: '',
+            estado_civil_id: '',
+            escolaridade_id: '',
+            atividade_profissional_id: '',
+            qtd_pessoas_domicilio: ''
           }}
           onSubmit={handleSubmit}
           validateOnMount
@@ -63,6 +76,41 @@ const PatientIdentification = () => {
               <div className={classes.titleWrapper}>
                 <Typography variant="h1">Informações Gerais</Typography>
               </div>
+
+              <Grid
+                component={Card}
+                container
+                item
+                lg={8}
+                spacing={2}
+              >
+                {/* prontuario */}
+                <Grid
+                  item
+                  md={12}
+                  sm={12}
+                >
+                  <FormGroup>
+                    <FormLabel>
+                      <Typography variant="h4">Número do prontuário</Typography>
+                    </FormLabel>
+                    <Field
+                      as={TextField}
+                      className={classes.textField}
+                      error={(errors.prontuario && touched.prontuario)}
+                      helperText={
+                        (errors.prontuario && touched.prontuario) ? errors.prontuario : null
+                      }
+                      label="Número do prontuário"
+                      name="prontuario"
+                      onChange={handleChange}
+                      type="number"
+                      value={values.prontuario}
+                      variant="outlined"
+                    />
+                  </FormGroup>
+                </Grid>
+              </Grid>
             </Form>
           )}
         </Formik>
