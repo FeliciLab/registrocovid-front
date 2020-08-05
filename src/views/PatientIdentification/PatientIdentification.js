@@ -4,7 +4,7 @@ import useStyles from './styles';
 // import { useHistory } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import { FormControl, Typography, Grid, FormGroup, FormLabel, TextField, Card } from '@material-ui/core';
+import { FormControl, Typography, Grid, FormGroup, FormLabel, TextField, Card, MenuItem } from '@material-ui/core';
 
 
 const schema = Yup.object().shape({
@@ -31,6 +31,7 @@ const PatientIdentification = () => {
   // const history = useHistory();
   const classes = useStyles();
 
+  // TODO: action de submit
   const handleSubmit = async (values) => {
     return values;
   }
@@ -74,7 +75,7 @@ const PatientIdentification = () => {
           {({ values, touched, handleChange, errors, isSubmitting }) => (
             <Form component={FormControl}>
               <div className={classes.titleWrapper}>
-                <Typography variant="h1">Informações Gerais</Typography>
+                <Typography variant="h1">Identificação do paciente</Typography>
               </div>
 
               <Grid
@@ -84,7 +85,7 @@ const PatientIdentification = () => {
                 lg={8}
                 spacing={2}
               >
-                {/* prontuario */}
+                {/* municipio_id */}
                 <Grid
                   item
                   md={12}
@@ -92,24 +93,259 @@ const PatientIdentification = () => {
                 >
                   <FormGroup>
                     <FormLabel>
-                      <Typography variant="h4">Número do prontuário</Typography>
+                      <Typography variant="h4">Município de residência</Typography>
                     </FormLabel>
                     <Field
                       as={TextField}
                       className={classes.textField}
-                      error={(errors.prontuario && touched.prontuario)}
+                      error={(errors.municipio_id && touched.municipio_id)}
                       helperText={
-                        (errors.prontuario && touched.prontuario) ? errors.prontuario : null
+                        (errors.municipio_id && touched.municipio_id) ? errors.municipio_id : null
                       }
                       label="Número do prontuário"
-                      name="prontuario"
+                      name="municipio_id"
                       onChange={handleChange}
-                      type="number"
-                      value={values.prontuario}
+                      select
+                      type="text"
+                      value={values.municipio_id}
+                      variant="outlined"
+                    >
+                      <MenuItem value={1}>M1</MenuItem>
+                      <MenuItem value={2}>M2</MenuItem>
+                      <MenuItem value={3}>M3</MenuItem>
+                      <MenuItem value={4}>M4</MenuItem>
+                    </Field>
+                  </FormGroup>
+                </Grid>
+
+                {/* outro_municipio */}
+                <Grid
+                  item
+                  md={12}
+                  sm={12}
+                >
+                  <FormGroup>
+                    <FormLabel>
+                      <Typography variant="h4">Outro município</Typography>
+                    </FormLabel>
+                    <Field
+                      as={TextField}
+                      className={classes.textField}
+                      error={(errors.outro_municipio && touched.outro_municipio)}
+                      helperText={
+                        (errors.outro_municipio && touched.outro_municipio) ? errors.outro_municipio : null
+                      }
+                      label="Número do prontuário"
+                      name="outro_municipio"
+                      onChange={handleChange}
+                      type="text"
+                      value={values.outro_municipio}
                       variant="outlined"
                     />
                   </FormGroup>
                 </Grid>
+
+                {/* bairro_id */}
+                <Grid
+                  item
+                  md={12}
+                  sm={12}
+                >
+                  <FormGroup>
+                    <FormLabel>
+                      <Typography variant="h4">Bairro de residência</Typography>
+                    </FormLabel>
+                    <Field
+                      as={TextField}
+                      className={classes.textField}
+                      error={(errors.bairro_id && touched.bairro_id)}
+                      helperText={
+                        (errors.bairro_id && touched.bairro_id) ? errors.bairro_id : null
+                      }
+                      label="Número do prontuário"
+                      name="bairro_id"
+                      onChange={handleChange}
+                      select
+                      type="text"
+                      value={values.bairro_id}
+                      variant="outlined"
+                    >
+                      <MenuItem value={1}>B1</MenuItem>
+                      <MenuItem value={2}>B2</MenuItem>
+                      <MenuItem value={3}>B3</MenuItem>
+                      <MenuItem value={4}>B4</MenuItem>
+                    </Field>
+                  </FormGroup>
+                </Grid>
+
+                {/* outro_bairro */}
+                <Grid
+                  item
+                  md={12}
+                  sm={12}
+                >
+                  <FormGroup>
+                    <FormLabel>
+                      <Typography variant="h4">Outro bairro</Typography>
+                    </FormLabel>
+                    <Field
+                      as={TextField}
+                      className={classes.textField}
+                      error={(errors.outro_bairro && touched.outro_bairro)}
+                      helperText={
+                        (errors.outro_bairro && touched.outro_bairro) ? errors.outro_bairro : null
+                      }
+                      label="Número do prontuário"
+                      name="outro_bairro"
+                      onChange={handleChange}
+                      type="text"
+                      value={values.outro_bairro}
+                      variant="outlined"
+                    />
+                  </FormGroup>
+                </Grid>
+
+                {/* estado_id */}
+                <Grid
+                  item
+                  md={12}
+                  sm={12}
+                >
+                  <FormGroup>
+                    <FormLabel>
+                      <Typography variant="h4">Estado de residência</Typography>
+                    </FormLabel>
+                    <Field
+                      as={TextField}
+                      className={classes.textField}
+                      error={(errors.estado_id && touched.estado_id)}
+                      helperText={
+                        (errors.estado_id && touched.estado_id) ? errors.estado_id : null
+                      }
+                      label="Número do prontuário"
+                      name="estado_id"
+                      onChange={handleChange}
+                      select
+                      type="text"
+                      value={values.estado_id}
+                      variant="outlined"
+                    >
+                      <MenuItem value={1}>E1</MenuItem>
+                      <MenuItem value={2}>E2</MenuItem>
+                      <MenuItem value={3}>E3</MenuItem>
+                      <MenuItem value={4}>E4</MenuItem>
+                    </Field>
+                  </FormGroup>
+                </Grid>
+
+                {/* telefone_de_casa */}
+                <Grid
+                  item
+                  md={6}
+                  sm={12}
+                >
+                  <FormGroup>
+                    <FormLabel>
+                      <Typography variant="h4">Telefone de casa</Typography>
+                    </FormLabel>
+                    <Field
+                      as={TextField}
+                      className={classes.textField}
+                      error={(errors.telefone_de_casa && touched.telefone_de_casa)}
+                      helperText={
+                        (errors.telefone_de_casa && touched.telefone_de_casa) ? errors.telefone_de_casa : null
+                      }
+                      label="Número do prontuário"
+                      name="telefone_de_casa"
+                      onChange={handleChange}
+                      type="text"
+                      value={values.telefone_de_casa}
+                      variant="outlined"
+                    />
+                  </FormGroup>
+                </Grid>
+
+                {/* telefone_celular */}
+                <Grid
+                  item
+                  md={6}
+                  sm={12}
+                >
+                  <FormGroup>
+                    <FormLabel>
+                      <Typography variant="h4">Telefone celular</Typography>
+                    </FormLabel>
+                    <Field
+                      as={TextField}
+                      className={classes.textField}
+                      error={(errors.telefone_celular && touched.telefone_celular)}
+                      helperText={
+                        (errors.telefone_celular && touched.telefone_celular) ? errors.telefone_celular : null
+                      }
+                      label="Número do prontuário"
+                      name="telefone_celular"
+                      onChange={handleChange}
+                      type="text"
+                      value={values.telefone_celular}
+                      variant="outlined"
+                    />
+                  </FormGroup>
+                </Grid>
+
+                {/* telefone_do_trabalho */}
+                <Grid
+                  item
+                  md={6}
+                  sm={12}
+                >
+                  <FormGroup>
+                    <FormLabel>
+                      <Typography variant="h4">Telefone do trabalho</Typography>
+                    </FormLabel>
+                    <Field
+                      as={TextField}
+                      className={classes.textField}
+                      error={(errors.telefone_do_trabalho && touched.telefone_do_trabalho)}
+                      helperText={
+                        (errors.telefone_do_trabalho && touched.telefone_do_trabalho) ? errors.telefone_do_trabalho : null
+                      }
+                      label="Número do prontuário"
+                      name="telefone_do_trabalho"
+                      onChange={handleChange}
+                      type="text"
+                      value={values.telefone_do_trabalho}
+                      variant="outlined"
+                    />
+                  </FormGroup>
+                </Grid>
+
+                {/* telefone_de_vizinho */}
+                <Grid
+                  item
+                  md={6}
+                  sm={12}
+                >
+                  <FormGroup>
+                    <FormLabel>
+                      <Typography variant="h4">Telefone do vizinho</Typography>
+                    </FormLabel>
+                    <Field
+                      as={TextField}
+                      className={classes.textField}
+                      error={(errors.telefone_de_vizinho && touched.telefone_de_vizinho)}
+                      helperText={
+                        (errors.telefone_de_vizinho && touched.telefone_de_vizinho) ? errors.telefone_de_vizinho : null
+                      }
+                      label="Número do prontuário"
+                      name="telefone_de_vizinho"
+                      onChange={handleChange}
+                      type="text"
+                      value={values.telefone_de_vizinho}
+                      variant="outlined"
+                    />
+                  </FormGroup>
+                </Grid>
+
               </Grid>
             </Form>
           )}
