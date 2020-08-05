@@ -51,10 +51,10 @@ const GeneralInfo = () => {
       setLoading(true);
 
       const responseInstituicoes = await api.get('/instituicoes');
-      setInstituicoes(responseInstituicoes.data.instituicoes);
+      setInstituicoes(responseInstituicoes.data);
 
-      const responseSuportesRespiratorio = await api.get('/suportes/respiratorios');
-      setTiposSuporteRespiratorio(responseSuportesRespiratorio.data.suportes);
+      const responseSuportesRespiratorio = await api.get('/suportes-respiratorios');
+      setTiposSuporteRespiratorio(responseSuportesRespiratorio.data);
     } catch {
       addToast({
         type: 'error',
@@ -93,7 +93,7 @@ const GeneralInfo = () => {
     if (values.suporte_respiratorio) {
       patient = {
         ...patient,
-        tipo_suport_respiratorio_id: values.tipo_suport_respiratorio
+        tipos_suporte_respiratorio: [{ id: values.tipo_suport_respiratorio }]
       };
     }
 
@@ -210,15 +210,15 @@ const GeneralInfo = () => {
                         <Typography variant="h4">Data de internação</Typography>
                       </FormLabel>
                       <Field
-                        InputLabelProps={{
-                          shrink: true,
-                        }}
                         as={TextField}
                         className={classes.dateField}
                         error={(errors.data_internacao && touched.data_internacao)}
                         helperText={
                           (errors.data_internacao && touched.data_internacao) ? errors.data_internacao : null
                         }
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
                         label="Data de internação"
                         name="data_internacao"
                         onChange={handleChange}
@@ -296,11 +296,11 @@ const GeneralInfo = () => {
                         <Typography variant="h4">Data do atendimento na unidade que referenciou o paciente</Typography>
                       </FormLabel>
                       <Field
+                        as={TextField}
+                        className={classes.dateField}
                         InputLabelProps={{
                           shrink: true,
                         }}
-                        as={TextField}
-                        className={classes.dateField}
                         label="Data Atendimento"
                         name="data_atendimento"
                         onChange={handleChange}
