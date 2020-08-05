@@ -12,13 +12,8 @@ import PatientIdentification from 'views/PatientIdentification';
 
 const Routes = () => {
   return (
-
     <Switch>
-      <Redirect
-        exact
-        from="/"
-        to="/meus-pacientes"
-      />
+      <Redirect exact from="/" to="/meus-pacientes" />
       <RouteWithLayout
         component={SignInView}
         exact
@@ -37,7 +32,7 @@ const Routes = () => {
         exact
         isPrivate
         layout={MainLayout}
-        path="/cateorias/identificacao-paciente/:id"
+        path="/categorias/identificacao-paciente/:id"
       />
       <Redirect to="/not-found" />
     </Switch>
