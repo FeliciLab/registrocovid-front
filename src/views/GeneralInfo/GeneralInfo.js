@@ -22,6 +22,7 @@ import {
 
 import { useToast } from 'hooks/toast';
 import api from 'services/api';
+import formatDate from 'helpers/formatDate';
 
 const schema = Yup.object().shape({
   prontuario: Yup.number()
@@ -98,14 +99,19 @@ const GeneralInfo = () => {
     }
 
     try {
-      await api.post('/pacientes', patient);
+      const response = await api.post('/pacientes', patient);
+
+      const responsePatient = {
+        prontuario: response.data.paciente.prontuario,
+        created_at: formatDate(response.data.paciente.created_at)
+      };
 
       addToast({
         type: 'success',
         message: 'Dados salvos com sucesso'
       });
 
-      history.push('/categorias');
+      history.push('/categorias', responsePatient);
     } catch (err) {
       if (err.response.data?.prontuario) {
         addToast({

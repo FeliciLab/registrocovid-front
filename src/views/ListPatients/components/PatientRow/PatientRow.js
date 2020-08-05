@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
@@ -10,23 +11,21 @@ import {
 } from '@material-ui/core';
 
 const PatientRow = props => {
+  const { patient,...rest } = props;
+  const history = useHistory();
 
-  const {
-    patient: {
-      prontuario,
-      data_internacao,
-      created_at
-    },
-    ...rest
-  } = props;
-
-  // TODO: encontrar e colocar um icon para o caractere '#'.
+  const handleNavigate = (patient) => {
+    history.push('/categorias', patient);
+  };
 
   return (
-    <TableRow {...rest}>
-      <TableCell align="left"><strong>#</strong> {prontuario}</TableCell>
-      <TableCell align="left">{data_internacao}</TableCell>
-      <TableCell align="left">{created_at}</TableCell>
+    <TableRow
+      {...rest}
+      onClick={() => handleNavigate(patient)}
+    >
+      <TableCell align="left"><strong>#</strong> {patient.prontuario}</TableCell>
+      <TableCell align="left">{patient.data_internacao}</TableCell>
+      <TableCell align="left">{patient.created_at}</TableCell>
       <TableCell align="right">
         <Button color="inherit">
           <NavigateNextIcon fontSize="small" />
@@ -36,7 +35,6 @@ const PatientRow = props => {
   );
 }
 
-// id,prontuario,data_internacao,created_at
 PatientRow.propTypes = {
   className: PropTypes.string,
   patient: PropTypes.exact({

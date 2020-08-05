@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import useStyles from './styles';
 
@@ -10,10 +10,45 @@ import {
   Typography,
   Breadcrumbs,
   Link as MuiLink,
+  Button,
+  TableContainer,
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
+  Paper
 } from '@material-ui/core';
 
-const Categories = () => {
+import PatientInfo from 'components/PatientInfo';
+
+const Categories = (props) => {
   const classes = useStyles();
+
+  const { location: { state: patient } } = props;
+
+  const initialForm = useMemo(() => {
+    return [
+      { id: 1, label: 'Informações gerais' },
+      { id: 2, label: 'Identificação do paciente' },
+      { id: 3, label: 'História pessoal' },
+      { id: 4, label: 'Sintomas iniciais da COVID-19' },
+      { id: 5, label: 'Comorbidades / Condições clínicas da base' },
+    ];
+  }, []);
+
+  const secondaryForm = useMemo(() => {
+    return [
+      { id: 1, label: 'Exame físico (admissão e evolução diária)' },
+      { id: 2, label: 'Complicações relacionadas à ventilação mecânica' },
+      { id: 3, label: 'Exames laboratoriais exclusivos COVID 19' },
+      { id: 4, label: 'Exames complementares' },
+      { id: 5, label: 'Tratamento de Suporte' },
+      { id: 6, label: 'Complicações' },
+      { id: 7, label: 'Suporte respiratório' },
+      { id: 8, label: 'Infecções relacionadas à assistência à saúde (IRAS)' },
+      { id: 9, label: 'Desfecho' },
+    ];
+  }, []);
 
   return (
     <div className={classes.root}>
@@ -42,6 +77,77 @@ const Categories = () => {
       </div>
       <div className={classes.titleWrapper}>
         <Typography variant="h1">Categorias</Typography>
+
+        <PatientInfo patient={patient} />
+      </div>
+
+      <div>
+        <Typography variant="h4">Ficha Inicial</Typography>
+
+        <TableContainer
+          component={Paper}
+          elevation={2}
+          style={{ marginTop: 10 }}
+        >
+          <Table
+            size="small"
+          >
+            <TableBody>
+              {initialForm.map(form => (
+                <TableRow key={form.id}>
+                  <TableCell
+                    component="th"
+                    scope="row"
+                  >
+                    {form.label}
+                  </TableCell>
+                  <TableCell align="right">
+                    <Button color="inherit">
+                      <NavigateNextIcon fontSize="small" />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </div>
+
+      <div>
+        <Typography
+          style={{ marginTop: 24 }}
+          variant="h4"
+        >
+          Ficha de Prontuário
+        </Typography>
+
+        <TableContainer
+          component={Paper}
+          elevation={2}
+          style={{ marginTop: 10 }}
+        >
+          <Table
+            size="small"
+          >
+            <TableBody>
+              {secondaryForm.map(form => (
+                <TableRow key={form.id}>
+                  <TableCell
+                    component="th"
+                    scope="row"
+                  >
+                    {form.label}
+                  </TableCell>
+                  <TableCell align="right">
+                    <Button color="inherit">
+                      <NavigateNextIcon fontSize="small" />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </div>
     </div>
   );
