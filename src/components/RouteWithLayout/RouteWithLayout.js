@@ -16,13 +16,15 @@ const RouteWithLayout = props => {
   }
 
   return (
-    <Route {...rest} render={matchProps => {
-      return (
-        <Layout>
-          <Component {...matchProps} />
-        </Layout>
-      )
-    }}
+    <Route
+      {...rest}
+      render={matchProps => {
+        return (
+          <Layout>
+            <Component {...matchProps} />
+          </Layout>
+        )
+      }}
     />
   );
 };
