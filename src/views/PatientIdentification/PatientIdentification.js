@@ -30,6 +30,7 @@ const schema = Yup.object().shape({
   telefone_de_vizinho: Yup.string(),
   sexo: Yup.string(),
   data_nascimento: Yup.string(),
+  estado_nascimento_id: Yup.string(),
   cor_id: Yup.number(),
   estado_civil_id: Yup.number(),
   escolaridade_id: Yup.number(),
@@ -75,6 +76,7 @@ const PatientIdentification = () => {
             telefone_de_vizinho: '',
             sexo: '',
             data_nascimento: '',
+            estado_nascimento_id: '',
             cor_id: '',
             estado_civil_id: '',
             escolaridade_id: '',
@@ -83,16 +85,27 @@ const PatientIdentification = () => {
           }}
           onSubmit={handleSubmit}
           validateOnMount
-          validationSchema={schema}>
-          {({ values, touched, handleChange, errors, isSubmitting }) => (
+          validationSchema={schema}
+        >
+          {({ values, touched, handleChange, errors }) => (
             <Form component={FormControl}>
               <div className={classes.titleWrapper}>
                 <Typography variant="h1">Identificação do paciente</Typography>
               </div>
 
-              <Grid component={Card} container item lg={8} spacing={2}>
+              <Grid
+                component={Card}
+                container
+                item
+                lg={8}
+                spacing={2}
+              >
                 {/* municipio_id */}
-                <Grid item md={12} sm={12}>
+                <Grid
+                  item
+                  md={12}
+                  sm={12}
+                >
                   <FormGroup>
                     <FormLabel>
                       <Typography variant="h4">
@@ -108,13 +121,14 @@ const PatientIdentification = () => {
                           ? errors.municipio_id
                           : null
                       }
-                      label="Número do prontuário"
+                      label="Município"
                       name="municipio_id"
                       onChange={handleChange}
                       select
                       type="text"
                       value={values.municipio_id}
-                      variant="outlined">
+                      variant="outlined"
+                    >
                       <MenuItem value={1}>M1</MenuItem>
                       <MenuItem value={2}>M2</MenuItem>
                       <MenuItem value={3}>M3</MenuItem>
@@ -124,7 +138,11 @@ const PatientIdentification = () => {
                 </Grid>
 
                 {/* outro_municipio */}
-                <Grid item md={12} sm={12}>
+                <Grid
+                  item
+                  md={12}
+                  sm={12}
+                >
                   <FormGroup>
                     <FormLabel>
                       <Typography variant="h4">Outro município</Typography>
@@ -138,7 +156,7 @@ const PatientIdentification = () => {
                           ? errors.outro_municipio
                           : null
                       }
-                      label="Número do prontuário"
+                      label="Outro município"
                       name="outro_municipio"
                       onChange={handleChange}
                       type="text"
@@ -149,7 +167,11 @@ const PatientIdentification = () => {
                 </Grid>
 
                 {/* bairro_id */}
-                <Grid item md={12} sm={12}>
+                <Grid
+                  item
+                  md={12}
+                  sm={12}
+                >
                   <FormGroup>
                     <FormLabel>
                       <Typography variant="h4">Bairro de residência</Typography>
@@ -163,13 +185,14 @@ const PatientIdentification = () => {
                           ? errors.bairro_id
                           : null
                       }
-                      label="Número do prontuário"
+                      label="Bairro de residência"
                       name="bairro_id"
                       onChange={handleChange}
                       select
                       type="text"
                       value={values.bairro_id}
-                      variant="outlined">
+                      variant="outlined"
+                    >
                       <MenuItem value={1}>B1</MenuItem>
                       <MenuItem value={2}>B2</MenuItem>
                       <MenuItem value={3}>B3</MenuItem>
@@ -179,7 +202,11 @@ const PatientIdentification = () => {
                 </Grid>
 
                 {/* outro_bairro */}
-                <Grid item md={12} sm={12}>
+                <Grid
+                  item
+                  md={12}
+                  sm={12}
+                >
                   <FormGroup>
                     <FormLabel>
                       <Typography variant="h4">Outro bairro</Typography>
@@ -193,7 +220,7 @@ const PatientIdentification = () => {
                           ? errors.outro_bairro
                           : null
                       }
-                      label="Número do prontuário"
+                      label="Outro bairro"
                       name="outro_bairro"
                       onChange={handleChange}
                       type="text"
@@ -204,7 +231,11 @@ const PatientIdentification = () => {
                 </Grid>
 
                 {/* estado_id */}
-                <Grid item md={12} sm={12}>
+                <Grid
+                  item
+                  md={12}
+                  sm={12}
+                >
                   <FormGroup>
                     <FormLabel>
                       <Typography variant="h4">Estado de residência</Typography>
@@ -218,13 +249,14 @@ const PatientIdentification = () => {
                           ? errors.estado_id
                           : null
                       }
-                      label="Número do prontuário"
+                      label="Estado de residência"
                       name="estado_id"
                       onChange={handleChange}
                       select
                       type="text"
                       value={values.estado_id}
-                      variant="outlined">
+                      variant="outlined"
+                    >
                       <MenuItem value={1}>E1</MenuItem>
                       <MenuItem value={2}>E2</MenuItem>
                       <MenuItem value={3}>E3</MenuItem>
@@ -234,7 +266,11 @@ const PatientIdentification = () => {
                 </Grid>
 
                 {/* telefone_de_casa */}
-                <Grid item md={6} sm={12}>
+                <Grid
+                  item
+                  md={6}
+                  sm={12}
+                >
                   <FormGroup>
                     <FormLabel>
                       <Typography variant="h4">Telefone de casa</Typography>
@@ -250,7 +286,7 @@ const PatientIdentification = () => {
                           ? errors.telefone_de_casa
                           : null
                       }
-                      label="Número do prontuário"
+                      label="Telefone de casa"
                       name="telefone_de_casa"
                       onChange={handleChange}
                       type="text"
@@ -261,7 +297,11 @@ const PatientIdentification = () => {
                 </Grid>
 
                 {/* telefone_celular */}
-                <Grid item md={6} sm={12}>
+                <Grid
+                  item
+                  md={6}
+                  sm={12}
+                >
                   <FormGroup>
                     <FormLabel>
                       <Typography variant="h4">Telefone celular</Typography>
@@ -277,7 +317,7 @@ const PatientIdentification = () => {
                           ? errors.telefone_celular
                           : null
                       }
-                      label="Número do prontuário"
+                      label="Telefone celular"
                       name="telefone_celular"
                       onChange={handleChange}
                       type="text"
@@ -288,7 +328,11 @@ const PatientIdentification = () => {
                 </Grid>
 
                 {/* telefone_do_trabalho */}
-                <Grid item md={6} sm={12}>
+                <Grid
+                  item
+                  md={6}
+                  sm={12}
+                >
                   <FormGroup>
                     <FormLabel>
                       <Typography variant="h4">Telefone do trabalho</Typography>
@@ -302,11 +346,11 @@ const PatientIdentification = () => {
                       }
                       helperText={
                         errors.telefone_do_trabalho &&
-                        touched.telefone_do_trabalho
+                          touched.telefone_do_trabalho
                           ? errors.telefone_do_trabalho
                           : null
                       }
-                      label="Número do prontuário"
+                      label="Telefone do trabalho"
                       name="telefone_do_trabalho"
                       onChange={handleChange}
                       type="text"
@@ -317,7 +361,11 @@ const PatientIdentification = () => {
                 </Grid>
 
                 {/* telefone_de_vizinho */}
-                <Grid item md={6} sm={12}>
+                <Grid
+                  item
+                  md={6}
+                  sm={12}
+                >
                   <FormGroup>
                     <FormLabel>
                       <Typography variant="h4">Telefone do vizinho</Typography>
@@ -331,11 +379,11 @@ const PatientIdentification = () => {
                       }
                       helperText={
                         errors.telefone_de_vizinho &&
-                        touched.telefone_de_vizinho
+                          touched.telefone_de_vizinho
                           ? errors.telefone_de_vizinho
                           : null
                       }
-                      label="Número do prontuário"
+                      label="Telefone do vizinho"
                       name="telefone_de_vizinho"
                       onChange={handleChange}
                       type="text"
@@ -346,7 +394,11 @@ const PatientIdentification = () => {
                 </Grid>
 
                 {/* sexo */}
-                <Grid item md={12} sm={12}>
+                <Grid
+                  item
+                  md={12}
+                  sm={12}
+                >
                   <FormGroup>
                     <FormLabel>
                       <Typography variant="h4">Sexo</Typography>
@@ -364,7 +416,8 @@ const PatientIdentification = () => {
                       select
                       type="text"
                       value={values.sexo}
-                      variant="outlined">
+                      variant="outlined"
+                    >
                       <MenuItem value={'F'}>Feminino</MenuItem>
                       <MenuItem value={'M'}>Masculino</MenuItem>
                     </Field>
@@ -372,7 +425,11 @@ const PatientIdentification = () => {
                 </Grid>
 
                 {/* data_nascimento */}
-                <Grid item md={6} sm={12}>
+                <Grid
+                  item
+                  md={6}
+                  sm={12}
+                >
                   <FormGroup>
                     <FormLabel>
                       <Typography variant="h4">Data de nascimento</Typography>
@@ -398,8 +455,12 @@ const PatientIdentification = () => {
                   </FormGroup>
                 </Grid>
 
-                {/* estado_id */}
-                <Grid item md={6} sm={12}>
+                {/* estado_nascimento_id */}
+                <Grid
+                  item
+                  md={6}
+                  sm={12}
+                >
                   <FormGroup>
                     <FormLabel>
                       <Typography variant="h4">Estado onde nasceu</Typography>
@@ -407,19 +468,20 @@ const PatientIdentification = () => {
                     <Field
                       as={TextField}
                       className={classes.textField}
-                      error={errors.estado_id && touched.estado_id}
+                      error={errors.estado_nascimento_id && touched.estado_nascimento_id}
                       helperText={
-                        errors.estado_id && touched.estado_id
-                          ? errors.estado_id
+                        errors.estado_nascimento_id && touched.estado_nascimento_id
+                          ? errors.estado_nascimento_id
                           : null
                       }
-                      label="Estado"
-                      name="estado_id"
+                      label="Estado onde nasceu"
+                      name="estado_nascimento_id"
                       onChange={handleChange}
                       select
                       type="text"
-                      value={values.estado_id}
-                      variant="outlined">
+                      value={values.estado_nascimento_id}
+                      variant="outlined"
+                    >
                       <MenuItem value={1}>Ceará</MenuItem>
                       <MenuItem value={2}>São Paulo</MenuItem>
                       <MenuItem value={3}>Paraná</MenuItem>
@@ -427,8 +489,12 @@ const PatientIdentification = () => {
                   </FormGroup>
                 </Grid>
 
-                {/* cor */}
-                <Grid item md={6} sm={12}>
+                {/* cor_id */}
+                <Grid
+                  item
+                  md={6}
+                  sm={12}
+                >
                   <FormGroup>
                     <FormLabel>
                       <Typography variant="h4">Cor (autoreferida)</Typography>
@@ -436,23 +502,184 @@ const PatientIdentification = () => {
                     <Field
                       as={RadioGroup}
                       className={classes.radioGroup}
-                      label="Cor"
                       name="cor_id"
+                      onChange={handleChange}
                       value={values.cor_id}
-                      onChange={handleChange}>
+                    >
                       <FormControlLabel
-                        value={1}
                         control={<Radio />}
                         label="Amarelo"
+                        value="1"
                       />
                       <FormControlLabel
-                        value={2}
                         control={<Radio />}
                         label="Laranja"
+                        value="2"
                       />
                     </Field>
                   </FormGroup>
                 </Grid>
+
+                {/* estado_civil_id */}
+                <Grid
+                  item
+                  md={6}
+                  sm={12}
+                >
+                  <FormGroup>
+                    <FormLabel>
+                      <Typography variant="h4">Estado civil</Typography>
+                    </FormLabel>
+                    <Field
+                      as={RadioGroup}
+                      className={classes.radioGroup}
+                      name="estado_civil_id"
+                      onChange={handleChange}
+                      value={values.estado_civil_id}
+                    >
+                      <FormControlLabel
+                        control={<Radio />}
+                        label="Amarelo"
+                        value="1"
+                      />
+                      <FormControlLabel
+                        control={<Radio />}
+                        label="Laranja"
+                        value="2"
+                      />
+                    </Field>
+                  </FormGroup>
+                </Grid>
+
+                {/* escolaridade_id */}
+                <Grid
+                  item
+                  md={6}
+                  sm={12}
+                >
+                  <FormGroup>
+                    <FormLabel>
+                      <Typography variant="h4">Escolaridade</Typography>
+                    </FormLabel>
+                    <Field
+                      as={RadioGroup}
+                      className={classes.radioGroup}
+                      name="escolaridade_id"
+                      onChange={handleChange}
+                      value={values.escolaridade_id}
+                    >
+                      <FormControlLabel
+                        control={<Radio />}
+                        label="Analfabeto"
+                        value="1"
+                      />
+                      <FormControlLabel
+                        control={<Radio />}
+                        label="Ensino fundamental incompleto (1ºG)"
+                        value="2"
+                      />
+                      <FormControlLabel
+                        control={<Radio />}
+                        label="Ensino fundamental completo"
+                        value="3"
+                      />
+                      <FormControlLabel
+                        control={<Radio />}
+                        label="Ensino médio incompleto(2ºG)"
+                        value="4"
+                      />
+                      <FormControlLabel
+                        control={<Radio />}
+                        label="Ensino superior incompleto"
+                        value="5"
+                      />
+                      <FormControlLabel
+                        control={<Radio />}
+                        label="Pós-graduação"
+                        value="6"
+                      />
+                    </Field>
+                  </FormGroup>
+                </Grid>
+
+                {/* atividade_profissional_id */}
+                <Grid
+                  item
+                  md={6}
+                  sm={12}
+                >
+                  <FormGroup>
+                    <FormLabel>
+                      <Typography variant="h4">Atividade profissional principal nos últimos 12 meses? (Ocupação principal)</Typography>
+                    </FormLabel>
+                    <Field
+                      as={RadioGroup}
+                      className={classes.radioGroup}
+                      name="atividade_profissional_id"
+                      onChange={handleChange}
+                      value={values.atividade_profissional_id}
+                    >
+                      <FormControlLabel
+                        control={<Radio />}
+                        label="Desempregado"
+                        value="1"
+                      />
+                      <FormControlLabel
+                        control={<Radio />}
+                        label="Empregado"
+                        value="2"
+                      />
+                    </Field>
+                  </FormGroup>
+                </Grid>
+
+                {/* qtd_pessoas_domicilio */}
+                <Grid
+                  item
+                  md={12}
+                  sm={12}
+                >
+                  <FormGroup>
+                    <FormLabel>
+                      <Typography variant="h4">Quantas pessoas residem no mesmo domicílio?</Typography>
+                    </FormLabel>
+                    <Field
+                      as={RadioGroup}
+                      className={classes.radioGroup}
+                      name="atividade_profissional_id"
+                      onChange={handleChange}
+                      row
+                      value={values.atividade_profissional_id}
+                    >
+                      <FormControlLabel
+                        control={<Radio />}
+                        label="1"
+                        value="1"
+                      />
+                      <FormControlLabel
+                        control={<Radio />}
+                        label="2"
+                        value="2"
+                      />
+                      <FormControlLabel
+                        control={<Radio />}
+                        label="3"
+                        value="3"
+                      />
+                      <FormControlLabel
+                        control={<Radio />}
+                        label="4"
+                        value="4"
+                      />
+                      <FormControlLabel
+                        control={<Radio />}
+                        label="5 ou mais"
+                        value="5"
+                      />
+                    </Field>
+                  </FormGroup>
+                </Grid>
+
               </Grid>
             </Form>
           )}

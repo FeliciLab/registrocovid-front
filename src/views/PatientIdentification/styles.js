@@ -29,6 +29,9 @@ const useStyles = makeStyles(theme => ({
   dateField: {
     marginTop: theme.spacing(1),
   },
+  radioGroup: {
+    marginTop: theme.spacing(1),
+  }
 }));
 
 export default useStyles;
