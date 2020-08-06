@@ -25,7 +25,8 @@ import api from 'services/api';
 
 const schema = Yup.object().shape({
   prontuario: Yup.number()
-    .integer('Número de prontuário inválido')
+    .integer('Número de prontuário inválido (apenas números inteiros)')
+    .min(1, 'Número de prontuário deve ser maior que 0 (zero)')
     .required('Campo obrigatório'),
   data_internacao: Yup.date()
     .required('Campo obrigatório'),
@@ -107,10 +108,10 @@ const GeneralInfo = () => {
 
       history.push('/categorias');
     } catch (err) {
-      if (err.response.data?.prontuario) {
+      if (err.response.data.message === 'The given data was invalid.') {
         addToast({
           type: 'info',
-          message: 'Paciente já cadastrado',
+          message: `Número de prontuário ${values.prontuario} já está cadastrado`,
         });
       } else {
         addToast({

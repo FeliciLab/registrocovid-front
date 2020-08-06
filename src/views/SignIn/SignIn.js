@@ -28,7 +28,7 @@ const schema = Yup.object().shape({
     .required('Campo obrigatório')
 });
 
-const SignIn = props => {
+const SignIn = () => {
   // const { history } = props;
 
   const classes = useStyles();
@@ -98,6 +98,13 @@ const SignIn = props => {
                       variant="outlined"
                     />
                     <Field
+                      as={TextField}
+                      className={classes.textField}
+                      error={(errors.password && touched.password)}
+                      fullWidth
+                      helperText={
+                        (errors.password && touched.password) ? errors.password : null
+                      }
                       InputProps={{
                         endAdornment: (
                           <InputAdornment position="end">
@@ -111,13 +118,6 @@ const SignIn = props => {
                           </InputAdornment>
                         ),
                       }}
-                      as={TextField}
-                      className={classes.textField}
-                      error={(errors.password && touched.password)}
-                      fullWidth
-                      helperText={
-                        (errors.password && touched.password) ? errors.password : null
-                      }
                       label="Password"
                       name="password"
                       onChange={handleChange}
