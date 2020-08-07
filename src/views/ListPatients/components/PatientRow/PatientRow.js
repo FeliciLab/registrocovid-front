@@ -10,12 +10,17 @@ import {
   Button
 } from '@material-ui/core';
 
+import { usePatient } from 'context/PatientContext';
+
 const PatientRow = props => {
   const { patient,...rest } = props;
+  const { setPatient} = usePatient();
+
   const history = useHistory();
 
   const handleNavigate = (patient) => {
-    history.push('/categorias', patient);
+    setPatient(patient);
+    history.push('/categorias');
   };
 
   return (

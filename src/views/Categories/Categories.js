@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import useStyles from './styles';
 
 // Icons
@@ -22,13 +22,14 @@ import {
 import PatientInfo from 'components/PatientInfo';
 
 const Categories = (props) => {
+  const history = useHistory();
   const classes = useStyles();
 
   const { location: { state: patient } } = props;
 
   const initialForm = useMemo(() => {
     return [
-      { id: 1, label: 'Informações gerais' },
+      { id: 1, label: 'Informações gerais', url: 'categorias/informacoes-gerais' },
       { id: 2, label: 'Identificação do paciente' },
       { id: 3, label: 'História pessoal' },
       { id: 4, label: 'Sintomas iniciais da COVID-19' },
@@ -49,6 +50,10 @@ const Categories = (props) => {
       { id: 9, label: 'Desfecho' },
     ];
   }, []);
+
+  const handleNavigate = (url) => {
+    history.push(url);
+  };
 
   return (
     <div className={classes.root}>
@@ -94,7 +99,10 @@ const Categories = (props) => {
           >
             <TableBody>
               {initialForm.map(form => (
-                <TableRow key={form.id}>
+                <TableRow
+                  key={form.id}
+                  onClick={() => handleNavigate(form.url)}
+                >
                   <TableCell
                     component="th"
                     scope="row"

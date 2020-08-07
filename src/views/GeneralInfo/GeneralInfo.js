@@ -21,6 +21,7 @@ import {
 } from '@material-ui/core';
 
 import { useToast } from 'hooks/toast';
+import { usePatient } from 'context/PatientContext';
 import api from 'services/api';
 import formatDate from 'helpers/formatDate';
 
@@ -40,6 +41,7 @@ const schema = Yup.object().shape({
 
 const GeneralInfo = () => {
   const { addToast } = useToast();
+  const { setPatient } = usePatient();
   const history = useHistory();
   const classes = useStyles();
 
@@ -52,10 +54,10 @@ const GeneralInfo = () => {
       setLoading(true);
 
       const responseInstituicoes = await api.get('/instituicoes');
-      setInstituicoes(responseInstituicoes.data.instituicoes);
+      setInstituicoes(responseInstituicoes.data);
 
-      const responseSuportesRespiratorio = await api.get('/suportes/respiratorios');
-      setTiposSuporteRespiratorio(responseSuportesRespiratorio.data.suportes);
+      const responseSuportesRespiratorio = await api.get('/suportes-respiratorios');
+      setTiposSuporteRespiratorio(responseSuportesRespiratorio.data);
     } catch {
       addToast({
         type: 'error',
@@ -111,7 +113,8 @@ const GeneralInfo = () => {
         message: 'Dados salvos com sucesso'
       });
 
-      history.push('/categorias', responsePatient);
+      setPatient(responsePatient);
+      history.push('/categorias');
     } catch (err) {
       if (err.response.data?.prontuario) {
         addToast({
