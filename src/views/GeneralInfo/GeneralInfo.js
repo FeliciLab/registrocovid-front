@@ -41,7 +41,7 @@ const schema = Yup.object().shape({
 
 const GeneralInfo = () => {
   const { addToast } = useToast();
-  const { setPatient } = usePatient();
+  const { addPatient } = usePatient();
   const history = useHistory();
   const classes = useStyles();
 
@@ -104,6 +104,7 @@ const GeneralInfo = () => {
       const response = await api.post('/pacientes', patient);
 
       const responsePatient = {
+        id: response.data.paciente.id,
         prontuario: response.data.paciente.prontuario,
         created_at: formatDate(response.data.paciente.created_at)
       };
@@ -113,7 +114,7 @@ const GeneralInfo = () => {
         message: 'Dados salvos com sucesso'
       });
 
-      setPatient(responsePatient);
+      addPatient(responsePatient);
       history.push('/categorias');
     } catch (err) {
       if (err.response.data?.prontuario) {

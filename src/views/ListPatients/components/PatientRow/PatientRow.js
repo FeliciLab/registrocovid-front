@@ -14,12 +14,12 @@ import { usePatient } from 'context/PatientContext';
 
 const PatientRow = props => {
   const { patient,...rest } = props;
-  const { setPatient} = usePatient();
+  const { addPatient } = usePatient();
 
   const history = useHistory();
 
   const handleNavigate = (patient) => {
-    setPatient(patient);
+    addPatient(patient);
     history.push('/categorias');
   };
 
