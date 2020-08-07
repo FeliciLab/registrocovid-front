@@ -17,6 +17,7 @@ import {
   FormControlLabel,
   Radio,
 } from '@material-ui/core';
+import { TextMaskPhone } from 'components';
 
 const schema = Yup.object().shape({
   municipio_id: Yup.number(),
@@ -286,6 +287,9 @@ const PatientIdentification = () => {
                           ? errors.telefone_de_casa
                           : null
                       }
+                      InputProps={{
+                        inputComponent: TextMaskPhone
+                      }}
                       label="Telefone de casa"
                       name="telefone_de_casa"
                       onChange={handleChange}
@@ -317,6 +321,9 @@ const PatientIdentification = () => {
                           ? errors.telefone_celular
                           : null
                       }
+                      InputProps={{
+                        inputComponent: TextMaskPhone
+                      }}
                       label="Telefone celular"
                       name="telefone_celular"
                       onChange={handleChange}
@@ -350,6 +357,9 @@ const PatientIdentification = () => {
                           ? errors.telefone_do_trabalho
                           : null
                       }
+                      InputProps={{
+                        inputComponent: TextMaskPhone
+                      }}
                       label="Telefone do trabalho"
                       name="telefone_do_trabalho"
                       onChange={handleChange}
@@ -383,6 +393,9 @@ const PatientIdentification = () => {
                           ? errors.telefone_de_vizinho
                           : null
                       }
+                      InputProps={{
+                        inputComponent: TextMaskPhone
+                      }}
                       label="Telefone do vizinho"
                       name="telefone_de_vizinho"
                       onChange={handleChange}
