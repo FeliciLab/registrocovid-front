@@ -16,6 +16,8 @@ import {
   RadioGroup,
   FormControlLabel,
   Radio,
+  Button,
+  Paper,
 } from '@material-ui/core';
 import { TextMaskPhone } from 'components';
 
@@ -88,10 +90,41 @@ const PatientIdentification = () => {
           validateOnMount
           validationSchema={schema}
         >
-          {({ values, touched, handleChange, errors }) => (
+          {({ values, touched, handleChange, isSubmitting, errors }) => (
             <Form component={FormControl}>
               <div className={classes.titleWrapper}>
                 <Typography variant="h1">Identificação do paciente</Typography>
+
+                <Grid
+                  className={classes.actionSection}
+
+                  item
+                  spacing={2}
+                >
+                  <Paper
+                    className={classes.paperDataCadastro}
+                    variant="outlined"
+                  >
+                    <Typography variant="overline">Data cadastro</Typography>
+                    <Typography>21/07/2020</Typography>
+                  </Paper>
+                  <Paper
+                    className={classes.paperNumProntuario}
+                    variant="outlined"
+                  >
+                    <Typography variant="overline">Número de prontuário:</Typography>
+                    <Typography>11111111</Typography>
+                  </Paper>
+                  <Button
+                    className={classes.buttonSave}
+                    color="secondary"
+                    disable={isSubmitting}
+                    type="submit"
+                    variant="contained"
+                  >
+                    Salvar
+                  </Button>
+                </Grid>
               </div>
 
               <Grid

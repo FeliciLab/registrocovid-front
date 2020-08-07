@@ -18,10 +18,33 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  actionSection: {
+    display: 'flex',
+  },
+  paperDataCadastro: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    padding: theme.spacing(1),
+    marginRight: theme.spacing(1),
+  },
+  paperNumProntuario: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    padding: theme.spacing(1),
+    marginRight: theme.spacing(1),
+  },
   formWrapper: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'left',
+  },
+  buttonSave: {
+    width: '258px',
+    // height: '48px',
   },
   textField: {
     marginTop: theme.spacing(1),
