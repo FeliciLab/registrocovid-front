@@ -9,24 +9,28 @@ import {
   Button
 } from '@material-ui/core';
 
+import { usePatient } from 'context/PatientContext';
+import { useHistory } from 'react-router-dom';
+
 const PatientRow = props => {
 
-  const {
-    patient: {
-      prontuario,
-      data_internacao,
-      created_at
-    },
-    ...rest
-  } = props;
+  const { patient, ...rest } = props;
+  const { setPatient } = usePatient();
 
-  // TODO: encontrar e colocar um icon para o caractere '#'.
+  const history = useHistory();
 
+  const handleNavigate = (patient) => {
+    setPatient(patient);
+    history.push('/categorias/identificacao-paciente/');
+  };
   return (
-    <TableRow {...rest}>
-      <TableCell align="left"><strong>#</strong> {prontuario}</TableCell>
-      <TableCell align="left">{data_internacao}</TableCell>
-      <TableCell align="left">{created_at}</TableCell>
+    <TableRow
+      {...rest}
+      onClick={() => handleNavigate(patient)}
+    >
+      <TableCell align="left"><strong>#</strong> {patient.prontuario}</TableCell>
+      <TableCell align="left">{patient.data_internacao}</TableCell>
+      <TableCell align="left">{patient.created_at}</TableCell>
       <TableCell align="right">
         <Button color="inherit">
           <NavigateNextIcon fontSize="small" />

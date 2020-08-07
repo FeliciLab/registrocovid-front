@@ -14,8 +14,7 @@ import Routes from './Routes';
 import history from './history';
 
 import { AuthProvider } from './context/AuthContext';
-
-// const browserHistory = createBrowserHistory();
+import { PatientProvider } from './context/PatientContext';
 
 Chart.helpers.extend(Chart.elements.Rectangle.prototype, {
   draw: chartjs.draw
@@ -31,9 +30,11 @@ export default class App extends Component {
     return (
       <ThemeProvider theme={theme}>
         <AuthProvider>
-          <Router history={history}>
-            <Routes />
-          </Router>
+          <PatientProvider>
+            <Router history={history}>
+              <Routes />
+            </Router>
+          </PatientProvider>
         </AuthProvider>
       </ThemeProvider>
     );

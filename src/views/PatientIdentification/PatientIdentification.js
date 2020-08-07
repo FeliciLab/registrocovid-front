@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import CustonBreadcrumbs from 'components/CustonBreadcrumbs';
 import useStyles from './styles';
 // import { useHistory } from 'react-router-dom';
@@ -17,9 +17,11 @@ import {
   FormControlLabel,
   Radio,
   Button,
-  Paper,
 } from '@material-ui/core';
 import { TextMaskPhone } from 'components';
+import PatientInfo from 'components/PatientInfo';
+import api from 'services/api';
+import { useParams } from 'react-router-dom';
 
 const schema = Yup.object().shape({
   municipio_id: Yup.number(),
@@ -41,9 +43,21 @@ const schema = Yup.object().shape({
   qtd_pessoas_domicilio: Yup.number(),
 });
 
-const PatientIdentification = () => {
+const PatientIdentification = (props) => {
   // const history = useHistory();
   const classes = useStyles();
+
+  const [patient, setPatient] = useState({});
+
+  const { id } = useParams();
+
+  useEffect(() => {
+    (async () => {
+      const response = await api.get(`/pacientes/${id}/identificacao`);
+      console.log(response.data);
+      setPatient(response.data);
+    })();
+  }, []);
 
   // TODO: action de submit
   const handleSubmit = async values => {
@@ -77,7 +91,7 @@ const PatientIdentification = () => {
             telefone_celular: '',
             telefone_do_trabalho: '',
             telefone_de_vizinho: '',
-            sexo: '',
+            sexo: patient.sexo,
             data_nascimento: '',
             estado_nascimento_id: '',
             cor_id: '',
@@ -97,24 +111,11 @@ const PatientIdentification = () => {
 
                 <Grid
                   className={classes.actionSection}
-
                   item
                   spacing={2}
                 >
-                  <Paper
-                    className={classes.paperDataCadastro}
-                    variant="outlined"
-                  >
-                    <Typography variant="overline">Data cadastro</Typography>
-                    <Typography>21/07/2020</Typography>
-                  </Paper>
-                  <Paper
-                    className={classes.paperNumProntuario}
-                    variant="outlined"
-                  >
-                    <Typography variant="overline">Número de prontuário:</Typography>
-                    <Typography>11111111</Typography>
-                  </Paper>
+                  {/* patient */}
+                  <PatientInfo patient={patient} />
                   <Button
                     className={classes.buttonSave}
                     color="secondary"
