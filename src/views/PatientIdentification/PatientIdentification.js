@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import CustonBreadcrumbs from 'components/CustonBreadcrumbs';
 import useStyles from './styles';
-// import { useHistory } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import {
@@ -43,21 +42,82 @@ const schema = Yup.object().shape({
   qtd_pessoas_domicilio: Yup.number(),
 });
 
-const PatientIdentification = (props) => {
+const PatientIdentification = () => {
   // const history = useHistory();
   const classes = useStyles();
 
-  const [patient, setPatient] = useState({});
-
   const { id } = useParams();
 
+  const [patient, setPatient] = useState({});
+
+  // const [municipios, setMunicipios] = useState([]);
+
+  // useEffect(() => {
+  //   (async () => {
+  //     const response = await api.get('/municipios');
+  //     console.log(response.data)
+  //     setMunicipios(response.data);
+  //   })();
+  // }, []);
+
+  // Buscando a Lista de Estados
+  const [estados, setEstados] = useState([]);
+  useEffect(() => {
+    (async () => {
+      const response = await api.get('/estados');
+      console.log(response.data)
+      setEstados(response.data);
+    })();
+  }, []);
+
+  // Buscando a Lista de Cores
+  const [cores, setCores] = useState([]);
+  useEffect(() => {
+    (async () => {
+      const response = await api.get('/cores');
+      console.log(response.data)
+      setCores(response.data);
+    })();
+  }, []);
+
+  // Buscando a Lista de Estados-civis
+  const [estadosCivis, setEstadosCivis] = useState([]);
+  useEffect(() => {
+    (async () => {
+      const response = await api.get('/estados-civis');
+      console.log(response.data)
+      setEstadosCivis(response.data);
+    })();
+  }, []);
+
+  // Buscando a Lista Escolaridades
+  const [escolaridades, setEscolaridades] = useState([]);
+  useEffect(() => {
+    (async () => {
+      const response = await api.get('/escolaridades');
+      console.log(response.data)
+      setEscolaridades(response.data);
+    })();
+  }, []);
+
+  // Buscando a Lista de Atividades profissionais
+  const [atividadesProfissionais, setAtividadesProfissionais] = useState([]);
+  useEffect(() => {
+    (async () => {
+      const response = await api.get('/atividades-profissionais');
+      console.log(response.data)
+      setAtividadesProfissionais(response.data);
+    })();
+  }, []);
+
+  //
   useEffect(() => {
     (async () => {
       const response = await api.get(`/pacientes/${id}/identificacao`);
       console.log(response.data);
       setPatient(response.data);
     })();
-  }, []);
+  }, [id]);
 
   // TODO: action de submit
   const handleSubmit = async values => {
@@ -91,7 +151,7 @@ const PatientIdentification = (props) => {
             telefone_celular: '',
             telefone_do_trabalho: '',
             telefone_de_vizinho: '',
-            sexo: patient.sexo,
+            sexo: '',
             data_nascimento: '',
             estado_nascimento_id: '',
             cor_id: '',
@@ -112,14 +172,13 @@ const PatientIdentification = (props) => {
                 <Grid
                   className={classes.actionSection}
                   item
-                  spacing={2}
                 >
                   {/* patient */}
                   <PatientInfo patient={patient} />
                   <Button
                     className={classes.buttonSave}
                     color="secondary"
-                    disable={isSubmitting}
+                    disable={isSubmitting.toString()}
                     type="submit"
                     variant="contained"
                   >
@@ -132,7 +191,7 @@ const PatientIdentification = (props) => {
                 component={Card}
                 container
                 item
-                lg={8}
+                lg={10}
                 spacing={2}
               >
                 {/* municipio_id */}
@@ -164,6 +223,7 @@ const PatientIdentification = (props) => {
                       value={values.municipio_id}
                       variant="outlined"
                     >
+                      {/* TODO: filtragem dos municípios por estado. */}
                       <MenuItem value={1}>M1</MenuItem>
                       <MenuItem value={2}>M2</MenuItem>
                       <MenuItem value={3}>M3</MenuItem>
@@ -228,6 +288,7 @@ const PatientIdentification = (props) => {
                       value={values.bairro_id}
                       variant="outlined"
                     >
+                      {/* TODO: existe tora para báiros? */}
                       <MenuItem value={1}>B1</MenuItem>
                       <MenuItem value={2}>B2</MenuItem>
                       <MenuItem value={3}>B3</MenuItem>
@@ -292,10 +353,12 @@ const PatientIdentification = (props) => {
                       value={values.estado_id}
                       variant="outlined"
                     >
-                      <MenuItem value={1}>E1</MenuItem>
-                      <MenuItem value={2}>E2</MenuItem>
-                      <MenuItem value={3}>E3</MenuItem>
-                      <MenuItem value={4}>E4</MenuItem>
+                      {estados.map(({id, nome}) =>(
+                        <MenuItem
+                          key={id}
+                          value={id}
+                        >{nome}</MenuItem>
+                      ))}
                     </Field>
                   </FormGroup>
                 </Grid>
@@ -529,9 +592,12 @@ const PatientIdentification = (props) => {
                       value={values.estado_nascimento_id}
                       variant="outlined"
                     >
-                      <MenuItem value={1}>Ceará</MenuItem>
-                      <MenuItem value={2}>São Paulo</MenuItem>
-                      <MenuItem value={3}>Paraná</MenuItem>
+                      {estados.map(({id, nome}) =>(
+                        <MenuItem
+                          key={id}
+                          value={id}
+                        >{nome}</MenuItem>
+                      ))}
                     </Field>
                   </FormGroup>
                 </Grid>
@@ -553,16 +619,14 @@ const PatientIdentification = (props) => {
                       onChange={handleChange}
                       value={values.cor_id}
                     >
-                      <FormControlLabel
-                        control={<Radio />}
-                        label="Amarelo"
-                        value="1"
-                      />
-                      <FormControlLabel
-                        control={<Radio />}
-                        label="Laranja"
-                        value="2"
-                      />
+                      {cores.map(({id, nome}) => (
+                        <FormControlLabel
+                          control={<Radio />}
+                          key={id}
+                          label={nome}
+                          value={id.toString()}
+                        />
+                      ))}
                     </Field>
                   </FormGroup>
                 </Grid>
@@ -584,16 +648,14 @@ const PatientIdentification = (props) => {
                       onChange={handleChange}
                       value={values.estado_civil_id}
                     >
-                      <FormControlLabel
-                        control={<Radio />}
-                        label="Amarelo"
-                        value="1"
-                      />
-                      <FormControlLabel
-                        control={<Radio />}
-                        label="Laranja"
-                        value="2"
-                      />
+                      {estadosCivis.map(({ id, nome })=> (
+                        <FormControlLabel
+                          control={<Radio />}
+                          key={id}
+                          label={nome}
+                          value={id.toString()}
+                        />
+                      ))}
                     </Field>
                   </FormGroup>
                 </Grid>
@@ -615,36 +677,14 @@ const PatientIdentification = (props) => {
                       onChange={handleChange}
                       value={values.escolaridade_id}
                     >
-                      <FormControlLabel
-                        control={<Radio />}
-                        label="Analfabeto"
-                        value="1"
-                      />
-                      <FormControlLabel
-                        control={<Radio />}
-                        label="Ensino fundamental incompleto (1ºG)"
-                        value="2"
-                      />
-                      <FormControlLabel
-                        control={<Radio />}
-                        label="Ensino fundamental completo"
-                        value="3"
-                      />
-                      <FormControlLabel
-                        control={<Radio />}
-                        label="Ensino médio incompleto(2ºG)"
-                        value="4"
-                      />
-                      <FormControlLabel
-                        control={<Radio />}
-                        label="Ensino superior incompleto"
-                        value="5"
-                      />
-                      <FormControlLabel
-                        control={<Radio />}
-                        label="Pós-graduação"
-                        value="6"
-                      />
+                      {escolaridades.map(({id, nome})=>(
+                        <FormControlLabel
+                          control={<Radio />}
+                          key={id}
+                          label={nome}
+                          value={id.toString()}
+                        />
+                      ))}
                     </Field>
                   </FormGroup>
                 </Grid>
@@ -666,16 +706,14 @@ const PatientIdentification = (props) => {
                       onChange={handleChange}
                       value={values.atividade_profissional_id}
                     >
-                      <FormControlLabel
-                        control={<Radio />}
-                        label="Desempregado"
-                        value="1"
-                      />
-                      <FormControlLabel
-                        control={<Radio />}
-                        label="Empregado"
-                        value="2"
-                      />
+                      {atividadesProfissionais.map(({ id, nome })=>(
+                        <FormControlLabel
+                          control={<Radio />}
+                          key={id}
+                          label={nome}
+                          value={id.toString()}
+                        />
+                      ))}
                     </Field>
                   </FormGroup>
                 </Grid>
@@ -693,10 +731,10 @@ const PatientIdentification = (props) => {
                     <Field
                       as={RadioGroup}
                       className={classes.radioGroup}
-                      name="atividade_profissional_id"
+                      name="qtd_pessoas_domicilio"
                       onChange={handleChange}
                       row
-                      value={values.atividade_profissional_id}
+                      value={values.qtd_pessoas_domicilio}
                     >
                       <FormControlLabel
                         control={<Radio />}
