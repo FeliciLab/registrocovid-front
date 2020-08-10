@@ -21,11 +21,9 @@ import {
 
 import PatientInfo from 'components/PatientInfo';
 
-const Categories = (props) => {
+const Categories = () => {
   const history = useHistory();
   const classes = useStyles();
-
-  const { location: { state: patient } } = props;
 
   const initialForm = useMemo(() => {
     return [
@@ -83,7 +81,7 @@ const Categories = (props) => {
       <div className={classes.titleWrapper}>
         <Typography variant="h1">Categorias</Typography>
 
-        <PatientInfo patient={patient} />
+        <PatientInfo />
       </div>
 
       <div>
