@@ -20,7 +20,9 @@ import {
 import { TextMaskPhone } from 'components';
 import PatientInfo from 'components/PatientInfo';
 import api from 'services/api';
-import { useParams } from 'react-router-dom';
+import apiFake from 'services/apiFake';
+import { useParams, useHistory } from 'react-router-dom';
+import { usePatient } from 'context/PatientContext';
 
 const schema = Yup.object().shape({
   municipio_id: Yup.number(),
@@ -43,29 +45,29 @@ const schema = Yup.object().shape({
 });
 
 const PatientIdentification = () => {
-  // const history = useHistory();
+  const history = useHistory();
+
   const classes = useStyles();
 
   const { id } = useParams();
 
-  const [patient, setPatient] = useState({});
+  // buscando o paciente pelo contexto
+  const { patient, setPatient } = usePatient();
 
-  // const [municipios, setMunicipios] = useState([]);
+  const [municipios, setMunicipios] = useState([]);
 
-  // useEffect(() => {
-  //   (async () => {
-  //     const response = await api.get('/municipios');
-  //     console.log(response.data)
-  //     setMunicipios(response.data);
-  //   })();
-  // }, []);
+  useEffect(() => {
+    (async () => {
+      const response = await api.get('/municipios');
+      setMunicipios(response.data);
+    })();
+  }, []);
 
   // Buscando a Lista de Estados
   const [estados, setEstados] = useState([]);
   useEffect(() => {
     (async () => {
       const response = await api.get('/estados');
-      console.log(response.data)
       setEstados(response.data);
     })();
   }, []);
@@ -75,7 +77,6 @@ const PatientIdentification = () => {
   useEffect(() => {
     (async () => {
       const response = await api.get('/cores');
-      console.log(response.data)
       setCores(response.data);
     })();
   }, []);
@@ -85,7 +86,6 @@ const PatientIdentification = () => {
   useEffect(() => {
     (async () => {
       const response = await api.get('/estados-civis');
-      console.log(response.data)
       setEstadosCivis(response.data);
     })();
   }, []);
@@ -95,7 +95,6 @@ const PatientIdentification = () => {
   useEffect(() => {
     (async () => {
       const response = await api.get('/escolaridades');
-      console.log(response.data)
       setEscolaridades(response.data);
     })();
   }, []);
@@ -105,23 +104,73 @@ const PatientIdentification = () => {
   useEffect(() => {
     (async () => {
       const response = await api.get('/atividades-profissionais');
-      console.log(response.data)
       setAtividadesProfissionais(response.data);
     })();
   }, []);
 
-  //
+  // Buscando a Lista de Atividades profissionais
+  const [bairros, setBairros] = useState([]);
+  useEffect(() => {
+    (async () => {
+      const response = await apiFake.get('/bairros');
+      setBairros(response.data);
+    })();
+  }, []);
+
   useEffect(() => {
     (async () => {
       const response = await api.get(`/pacientes/${id}/identificacao`);
-      console.log(response.data);
       setPatient(response.data);
     })();
   }, [id]);
 
-  // TODO: action de submit
-  const handleSubmit = async values => {
-    return values;
+  // TODO: ainda em estágio embrionário.
+  const handleSubmit = async ({
+    municipio_id,
+    outro_municipio,
+    bairro_id,
+    outro_bairro,
+    estado_id,
+    telefone_de_casa,
+    telefone_celular,
+    telefone_do_trabalho,
+    telefone_de_vizinho,
+    sexo,
+    data_nascimento,
+    estado_nascimento_id,
+    cor_id,
+    estado_civil_id,
+    escolaridade_id,
+    atividade_profissional_id,
+    qtd_pessoas_domicilio,
+  }) => {
+    const patienteUpdated = {
+      municipio_id,
+      outro_municipio,
+      bairro_id,
+      outro_bairro,
+      estado_id,
+      telefone_de_casa,
+      telefone_celular,
+      telefone_do_trabalho,
+      telefone_de_vizinho,
+      sexo,
+      data_nascimento,
+      estado_nascimento_id,
+      cor_id,
+      estadocivil_id: estado_civil_id,
+      escolaridade_id,
+      atividadeprofissional_id: atividade_profissional_id,
+      qtd_pessoas_domicilio,
+    };
+
+    try {
+      await api.post(`/pacientes/${id}/identificacao`, patienteUpdated);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      history.push('/');
+    }
   };
 
   return (
@@ -224,10 +273,15 @@ const PatientIdentification = () => {
                       variant="outlined"
                     >
                       {/* TODO: filtragem dos municípios por estado. */}
-                      <MenuItem value={1}>M1</MenuItem>
-                      <MenuItem value={2}>M2</MenuItem>
-                      <MenuItem value={3}>M3</MenuItem>
-                      <MenuItem value={4}>M4</MenuItem>
+
+                      {municipios.map(({ id, nome }) => (
+                        <MenuItem
+                          key={id}
+                          value={id}
+                        >
+                          {nome}
+                        </MenuItem>
+                      ))}
                     </Field>
                   </FormGroup>
                 </Grid>
@@ -288,11 +342,14 @@ const PatientIdentification = () => {
                       value={values.bairro_id}
                       variant="outlined"
                     >
-                      {/* TODO: existe tora para báiros? */}
-                      <MenuItem value={1}>B1</MenuItem>
-                      <MenuItem value={2}>B2</MenuItem>
-                      <MenuItem value={3}>B3</MenuItem>
-                      <MenuItem value={4}>B4</MenuItem>
+                      {bairros.map(({ id, nome }) => (
+                        <MenuItem
+                          key={id}
+                          value={id}
+                        >
+                          {nome}
+                        </MenuItem>
+                      ))}
                     </Field>
                   </FormGroup>
                 </Grid>
@@ -353,11 +410,13 @@ const PatientIdentification = () => {
                       value={values.estado_id}
                       variant="outlined"
                     >
-                      {estados.map(({id, nome}) =>(
+                      {estados.map(({ id, nome }) => (
                         <MenuItem
                           key={id}
                           value={id}
-                        >{nome}</MenuItem>
+                        >
+                          {nome}
+                        </MenuItem>
                       ))}
                     </Field>
                   </FormGroup>
@@ -385,7 +444,7 @@ const PatientIdentification = () => {
                           : null
                       }
                       InputProps={{
-                        inputComponent: TextMaskPhone
+                        inputComponent: TextMaskPhone,
                       }}
                       label="Telefone de casa"
                       name="telefone_de_casa"
@@ -419,7 +478,7 @@ const PatientIdentification = () => {
                           : null
                       }
                       InputProps={{
-                        inputComponent: TextMaskPhone
+                        inputComponent: TextMaskPhone,
                       }}
                       label="Telefone celular"
                       name="telefone_celular"
@@ -450,12 +509,12 @@ const PatientIdentification = () => {
                       }
                       helperText={
                         errors.telefone_do_trabalho &&
-                          touched.telefone_do_trabalho
+                        touched.telefone_do_trabalho
                           ? errors.telefone_do_trabalho
                           : null
                       }
                       InputProps={{
-                        inputComponent: TextMaskPhone
+                        inputComponent: TextMaskPhone,
                       }}
                       label="Telefone do trabalho"
                       name="telefone_do_trabalho"
@@ -486,12 +545,12 @@ const PatientIdentification = () => {
                       }
                       helperText={
                         errors.telefone_de_vizinho &&
-                          touched.telefone_de_vizinho
+                        touched.telefone_de_vizinho
                           ? errors.telefone_de_vizinho
                           : null
                       }
                       InputProps={{
-                        inputComponent: TextMaskPhone
+                        inputComponent: TextMaskPhone,
                       }}
                       label="Telefone do vizinho"
                       name="telefone_de_vizinho"
@@ -578,9 +637,13 @@ const PatientIdentification = () => {
                     <Field
                       as={TextField}
                       className={classes.textField}
-                      error={errors.estado_nascimento_id && touched.estado_nascimento_id}
+                      error={
+                        errors.estado_nascimento_id &&
+                        touched.estado_nascimento_id
+                      }
                       helperText={
-                        errors.estado_nascimento_id && touched.estado_nascimento_id
+                        errors.estado_nascimento_id &&
+                        touched.estado_nascimento_id
                           ? errors.estado_nascimento_id
                           : null
                       }
@@ -592,11 +655,13 @@ const PatientIdentification = () => {
                       value={values.estado_nascimento_id}
                       variant="outlined"
                     >
-                      {estados.map(({id, nome}) =>(
+                      {estados.map(({ id, nome }) => (
                         <MenuItem
                           key={id}
                           value={id}
-                        >{nome}</MenuItem>
+                        >
+                          {nome}
+                        </MenuItem>
                       ))}
                     </Field>
                   </FormGroup>
@@ -619,7 +684,7 @@ const PatientIdentification = () => {
                       onChange={handleChange}
                       value={values.cor_id}
                     >
-                      {cores.map(({id, nome}) => (
+                      {cores.map(({ id, nome }) => (
                         <FormControlLabel
                           control={<Radio />}
                           key={id}
@@ -648,7 +713,7 @@ const PatientIdentification = () => {
                       onChange={handleChange}
                       value={values.estado_civil_id}
                     >
-                      {estadosCivis.map(({ id, nome })=> (
+                      {estadosCivis.map(({ id, nome }) => (
                         <FormControlLabel
                           control={<Radio />}
                           key={id}
@@ -677,7 +742,7 @@ const PatientIdentification = () => {
                       onChange={handleChange}
                       value={values.escolaridade_id}
                     >
-                      {escolaridades.map(({id, nome})=>(
+                      {escolaridades.map(({ id, nome }) => (
                         <FormControlLabel
                           control={<Radio />}
                           key={id}
@@ -697,7 +762,10 @@ const PatientIdentification = () => {
                 >
                   <FormGroup>
                     <FormLabel>
-                      <Typography variant="h4">Atividade profissional principal nos últimos 12 meses? (Ocupação principal)</Typography>
+                      <Typography variant="h4">
+                        Atividade profissional principal nos últimos 12 meses?
+                        (Ocupação principal)
+                      </Typography>
                     </FormLabel>
                     <Field
                       as={RadioGroup}
@@ -706,7 +774,7 @@ const PatientIdentification = () => {
                       onChange={handleChange}
                       value={values.atividade_profissional_id}
                     >
-                      {atividadesProfissionais.map(({ id, nome })=>(
+                      {atividadesProfissionais.map(({ id, nome }) => (
                         <FormControlLabel
                           control={<Radio />}
                           key={id}
@@ -726,7 +794,9 @@ const PatientIdentification = () => {
                 >
                   <FormGroup>
                     <FormLabel>
-                      <Typography variant="h4">Quantas pessoas residem no mesmo domicílio?</Typography>
+                      <Typography variant="h4">
+                        Quantas pessoas residem no mesmo domicílio?
+                      </Typography>
                     </FormLabel>
                     <Field
                       as={RadioGroup}
@@ -764,7 +834,6 @@ const PatientIdentification = () => {
                     </Field>
                   </FormGroup>
                 </Grid>
-
               </Grid>
             </Form>
           )}
