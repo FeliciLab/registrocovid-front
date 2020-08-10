@@ -10,6 +10,7 @@ import {
   ListPatients as ListPatientsView,
   Categories as CategoriesView,
   GeneralInfo as GeneralInfoView,
+  PersonalHistory as PersonalHistoryView
 } from './views';
 
 const Routes = () => {
@@ -46,6 +47,13 @@ const Routes = () => {
         isPrivate
         layout={MainLayout}
         path="/categorias/informacoes-gerais"
+      />
+      <RouteWithLayout
+        component={PersonalHistoryView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/historia-pessoal"
       />
       <RouteWithLayout
         component={NotFoundView}
