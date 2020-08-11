@@ -70,11 +70,12 @@ const PatientIdentification = () => {
   // buscando o paciente pelo contexto
   const { patient, setPatient } = usePatient();
 
+  // TODO: Usar a api oficial.
   // Buscando a Lista de Municípios
   const [municipios, setMunicipios] = useState([]);
   useEffect(() => {
     (async () => {
-      const response = await api.get('/municipios');
+      const response = await apiFake.get('/municipios');
       setMunicipios(response.data);
     })();
   }, []);
@@ -236,7 +237,7 @@ const PatientIdentification = () => {
                   <Button
                     className={classes.buttonSave}
                     color="secondary"
-                    disable={isSubmitting.toString()}
+                    disable={isSubmitting}
                     type="submit"
                     variant="contained"
                   >
@@ -252,6 +253,45 @@ const PatientIdentification = () => {
                 lg={10}
                 spacing={2}
               >
+                {/* estado_id */}
+                <Grid
+                  item
+                  md={12}
+                  sm={12}
+                >
+                  <FormGroup>
+                    <FormLabel>
+                      <Typography variant="h4">Estado de residência</Typography>
+                    </FormLabel>
+                    <Field
+                      as={TextField}
+                      className={classes.textField}
+                      error={errors.estado_id && touched.estado_id}
+                      helperText={
+                        errors.estado_id && touched.estado_id
+                          ? errors.estado_id
+                          : null
+                      }
+                      label="Estado de residência"
+                      name="estado_id"
+                      onChange={handleChange}
+                      select
+                      type="text"
+                      value={values.estado_id}
+                      variant="outlined"
+                    >
+                      {estados.map(({ id, nome }) => (
+                        <MenuItem
+                          key={id}
+                          value={id}
+                        >
+                          {nome}
+                        </MenuItem>
+                      ))}
+                    </Field>
+                  </FormGroup>
+                </Grid>
+
                 {/* municipio_id */}
                 <Grid
                   item
@@ -308,6 +348,7 @@ const PatientIdentification = () => {
                     <Field
                       as={TextField}
                       className={classes.textField}
+                      disabled={!(values.municipio_id === 1)}
                       error={errors.bairro_id && touched.bairro_id}
                       helperText={
                         errors.bairro_id && touched.bairro_id
@@ -320,48 +361,9 @@ const PatientIdentification = () => {
                       select
                       type="text"
                       value={values.bairro_id}
-                      variant="outlined"
+                      variant="filled"
                     >
                       {bairros.map(({ id, nome }) => (
-                        <MenuItem
-                          key={id}
-                          value={id}
-                        >
-                          {nome}
-                        </MenuItem>
-                      ))}
-                    </Field>
-                  </FormGroup>
-                </Grid>
-
-                {/* estado_id */}
-                <Grid
-                  item
-                  md={12}
-                  sm={12}
-                >
-                  <FormGroup>
-                    <FormLabel>
-                      <Typography variant="h4">Estado de residência</Typography>
-                    </FormLabel>
-                    <Field
-                      as={TextField}
-                      className={classes.textField}
-                      error={errors.estado_id && touched.estado_id}
-                      helperText={
-                        errors.estado_id && touched.estado_id
-                          ? errors.estado_id
-                          : null
-                      }
-                      label="Estado de residência"
-                      name="estado_id"
-                      onChange={handleChange}
-                      select
-                      type="text"
-                      value={values.estado_id}
-                      variant="outlined"
-                    >
-                      {estados.map(({ id, nome }) => (
                         <MenuItem
                           key={id}
                           value={id}
