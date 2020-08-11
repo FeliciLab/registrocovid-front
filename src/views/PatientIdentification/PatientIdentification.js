@@ -26,9 +26,7 @@ import { usePatient } from 'context/PatientContext';
 
 const schema = Yup.object().shape({
   municipio_id: Yup.number(),
-  outro_municipio: Yup.string(),
   bairro_id: Yup.number(),
-  outro_bairro: Yup.string(),
   estado_id: Yup.number(),
   telefone_de_casa: Yup.string(),
   telefone_celular: Yup.string(),
@@ -53,9 +51,7 @@ const PatientIdentification = () => {
 
   const [initialValues, setinItialValues] = useState({
     municipio_id: '',
-    outro_municipio: '',
     bairro_id: '',
-    outro_bairro: '',
     estado_id: '',
     telefone_de_casa: '',
     telefone_celular: '',
@@ -160,9 +156,7 @@ const PatientIdentification = () => {
   // TODO: ainda em estágio embrionário.
   const handleSubmit = async ({
     municipio_id,
-    outro_municipio,
     bairro_id,
-    outro_bairro,
     estado_id,
     telefone_de_casa,
     telefone_celular,
@@ -179,9 +173,7 @@ const PatientIdentification = () => {
   }) => {
     const patienteUpdated = {
       municipio_id,
-      outro_municipio,
       bairro_id,
-      outro_bairro,
       estado_id,
       telefone_de_casa,
       telefone_celular,
@@ -303,35 +295,6 @@ const PatientIdentification = () => {
                   </FormGroup>
                 </Grid>
 
-                {/* outro_municipio */}
-                <Grid
-                  item
-                  md={12}
-                  sm={12}
-                >
-                  <FormGroup>
-                    <FormLabel>
-                      <Typography variant="h4">Outro município</Typography>
-                    </FormLabel>
-                    <Field
-                      as={TextField}
-                      className={classes.textField}
-                      error={errors.outro_municipio && touched.outro_municipio}
-                      helperText={
-                        errors.outro_municipio && touched.outro_municipio
-                          ? errors.outro_municipio
-                          : null
-                      }
-                      label="Outro município"
-                      name="outro_municipio"
-                      onChange={handleChange}
-                      type="text"
-                      value={values.outro_municipio}
-                      variant="outlined"
-                    />
-                  </FormGroup>
-                </Grid>
-
                 {/* bairro_id */}
                 <Grid
                   item
@@ -368,35 +331,6 @@ const PatientIdentification = () => {
                         </MenuItem>
                       ))}
                     </Field>
-                  </FormGroup>
-                </Grid>
-
-                {/* outro_bairro */}
-                <Grid
-                  item
-                  md={12}
-                  sm={12}
-                >
-                  <FormGroup>
-                    <FormLabel>
-                      <Typography variant="h4">Outro bairro</Typography>
-                    </FormLabel>
-                    <Field
-                      as={TextField}
-                      className={classes.textField}
-                      error={errors.outro_bairro && touched.outro_bairro}
-                      helperText={
-                        errors.outro_bairro && touched.outro_bairro
-                          ? errors.outro_bairro
-                          : null
-                      }
-                      label="Outro bairro"
-                      name="outro_bairro"
-                      onChange={handleChange}
-                      type="text"
-                      value={values.outro_bairro}
-                      variant="outlined"
-                    />
                   </FormGroup>
                 </Grid>
 
