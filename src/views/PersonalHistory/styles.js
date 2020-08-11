@@ -5,8 +5,6 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     padding: theme.spacing(4),
-    // overflowY: 'auto',
-    // scrollbarWidth: 'none',
   },
   header: {
     display: 'flex',
@@ -19,6 +17,25 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  rightContent: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  buttonSave: {
+    width: '258px',
+    height: '48px',
+  },
+  form: {
+    backgroundColor: '#fff',
+    width: 560,
+    height: 500,
+  },
+  formContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
 }));
 
 export default useStyles;
