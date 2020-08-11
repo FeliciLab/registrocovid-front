@@ -51,11 +51,31 @@ const PatientIdentification = () => {
 
   const { id } = useParams();
 
+  const [initialValues, setinItialValues] = useState({
+    municipio_id: '',
+    outro_municipio: '',
+    bairro_id: '',
+    outro_bairro: '',
+    estado_id: '',
+    telefone_de_casa: '',
+    telefone_celular: '',
+    telefone_do_trabalho: '',
+    telefone_de_vizinho: '',
+    sexo: '',
+    data_nascimento: '',
+    estado_nascimento_id: '',
+    cor_id: '',
+    estado_civil_id: '',
+    escolaridade_id: '',
+    atividade_profissional_id: '',
+    qtd_pessoas_domicilio: '',
+  });
+
   // buscando o paciente pelo contexto
   const { patient, setPatient } = usePatient();
 
+  // Buscando a Lista de Municípios
   const [municipios, setMunicipios] = useState([]);
-
   useEffect(() => {
     (async () => {
       const response = await api.get('/municipios');
@@ -108,7 +128,8 @@ const PatientIdentification = () => {
     })();
   }, []);
 
-  // Buscando a Lista de Atividades profissionais
+  // TODO: mudar para api oficial quando disponibilizarem o endpoint
+  // Buscando a Lista de Bairros
   const [bairros, setBairros] = useState([]);
   useEffect(() => {
     (async () => {
@@ -117,10 +138,22 @@ const PatientIdentification = () => {
     })();
   }, []);
 
+  // Setando as variáveis do paciente no Formik
   useEffect(() => {
     (async () => {
       const response = await api.get(`/pacientes/${id}/identificacao`);
       setPatient(response.data);
+      console.log(response.data);
+      setinItialValues(initialValues => ({
+        ...initialValues,
+        municipio_id: response.data.municipio?.toString() | '',
+        sexo: response.data.sexo.toString(),
+        atividade_profissional_id: response.data.atividade_profissional.id.toString(),
+        escolaridade_id: response.data.escolaridade.id.toString(),
+        cor_id: response.data.cor.id.toString(),
+        estado_civil_id: response.data.estado_civil.id.toString(),
+        qtd_pessoas_domicilio: response.data.qtd_pessoas_domicilio.toString(),
+      }));
     })();
   }, [id]);
 
@@ -164,6 +197,7 @@ const PatientIdentification = () => {
       qtd_pessoas_domicilio,
     };
 
+    // TODO: Colocar tratamento dos erros devidamente.
     try {
       await api.post(`/pacientes/${id}/identificacao`, patienteUpdated);
     } catch (err) {
@@ -190,25 +224,8 @@ const PatientIdentification = () => {
 
       <div className={classes.formWrapper}>
         <Formik
-          initialValues={{
-            municipio_id: '',
-            outro_municipio: '',
-            bairro_id: '',
-            outro_bairro: '',
-            estado_id: '',
-            telefone_de_casa: '',
-            telefone_celular: '',
-            telefone_do_trabalho: '',
-            telefone_de_vizinho: '',
-            sexo: '',
-            data_nascimento: '',
-            estado_nascimento_id: '',
-            cor_id: '',
-            estado_civil_id: '',
-            escolaridade_id: '',
-            atividade_profissional_id: '',
-            qtd_pessoas_domicilio: '',
-          }}
+          enableReinitialize
+          initialValues={initialValues}
           onSubmit={handleSubmit}
           validateOnMount
           validationSchema={schema}
