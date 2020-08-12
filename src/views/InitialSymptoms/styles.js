@@ -20,17 +20,19 @@ const useStyles = makeStyles(theme => ({
   buttonSave: {
     width: '258px',
     height: '48px',
+    marginLeft: theme.spacing(3),
   },
-  formWrapper: {
+  patientWrapper: {
     display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'left',
+    flexDirection: 'row',
+    alignItems: 'center'
   },
-  textField: {
-    marginTop: theme.spacing(1),
-  },
-  dateField: {
-    marginTop: theme.spacing(1),
+  chipWrapper: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    '& > *': {
+      margin: theme.spacing(0.5),
+    },
   },
 }));
 
