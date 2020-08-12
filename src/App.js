@@ -10,6 +10,7 @@ import Routes from './Routes';
 import history from './history';
 
 import { AuthProvider } from './context/AuthContext';
+import { PatientProvider } from './context/PatientContext';
 
 export default class App extends Component {
   render() {
@@ -17,9 +18,11 @@ export default class App extends Component {
       <ThemeProvider theme={theme}>
         <AuthProvider>
           <ToastProvider>
-            <Router history={history}>
-              <Routes />
-            </Router>
+            <PatientProvider>
+              <Router history={history}>
+                <Routes />
+              </Router>
+            </PatientProvider>
           </ToastProvider>
         </AuthProvider>
       </ThemeProvider>
