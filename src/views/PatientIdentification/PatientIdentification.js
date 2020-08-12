@@ -84,7 +84,7 @@ const PatientIdentification = () => {
             : '',
           estado_id: response.data.estado
             ? response.data.estado.id.toString()
-            : '',
+            : '0',
           municipio_id: response.data.municipio
             ? response.data.municipio.id.toString()
             : '0',
@@ -662,6 +662,12 @@ const PatientIdentification = () => {
                       value={values.estado_nascimento_id}
                       variant="outlined"
                     >
+                      <MenuItem
+                        disabled
+                        value="0"
+                      >
+                        Selecione um bairro...
+                      </MenuItem>
                       {estados.map(({ id, nome }) => (
                         <MenuItem
                           key={id}
