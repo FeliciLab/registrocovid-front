@@ -20,14 +20,14 @@ import {
 import { TextMaskPhone } from 'components';
 import PatientInfo from 'components/PatientInfo';
 import api from 'services/api';
-import apiFake from 'services/apiFake';
 import { useParams, useHistory } from 'react-router-dom';
 import { usePatient } from 'context/PatientContext';
+import { useRef } from 'react';
 
 const schema = Yup.object().shape({
-  municipio_id: Yup.number(),
-  bairro_id: Yup.number(),
-  estado_id: Yup.number(),
+  municipio_id: Yup.string(),
+  bairro_id: Yup.string(),
+  estado_id: Yup.string(),
   telefone_de_casa: Yup.string(),
   telefone_celular: Yup.string(),
   telefone_do_trabalho: Yup.string(),
@@ -36,16 +36,18 @@ const schema = Yup.object().shape({
   data_nascimento: Yup.string(),
   estado_nascimento_id: Yup.string(),
   cor_id: Yup.number(),
-  estado_civil_id: Yup.number(),
-  escolaridade_id: Yup.number(),
-  atividade_profissional_id: Yup.number(),
-  qtd_pessoas_domicilio: Yup.number(),
+  estado_civil_id: Yup.string(),
+  escolaridade_id: Yup.string(),
+  atividade_profissional_id: Yup.string(),
+  qtd_pessoas_domicilio: Yup.string(),
 });
 
 const PatientIdentification = () => {
   const history = useHistory();
 
   const classes = useStyles();
+
+  const formikRef = useRef(null);
 
   const { id } = useParams();
 
@@ -70,15 +72,43 @@ const PatientIdentification = () => {
   // buscando o paciente pelo contexto
   const { patient, setPatient } = usePatient();
 
-  // TODO: Usar a api oficial.
-  // Buscando a Lista de Municípios
-  const [municipios, setMunicipios] = useState([]);
+  // Setando as variáveis do paciente no Formik
   useEffect(() => {
     (async () => {
-      const response = await apiFake.get('/municipios');
-      setMunicipios(response.data);
+      try {
+        const response = await api.get(`/pacientes/${id}/identificacao`);
+        setPatient(response.data);
+
+        const { data } = response;
+        console.log(response.data);
+        setinItialValues(values => ({
+          ...values,
+          municipio_id: data.municipio?.id | 0,
+          sexo: data.sexo?.toString() | '',
+          atividade_profissional_id:
+            data.atividade_profissional?.id.toString() | 0,
+          escolaridade_id: data.escolaridade?.id.toString() | 0,
+          cor_id: data.cor?.id.toString() | 0,
+          estado_civil_id: data.estado_civil?.id.toString() | 0,
+          qtd_pessoas_domicilio: data.qtd_pessoas_domicilio?.toString() | 0,
+          estado_id: data.estado_nascimento?.id,
+          data_nascimento: data.data_nascimento,
+        }));
+      } catch (err) {
+        // TODO: tratar melhor os erros
+        console.log(err);
+      }
     })();
-  }, []);
+  }, [id]);
+
+  // // Buscando a Lista de Municípios
+  // const [municipios, setMunicipios] = useState([]);
+  // useEffect(() => {
+  //   (async () => {
+  //     const response = await api.get('/municipios');
+  //     setMunicipios(response.data);
+  //   })();
+  // }, []);
 
   // Buscando a Lista de Estados
   const [estados, setEstados] = useState([]);
@@ -125,34 +155,28 @@ const PatientIdentification = () => {
     })();
   }, []);
 
-  // TODO: mudar para api oficial quando disponibilizarem o endpoint
   // Buscando a Lista de Bairros
   const [bairros, setBairros] = useState([]);
   useEffect(() => {
     (async () => {
-      const response = await apiFake.get('/bairros');
+      const response = await api.get('/bairros');
       setBairros(response.data);
     })();
   }, []);
 
-  // Setando as variáveis do paciente no Formik
+  const [municipios, setMunicipios] = useState([]);
   useEffect(() => {
-    (async () => {
-      const response = await api.get(`/pacientes/${id}/identificacao`);
-      setPatient(response.data);
-      console.log(response.data);
-      setinItialValues(initialValues => ({
-        ...initialValues,
-        municipio_id: response.data.municipio?.toString() | '',
-        sexo: response.data.sexo.toString(),
-        atividade_profissional_id: response.data.atividade_profissional.id.toString(),
-        escolaridade_id: response.data.escolaridade.id.toString(),
-        cor_id: response.data.cor.id.toString(),
-        estado_civil_id: response.data.estado_civil.id.toString(),
-        qtd_pessoas_domicilio: response.data.qtd_pessoas_domicilio.toString(),
-      }));
-    })();
-  }, [id]);
+    if(formikRef.current.values) {
+      (async () => {
+        const response = await api.get(
+          `/municipios?conditions=estado_id:=:${initialValues.estado_id}`,
+        );
+        console.log(municipios);
+        setMunicipios(response.data);
+      })();
+    }
+
+  }, [formikRef.current.values.estado_id]);
 
   // TODO: ainda em estágio embrionário.
   const handleSubmit = async ({
@@ -220,6 +244,7 @@ const PatientIdentification = () => {
           enableReinitialize
           initialValues={initialValues}
           onSubmit={handleSubmit}
+          ref={formikRef}
           validateOnMount
           validationSchema={schema}
         >
@@ -237,7 +262,7 @@ const PatientIdentification = () => {
                   <Button
                     className={classes.buttonSave}
                     color="secondary"
-                    disable={isSubmitting}
+                    disabled={isSubmitting}
                     type="submit"
                     variant="contained"
                   >
@@ -322,7 +347,7 @@ const PatientIdentification = () => {
                       variant="outlined"
                     >
                       {/* TODO: filtragem dos municípios por estado. */}
-
+                      <MenuItem value="0">Selecione um município...</MenuItem>
                       {municipios.map(({ id, nome }) => (
                         <MenuItem
                           key={id}
@@ -348,7 +373,8 @@ const PatientIdentification = () => {
                     <Field
                       as={TextField}
                       className={classes.textField}
-                      disabled={!(values.municipio_id === 1)}
+                      // 1347 é o id da Cidade de Fortaleza
+                      disabled={!(values.municipio_id === 1347)}
                       error={errors.bairro_id && touched.bairro_id}
                       helperText={
                         errors.bairro_id && touched.bairro_id
