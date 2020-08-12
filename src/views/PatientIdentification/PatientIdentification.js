@@ -25,7 +25,6 @@ import { useParams, useHistory } from 'react-router-dom';
 import { usePatient } from 'context/PatientContext';
 
 const PatientIdentification = () => {
-
   const history = useHistory();
 
   const classes = useStyles();
@@ -40,7 +39,7 @@ const PatientIdentification = () => {
     telefone_celular: '',
     telefone_do_trabalho: '',
     telefone_de_vizinho: '',
-    sexo: '',
+    sexo: '0',
     data_nascimento: '',
     estado_nascimento_id: '',
     cor_id: '',
@@ -63,8 +62,10 @@ const PatientIdentification = () => {
         console.log(response.data);
         setinItialValues(initialValues => ({
           ...initialValues,
-          sexo: response.data.sexo,
-          data_nascimento: response.data.data_nascimento,
+          sexo: response.data.sexo ? response.data.sexo : '0',
+          data_nascimento: response.data.data_nascimento
+            ? response.data.data_nascimento
+            : '',
           cor_id: response.data.cor ? response.data.cor.id.toString() : '',
           estado_civil_id: response.data.estado_civil
             ? response.data.estado_civil.id.toString()
@@ -84,7 +85,9 @@ const PatientIdentification = () => {
           estado_id: response.data.estado
             ? response.data.estado.id.toString()
             : '',
-          // municipio_id: response.data.municipio.id.toString()
+          municipio_id: response.data.municipio
+            ? response.data.municipio.id.toString()
+            : '0',
         }));
       } catch (err) {
         // TODO: tratar melhor os erros
@@ -154,8 +157,8 @@ const PatientIdentification = () => {
   async function getMunicipios(estado_id) {
     const response = await api.get('/municipios', {
       params: {
-        conditions: `estado_id:=:${estado_id}`
-      }
+        conditions: `estado_id:=:${estado_id}`,
+      },
     });
     return response.data;
   }
@@ -197,12 +200,16 @@ const PatientIdentification = () => {
     };
 
     // Sanitizando o paciente antes de enviar para a request
-    const patientSanitized = Object.keys(patienteUpdated).reduce((acc, curr)=> {
-      if (patienteUpdated[curr] !== '') {
-        return {...acc, [curr]: patienteUpdated[curr]}
-      }
-    }, {});
+    const patientSanitized = Object.keys(patienteUpdated).reduce(
+      (acc, curr) => {
+        if (patienteUpdated[curr] !== '' || patienteUpdated[curr] !== '0') {
+          return { ...acc, [curr]: patienteUpdated[curr] };
+        }
+      },
+      {},
+    );
 
+    console.log(patientSanitized);
     // TODO: Colocar tratamento dos erros devidamente.
     try {
       await api.post(`/pacientes/${id}/identificacao`, patientSanitized);
@@ -236,7 +243,14 @@ const PatientIdentification = () => {
           validateOnMount
           validationSchema={schema}
         >
-          {({ values, touched, handleChange, isSubmitting, errors, setFieldValue }) => (
+          {({
+            values,
+            touched,
+            handleChange,
+            isSubmitting,
+            errors,
+            setFieldValue,
+          }) => (
             <Form component={FormControl}>
               <div className={classes.titleWrapper}>
                 <Typography variant="h1">Identificação do paciente</Typography>
@@ -300,6 +314,12 @@ const PatientIdentification = () => {
                       value={values.estado_id}
                       variant="outlined"
                     >
+                      <MenuItem
+                        disabled
+                        value={'0'}
+                      >
+                        Selecione um estado...
+                      </MenuItem>
                       {estados.map(({ id, nome }) => (
                         <MenuItem
                           key={id}
@@ -343,7 +363,12 @@ const PatientIdentification = () => {
                       variant="outlined"
                     >
                       {/* TODO: filtragem dos municípios por estado. */}
-                      <MenuItem value="0">Selecione um município...</MenuItem>
+                      <MenuItem
+                        disabled
+                        value="0"
+                      >
+                        Selecione um município...
+                      </MenuItem>
                       {values.municipios &&
                         values.municipios.map(({ id, nome }) => (
                           <MenuItem
@@ -563,6 +588,12 @@ const PatientIdentification = () => {
                       value={values.sexo}
                       variant="outlined"
                     >
+                      <MenuItem
+                        disabled
+                        value={'0'}
+                      >
+                        Selecione um sexo...
+                      </MenuItem>
                       <MenuItem value={'F'}>Feminino</MenuItem>
                       <MenuItem value={'M'}>Masculino</MenuItem>
                     </Field>
