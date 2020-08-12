@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import CustonBreadcrumbs from 'components/CustonBreadcrumbs';
 import useStyles from './styles';
 import { Formik, Form, Field } from 'formik';
-import * as Yup from 'yup';
+import schema from './schema';
+
 import {
   FormControl,
   Typography,
@@ -22,32 +23,11 @@ import PatientInfo from 'components/PatientInfo';
 import api from 'services/api';
 import { useParams, useHistory } from 'react-router-dom';
 import { usePatient } from 'context/PatientContext';
-import { useRef } from 'react';
-
-const schema = Yup.object().shape({
-  municipio_id: Yup.string(),
-  bairro_id: Yup.string(),
-  estado_id: Yup.string(),
-  telefone_de_casa: Yup.string(),
-  telefone_celular: Yup.string(),
-  telefone_do_trabalho: Yup.string(),
-  telefone_de_vizinho: Yup.string(),
-  sexo: Yup.string(),
-  data_nascimento: Yup.string(),
-  estado_nascimento_id: Yup.string(),
-  cor_id: Yup.number(),
-  estado_civil_id: Yup.string(),
-  escolaridade_id: Yup.string(),
-  atividade_profissional_id: Yup.string(),
-  qtd_pessoas_domicilio: Yup.string(),
-});
 
 const PatientIdentification = () => {
   const history = useHistory();
 
   const classes = useStyles();
-
-  const formikRef = useRef(null);
 
   const { id } = useParams();
 
@@ -78,37 +58,38 @@ const PatientIdentification = () => {
       try {
         const response = await api.get(`/pacientes/${id}/identificacao`);
         setPatient(response.data);
-
-        const { data } = response;
         console.log(response.data);
-        setinItialValues(values => ({
-          ...values,
-          municipio_id: data.municipio?.id | 0,
-          sexo: data.sexo?.toString() | '',
-          atividade_profissional_id:
-            data.atividade_profissional?.id.toString() | 0,
-          escolaridade_id: data.escolaridade?.id.toString() | 0,
-          cor_id: data.cor?.id.toString() | 0,
-          estado_civil_id: data.estado_civil?.id.toString() | 0,
-          qtd_pessoas_domicilio: data.qtd_pessoas_domicilio?.toString() | 0,
-          estado_id: data.estado_nascimento?.id,
-          data_nascimento: data.data_nascimento,
+        setinItialValues(initialValues => ({
+          ...initialValues,
+          sexo: response.data.sexo,
+          data_nascimento: response.data.data_nascimento,
+          cor_id: response.data.cor ? response.data.cor.id.toString() : '',
+          estado_civil_id: response.data.estado_civil
+            ? response.data.estado_civil.id.toString()
+            : '',
+          estado_nascimento_id: response.data.estado_nascimento
+            ? response.data.estado_nascimento.id
+            : '',
+          escolaridade_id: response.data.escolaridade
+            ? response.data.escolaridade.id.toString()
+            : '',
+          atividade_profissional_id: response.data.atividade_profissional
+            ? response.data.atividade_profissional.id.toString()
+            : '',
+          qtd_pessoas_domicilio: response.data.qtd_pessoas_domicilio
+            ? response.data.qtd_pessoas_domicilio.toString()
+            : '',
+          estado_id: response.data.estado
+            ? response.data.estado.id.toString()
+            : '',
+          // municipio_id: response.data.municipio.id.toString()
         }));
       } catch (err) {
         // TODO: tratar melhor os erros
         console.log(err);
       }
     })();
-  }, [id]);
-
-  // // Buscando a Lista de Municípios
-  // const [municipios, setMunicipios] = useState([]);
-  // useEffect(() => {
-  //   (async () => {
-  //     const response = await api.get('/municipios');
-  //     setMunicipios(response.data);
-  //   })();
-  // }, []);
+  }, [id, setPatient]);
 
   // Buscando a Lista de Estados
   const [estados, setEstados] = useState([]);
@@ -166,17 +147,16 @@ const PatientIdentification = () => {
 
   const [municipios, setMunicipios] = useState([]);
   useEffect(() => {
-    if(formikRef.current.values) {
-      (async () => {
-        const response = await api.get(
-          `/municipios?conditions=estado_id:=:${initialValues.estado_id}`,
-        );
-        console.log(municipios);
-        setMunicipios(response.data);
-      })();
-    }
-
-  }, [formikRef.current.values.estado_id]);
+    (async () => {
+      const response = await api.get('/municipios', {
+        params: {
+          conditions: `estado_id:=:${initialValues.estado_id}`
+        }
+      });
+      console.log(response.data);
+      setMunicipios(response.data);
+    })();
+  }, [initialValues.estado_id]);
 
   // TODO: ainda em estágio embrionário.
   const handleSubmit = async ({
@@ -244,7 +224,6 @@ const PatientIdentification = () => {
           enableReinitialize
           initialValues={initialValues}
           onSubmit={handleSubmit}
-          ref={formikRef}
           validateOnMount
           validationSchema={schema}
         >
