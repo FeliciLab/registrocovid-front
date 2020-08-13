@@ -21,6 +21,10 @@ const useStyles = makeStyles(theme => ({
     width: '258px',
     height: '48px',
     marginLeft: theme.spacing(3),
+    '&:disabled': {
+      cursor: 'not-allowed',
+      pointerEvents: 'visible'
+    }
   },
   patientWrapper: {
     display: 'flex',
