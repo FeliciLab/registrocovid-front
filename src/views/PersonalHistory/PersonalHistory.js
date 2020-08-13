@@ -2,9 +2,12 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import useStyles from './styles';
 
+import CloseIcon from '@material-ui/icons/Close';
+
 import {
   Typography,
   Button,
+  IconButton,
   Card,
   Grid,
   FormControl,
@@ -16,7 +19,7 @@ import {
   Checkbox,
   FormGroup
 } from '@material-ui/core';
-import { Formik, Form } from 'formik';
+import { Formik, Form, useFormik } from 'formik';
 
 import CustonBreadcrumbs from 'components/CustonBreadcrumbs';
 import PatientInfo from 'components/PatientInfo';
@@ -35,6 +38,7 @@ const PersonalHistory = () => {
   const [loading, setLoading] = useState(false);
   const [usoDrogas, setUsoDrogas] = useState([]);
   const [drogas, setDrogas] = useState([]);
+  const [patientHistory, setPatientHistory] = useState({});
 
   const handleInfos = useCallback(async () => {
     try {
@@ -45,7 +49,10 @@ const PersonalHistory = () => {
 
       const responseDrogas = await api.get('/drogas');
       setDrogas(responseDrogas.data);
-    } catch {
+
+      const responseHistory = await api.get(`/pacientes/${patient.id}/historico`);
+      setPatientHistory(responseHistory.data);
+    } catch (err) {
       addToast({
         type: 'error',
         message: 'Erro ao tentar carregar informações, tente novamente',
@@ -55,12 +62,11 @@ const PersonalHistory = () => {
     } finally {
       setLoading(false);
     }
-  }, [addToast, history]);
+  }, [addToast, history, patient.id]);
 
   useEffect(() => {
     handleInfos();
   }, [handleInfos]);
-
 
   const handleSubmit = async (values) => {
     try {
@@ -71,20 +77,27 @@ const PersonalHistory = () => {
         etilismo: values.etilismo === 'true' ? true : false
       };
 
-      await api.post(`/pacientes/${patient.id}/historico`, historico);
+      // await api.post(`/pacientes/${patient.id}/historico`, historico);
 
-      addToast({
-        type: 'success',
-        message: 'Dados salvos com sucesso'
-      });
-      history.push('/categorias');
-    } catch(err) {
+      // addToast({
+      //   type: 'success',
+      //   message: 'Dados salvos com sucesso'
+      // });
+      // history.push('/categorias');
+    } catch {
       addToast({
         type: 'error',
         message: 'Erro ao tentar registrar história pessoal, tente novamente',
       });
     }
   };
+
+  const formik =  useFormik({
+    initialValues: {
+
+    },
+    onSubmit: handleSubmit
+  });
 
   return (
     <div className={classes.root}>
@@ -99,158 +112,238 @@ const PersonalHistory = () => {
       </div>
 
       <div>
-        <Formik
+        {/* <Formik
           initialValues={{
-
+            tabagismo: patientHistory.tabagismo === true ? 'true' : 'false',
           }}
           onSubmit={handleSubmit}
         >
-          {({ values, handleChange, isSubmitting }) => (
-            <Form>
-              <div className={classes.titleWrapper}>
-                <Typography variant="h1">História Pessoal</Typography>
+          {({ values, handleChange, isSubmitting }) => ( */}
+        <form onSubmit={formik.handleSubmit}>
+          <div className={classes.titleWrapper}>
+            <Typography variant="h1">História Pessoal</Typography>
 
-                <div className={classes.rightContent}>
-                  <PatientInfo />
+            <div className={classes.rightContent}>
+              <PatientInfo />
 
-                  <Button
-                    className={classes.buttonSave}
-                    color="secondary"
-                    disable={isSubmitting}
-                    type="submit"
-                    variant="contained"
-                  >
+              <Button
+                className={classes.buttonSave}
+                color="secondary"
+                // disable={isSubmitting}
+                type="submit"
+                variant="contained"
+              >
                   Salvar
-                  </Button>
-                </div>
-              </div>
+              </Button>
+            </div>
+          </div>
 
-              {loading ? (<CircularProgress />) : (
-                <div className={classes.formContainer}>
-                  <Grid
-                    container
-                    item
-                    lg={8}
-                    spacing={2}
+          {loading ? <CircularProgress /> : (
+            <div className={classes.formContainer}>
+              <Grid
+                container
+                item
+                lg={8}
+                spacing={2}
+              >
+                <Card className={classes.form}>
+                  <CardInfo
+                    items={[
+                      { label: 'Fumante Diário:', description: '1 cigarro ao dia por no mínimo 1 mês'},
+                      { label: 'Fumante ocasional:', description: 'Menos de 1 cigarro por dia por no mínimo 1 mês'},
+                      { label: 'Ex-fumante:', description: 'Parou de fumar há pelo menos 1 mês'},
+                      { label: 'Não fumante:', description: 'Nunca fumaram ou fumam há menos de 1 mês'},
+                    ]}
+                    title="Classificação do tabagismo segundo OMS:"
+                  />
+
+                  <FormControl
+                    className={classes.formGroup}
+                    component="fieldset"
                   >
-                    <Card className={classes.form}>
-                      <FormControl
-                        className={classes.formGroup}
-                        component="fieldset"
-                      >
-                        <FormLabel>
-                          <Typography variant="h4">Tabagismo</Typography>
-                        </FormLabel>
+                    <FormLabel>
+                      <Typography variant="h4">Tabagismo</Typography>
+                    </FormLabel>
 
-                        <RadioGroup
-                          aria-label="tabagismo"
-                          name="tabagismo"
-                          onChange={handleChange}
-                          value={values.tabagismo}
-                        >
-                          <FormControlLabel
-                            control={<Radio />}
-                            label="Sim"
+                    <RadioGroup
+                      name="tabagismo"
+                      value={formik.values.tabagismo}
+                    >
+                      <FormControlLabel
+                        control={
+                          <Radio
+                            onChange={formik.handleChange}
                             value="true"
                           />
-                          <FormControlLabel
-                            control={<Radio />}
-                            label="Não"
+                        }
+                        label="Sim"
+                      />
+                      <FormControlLabel
+                        control={
+                          <Radio
+                            onChange={formik.handleChange}
                             value="false"
                           />
-                        </RadioGroup>
-                      </FormControl>
+                        }
+                        label="Não"
+                      />
+                    </RadioGroup>
+                  </FormControl>
 
-                      <FormControl
-                        className={classes.formGroup}
-                        component="fieldset"
-                      >
-                        <FormLabel>
-                          <Typography variant="h4">
+                  <FormControl
+                    className={classes.formGroup}
+                    component="fieldset"
+                  >
+                    <FormLabel>
+                      <Typography variant="h4">
                             Em relação ao uso de drogas ilícitas, em que opção você se enquadra?
-                          </Typography>
-                        </FormLabel>
+                      </Typography>
+                    </FormLabel>
 
-                        <RadioGroup
-                          aria-label="situacao_uso_drogas_id"
-                          name="situacao_uso_drogas_id"
-                          onChange={handleChange}
-                          value={values.situacao_uso_drogas_id}
-                        >
-                          {usoDrogas.map(item => (
-                            <FormControlLabel
-                              control={<Radio />}
-                              key={String(item.id)}
-                              label={item.descricao}
+                    <RadioGroup
+                      name="situacao_uso_drogas_id"
+                      value={formik.values.situacao_uso_drogas_id}
+                    >
+                      {usoDrogas.map(item => (
+                        <FormControlLabel
+                          control={
+                            <Radio
+                              onChange={formik.handleChange}
                               value={String(item.id)}
                             />
-                          ))}
-                        </RadioGroup>
-                      </FormControl>
+                          }
+                          key={String(item.id)}
+                          label={item.descricao}
+                        />
+                      ))}
+                    </RadioGroup>
+                  </FormControl>
 
-                      <FormControl
-                        className={classes.formGroup}
-                        component="fieldset"
-                      >
-                        <FormLabel>
-                          <Typography variant="h4">
+                  <FormControl
+                    className={classes.formGroup}
+                    component="fieldset"
+                  >
+                    <FormLabel>
+                      <Typography variant="h4">
                             Em caso de uso de drogas (atual ou ex-usuário), descrever quais drogas
-                          </Typography>
-                        </FormLabel>
+                      </Typography>
+                    </FormLabel>
 
-                        <FormGroup>
-                          {drogas.map(item => (
-                            <FormControlLabel
-                              control={
-                                <Checkbox
-                                  onChange={handleChange}
-                                  value={item.id}
-                                />
-                              }
-                              key={String(item.id)}
-                              label={item.descricao}
-                              name="drogas"
+                    <FormGroup>
+                      {drogas.map(item => (
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              onChange={formik.handleChange}
+                              value={item.id}
                             />
-                          ))}
-                        </FormGroup>
-                      </FormControl>
+                          }
+                          key={String(item.id)}
+                          label={item.descricao}
+                          name="drogas"
+                        />
+                      ))}
+                    </FormGroup>
+                  </FormControl>
 
-                      <FormControl
-                        className={classes.formGroup}
-                        component="fieldset"
-                      >
-                        <FormLabel>
-                          <Typography variant="h4">Etilismo</Typography>
-                        </FormLabel>
+                  <CardInfo
+                    items={[
+                      { label: 'Etilista:', description: 'consumo de pelo menos 1 unidade (ver abaixo) de qualquer bebida alcoólica por dia no último ano'},
+                      { label: 'Ex-etilista:', description: 'Já consumiu bebida alcoólica, mas parou de consumir no último ano'},
+                      { label: 'Não etilista:', description: 'Nunca consumiu bebida alcoólica na frequência de etilista'},
+                    ]}
+                    title="Classificação do etilismo segundo OMS:"
+                  />
 
-                        <RadioGroup
-                          aria-label="etilismo"
-                          name="etilismo"
-                          onChange={handleChange}
-                          value={values.etilismo}
-                        >
-                          <FormControlLabel
-                            control={<Radio />}
-                            label="Etilista / Ex- etilista"
-                            value="1"
+                  <FormControl
+                    className={classes.formGroup}
+                    component="fieldset"
+                  >
+                    <FormLabel>
+                      <Typography variant="h4">Etilismo</Typography>
+                    </FormLabel>
+
+                    <RadioGroup
+                      name="etilismo"
+                      value={formik.values.etilismo}
+                    >
+                      <FormControlLabel
+                        control={
+                          <Radio
+                            onChange={formik.handleChange}
+                            value="true"
                           />
-                          <FormControlLabel
-                            control={<Radio />}
-                            label="Não etilista"
-                            value="0"
+                        }
+                        label="Etilista / Ex- etilista"
+                      />
+                      <FormControlLabel
+                        control={
+                          <Radio
+                            onChange={formik.handleChange}
+                            value="false"
                           />
-                        </RadioGroup>
-                      </FormControl>
-                    </Card>
-                  </Grid>
-                </div>
-              )}
-            </Form>
+                        }
+                        label="Não etilista"
+                      />
+                    </RadioGroup>
+                  </FormControl>
+                </Card>
+              </Grid>
+            </div>
           )}
-        </Formik>
+        </form>
+        {/* )}
+        </Formik> */}
       </div>
     </div>
   );
 }
 
 export default PersonalHistory;
+
+function CardInfo({ title, items }) {
+  const classes = useStyles();
+
+  const [showCard, setShowCard] = useState(true);
+
+  if (!showCard) {
+    return null;
+  }
+
+  return (
+    <Card className={classes.cardInfo}>
+      <div className={classes.titleContainer}>
+        <Typography
+          className={classes.title}
+          variant="subtitle1"
+        >
+          {title}
+        </Typography>
+
+        <IconButton
+          aria-label="delete"
+          onClick={() => setShowCard(state => !state)}
+        >
+          <CloseIcon fontSize="small" />
+        </IconButton>
+      </div>
+
+      {items.map(item => (
+        <div style={{ display: 'flex', flexDirection: 'row' }}>
+          <Typography
+            className={classes.label}
+            variant="subtitle1"
+          >
+            {item.label}
+          </Typography>
+          <Typography
+            className={classes.description}
+            variant="subtitle1"
+          >
+            {item.description}
+          </Typography>
+        </div>
+      ))}
+    </Card>
+  );
+}

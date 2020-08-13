@@ -41,6 +41,31 @@ const useStyles = makeStyles(theme => ({
   },
   formGroup: {
     marginBottom: 24
+  },
+  cardInfo: {
+    padding: 16,
+    width: 570,
+    marginBottom: 10,
+  },
+  title: {
+    fontWeight: 'bold',
+    color: theme.palette.primary.main,
+    letterSpacing: 1.25,
+    textTransform: 'uppercase',
+    fontSize: 16
+  },
+  label: {
+    fontWeight: 'bold',
+    fontSize: 14
+  },
+  description: {
+    fontSize: 14
+  },
+  titleContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
   }
 }));
 
