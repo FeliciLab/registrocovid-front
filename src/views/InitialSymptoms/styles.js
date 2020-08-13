@@ -27,6 +27,17 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'row',
     alignItems: 'center'
   },
+  label:{
+    fontSize: '24px',
+    fontStyle: 'bold',
+    marginBottom: theme.spacing(2)
+  },
+  paper:{
+    padding: theme.spacing(3)
+  },
+  control: {
+    marginBottom: theme.spacing(3)
+  },
   chipWrapper: {
     display: 'flex',
     flexWrap: 'wrap',
