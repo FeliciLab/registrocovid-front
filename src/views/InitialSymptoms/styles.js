@@ -45,6 +45,9 @@ const useStyles = makeStyles(theme => ({
       margin: theme.spacing(0.5),
     },
   },
+  fixWidthSize: {
+    width: '300px'
+  }
 }));
 
 export default useStyles;
