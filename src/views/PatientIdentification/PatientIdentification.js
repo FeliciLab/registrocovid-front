@@ -33,21 +33,21 @@ const PatientIdentification = () => {
 
   const [initialValues, setinItialValues] = useState({
     municipio_id: '0',
-    bairro_id: '',
-    estado_id: '',
+    bairro_id: '0',
+    estado_id: '0',
     telefone_de_casa: '',
     telefone_celular: '',
     telefone_do_trabalho: '',
     telefone_de_vizinho: '',
     sexo: '0',
     data_nascimento: '',
-    estado_nascimento_id: '',
-    cor_id: '',
-    estado_civil_id: '',
-    escolaridade_id: '',
-    atividade_profissional_id: '',
-    qtd_pessoas_domicilio: '',
-    municipios: [],
+    estado_nascimento_id: '0',
+    cor_id: '0',
+    estado_civil_id: '0',
+    escolaridade_id: '0',
+    atividade_profissional_id: '0',
+    qtd_pessoas_domicilio: '0',
+    municipios: [], // para poder fazer o select
   });
 
   // buscando o paciente pelo contexto
@@ -88,6 +88,9 @@ const PatientIdentification = () => {
           municipio_id: response.data.municipio
             ? response.data.municipio.id.toString()
             : '0',
+          municipios: response.data.estado
+            ? getMunicipios(response.data.estado.id.toString())
+            : [], // precisamos setar os estados quer podem ser selecionados inicialmente
         }));
       } catch (err) {
         // TODO: tratar melhor os erros
@@ -194,22 +197,25 @@ const PatientIdentification = () => {
       estado_nascimento_id,
       cor_id,
       estadocivil_id: estado_civil_id,
-      escolaridade_id,
+      escolaridade_id: escolaridade_id,
       atividadeprofissional_id: atividade_profissional_id,
       qtd_pessoas_domicilio,
     };
 
+    console.log('patienteUpdated', patienteUpdated);
+
     // Sanitizando o paciente antes de enviar para a request
     const patientSanitized = Object.keys(patienteUpdated).reduce(
       (acc, curr) => {
-        if (patienteUpdated[curr] !== '' || patienteUpdated[curr] !== '0') {
+        if (patienteUpdated[curr] !== '' && patienteUpdated[curr] !== '0') {
           return { ...acc, [curr]: patienteUpdated[curr] };
         }
+        return acc;
       },
       {},
     );
 
-    console.log(patientSanitized);
+    console.log('patientSanitized', patientSanitized);
     // TODO: Colocar tratamento dos erros devidamente.
     try {
       await api.post(`/pacientes/${id}/identificacao`, patientSanitized);
@@ -304,7 +310,6 @@ const PatientIdentification = () => {
                       onChange={async e => {
                         const { value } = e.target; // estado_id
                         const municipiosSelected = await getMunicipios(value);
-                        console.log(municipiosSelected);
                         setFieldValue('estado_id', value);
                         setFieldValue('municipio_id', '');
                         setFieldValue('municipios', municipiosSelected);
@@ -411,6 +416,12 @@ const PatientIdentification = () => {
                       value={values.bairro_id}
                       variant="filled"
                     >
+                      <MenuItem
+                        disabled
+                        value="0"
+                      >
+                        Selecione um bairro...
+                      </MenuItem>
                       {bairros.map(({ id, nome }) => (
                         <MenuItem
                           key={id}
@@ -666,7 +677,7 @@ const PatientIdentification = () => {
                         disabled
                         value="0"
                       >
-                        Selecione um bairro...
+                        Selecione um estado...
                       </MenuItem>
                       {estados.map(({ id, nome }) => (
                         <MenuItem
@@ -857,3 +868,4 @@ const PatientIdentification = () => {
 };
 
 export default PatientIdentification;
+//{"message":"The given data was invalid.","errors":{"bairro_id":["O campo bairro id selecionado \u00e9 inv\u00e1lido."],"sexo":["O campo sexo selecionado \u00e9 inv\u00e1lido."],"data_nascimento":["O campo data nascimento n\u00e3o \u00e9 uma data v\u00e1lida."],"estado_nascimento_id":["O campo estado nascimento id selecionado \u00e9 inv\u00e1lido."]}}
