@@ -26,10 +26,6 @@ function PatientProvider({ children }) {
 function usePatient() {
   const context = useContext(PatientContext);
 
-  if (!context) {
-    throw new Error('useToast must be used within an ToastProvider');
-  }
-
   return context;
 }
 
