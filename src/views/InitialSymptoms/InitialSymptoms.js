@@ -18,54 +18,32 @@ import {
 
 import { Formik, Form, Field } from 'formik';
 
+import { useToast } from 'hooks/toast';
+import { usePatient } from 'context/PatientContext';
+
+import api from 'services/api';
+
 import useStyles from './styles';
 import CustonBreadcrumbs from 'components/CustonBreadcrumbs';
 import PatientInfo from 'components/PatientInfo';
 
 // Card, RadioButton, Field --> date, Chip, Grid para responsividade
 
-const sintomasListagem = [
-  {
-    id: 1,
-    name: 'Síndrome Gripal'
-  },
-  {
-    id: 2,
-    name: 'Coriza'
-  },
-  {
-    id: 3,
-    name: 'Tosse (seca ou produtiva)'
-  },
-  {
-    id: 4,
-    name: 'Calafrios'
-  },
-  {
-    id: 5,
-    name: 'Outros sintomas'
-  }
-];
-
-const sintomasPaciente = [
-  {
-    id: 1,
-    name: 'Síndrome Gripal'
-  },
-  {
-    id: 5,
-    name: 'Outros sintomas'
-  }
-];
-
 const InitialSymptoms = () => {
+  const { patient, addPatient } = usePatient();
+
+  const { addToast } = useToast();
   const classes = useStyles();
   const [selectedSintomas, setSelectedSintomas] = useState([]);
+  const [sintomasListagem, setSintomasListagem] = useState([{}]);
 
   useEffect(() => {
-    const sintomasPacientesIds = sintomasPaciente.map(sintoma => sintoma.id);
+    api.get('/sintomas').then((response) => {
+      
+      setSintomasListagem(response.data);
+    });
 
-    setSelectedSintomas(sintomasPacientesIds);
+    setSelectedSintomas(patient.sintomas.map(sintoma => sintoma.id));
   }, []);
 
   const handleClickChip = (sintomaId) => {
@@ -81,8 +59,24 @@ const InitialSymptoms = () => {
     }
   }
 
-  const handleSubmit = (values) => {
-    console.info(values);
+  const handleSubmit = async (values) => {
+
+    const patientSubmitData = {
+      sintomas: selectedSintomas,
+      caso_confirmado: values.caso_confirmado === 'confirmed',
+      data_inicio_sintomas: values.data_inicio_sintomas
+    }
+
+    const response = await api.patch(`/pacientes/${patient.id}`, patientSubmitData);
+
+    addPatient(response.data);
+
+    addToast({
+      type: 'success',
+      message: 'teste'
+    });
+
+    
   }
 
   return (
@@ -98,8 +92,8 @@ const InitialSymptoms = () => {
       </div>
       <Formik
         initialValues={{
-          caso: '',
-          dataInicio: ''
+          caso_confirmado: patient.caso_confirmado,
+          data_inicio_sintomas: patient.data_inicio_sintomas
         }}
         onSubmit={handleSubmit}
       >
@@ -143,9 +137,9 @@ const InitialSymptoms = () => {
 
                     <Field
                       as={RadioGroup}
-                      name="caso"
+                      name="caso_confirmado"
                       onChange={handleChange}
-                      value={values.caso}
+                      value={values.caso_confirmado ? 'confirmed' : 'suspect'}
                     >
                       <FormControlLabel
                         control={<Radio />}
@@ -177,14 +171,14 @@ const InitialSymptoms = () => {
                             color="primary"
                             icon={<DoneIcon />}
                             key={sintomaListagem.id}
-                            label={sintomaListagem.name}
+                            label={sintomaListagem.nome}
                             onClick={() => handleClickChip(sintomaListagem.id)}
                           />
                           :
                           <Chip
                             clickable
                             key={sintomaListagem.id}
-                            label={sintomaListagem.name}
+                            label={sintomaListagem.nome}
                             onClick={() => handleClickChip(sintomaListagem.id)}
                           />
                       ))}
@@ -205,10 +199,10 @@ const InitialSymptoms = () => {
                       }}
                       as={TextField}
                       label="Início dos sintomas"
-                      name="dataInicio"
+                      name="data_inicio_sintomas"
                       onChange={handleChange}
                       type="date"
-                      value={values.dataInicio}
+                      value={values.data_inicio_sintomas}
                     />
                     
                   </FormGroup>
