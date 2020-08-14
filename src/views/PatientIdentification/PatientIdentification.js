@@ -23,6 +23,7 @@ import PatientInfo from 'components/PatientInfo';
 import api from 'services/api';
 import { useParams, useHistory } from 'react-router-dom';
 import { usePatient } from 'context/PatientContext';
+import { useToast } from 'hooks/toast';
 
 const PatientIdentification = () => {
   const history = useHistory();
@@ -30,6 +31,8 @@ const PatientIdentification = () => {
   const classes = useStyles();
 
   const { id } = useParams();
+
+  const { addToast } = useToast();
 
   const [initialValues, setinItialValues] = useState({
     municipio_id: '0',
@@ -190,12 +193,10 @@ const PatientIdentification = () => {
       municipio_id,
       bairro_id,
       estado_id,
-      telefones: [
-        telefone_de_casa,
-        telefone_celular,
-        telefone_do_trabalho,
-        telefone_de_vizinho,
-      ],
+      telefone_de_casa,
+      telefone_celular,
+      telefone_do_trabalho,
+      telefone_de_vizinho,
       sexo,
       data_nascimento,
       estado_nascimento_id,
@@ -217,7 +218,6 @@ const PatientIdentification = () => {
       {},
     );
 
-    // TODO: Colocar tratamento dos erros devidamente.
     try {
       const response = await api.post(
         `/pacientes/${id}/identificacao`,
@@ -226,13 +226,18 @@ const PatientIdentification = () => {
       const { status, data } = response;
 
       if (status === 201) {
-        // identificaçao do paciente já existe.
-        console.log(data);
+        addToast({
+          type: 'success',
+          message: data.message,
+        });
+        // TODO: quando enviar para a pg de categorias do paciente
+        history.push('/');
       }
     } catch (err) {
-      console.log(err);
-    } finally {
-      history.push('/');
+      addToast({
+        type: 'info',
+        message: 'Identificação do paciente já existe',
+      });
     }
   };
 

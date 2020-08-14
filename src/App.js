@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Router } from 'react-router-dom';
-// import { createBrowserHistory } from 'history';
 import { ThemeProvider } from '@material-ui/styles';
+import { ToastProvider } from 'hooks/toast';
+
 
 import theme from './theme';
 import 'react-perfect-scrollbar/dist/css/styles.css';
@@ -18,9 +19,11 @@ export default class App extends Component {
       <ThemeProvider theme={theme}>
         <AuthProvider>
           <PatientProvider>
-            <Router history={history}>
-              <Routes />
-            </Router>
+            <ToastProvider>
+              <Router history={history}>
+                <Routes />
+              </Router>
+            </ToastProvider>
           </PatientProvider>
         </AuthProvider>
       </ThemeProvider>
