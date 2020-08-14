@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-
 import DoneIcon from '@material-ui/icons/Done';
 import {
   Typography,
@@ -13,10 +12,13 @@ import {
   Radio,
   Chip,
   TextField,
-  Grid
+  Grid,
+  CircularProgress
 } from '@material-ui/core';
 
 import { Formik, Form, Field } from 'formik';
+
+import formatDate from '../../helpers/formatDate';
 
 import { useToast } from 'hooks/toast';
 import { usePatient } from 'context/PatientContext';
@@ -34,19 +36,52 @@ const InitialSymptoms = () => {
 
   const { addToast } = useToast();
   const classes = useStyles();
+  
   const [selectedSintomas, setSelectedSintomas] = useState([]);
+  const [selectedSintomasHasChanged, setSelectedSintomasHasChanged] = useState(false);
   const [sintomasListagem, setSintomasListagem] = useState([{}]);
 
-  useEffect(() => {
-    api.get('/sintomas').then((response) => {
-      
-      setSintomasListagem(response.data);
-    });
+  const [isFetching, setIsFetching] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
-    setSelectedSintomas(patient.sintomas.map(sintoma => sintoma.id));
+  useEffect(() => {
+    setIsFetching(true);
+    try {
+      api.get('/sintomas').then((response) => {
+      
+        setSintomasListagem(response.data);
+      });
+  
+      setSelectedSintomas(patient.sintomas.map(sintoma => sintoma.id));
+      setIsFetching(false);
+    } catch(err) {
+      addToast({
+        type: 'error',
+        message: 'Ocorreu um erro ao carregar os sintomas, por favor tente novamente'
+      });
+      setIsFetching(false);
+    }
   }, []);
 
-  const handleClickChip = (sintomaId) => {
+
+  // Checando se os sintomas selecionados são o mesmo do que o paciente já possui
+  useEffect(() => {
+    if (patient.sintomas.length !== selectedSintomas.length) {
+      setSelectedSintomasHasChanged(true);
+    } else {
+      const checkHasNotChanged = selectedSintomas.every((sintomaId) => {
+        const index = patient.sintomas.findIndex((sintoma) => sintoma.id === sintomaId);
+
+        return index > -1;
+      });
+
+      setSelectedSintomasHasChanged(!checkHasNotChanged);
+    }
+
+    
+  }, [selectedSintomas]);
+
+  const handleClickChip = async (sintomaId) => {
     const exists = selectedSintomas.some((selectedSintomaId) => selectedSintomaId === sintomaId);
 
     if (exists) {
@@ -59,7 +94,10 @@ const InitialSymptoms = () => {
     }
   }
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (values, dirty) => {
+    if ((!dirty && !selectedSintomasHasChanged) || isSaving) {
+      return;
+    }
 
     const patientSubmitData = {
       sintomas: selectedSintomas,
@@ -67,16 +105,27 @@ const InitialSymptoms = () => {
       data_inicio_sintomas: values.data_inicio_sintomas
     }
 
-    const response = await api.patch(`/pacientes/${patient.id}`, patientSubmitData);
+    setIsSaving(true);
+    try {
+      const { data } = await api.patch(`/pacientes/${patient.id}`, patientSubmitData);
 
-    addPatient(response.data);
+      data.created_at = formatDate(data.created_at);
 
-    addToast({
-      type: 'success',
-      message: 'teste'
-    });
+      addPatient(data);
 
-    
+      addToast({
+        type: 'success',
+        message: 'Dados salvos com sucesso'
+      });
+
+      setIsSaving(false);
+    } catch(err) {
+      addToast({
+        type: 'error',
+        message: 'Ocorreu um erro ao salvar os dados, por favor, tente novamente'
+      });
+      setIsSaving(false);
+    }
   }
 
   return (
@@ -92,12 +141,12 @@ const InitialSymptoms = () => {
       </div>
       <Formik
         initialValues={{
-          caso_confirmado: patient.caso_confirmado,
+          caso_confirmado: patient.caso_confirmado ? 'confirmed' : 'suspect',
           data_inicio_sintomas: patient.data_inicio_sintomas
         }}
         onSubmit={handleSubmit}
       >
-        {({ values, handleChange }) => (
+        {({ values, handleChange, dirty }) => (
           <Form component={FormControl}>
             <div className={classes.titleWrapper}>
               <Typography variant="h1">Sintomas Iniciais</Typography>
@@ -107,11 +156,11 @@ const InitialSymptoms = () => {
                 <Button
                   className={classes.buttonSave}
                   color="secondary"
-                  onClick={handleSubmit}
+                  disabled={(!dirty && !selectedSintomasHasChanged) || isSaving}
                   type="submit"
                   variant="contained"
                 >
-                Salvar
+                  { isSaving ? 'Salvando...' : 'Salvar'}
                 </Button>
               </div>
             </div>
@@ -139,7 +188,7 @@ const InitialSymptoms = () => {
                       as={RadioGroup}
                       name="caso_confirmado"
                       onChange={handleChange}
-                      value={values.caso_confirmado ? 'confirmed' : 'suspect'}
+                      value={values.caso_confirmado}
                     >
                       <FormControlLabel
                         control={<Radio />}
@@ -163,25 +212,26 @@ const InitialSymptoms = () => {
                       component="legend"
                     >Selecione os sintomas que o paciente apresentou</FormLabel>
                     <div className={classes.chipWrapper}>
-                      {sintomasListagem.map(sintomaListagem => (
-                        selectedSintomas.some((idSintoma) => idSintoma === sintomaListagem.id)
-                          ?
-                          <Chip
-                            clickable
-                            color="primary"
-                            icon={<DoneIcon />}
-                            key={sintomaListagem.id}
-                            label={sintomaListagem.nome}
-                            onClick={() => handleClickChip(sintomaListagem.id)}
-                          />
-                          :
-                          <Chip
-                            clickable
-                            key={sintomaListagem.id}
-                            label={sintomaListagem.nome}
-                            onClick={() => handleClickChip(sintomaListagem.id)}
-                          />
-                      ))}
+                      { isFetching ? <CircularProgress/> :
+                        sintomasListagem.map(sintomaListagem => (
+                          selectedSintomas.some((idSintoma) => idSintoma === sintomaListagem.id)
+                            ?
+                            <Chip
+                              clickable
+                              color="primary"
+                              icon={<DoneIcon />}
+                              key={sintomaListagem.id}
+                              label={sintomaListagem.nome}
+                              onClick={() => handleClickChip(sintomaListagem.id)}
+                            />
+                            :
+                            <Chip
+                              clickable
+                              key={sintomaListagem.id}
+                              label={sintomaListagem.nome}
+                              onClick={() => handleClickChip(sintomaListagem.id)}
+                            />
+                        ))}
                     </div>
                   </FormGroup>
 
