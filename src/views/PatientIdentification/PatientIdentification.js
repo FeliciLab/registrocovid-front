@@ -53,52 +53,6 @@ const PatientIdentification = () => {
   // buscando o paciente pelo contexto
   const { patient, setPatient } = usePatient();
 
-  // Setando as variáveis do paciente no Formik
-  useEffect(() => {
-    (async () => {
-      try {
-        const response = await api.get(`/pacientes/${id}/identificacao`);
-        setPatient(response.data);
-        console.log(response.data);
-        setinItialValues(initialValues => ({
-          ...initialValues,
-          sexo: response.data.sexo ? response.data.sexo : '0',
-          data_nascimento: response.data.data_nascimento
-            ? response.data.data_nascimento
-            : '',
-          cor_id: response.data.cor ? response.data.cor.id.toString() : '',
-          estado_civil_id: response.data.estado_civil
-            ? response.data.estado_civil.id.toString()
-            : '',
-          estado_nascimento_id: response.data.estado_nascimento
-            ? response.data.estado_nascimento.id
-            : '',
-          escolaridade_id: response.data.escolaridade
-            ? response.data.escolaridade.id.toString()
-            : '',
-          atividade_profissional_id: response.data.atividade_profissional
-            ? response.data.atividade_profissional.id.toString()
-            : '',
-          qtd_pessoas_domicilio: response.data.qtd_pessoas_domicilio
-            ? response.data.qtd_pessoas_domicilio.toString()
-            : '',
-          estado_id: response.data.estado
-            ? response.data.estado.id.toString()
-            : '0',
-          municipio_id: response.data.municipio
-            ? response.data.municipio.id.toString()
-            : '0',
-          municipios: response.data.estado
-            ? getMunicipios(response.data.estado.id.toString())
-            : [], // precisamos setar os estados quer podem ser selecionados inicialmente
-        }));
-      } catch (err) {
-        // TODO: tratar melhor os erros
-        console.log(err);
-      }
-    })();
-  }, [id, setPatient]);
-
   // Buscando a Lista de Estados
   const [estados, setEstados] = useState([]);
   useEffect(() => {
@@ -153,8 +107,56 @@ const PatientIdentification = () => {
     })();
   }, []);
 
+  // Setando as variáveis do paciente no Formik
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await api.get(`/pacientes/${id}/identificacao`);
+        setPatient(response.data);
+
+        // busca os possíveis municípios do estado_id
+        const municipiosSelected = await getMunicipios(response.data.estado.id);
+
+        setinItialValues(initialValues => ({
+          ...initialValues,
+          sexo: response.data.sexo ? response.data.sexo : '0',
+          data_nascimento: response.data.data_nascimento
+            ? response.data.data_nascimento
+            : '',
+          cor_id: response.data.cor ? response.data.cor.id.toString() : '',
+          estado_civil_id: response.data.estado_civil
+            ? response.data.estado_civil.id.toString()
+            : '',
+          estado_nascimento_id: response.data.estado_nascimento
+            ? response.data.estado_nascimento.id
+            : '',
+          escolaridade_id: response.data.escolaridade
+            ? response.data.escolaridade.id.toString()
+            : '',
+          atividade_profissional_id: response.data.atividade_profissional
+            ? response.data.atividade_profissional.id.toString()
+            : '',
+          qtd_pessoas_domicilio: response.data.qtd_pessoas_domicilio
+            ? response.data.qtd_pessoas_domicilio.toString()
+            : '',
+          estado_id: response.data.estado
+            ? response.data.estado.id.toString()
+            : '0',
+          municipio_id: response.data.municipio
+            ? response.data.municipio.id.toString()
+            : '0',
+          municipios: response.data.estado ? municipiosSelected : [], // precisamos setar os estados quer podem ser selecionados inicialmente
+        }));
+      } catch (err) {
+        // TODO: tratar melhor os erros
+        console.log(err);
+      }
+    })();
+  }, [id, setPatient]);
+
   /**
    * Retorna uma lista dos municípios de um estado.
+   * Caso não seja informado o estado_id, então será retornado todos os municípios.
    * @param {number} estado_id id do estado.
    */
   async function getMunicipios(estado_id) {
@@ -188,21 +190,21 @@ const PatientIdentification = () => {
       municipio_id,
       bairro_id,
       estado_id,
-      telefone_de_casa,
-      telefone_celular,
-      telefone_do_trabalho,
-      telefone_de_vizinho,
+      telefones: [
+        telefone_de_casa,
+        telefone_celular,
+        telefone_do_trabalho,
+        telefone_de_vizinho,
+      ],
       sexo,
       data_nascimento,
       estado_nascimento_id,
       cor_id,
-      estadocivil_id: estado_civil_id,
-      escolaridade_id: escolaridade_id,
-      atividadeprofissional_id: atividade_profissional_id,
+      estado_civil_id,
+      escolaridade_id,
+      atividade_profissional_id,
       qtd_pessoas_domicilio,
     };
-
-    console.log('patienteUpdated', patienteUpdated);
 
     // Sanitizando o paciente antes de enviar para a request
     const patientSanitized = Object.keys(patienteUpdated).reduce(
@@ -215,10 +217,18 @@ const PatientIdentification = () => {
       {},
     );
 
-    console.log('patientSanitized', patientSanitized);
     // TODO: Colocar tratamento dos erros devidamente.
     try {
-      await api.post(`/pacientes/${id}/identificacao`, patientSanitized);
+      const response = await api.post(
+        `/pacientes/${id}/identificacao`,
+        patientSanitized,
+      );
+      const { status, data } = response;
+
+      if (status === 201) {
+        // identificaçao do paciente já existe.
+        console.log(data);
+      }
     } catch (err) {
       console.log(err);
     } finally {
@@ -367,13 +377,13 @@ const PatientIdentification = () => {
                       value={values.municipio_id}
                       variant="outlined"
                     >
-                      {/* TODO: filtragem dos municípios por estado. */}
                       <MenuItem
                         disabled
                         value="0"
                       >
                         Selecione um município...
                       </MenuItem>
+
                       {values.municipios &&
                         values.municipios.map(({ id, nome }) => (
                           <MenuItem
