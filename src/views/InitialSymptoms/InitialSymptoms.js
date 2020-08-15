@@ -42,8 +42,8 @@ const InitialSymptoms = () => {
       
       setSintomasListagem(response.data);
     });
-
-    setSelectedSintomas(patient.sintomas.map(sintoma => sintoma.id));
+    
+    setSelectedSintomas(patient.sintomas?.map(sintoma => sintoma.id) || []);
   }, []);
 
   const handleClickChip = (sintomaId) => {
@@ -55,6 +55,7 @@ const InitialSymptoms = () => {
       setSelectedSintomas(updatedSelectedSintomas);
 
     } else {
+      
       setSelectedSintomas([...selectedSintomas, sintomaId]);
     }
   }
@@ -66,10 +67,15 @@ const InitialSymptoms = () => {
       caso_confirmado: values.caso_confirmado === 'confirmed',
       data_inicio_sintomas: values.data_inicio_sintomas
     }
+    
+    let response = await api.patch(`/pacientes/${patient.id}`, patientSubmitData);
 
-    const response = await api.patch(`/pacientes/${patient.id}`, patientSubmitData);
-
-    addPatient(response.data);
+    addPatient({
+      ...patient,
+      sintomas: response.data.sintomas,
+      caso_confirmado: values.caso_confirmado === 'confirmed',
+      data_inicio_sintomas: values.data_inicio_sintomas
+    });
 
     addToast({
       type: 'success',
@@ -107,7 +113,6 @@ const InitialSymptoms = () => {
                 <Button
                   className={classes.buttonSave}
                   color="secondary"
-                  onClick={handleSubmit}
                   type="submit"
                   variant="contained"
                 >
@@ -163,8 +168,8 @@ const InitialSymptoms = () => {
                       component="legend"
                     >Selecione os sintomas que o paciente apresentou</FormLabel>
                     <div className={classes.chipWrapper}>
-                      {sintomasListagem.map(sintomaListagem => (
-                        selectedSintomas.some((idSintoma) => idSintoma === sintomaListagem.id)
+                      {sintomasListagem?.map(sintomaListagem => (
+                        selectedSintomas?.some((idSintoma) => idSintoma === sintomaListagem.id)
                           ?
                           <Chip
                             clickable
