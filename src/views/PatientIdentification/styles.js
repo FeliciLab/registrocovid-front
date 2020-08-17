@@ -42,6 +42,9 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     alignItems: 'left',
   },
+  patienteInfo: {
+    marginRight: theme.spacing(1),
+  },
   buttonSave: {
     width: '258px',
     // height: '48px',

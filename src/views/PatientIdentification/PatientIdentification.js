@@ -50,7 +50,7 @@ const PatientIdentification = () => {
     escolaridade_id: '0',
     atividade_profissional_id: '0',
     qtd_pessoas_domicilio: '0',
-    municipios: [], // para poder fazer o select
+    municipios: [],
   });
 
   // buscando o paciente pelo contexto
@@ -122,8 +122,6 @@ const PatientIdentification = () => {
 
         const { telefones } = response.data;
 
-        console.log(telefones);
-
         // setando os telefones caso existam
         telefones.forEach(telefone => {
           switch (telefone.tipo.trim()) {
@@ -184,11 +182,16 @@ const PatientIdentification = () => {
           municipio_id: response.data.municipio
             ? response.data.municipio.id.toString()
             : '0',
+          bairro_id: response.data.bairro
+            ? response.data.bairro.id.toString()
+            : '0',
           municipios: response.data.estado ? municipiosSelected : [], // precisamos setar os estados quer podem ser selecionados inicialmente
         }));
       } catch (err) {
-        // TODO: tratar melhor os erros
-        console.log(err);
+        addToast({
+          type: 'error',
+          message: 'Algo inesperado aconteceu. Tente novamente.',
+        });
       }
     })();
   }, [id, setPatient]);
@@ -316,8 +319,10 @@ const PatientIdentification = () => {
                   className={classes.actionSection}
                   item
                 >
-                  {/* patient */}
-                  <PatientInfo patient={patient} />
+                  {/* patient info */}
+                  <section className={classes.patienteInfo}>
+                    <PatientInfo patient={patient} />
+                  </section>
                   <Button
                     className={classes.buttonSave}
                     color="secondary"
