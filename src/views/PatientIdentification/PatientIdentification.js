@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import CustonBreadcrumbs from 'components/CustonBreadcrumbs';
 import useStyles from './styles';
 import { Formik, Form, Field } from 'formik';
@@ -26,6 +26,7 @@ import { usePatient } from 'context/PatientContext';
 import { useToast } from 'hooks/toast';
 
 const PatientIdentification = () => {
+
   const history = useHistory();
 
   const classes = useStyles();
@@ -51,6 +52,7 @@ const PatientIdentification = () => {
     atividade_profissional_id: '0',
     qtd_pessoas_domicilio: '0',
     municipios: [],
+    isPrevSaved: false,
   });
 
   // buscando o paciente pelo contexto
@@ -110,91 +112,98 @@ const PatientIdentification = () => {
     })();
   }, []);
 
-  // Setando as variáveis do paciente no Formik
-  useEffect(() => {
-    (async () => {
-      try {
-        const response = await api.get(`/pacientes/${id}/identificacao`);
-        setPatient(response.data);
+  const handleInfos = useCallback(async () => {
+    try {
+      const response = await api.get(`/pacientes/${id}/identificacao`);
+      setPatient(response.data);
 
-        // busca os possíveis municípios do estado_id
-        const municipiosSelected = await getMunicipios(response.data.estado.id);
+      // busca os possíveis municípios do estado_id
+      const municipiosSelected = await getMunicipios(response.data.estado.id);
 
-        const { telefones } = response.data;
+      const { telefones } = response.data;
 
-        // setando os telefones caso existam
-        telefones.forEach(telefone => {
-          switch (telefone.tipo.trim()) {
-            case 'casa':
-              setinItialValues(initialValues => ({
-                ...initialValues,
-                telefone_de_casa: telefone.numero,
-              }));
-              break;
-            case 'celular':
-              setinItialValues(initialValues => ({
-                ...initialValues,
-                telefone_celular: telefone.numero,
-              }));
-              break;
-            case 'trabalho':
-              setinItialValues(initialValues => ({
-                ...initialValues,
-                telefone_do_trabalho: telefone.numero,
-              }));
-              break;
-            case 'vizinho':
-              setinItialValues(initialValues => ({
-                ...initialValues,
-                telefone_de_vizinho: telefone.numero,
-              }));
-              break;
-            default:
-              break;
-          }
-        });
+      // setando os telefones caso existam
+      telefones.forEach(telefone => {
+        switch (telefone.tipo.trim()) {
+          case 'casa':
+            setinItialValues(initialValues => ({
+              ...initialValues,
+              telefone_de_casa: telefone.numero,
+            }));
+            break;
+          case 'celular':
+            setinItialValues(initialValues => ({
+              ...initialValues,
+              telefone_celular: telefone.numero,
+            }));
+            break;
+          case 'trabalho':
+            setinItialValues(initialValues => ({
+              ...initialValues,
+              telefone_do_trabalho: telefone.numero,
+            }));
+            break;
+          case 'vizinho':
+            setinItialValues(initialValues => ({
+              ...initialValues,
+              telefone_de_vizinho: telefone.numero,
+            }));
+            break;
+          default:
+            break;
+        }
+      });
 
+      setinItialValues(initialValues => ({
+        ...initialValues,
+        sexo: response.data.sexo ? response.data.sexo : '0',
+        data_nascimento: response.data.data_nascimento
+          ? response.data.data_nascimento
+          : '',
+        cor_id: response.data.cor ? response.data.cor.id.toString() : '',
+        estado_civil_id: response.data.estado_civil
+          ? response.data.estado_civil.id.toString()
+          : '',
+        estado_nascimento_id: response.data.estado_nascimento
+          ? response.data.estado_nascimento.id
+          : '',
+        escolaridade_id: response.data.escolaridade
+          ? response.data.escolaridade.id.toString()
+          : '',
+        atividade_profissional_id: response.data.atividade_profissional
+          ? response.data.atividade_profissional.id.toString()
+          : '',
+        qtd_pessoas_domicilio: response.data.qtd_pessoas_domicilio
+          ? response.data.qtd_pessoas_domicilio.toString()
+          : '',
+        estado_id: response.data.estado
+          ? response.data.estado.id.toString()
+          : '0',
+        municipio_id: response.data.municipio
+          ? response.data.municipio.id.toString()
+          : '0',
+        bairro_id: response.data.bairro
+          ? response.data.bairro.id.toString()
+          : '0',
+        municipios: response.data.estado ? municipiosSelected : [], // precisamos setar os estados quer podem ser selecionados inicialmente
+      }));
+
+      // verificando se já foi previamente salvo
+      if (response.data.qtd_pessoas_domicilio !== 0) {
         setinItialValues(initialValues => ({
           ...initialValues,
-          sexo: response.data.sexo ? response.data.sexo : '0',
-          data_nascimento: response.data.data_nascimento
-            ? response.data.data_nascimento
-            : '',
-          cor_id: response.data.cor ? response.data.cor.id.toString() : '',
-          estado_civil_id: response.data.estado_civil
-            ? response.data.estado_civil.id.toString()
-            : '',
-          estado_nascimento_id: response.data.estado_nascimento
-            ? response.data.estado_nascimento.id
-            : '',
-          escolaridade_id: response.data.escolaridade
-            ? response.data.escolaridade.id.toString()
-            : '',
-          atividade_profissional_id: response.data.atividade_profissional
-            ? response.data.atividade_profissional.id.toString()
-            : '',
-          qtd_pessoas_domicilio: response.data.qtd_pessoas_domicilio
-            ? response.data.qtd_pessoas_domicilio.toString()
-            : '',
-          estado_id: response.data.estado
-            ? response.data.estado.id.toString()
-            : '0',
-          municipio_id: response.data.municipio
-            ? response.data.municipio.id.toString()
-            : '0',
-          bairro_id: response.data.bairro
-            ? response.data.bairro.id.toString()
-            : '0',
-          municipios: response.data.estado ? municipiosSelected : [], // precisamos setar os estados quer podem ser selecionados inicialmente
+          isPrevSaved: true,
         }));
-      } catch (err) {
-        addToast({
-          type: 'error',
-          message: 'Algo inesperado aconteceu. Tente novamente.',
-        });
       }
-    })();
+    } catch (err) {
+      console.log(err);
+    }
   }, [id, setPatient]);
+
+  // Setando as variáveis do paciente no Formik
+  useEffect(() => {
+    handleInfos();
+  }, [handleInfos]);
 
   /**
    * Retorna uma lista dos municípios de um estado.
@@ -210,7 +219,6 @@ const PatientIdentification = () => {
     return response.data;
   }
 
-  // TODO: ainda em estágio embrionário.
   const handleSubmit = async ({
     municipio_id,
     bairro_id,
@@ -326,7 +334,7 @@ const PatientIdentification = () => {
                   <Button
                     className={classes.buttonSave}
                     color="secondary"
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || values.isPrevSaved}
                     type="submit"
                     variant="contained"
                   >
