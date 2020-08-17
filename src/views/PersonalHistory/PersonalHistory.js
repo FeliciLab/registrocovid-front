@@ -40,9 +40,11 @@ import useStyles from './styles';
 const PersonalHistory = () => {
   const classes = useStyles();
   const history = useHistory();
-  const formRef = useRef(null);
   const { addToast } = useToast();
   const { patient } = usePatient();
+
+  const formRef = useRef(null);
+  const buttonDisabled = useRef(false);
 
   const [loading, setLoading] = useState(false);
   const [patientHistory, setPatientHistory] = useState({});
@@ -61,6 +63,10 @@ const PersonalHistory = () => {
 
       const responseHistory = await api.get(`/pacientes/${patient.id}/historico`);
       setPatientHistory(responseHistory.data);
+
+      if (responseHistory) {
+        buttonDisabled.current = true;
+      }
     } catch (err) {
       if (err.response.status === 404) {
         return null;
@@ -107,6 +113,7 @@ const PersonalHistory = () => {
             <Button
               className={classes.buttonSave}
               color="secondary"
+              disabled={buttonDisabled.current}
               onClick={handleSubmit}
               type="submit"
               variant="contained"
@@ -191,9 +198,9 @@ const Form = forwardRef((props, ref) => {
             <CardInfo
               items={[
                 { label: 'Fumante Diário:', description: '1 cigarro ao dia por no mínimo 1 mês'},
-                { label: 'Fumante ocasional:', description: 'Menos de 1 cigarro por dia por no mínimo 1 mês'},
-                { label: 'Ex-fumante:', description: 'Parou de fumar há pelo menos 1 mês'},
-                { label: 'Não fumante:', description: 'Nunca fumaram ou fumam há menos de 1 mês'},
+                { label: 'Fumante ocasional:', description: 'menos de 1 cigarro por dia por no mínimo 1 mês'},
+                { label: 'Ex-fumante:', description: 'parou de fumar há pelo menos 1 mês'},
+                { label: 'Não fumante:', description: 'nunca fumaram ou fumam há menos de 1 mês'},
               ]}
               title="Classificação do tabagismo segundo OMS:"
             />
@@ -294,8 +301,8 @@ const Form = forwardRef((props, ref) => {
             <CardInfo
               items={[
                 { label: 'Etilista:', description: 'consumo de pelo menos 1 unidade (ver abaixo) de qualquer bebida alcoólica por dia no último ano'},
-                { label: 'Ex-etilista:', description: 'Já consumiu bebida alcoólica, mas parou de consumir no último ano'},
-                { label: 'Não etilista:', description: 'Nunca consumiu bebida alcoólica na frequência de etilista'},
+                { label: 'Ex-etilista:', description: 'já consumiu bebida alcoólica, mas parou de consumir no último ano'},
+                { label: 'Não etilista:', description: 'nunca consumiu bebida alcoólica na frequência de etilista'},
               ]}
               title="Classificação do etilismo segundo OMS:"
             />

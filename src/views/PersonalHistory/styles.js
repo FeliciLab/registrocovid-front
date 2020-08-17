@@ -56,7 +56,8 @@ const useStyles = makeStyles(theme => ({
   },
   label: {
     fontWeight: 'bold',
-    fontSize: 14
+    fontSize: 14,
+    marginRight: 4
   },
   description: {
     fontSize: 14
