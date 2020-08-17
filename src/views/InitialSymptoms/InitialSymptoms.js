@@ -16,6 +16,8 @@ import {
   CircularProgress
 } from '@material-ui/core';
 
+import { useHistory } from 'react-router-dom';
+
 import { Formik, Form, Field } from 'formik';
 
 import { useToast } from 'hooks/toast';
@@ -31,6 +33,8 @@ import PatientInfo from 'components/PatientInfo';
 
 const InitialSymptoms = () => {
   const { patient, addPatient } = usePatient();
+
+  const history = useHistory();
 
   const { addToast } = useToast();
   const classes = useStyles();
@@ -48,10 +52,9 @@ const InitialSymptoms = () => {
       api.get('/sintomas').then((response) => {
 
         setSintomasListagem(response.data);
+        setSelectedSintomas(patient.sintomas?.map(sintoma => sintoma.id) || []);
+        setIsFetching(false);
       });
-
-      setSelectedSintomas(patient.sintomas?.map(sintoma => sintoma.id) || []);
-      setIsFetching(false);
     } catch (err) {
       addToast({
         type: 'error',
@@ -64,7 +67,7 @@ const InitialSymptoms = () => {
 
   // Checando se os sintomas selecionados são o mesmo do que o paciente já possui
   useEffect(() => {
-    if (patient.sintomas.length !== selectedSintomas.length) {
+    if (patient.sintomas?.length !== selectedSintomas.length) {
       setSelectedSintomasHasChanged(true);
     } else {
       const checkHasNotChanged = selectedSintomas.every((sintomaId) => {
@@ -94,6 +97,7 @@ const InitialSymptoms = () => {
   }
 
   const handleSubmit = async (values, dirty) => {
+    setIsSaving(true);
     try {
       if ((!dirty && !selectedSintomasHasChanged) || isSaving) {
         return;
@@ -101,8 +105,16 @@ const InitialSymptoms = () => {
 
       const patientSubmitData = {
         sintomas: selectedSintomas,
-        caso_confirmado: values.caso_confirmado === 'confirmed',
-        data_inicio_sintomas: values.data_inicio_sintomas
+      }
+
+      if (values.data_inicio_sintomas) {
+        patientSubmitData.data_inicio_sintomas = values.data_inicio_sintomas;
+      }
+
+      if (values.caso_confirmado) {
+        const checkCasoConfirmado = values.caso_confirmado === 'confirmed';
+
+        patientSubmitData.caso_confirmado = checkCasoConfirmado;
       }
 
       let response = await api.patch(`/pacientes/${patient.id}`, patientSubmitData);
@@ -121,6 +133,8 @@ const InitialSymptoms = () => {
       });
 
       setIsSaving(false);
+      history.push('/categorias');
+
     } catch (err) {
       addToast({
         type: 'error',
@@ -143,7 +157,7 @@ const InitialSymptoms = () => {
       </div>
       <Formik
         initialValues={{
-          caso_confirmado: patient.caso_confirmado ? 'confirmed' : 'suspect',
+          caso_confirmado: patient.caso_confirmado !== null  ? patient.caso_confirmado ? 'confirmed' : 'suspect' : '',
           data_inicio_sintomas: patient.data_inicio_sintomas
         }}
         onSubmit={handleSubmit}
