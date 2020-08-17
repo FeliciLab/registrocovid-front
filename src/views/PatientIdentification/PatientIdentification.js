@@ -120,6 +120,42 @@ const PatientIdentification = () => {
         // busca os possíveis municípios do estado_id
         const municipiosSelected = await getMunicipios(response.data.estado.id);
 
+        const { telefones } = response.data;
+
+        console.log(telefones);
+
+        // setando os telefones caso existam
+        telefones.forEach(telefone => {
+          switch (telefone.tipo.trim()) {
+            case 'casa':
+              setinItialValues(initialValues => ({
+                ...initialValues,
+                telefone_de_casa: telefone.numero,
+              }));
+              break;
+            case 'celular':
+              setinItialValues(initialValues => ({
+                ...initialValues,
+                telefone_celular: telefone.numero,
+              }));
+              break;
+            case 'trabalho':
+              setinItialValues(initialValues => ({
+                ...initialValues,
+                telefone_do_trabalho: telefone.numero,
+              }));
+              break;
+            case 'vizinho':
+              setinItialValues(initialValues => ({
+                ...initialValues,
+                telefone_de_vizinho: telefone.numero,
+              }));
+              break;
+            default:
+              break;
+          }
+        });
+
         setinItialValues(initialValues => ({
           ...initialValues,
           sexo: response.data.sexo ? response.data.sexo : '0',
@@ -460,6 +496,9 @@ const PatientIdentification = () => {
                       <Typography variant="h4">Telefone de casa</Typography>
                     </FormLabel>
                     <Field
+                      InputProps={{
+                        inputComponent: TextMaskPhone,
+                      }}
                       as={TextField}
                       className={classes.textField}
                       error={
@@ -470,9 +509,6 @@ const PatientIdentification = () => {
                           ? errors.telefone_de_casa
                           : null
                       }
-                      InputProps={{
-                        inputComponent: TextMaskPhone,
-                      }}
                       label="Telefone de casa"
                       name="telefone_de_casa"
                       onChange={handleChange}
@@ -494,6 +530,9 @@ const PatientIdentification = () => {
                       <Typography variant="h4">Telefone celular</Typography>
                     </FormLabel>
                     <Field
+                      InputProps={{
+                        inputComponent: TextMaskPhone,
+                      }}
                       as={TextField}
                       className={classes.textField}
                       error={
@@ -504,9 +543,6 @@ const PatientIdentification = () => {
                           ? errors.telefone_celular
                           : null
                       }
-                      InputProps={{
-                        inputComponent: TextMaskPhone,
-                      }}
                       label="Telefone celular"
                       name="telefone_celular"
                       onChange={handleChange}
@@ -528,6 +564,9 @@ const PatientIdentification = () => {
                       <Typography variant="h4">Telefone do trabalho</Typography>
                     </FormLabel>
                     <Field
+                      InputProps={{
+                        inputComponent: TextMaskPhone,
+                      }}
                       as={TextField}
                       className={classes.textField}
                       error={
@@ -540,9 +579,6 @@ const PatientIdentification = () => {
                           ? errors.telefone_do_trabalho
                           : null
                       }
-                      InputProps={{
-                        inputComponent: TextMaskPhone,
-                      }}
                       label="Telefone do trabalho"
                       name="telefone_do_trabalho"
                       onChange={handleChange}
@@ -564,6 +600,9 @@ const PatientIdentification = () => {
                       <Typography variant="h4">Telefone do vizinho</Typography>
                     </FormLabel>
                     <Field
+                      InputProps={{
+                        inputComponent: TextMaskPhone,
+                      }}
                       as={TextField}
                       className={classes.textField}
                       error={
@@ -576,9 +615,6 @@ const PatientIdentification = () => {
                           ? errors.telefone_de_vizinho
                           : null
                       }
-                      InputProps={{
-                        inputComponent: TextMaskPhone,
-                      }}
                       label="Telefone do vizinho"
                       name="telefone_de_vizinho"
                       onChange={handleChange}
@@ -637,6 +673,9 @@ const PatientIdentification = () => {
                       <Typography variant="h4">Data de nascimento</Typography>
                     </FormLabel>
                     <Field
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
                       as={TextField}
                       className={classes.dateField}
                       error={errors.data_nascimento && touched.data_nascimento}
@@ -645,9 +684,6 @@ const PatientIdentification = () => {
                           ? errors.data_nascimento
                           : null
                       }
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
                       label="Data de nascimento"
                       name="data_nascimento"
                       onChange={handleChange}
@@ -883,4 +919,3 @@ const PatientIdentification = () => {
 };
 
 export default PatientIdentification;
-//{"message":"The given data was invalid.","errors":{"bairro_id":["O campo bairro id selecionado \u00e9 inv\u00e1lido."],"sexo":["O campo sexo selecionado \u00e9 inv\u00e1lido."],"data_nascimento":["O campo data nascimento n\u00e3o \u00e9 uma data v\u00e1lida."],"estado_nascimento_id":["O campo estado nascimento id selecionado \u00e9 inv\u00e1lido."]}}
