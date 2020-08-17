@@ -40,7 +40,8 @@ const useStyles = makeStyles(theme => ({
     paddingTop: 24
   },
   formGroup: {
-    marginBottom: 24
+    marginBottom: 24,
+    width: '100%'
   },
   cardInfo: {
     padding: 16,
@@ -49,7 +50,7 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     fontWeight: 'bold',
-    color: theme.palette.primary.main,
+    // color: theme.palette.primary.main,
     letterSpacing: 1.25,
     textTransform: 'uppercase',
     fontSize: 16
@@ -67,6 +68,19 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'
+  },
+  dateField: {
+    marginTop: theme.spacing(1)
+  },
+  AccordionDetails:{
+    flexDirection: 'column'
+  },
+  radioGroupAmostra: {
+    flexWrap: 'wrap',
+    flexDirection: 'row'
+  },
+  radioAmostra:{
+    flex: '1 0 41%',
   }
 }));
 

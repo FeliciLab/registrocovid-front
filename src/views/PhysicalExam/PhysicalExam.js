@@ -9,6 +9,8 @@ import React, {
 import { useHistory } from 'react-router-dom';
 
 import CloseIcon from '@material-ui/icons/Close';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
 import {
   Typography,
   Button,
@@ -22,7 +24,14 @@ import {
   Radio,
   CircularProgress,
   Checkbox,
-  FormGroup
+
+  FormGroup,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  TextField,
+  AccordionActions,
+  Divider
 } from '@material-ui/core';
 
 import { useFormik } from 'formik';
@@ -84,7 +93,7 @@ const PhysicalExam = () => {
   }, [addToast, history, patient.id]);
 
   useEffect(() => {
-    handleInfos();
+    // handleInfos();
   }, [handleInfos]);
 
   const handleSubmit = () => {
@@ -124,12 +133,140 @@ const PhysicalExam = () => {
         </div>
 
         {loading ? <CircularProgress /> : (
-          <Form
-            drogas={drogas}
-            patientHistory={patientHistory}
-            ref={formRef}
-            usoDrogas={usoDrogas}
-          />
+          <Grid container>
+            <Grid
+              item
+              lg={2}
+            />
+            <Grid
+              item
+              lg={8}
+            >
+              <div className={''}>
+                <Accordion>
+                  <AccordionSummary
+                    aria-controls="panel1a-content"
+                    expandIcon={<ExpandMoreIcon />}
+                    id="panel1a-header"
+                  >
+                    <Typography className={classes.title}>Teste RT-PCR</Typography>
+                  </AccordionSummary>
+                  <Divider />
+                  <AccordionDetails className={classes.AccordionDetails}>
+                    <FormGroup className={classes.formGroup}>
+                      <FormLabel>
+                        <Typography variant="h4">Data de Coleta RT-PCR*</Typography>
+                      </FormLabel>
+                      <TextField
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                        className={classes.dateField}
+                        label="Data de coleta"
+                        name="data_coleta"
+                        type="date"
+                      />
+                    </FormGroup>
+                    <FormGroup className={classes.formGroup}>
+                      <FormLabel>
+                        <Typography variant="h4">Sítio da amostra RT-PCR*</Typography>
+                      </FormLabel>
+                      <RadioGroup
+                        className={classes.radioGroupAmostra}
+                        name="r_amostra"
+                      >
+                        <FormControlLabel
+                          className={classes.radioAmostra}
+                          control={<Radio />}
+                          label="Swab de nasofaringe/orofaringe"
+                          value="swab"
+                        />
+                        <FormControlLabel
+                          className={classes.radioAmostra}
+                          control={<Radio />}
+                          label="Escarro"
+                          value="escarro"
+                        />
+                        <FormControlLabel
+                          className={classes.radioAmostra}
+                          control={<Radio />}
+                          label="Secreção traqueal"
+                          value="sec_traq"
+                        />
+                        <FormControlLabel
+                          className={classes.radioAmostra}
+                          control={<Radio />}
+                          label="Lavado broncoalveolar"
+                          value="lavado"
+                        />
+
+                      </RadioGroup>
+                    </FormGroup>
+                    <FormGroup className={classes.formGroup}>
+                      <FormLabel>
+                        <Typography variant="h4">Data de resultado RT-PCR</Typography>
+                      </FormLabel>
+                      <TextField
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                        className={classes.dateField}
+                        label="Data de resultado RT-PCR"
+                        name="data_resultado"
+                        type="date"
+                      />
+                    </FormGroup>
+                    <FormGroup className={classes.formGroup}>
+                      <FormLabel>
+                        <Typography variant="h4">Resultado RT-PCR </Typography>
+                      </FormLabel>
+                      <RadioGroup
+                        className={classes.radioGroupAmostra}
+                        name="r_amostra"
+                      >
+                        <FormControlLabel
+                          className={''}
+                          control={<Radio />}
+                          label="Detectável"
+                          value="detectavel"
+                        />
+                        <FormControlLabel
+                          className={''}
+                          control={<Radio />}
+                          label="Inconclusivo"
+                          value="inconclusivo"
+                        />
+                        <FormControlLabel
+                          className={''}
+                          control={<Radio />}
+                          label="Não detectável"
+                          value="nao_detectavel"
+                        />
+
+                      </RadioGroup>
+                    </FormGroup>
+                    
+                  </AccordionDetails>
+                  <Divider />
+                  <AccordionActions>
+                    <Button 
+                      size='small' 
+                      color={'secondary'}
+                    >
+                        + NOVA OCORRÊNCIA
+                    </Button>
+                  </AccordionActions>
+                </Accordion>
+              </div>
+
+            </Grid>
+          </Grid>
+          // <Form
+          //   drogas={drogas}
+          //   patientHistory={patientHistory}
+          //   ref={formRef}
+          //   usoDrogas={usoDrogas}
+          // />
         )}
       </div>
     </div>
@@ -197,10 +334,10 @@ const Form = forwardRef((props, ref) => {
           <Card className={classes.form}>
             <CardInfo
               items={[
-                { label: 'Fumante Diário:', description: '1 cigarro ao dia por no mínimo 1 mês'},
-                { label: 'Fumante ocasional:', description: 'menos de 1 cigarro por dia por no mínimo 1 mês'},
-                { label: 'Ex-fumante:', description: 'parou de fumar há pelo menos 1 mês'},
-                { label: 'Não fumante:', description: 'nunca fumaram ou fumam há menos de 1 mês'},
+                { label: 'Fumante Diário:', description: '1 cigarro ao dia por no mínimo 1 mês' },
+                { label: 'Fumante ocasional:', description: 'menos de 1 cigarro por dia por no mínimo 1 mês' },
+                { label: 'Ex-fumante:', description: 'parou de fumar há pelo menos 1 mês' },
+                { label: 'Não fumante:', description: 'nunca fumaram ou fumam há menos de 1 mês' },
               ]}
               title="Classificação do tabagismo segundo OMS:"
             />
@@ -300,9 +437,9 @@ const Form = forwardRef((props, ref) => {
 
             <CardInfo
               items={[
-                { label: 'Etilista:', description: 'consumo de pelo menos 1 unidade (ver abaixo) de qualquer bebida alcoólica por dia no último ano'},
-                { label: 'Ex-etilista:', description: 'já consumiu bebida alcoólica, mas parou de consumir no último ano'},
-                { label: 'Não etilista:', description: 'nunca consumiu bebida alcoólica na frequência de etilista'},
+                { label: 'Etilista:', description: 'consumo de pelo menos 1 unidade (ver abaixo) de qualquer bebida alcoólica por dia no último ano' },
+                { label: 'Ex-etilista:', description: 'já consumiu bebida alcoólica, mas parou de consumir no último ano' },
+                { label: 'Não etilista:', description: 'nunca consumiu bebida alcoólica na frequência de etilista' },
               ]}
               title="Classificação do etilismo segundo OMS:"
             />
