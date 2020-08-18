@@ -27,7 +27,8 @@ import formatDate from 'helpers/formatDate';
 
 const schema = Yup.object().shape({
   prontuario: Yup.number()
-    .integer('Número de prontuário inválido')
+    .integer('Número de prontuário inválido (apenas números inteiros)')
+    .min(1, 'Número de prontuário deve ser maior que 0 (zero)')
     .required('Campo obrigatório'),
   data_internacao: Yup.date()
     .required('Campo obrigatório'),
@@ -96,7 +97,7 @@ const GeneralInfo = () => {
     if (values.suporte_respiratorio) {
       patient = {
         ...patient,
-        tipo_suport_respiratorio_id: values.tipo_suport_respiratorio
+        tipos_suporte_respiratorio: [{ id: values.tipo_suport_respiratorio }]
       };
     }
 
@@ -117,10 +118,10 @@ const GeneralInfo = () => {
       addPatient(responsePatient);
       history.push('/categorias');
     } catch (err) {
-      if (err.response.data?.prontuario) {
+      if (err.response.data.message === 'The given data was invalid.') {
         addToast({
           type: 'info',
-          message: 'Paciente já cadastrado',
+          message: `Número de prontuário ${values.prontuario} já está cadastrado`,
         });
       } else {
         addToast({
@@ -220,15 +221,15 @@ const GeneralInfo = () => {
                         <Typography variant="h4">Data de internação</Typography>
                       </FormLabel>
                       <Field
-                        InputLabelProps={{
-                          shrink: true,
-                        }}
                         as={TextField}
                         className={classes.dateField}
                         error={(errors.data_internacao && touched.data_internacao)}
                         helperText={
                           (errors.data_internacao && touched.data_internacao) ? errors.data_internacao : null
                         }
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
                         label="Data de internação"
                         name="data_internacao"
                         onChange={handleChange}
@@ -306,11 +307,11 @@ const GeneralInfo = () => {
                         <Typography variant="h4">Data do atendimento na unidade que referenciou o paciente</Typography>
                       </FormLabel>
                       <Field
+                        as={TextField}
+                        className={classes.dateField}
                         InputLabelProps={{
                           shrink: true,
                         }}
-                        as={TextField}
-                        className={classes.dateField}
                         label="Data Atendimento"
                         name="data_atendimento"
                         onChange={handleChange}
