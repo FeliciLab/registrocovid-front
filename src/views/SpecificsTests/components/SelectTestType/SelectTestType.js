@@ -11,6 +11,8 @@ import {
 } from '@material-ui/core';
 import useStyles from './styles';
 
+import AddIcon from '@material-ui/icons/Add';
+
 import { Field } from 'formik';
 
 const SelectTestType = () => {
@@ -49,10 +51,11 @@ const SelectTestType = () => {
               className={classes.buttonAddType}
               color="secondary"
               disabled
+              startIcon={<AddIcon />}
               type="submit"
               variant="contained"
             >
-            Salvar
+              ADICIONAR OCORRÊNCIA
             </Button>
           </Grid>
         </FormGroup>

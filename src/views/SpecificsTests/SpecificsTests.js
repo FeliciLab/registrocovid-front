@@ -1,7 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
 
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
 import useStyles from './styles';
 import { CustonBreadcrumbs } from 'components';
 import { useParams } from 'react-router-dom';
@@ -11,14 +9,12 @@ import {
   Typography,
   Grid,
   Button,
-  Card,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
 } from '@material-ui/core';
 import { Formik, Form } from 'formik';
 import schema from './schema';
-import SelectTestType from './SelectTestType/SelectTestType';
+import SelectTestType from './components/SelectTestType';
+import TestRTCPRList from './components/TestRTCPRList';
+import TestRapidoList from './components/TestRapidoList';
 
 const SpecificsTests = () => {
   const { id } = useParams();
@@ -102,52 +98,10 @@ const SpecificsTests = () => {
 
                   <SelectTestType />
 
-                  <Grid
-                    component={Card}
-                    item
-                    spacing={2}
-                    xs={10}
-                  >
-                    <Accordion>
-                      <AccordionSummary
-                        aria-controls="panel1a-content"
-                        expandIcon={<ExpandMoreIcon />}
-                        id="panel1a-header"
-                      >
-                        <Typography className={classes.headingTeste}>
-                          <Typography variant="h4">Teste RT-PCR</Typography>
-                          <Typography variant="caption">
-                            Data da coleta:
-                          </Typography>
-                        </Typography>
-                      </AccordionSummary>
-                      <AccordionDetails>
-                        <Typography>
-                          Lorem ipsum dolor sit amet, consectetur adipiscing
-                          elit. Suspendisse malesuada lacus ex, sit amet blandit
-                          leo lobortis eget.
-                        </Typography>
-                      </AccordionDetails>
-                    </Accordion>
-                    <Accordion>
-                      <AccordionSummary
-                        aria-controls="panel2a-content"
-                        expandIcon={<ExpandMoreIcon />}
-                        id="panel2a-header"
-                      >
-                        <Typography className={classes.heading}>
-                          Accordion 2
-                        </Typography>
-                      </AccordionSummary>
-                      <AccordionDetails>
-                        <Typography>
-                          Lorem ipsum dolor sit amet, consectetur adipiscing
-                          elit. Suspendisse malesuada lacus ex, sit amet blandit
-                          leo lobortis eget.
-                        </Typography>
-                      </AccordionDetails>
-                    </Accordion>
-                  </Grid>
+                  <TestRTCPRList />
+
+                  <TestRapidoList />
+
                 </Form>
               )}
             </Formik>
