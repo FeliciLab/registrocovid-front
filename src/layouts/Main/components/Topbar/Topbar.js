@@ -43,12 +43,19 @@ const Topbar = props => {
       className={clsx(classes.root, className)}
     >
       <Toolbar>
-        <RouterLink to="/" className={classes.logoLink}>
-          <img className={classes.logoImg}
+        <RouterLink
+          className={classes.logoLink}
+          to="/"
+        >
+          <img
             alt="Logo"
+            className={classes.logoImg}
             src="/images/logos/logo-registro-covid.svg"
           />
-          <Typography variant="h3" color="initial">
+          <Typography
+            color="initial"
+            variant="h3"
+          >
             Registro Covid
           </Typography>
         </RouterLink>
@@ -63,9 +70,10 @@ const Topbar = props => {
               <NotificationsIcon />
             </Badge>
           </IconButton>
-          <IconButton onClick={handleLogout}
+          <IconButton
             className={classes.signOutButton}
             color="inherit"
+            onClick={handleLogout}
           >
             <InputIcon />
           </IconButton>
