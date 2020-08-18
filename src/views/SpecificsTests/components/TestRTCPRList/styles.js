@@ -4,7 +4,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    padding: theme.spacing(2),
+    marginTop: theme.spacing(2),
   },
   actionWrapper: {
     display: 'flex',

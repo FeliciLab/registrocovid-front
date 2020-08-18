@@ -6,19 +6,12 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     padding: theme.spacing(2),
   },
-  actionWrapper: {
+  heading: {
     display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    alignItems: 'center'
   },
-  textField: {
-    marginTop: theme.spacing(1),
-    flexGrow: 1,
+  headingLabel: {
     marginRight: theme.spacing(1),
-  },
-  buttonAddType: {
-    width: '258px',
-    height: '50px',
   },
 }));
 

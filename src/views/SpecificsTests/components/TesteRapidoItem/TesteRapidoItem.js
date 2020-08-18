@@ -20,10 +20,15 @@ const TesteRapidoItem = () => {
         expandIcon={<ExpandMoreIcon />}
         id="panel1a-header"
       >
-        <Typography className={classes.headingTeste}>
-          <Typography variant="h4">Teste RT-PCR</Typography>
+        <div className={classes.heading}>
+          <Typography
+            className={classes.headingLabel}
+            variant="h4"
+          >
+            Teste RT-PCR
+          </Typography>
           <Typography variant="caption">Data da coleta:</Typography>
-        </Typography>
+        </div>
       </AccordionSummary>
       <AccordionDetails>
         <Typography>
