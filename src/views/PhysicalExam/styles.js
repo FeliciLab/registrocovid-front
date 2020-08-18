@@ -69,19 +69,23 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'space-between',
     alignItems: 'center'
   },
+  examsFormGroup: {
+    width: '50%',
+    marginBottom: 24,
+  },
   dateField: {
     marginTop: theme.spacing(1)
   },
-  AccordionDetails:{
-    flexDirection: 'column'
-  },
-  radioGroupAmostra: {
-    flexWrap: 'wrap',
-    flexDirection: 'row'
-  },
-  radioAmostra:{
-    flex: '1 0 41%',
-  }
+  // AccordionDetails:{
+  //   flexDirection: 'column'
+  // },
+  // radioGroupAmostra: {
+  //   flexWrap: 'wrap',
+  //   flexDirection: 'row'
+  // },
+  // radioAmostra:{
+  //   flex: '1 0 41%',
+  // }
 }));
 
 export default useStyles;
