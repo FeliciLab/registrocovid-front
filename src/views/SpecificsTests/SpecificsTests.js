@@ -15,6 +15,7 @@ import schema from './schema';
 import SelectTestType from './components/SelectTestType';
 import TestRTCPRList from './components/TestRTCPRList';
 import TestRapidoList from './components/TestRapidoList';
+import TesteRapidoForm from './components/TesteRapidoForm';
 
 const SpecificsTests = () => {
   const { id } = useParams();
@@ -101,6 +102,8 @@ const SpecificsTests = () => {
                   <TestRTCPRList />
 
                   <TestRapidoList />
+
+                  <TesteRapidoForm />
 
                 </Form>
               )}
