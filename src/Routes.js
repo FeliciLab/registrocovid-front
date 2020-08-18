@@ -10,18 +10,14 @@ import {
   ListPatients as ListPatientsView,
   Categories as CategoriesView,
   GeneralInfo as GeneralInfoView,
-  InitialSymptoms as InitialSymptomsView, 
+  InitialSymptoms as InitialSymptomsView,
   Comorbidities as ComorbiditiesView,
 } from './views';
 
 const Routes = () => {
   return (
     <Switch>
-      <Redirect
-        exact
-        from="/"
-        to="/meus-pacientes"
-      />
+      <Redirect exact from="/" to="/meus-pacientes" />
       <RouteWithLayout
         component={SignInView}
         exact
