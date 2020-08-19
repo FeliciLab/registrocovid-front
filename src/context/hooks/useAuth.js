@@ -1,13 +1,11 @@
 import { useState, useEffect } from 'react';
-// import { useHistory } from 'react-router-dom';
-import history from '../../history'
+import history from '../../history';
 import api from 'services/api';
 
 export default function useAuth() {
   const [authenticated, setAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
   const [erroLogin, setErroLogin] = useState(false);
-  // const history = useHistory();
 
   useEffect(() => {
     const token = localStorage.getItem('@RegistroCovid:token');
@@ -21,8 +19,6 @@ export default function useAuth() {
   }, []);
 
   async function handleLogin({ cpf, password }) {
-    setErroLogin(false); // parte da suposição que não existe erro.
-
     await api.post('/auth/login', { cpf, password }).then(response => {
 
       const { access_token } = response.data;
@@ -32,7 +28,6 @@ export default function useAuth() {
 
       setAuthenticated(true);
       history.push('/meus-pacientes');
-
     }).catch(error => {
       // TODO: Melhorar esse tratamento de erro.
       if (error.response) {
@@ -54,12 +49,9 @@ export default function useAuth() {
     history.push('/sign-in');
   }
 
-  const isLogged = () => !!localStorage.getItem('@RegistroCovid:token');
-
   return {
     loading,
     erroLogin,
-    isLogged,
     authenticated,
     handleLogin,
     handleLogout

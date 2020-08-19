@@ -11,7 +11,7 @@ import { Divider, Drawer } from '@material-ui/core';
 // import AccountBoxIcon from '@material-ui/icons/AccountBox';
 // import SettingsIcon from '@material-ui/icons/Settings';
 // import LockOpenIcon from '@material-ui/icons/LockOpen';
-import ListIcon from '@material-ui/icons/List';
+import PeopleIcon from '@material-ui/icons/People';
 
 import { Profile, SidebarNav } from './components';
 
@@ -60,9 +60,9 @@ const Sidebar = props => {
     //   icon: <ShoppingBasketIcon />
     // },
     {
-      title: 'Pacientes',
+      title: 'Meus pacientes',
       href: '/meus-pacientes',
-      icon: <ListIcon />
+      icon: <PeopleIcon />
     },
     // {
     //   title: 'Authentication',

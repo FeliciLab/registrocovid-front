@@ -5,8 +5,11 @@ import { RouteWithLayout } from './components';
 import { Main as MainLayout, Minimal as MinimalLayout } from './layouts';
 
 import {
+  NotFound as NotFoundView,
   SignIn as SignInView,
   ListPatients as ListPatientsView,
+  Categories as CategoriesView,
+  GeneralInfo as GeneralInfoView,
 } from './views';
 import PatientIdentification from 'views/PatientIdentification';
 
@@ -30,6 +33,26 @@ const Routes = () => {
         isPrivate
         layout={MainLayout}
         path="/meus-pacientes"
+      />
+      <RouteWithLayout
+        component={CategoriesView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias"
+      />
+      <RouteWithLayout
+        component={GeneralInfoView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/informacoes-gerais"
+      />
+      <RouteWithLayout
+        component={NotFoundView}
+        exact
+        layout={MinimalLayout}
+        path="/not-found"
       />
       <RouteWithLayout
         component={PatientIdentification}

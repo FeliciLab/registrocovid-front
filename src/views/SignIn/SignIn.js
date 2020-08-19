@@ -28,7 +28,7 @@ const schema = Yup.object().shape({
     .required('Campo obrigatório')
 });
 
-const SignIn = props => {
+const SignIn = () => {
   // const { history } = props;
 
   const classes = useStyles();
@@ -42,7 +42,6 @@ const SignIn = props => {
     setShowPassword(showPassword => !showPassword);
   };
 
-  // Essa function está só pomo teste.
   const handleSignIn = async (values) => {
     const user = {
       cpf: values.cpf,
@@ -71,12 +70,16 @@ const SignIn = props => {
                   cpf: '',
                   password: ''
                 }}
-                validateOnMount
                 onSubmit={handleSignIn}
-                validationSchema={schema}>
+                validateOnMount
+                validationSchema={schema}
+              >
                 {({ values, touched, handleChange, isValid, errors }) => (
                   <Form className={classes.form}>
-                    <Typography className={classes.title} variant="h2">
+                    <Typography
+                      className={classes.title}
+                      variant="h2"
+                    >
                       Entrar no sistema
                     </Typography>
                     <Field
@@ -102,25 +105,25 @@ const SignIn = props => {
                       helperText={
                         (errors.password && touched.password) ? errors.password : null
                       }
-                      label="Password"
-                      name="password"
-                      onChange={handleChange}
-                      type={showPassword ? 'text' : 'password'}
-                      value={values.password}
-                      variant="outlined"
                       InputProps={{
                         endAdornment: (
                           <InputAdornment position="end">
                             <IconButton
                               aria-label="Mudar a visibilidade da senha"
-                              onClick={handleClickShowPassword}
                               edge="end"
+                              onClick={handleClickShowPassword}
                             >
                               {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
                             </IconButton>
                           </InputAdornment>
                         ),
                       }}
+                      label="Password"
+                      name="password"
+                      onChange={handleChange}
+                      type={showPassword ? 'text' : 'password'}
+                      value={values.password}
+                      variant="outlined"
                     />
                     <div className={classes.signInButtonWrapper}>
                       <Button
@@ -138,11 +141,12 @@ const SignIn = props => {
                       {erroLogin && (
                         <div className={classes.errorLoginMessage}>
                           <InfoIcon />
-                          <Typography className={classes.errorLoginMessageLabel}
+                          <Typography
+                            className={classes.errorLoginMessageLabel}
                             variant="caption"
                           >
                             Usuário ou senha incorretos, tente novamente.
-                        </Typography>
+                          </Typography>
                         </div>
                       )}
                     </div>

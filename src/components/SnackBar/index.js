@@ -7,11 +7,21 @@ import MuiAlert from '@material-ui/lab/Alert';
 import { useToast } from 'hooks/toast';
 
 function Alert(props) {
+<<<<<<< HEAD
   return <MuiAlert
     elevation={6}
     variant="filled"
     {...props}
   />;
+=======
+  return (
+    <MuiAlert
+      elevation={6}
+      variant="filled"
+      {...props}
+    />
+  );
+>>>>>>> develop
 }
 
 const Toast = ({ toast }) => {
@@ -30,6 +40,10 @@ const Toast = ({ toast }) => {
       >
         {toast?.message}
       </Alert>
+<<<<<<< HEAD
+=======
+
+>>>>>>> develop
     </Snackbar>
   );
 };
@@ -37,8 +51,16 @@ const Toast = ({ toast }) => {
 Toast.propTypes = {
   toast: PropTypes.shape({
     type: PropTypes.oneOf(['success', 'warning', 'info', 'error']).isRequired,
+<<<<<<< HEAD
     message: PropTypes.string.isRequired,
+=======
+    message: PropTypes.string.isRequired
+>>>>>>> develop
   }),
 };
 
 export default Toast;
+<<<<<<< HEAD
+=======
+
+>>>>>>> develop

@@ -18,9 +18,15 @@ const TablePatients = props => {
 
   return (
 
-    <TableContainer component={Paper} elevation={2}>
+    <TableContainer
+      component={Paper}
+      elevation={2}
+    >
 
-      <Table {...rest} size="small" >
+      <Table
+        {...rest}
+        size="small"
+      >
         <TableHead>
           <TableRow>
             <TableCell align="left">Número do prontuário</TableCell>
@@ -34,7 +40,10 @@ const TablePatients = props => {
         <TableBody>
 
           {patients.map((patient) => (
-            <PatientRow key={patient.id} patient={patient} />
+            <PatientRow
+              key={patient.id}
+              patient={patient}
+            />
           ))}
 
         </TableBody>
