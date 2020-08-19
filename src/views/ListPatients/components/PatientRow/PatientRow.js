@@ -23,6 +23,10 @@ const PatientRow = props => {
     history.push('/categorias');
   };
 
+  const handleNavigate = (patient) => {
+    setPatient(patient);
+    history.push('/categorias/identificacao-paciente/');
+  };
   return (
     <TableRow
       {...rest}

@@ -14,6 +14,7 @@ import {
   InitialSymptoms as InitialSymptomsView, 
   Comorbidities as ComorbiditiesView,
 } from './views';
+import PatientIdentification from 'views/PatientIdentification';
 
 const Routes = () => {
   return (
@@ -76,6 +77,13 @@ const Routes = () => {
         exact
         layout={MinimalLayout}
         path="/not-found"
+      />
+      <RouteWithLayout
+        component={PatientIdentification}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/identificacao-paciente/:id"
       />
       <Redirect to="/not-found" />
     </Switch>

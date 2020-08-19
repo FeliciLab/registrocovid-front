@@ -18,7 +18,9 @@ const PatientInfo = () => {
       >
         <div className={classes.button}>
           <span className={classes.spanButton}>Data de cadastro</span>
-          <strong className={classes.strongButton}>{patient?.created_at}</strong>
+          <strong className={classes.strongButton}>
+            {patient ? new Date(patient.created_at).toLocaleDateString() : ''}
+          </strong>
         </div>
       </Button>
 
@@ -28,7 +30,9 @@ const PatientInfo = () => {
       >
         <div className={classes.button}>
           <span className={classes.spanButton}>Número de Prontuário</span>
-          <strong className={classes.strongButton}>{patient?.prontuario}</strong>
+          <strong className={classes.strongButton}>
+            {patient?.prontuario}
+          </strong>
         </div>
       </Button>
     </div>
