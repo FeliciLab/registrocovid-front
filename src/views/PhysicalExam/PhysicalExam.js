@@ -82,7 +82,7 @@ const PhysicalExam = () => {
       setLoading(true);
       //TODO Carregar informações apartir do history.params.examId ( Se vinher da Listagem )
 
-      const response = await api.get(`/pacientes/${patient.id}/evolucoes-diarias/11`);
+      const response = await api.get(`/pacientes/${patient.id}/evolucoes-diarias/50`);
 
       setPhysicalExam(response.data);
       // setPatientHistory(responseHistory.data);
@@ -168,22 +168,12 @@ const Form = forwardRef((props, ref) => {
 
   const handleSubmit = async (values) => {
     try {
-      
-      
-      const jsonToSend = {
-        'data_evolucao': values.data_evolucao,
-      };
 
-      if(values.temperatura) jsonToSend.temperatura = values.temperatura;
-      if(values.frequencia_respiratoria) jsonToSend.frequencia_respiratoria = values.frequencia_respiratoria;
-      if(values.peso) jsonToSend.peso = values.peso;
-      if(values.altura) jsonToSend.altura = values.altura;
-      if(values.pressao_sistolica) jsonToSend.pressao_sistolica = values.pressao_sistolica;
-      if(values.pressao_diastolica) jsonToSend.pressao_diastolica = values.pressao_diastolica;
-      if(values.frequencia_cardiaca) jsonToSend.frequencia_cardiaca = values.frequencia_cardiaca;
-      if(values.ascultura_pulmonar) jsonToSend.ascultura_pulmonar = values.ascultura_pulmonar;
-      if(values.oximetria) jsonToSend.oximetria = values.oximetria;
-      if(values.escala_glasgow) jsonToSend.escala_glasgow = values.escala_glasgow;
+      let jsonToSend = Object.fromEntries(
+        Object.entries(values).filter( 
+          ent => ent[1] || (ent[0] === 0 && ent[0] !== 'escala_glasgow' )
+        )
+      )
 
       await api.post(`/pacientes/${patient.id}/evolucoes-diarias`, jsonToSend);
 
