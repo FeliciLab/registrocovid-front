@@ -16,6 +16,7 @@ import SelectTestType from './components/SelectTestType';
 import TestRTCPRList from './components/TestRTCPRList';
 import TestRapidoList from './components/TestRapidoList';
 import TesteRapidoForm from './components/TesteRapidoForm';
+import TesteRTPCRForm from './components/TesteRTPCRForm';
 
 const SpecificsTests = () => {
   const { id } = useParams();
@@ -103,8 +104,9 @@ const SpecificsTests = () => {
 
                   <TestRapidoList />
 
-                  <TesteRapidoForm />
+                  <TesteRTPCRForm />
 
+                  <TesteRapidoForm />
                 </Form>
               )}
             </Formik>
