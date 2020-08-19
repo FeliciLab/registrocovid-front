@@ -10,6 +10,9 @@ import {
   ListPatients as ListPatientsView,
   Categories as CategoriesView,
   GeneralInfo as GeneralInfoView,
+  PersonalHistory as PersonalHistoryVie,
+  InitialSymptoms as InitialSymptomsView, 
+  Comorbidities as ComorbiditiesView,
 } from './views';
 import PatientIdentification from 'views/PatientIdentification';
 
@@ -47,6 +50,27 @@ const Routes = () => {
         isPrivate
         layout={MainLayout}
         path="/categorias/informacoes-gerais"
+      />
+      <RouteWithLayout
+        component={PersonalHistoryView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/historia-pessoal"
+      />
+      <RouteWithLayout
+        component={InitialSymptomsView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/sintomas-iniciais"
+      />
+      <RouteWithLayout
+        component={ComorbiditiesView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/comorbidades"
       />
       <RouteWithLayout
         component={NotFoundView}

@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
@@ -10,14 +11,17 @@ import {
 } from '@material-ui/core';
 
 import { usePatient } from 'context/PatientContext';
-import { useHistory } from 'react-router-dom';
 
 const PatientRow = props => {
-
-  const { patient, ...rest } = props;
-  const { setPatient } = usePatient();
+  const { patient,...rest } = props;
+  const { addPatient } = usePatient();
 
   const history = useHistory();
+
+  const handleNavigate = (patient) => {
+    addPatient(patient);
+    history.push('/categorias');
+  };
 
   const handleNavigate = (patient) => {
     setPatient(patient);
@@ -40,7 +44,6 @@ const PatientRow = props => {
   );
 }
 
-// id,prontuario,data_internacao,created_at
 PatientRow.propTypes = {
   className: PropTypes.string,
   patient: PropTypes.exact({

@@ -1,13 +1,24 @@
-/* eslint-disable react/prop-types */
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useContext, useCallback } from 'react';
 
 const PatientContext = createContext();
 
 function PatientProvider({ children }) {
-  const [patient, setPatient] = useState({});
+
+  const [patient, setPatient] = useState(() => {
+    const patientLocal = localStorage.getItem('@RegistroCovid:paciente');
+
+    if (patientLocal) {
+      return JSON.parse(patientLocal);
+    }
+  });
+
+  const addPatient = useCallback((patient) => {
+    localStorage.setItem('@RegistroCovid:paciente', JSON.stringify(patient));
+    setPatient(patient);
+  }, []);
 
   return (
-    <PatientContext.Provider value={{ patient, setPatient }}>
+    <PatientContext.Provider value={{ patient, addPatient }}>
       {children}
     </PatientContext.Provider>
   );
@@ -15,11 +26,6 @@ function PatientProvider({ children }) {
 
 function usePatient() {
   const context = useContext(PatientContext);
-
-  if (!context) {
-    throw new Error('useToast must be used within an ToastProvider');
-  }
-
   return context;
 }
 

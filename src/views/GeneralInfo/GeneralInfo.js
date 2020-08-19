@@ -21,7 +21,9 @@ import {
 } from '@material-ui/core';
 
 import { useToast } from 'hooks/toast';
+import { usePatient } from 'context/PatientContext';
 import api from 'services/api';
+import formatDate from 'helpers/formatDate';
 
 const schema = Yup.object().shape({
   prontuario: Yup.number()
@@ -40,6 +42,7 @@ const schema = Yup.object().shape({
 
 const GeneralInfo = () => {
   const { addToast } = useToast();
+  const { addPatient } = usePatient();
   const history = useHistory();
   const classes = useStyles();
 
@@ -99,13 +102,20 @@ const GeneralInfo = () => {
     }
 
     try {
-      await api.post('/pacientes', patient);
+      const response = await api.post('/pacientes', patient);
+
+      const responsePatient = {
+        id: response.data.paciente.id,
+        prontuario: response.data.paciente.prontuario,
+        created_at: formatDate(response.data.paciente.created_at)
+      };
 
       addToast({
         type: 'success',
         message: 'Dados salvos com sucesso'
       });
 
+      addPatient(responsePatient);
       history.push('/categorias');
     } catch (err) {
       if (err.response.data.message === 'The given data was invalid.') {

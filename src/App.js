@@ -17,13 +17,13 @@ export default class App extends Component {
     return (
       <ThemeProvider theme={theme}>
         <AuthProvider>
-          <PatientProvider>
-            <ToastProvider>
+          <ToastProvider>
+            <PatientProvider>
               <Router history={history}>
                 <Routes />
               </Router>
-            </ToastProvider>
-          </PatientProvider>
+            </PatientProvider>
+          </ToastProvider>
         </AuthProvider>
       </ThemeProvider>
     );

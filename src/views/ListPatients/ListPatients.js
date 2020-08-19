@@ -27,7 +27,7 @@ const ListPatients = () => {
 
   const [filter, setFilter] = useState('');
 
-  const { data } = useAxios('/pacientes?fields=id,prontuario,data_internacao,created_at', {
+  const { data } = useAxios('/pacientes?fields=id,prontuario,data_internacao,created_at,data_inicio_sintomas,caso_confirmado', {
     transformResponse: [
       data => {
         const patienteRow = JSON.parse(data);
@@ -65,8 +65,6 @@ const ListPatients = () => {
           <div className={classes.actionsWrapper}>
 
             <TextField
-              className={classes.fieldNumProntuario}
-              id="num-prontuario"
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -74,6 +72,8 @@ const ListPatients = () => {
                   </InputAdornment>
                 ),
               }}
+              className={classes.fieldNumProntuario}
+              id="num-prontuario"
               label="Buscar por número de prontuário"
               onChange={e => setFilter(e.target.value)}
               variant="outlined"
@@ -96,22 +96,22 @@ const ListPatients = () => {
       {!data ? (
         <CircularProgress />
       ) : (
-          (data.length === 0) ? (
-            <div className={classes.notPatients}>
-              <img
-                alt="nenhum paciente cadastrado"
-                className={classes.logoImg}
-                src="/images/not_patients.svg"
-              />
-            </div>
-          ) : (
-              <div className={classes.tableWrapper}>
-                <TablePatients
-                  patients={data.filter((paciente => paciente.prontuario.includes(filter)))}
-                />
-              </div>
-            )
-        )}
+        (data.length === 0) ? (
+          <div className={classes.notPatients}>
+            <img
+              alt="nenhum paciente cadastrado"
+              className={classes.logoImg}
+              src="/images/not_patients.svg"
+            />
+          </div>
+        ) : (
+          <div className={classes.tableWrapper}>
+            <TablePatients
+              patients={data.filter((paciente => paciente.prontuario.includes(filter)))}
+            />
+          </div>
+        )
+      )}
 
     </div >
   );

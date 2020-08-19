@@ -13,7 +13,7 @@ const PatientInfo = () => {
   return (
     <div>
       <Button
-        style={{ pointerEvents: 'none' }}
+        className={classes.buttonContainer}
         variant="outlined"
       >
         <div className={classes.button}>
@@ -25,7 +25,7 @@ const PatientInfo = () => {
       </Button>
 
       <Button
-        style={{ pointerEvents: 'none', marginLeft: 10 }}
+        className={classes.buttonContainer}
         variant="outlined"
       >
         <div className={classes.button}>
@@ -40,3 +40,4 @@ const PatientInfo = () => {
 };
 
 export default PatientInfo;
+
