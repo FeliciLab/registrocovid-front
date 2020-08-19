@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import DoneIcon from '@material-ui/icons/Done';
 import Add from '@material-ui/icons/Add';
-import api from 'services/api';
 import {
   Typography,
   Button,
@@ -12,37 +11,15 @@ import {
   FormLabel,
   TextField,
   MenuItem,
-  Checkbox,
-  FormControlLabel,
 } from '@material-ui/core';
+
+import CardComorbirdades from './CardComorbidades';
 import PatientInfo from 'components/PatientInfo';
 import useStyles from './styles';
 import CustonBreadcrumbs from 'components/CustonBreadcrumbs';
-import { usePatient } from 'context/PatientContext';
 
 const Comorbidities = () => {
   const classes = useStyles();
-  useEffect(() => {
-    // setIsFetching(true);
-    try {
-      getPacientes();
-    } catch (err) {
-      console.log('error');
-      // addToast({
-      //   type: 'error',
-      //   message:
-      //     'Ocorreu um erro ao carregar os sintomas, por favor tente novamente',
-      // });
-      // setIsFetching(false);
-    }
-  }, []);
-
-  async function getPacientes() {
-    // const response = await api.get(`/pacientes/${patient.id}/comorbidades`);
-    // return response;
-  }
-
-  const { patient, addPatient } = usePatient();
 
   const [diabetes, setDiabetesStatus] = useState(false);
   const [obesidade, setObesidadeStatus] = useState(false);
@@ -50,40 +27,26 @@ const Comorbidities = () => {
   const [hiv, setHivStatus] = useState(false);
   const [tuberculose, setTuberculoseStatus] = useState(false);
   const [renal, setRenalStatus] = useState(false);
+  
+  const [selectedField, setSelectedField] = useState({});
 
-  function CardComorbirdades() {
-    return (
-      <Paper style={{ padding: 20, marginBottom: 20 }}>
-        <div style={{ display: 'flex', flexDirection: 'row' }}>
-          <Typography
-            style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 15 }}>
-            Doenças cardiacas
-          </Typography>
-        </div>
+  const [cards, setCards] = useState([]);
 
-        <Typography style={{ fontSize: 18, fontWeight: 500, marginBottom: 10 }}>
-          Selecione a(s) doença(s) que o paciente apresenta
-        </Typography>
-        <CheckBoxComorbirdades label="teste" />
-      </Paper>
-    );
-  }
+  const handleClickMenu = (id, descricao) => {
+    setSelectedField({ id, descricao });
+  };
 
-  function CheckBoxComorbirdades({ label }) {
-    const [checked, setChecked] = useState(false);
-    return (
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={checked}
-            inputProps={checked ? 'aria-label' : 'primary checkbox'}
-            onChange={() => setChecked(checked => !checked)}
-          />
-        }
-        label={label}
-      />
-    );
-  }
+  const handleClickFieldButton = () => {
+    const { id, descricao } = selectedField;
+
+    if (cards.some((card) => card.id === id)) {
+      return;
+    }
+
+    const filteredDoencas = doencas.filter((doenca) => doenca.tipo_doenca_id === id);
+
+    setCards((prevCards) => [...prevCards, { id, doencas: filteredDoencas, descricao }]);
+  };
 
   return (
     <div className={classes.root}>
@@ -107,21 +70,25 @@ const Comorbidities = () => {
             className={classes.buttonSave}
             color="secondary"
             type="submit"
-            variant="contained">
+            variant="contained"
+          >
             Salvar
           </Button>
         </div>
       </div>
       <Paper className={classes.paper}>
         <div className={classes.control}>
-          <Typography className={classes.label} variant="h6">
+          <Typography
+            className={classes.label}
+            variant="h6"
+          >
             Selecione as doenças que o paciente apresenta
           </Typography>
           <div className={classes.chipWrapper}>
             <Chip
               clickable
-              color={diabetes ? 'primary' : ''}
-              icon={diabetes ? <DoneIcon /> : ''}
+              color={diabetes ? 'primary' : 'default'}
+              icon={diabetes ? <DoneIcon /> : null}
               label="Diabetes"
               onClick={() => {
                 setDiabetesStatus(diabetes => !diabetes);
@@ -129,8 +96,8 @@ const Comorbidities = () => {
             />
             <Chip
               clickable
-              color={obesidade ? 'primary' : ''}
-              icon={obesidade ? <DoneIcon /> : ''}
+              color={obesidade ? 'primary' : 'default'}
+              icon={obesidade ? <DoneIcon /> : null}
               label="Obesidade"
               onClick={() => {
                 setObesidadeStatus(obesidade => !obesidade);
@@ -138,8 +105,8 @@ const Comorbidities = () => {
             />
             <Chip
               clickable
-              color={hipertensao ? 'primary' : ''}
-              icon={hipertensao ? <DoneIcon /> : ''}
+              color={hipertensao ? 'primary' : 'default'}
+              icon={hipertensao ? <DoneIcon /> : null}
               label="hipertensao"
               onClick={() => {
                 setHipertensaoStatus(hipertensao => !hipertensao);
@@ -147,8 +114,8 @@ const Comorbidities = () => {
             />
             <Chip
               clickable
-              color={hiv ? 'primary' : ''}
-              icon={hiv ? <DoneIcon /> : ''}
+              color={hiv ? 'primary' : 'default'}
+              icon={hiv ? <DoneIcon /> : null}
               label="hiv"
               onClick={() => {
                 setHivStatus(hiv => !hiv);
@@ -156,8 +123,8 @@ const Comorbidities = () => {
             />
             <Chip
               clickable
-              color={tuberculose ? 'primary' : ''}
-              icon={tuberculose ? <DoneIcon /> : ''}
+              color={tuberculose ? 'primary' : 'default'}
+              icon={tuberculose ? <DoneIcon /> : null}
               label="tuberculose"
               onClick={() => {
                 setTuberculoseStatus(tuberculose => !tuberculose);
@@ -165,8 +132,8 @@ const Comorbidities = () => {
             />
             <Chip
               clickable
-              color={renal ? 'primary' : ''}
-              icon={renal ? <DoneIcon /> : ''}
+              color={renal ? 'primary' : 'default'}
+              icon={renal ? <DoneIcon /> : null}
               label="renal"
               onClick={() => {
                 setRenalStatus(renal => !renal);
@@ -176,7 +143,10 @@ const Comorbidities = () => {
         </div>
 
         <div className={classes.control}>
-          <Typography className={classes.label} variant="h6">
+          <Typography
+            className={classes.label}
+            variant="h6"
+          >
             Acrescente outras doenças que o paciente apresenta
           </Typography>
           <div className={classes.buttonWrapper}>
@@ -184,9 +154,14 @@ const Comorbidities = () => {
               className={classes.textFieldWithButton}
               label="Escolher tipo de doença"
               select
-              variant="filled">
+              variant="filled"
+            >
               {tiposDoenca.map(({ id, descricao }) => (
-                <MenuItem key={id} value={id}>
+                <MenuItem
+                  key={id}
+                  onClick={() => handleClickMenu(id, descricao)}
+                  value={id}
+                >
                   {descricao}
                 </MenuItem>
               ))}
@@ -194,18 +169,33 @@ const Comorbidities = () => {
             <Button
               className={classes.buttonAdd}
               color="secondary"
+              onClick={handleClickFieldButton}
               startIcon={<Add />}
               type="button"
-              variant="contained">
+              variant="contained"
+            >
               Adicionar
             </Button>
           </div>
         </div>
 
-        <CardComorbirdades />
+        {cards.map((card) => (
+          <CardComorbirdades
+            doencas={card.doencas}
+            key={card.id}
+            tipoDoenca={card.descricao}
+          />
+        )
+        )}
 
-        <FormGroup className={classes.control} component="fieldset">
-          <FormLabel className={classes.label} component="legend">
+        <FormGroup
+          className={classes.control}
+          component="fieldset"
+        >
+          <FormLabel
+            className={classes.label}
+            component="legend"
+          >
             Outras condições
           </FormLabel>
           <div className={classes.buttonWrapper}>
@@ -219,14 +209,18 @@ const Comorbidities = () => {
               color="secondary"
               startIcon={<Add />}
               type="button"
-              variant="contained">
+              variant="contained"
+            >
               Adicionar
             </Button>
           </div>
         </FormGroup>
 
         <FormGroup component="fieldset">
-          <FormLabel className={classes.label} component="legend">
+          <FormLabel
+            className={classes.label}
+            component="legend"
+          >
             Medicações de uso contínuo
           </FormLabel>
           <div className={classes.buttonWrapper}>
@@ -240,7 +234,8 @@ const Comorbidities = () => {
               color="secondary"
               startIcon={<Add />}
               type="button"
-              variant="contained">
+              variant="contained"
+            >
               Adicionar
             </Button>
           </div>
@@ -254,97 +249,82 @@ export default withRouter(Comorbidities);
 
 const tiposDoenca = [
   {
-    id: 1,
-    descricao: 'Doença cardíaca',
+    'id': 1,
+    'descricao': 'Doença cardíaca'
   },
   {
-    id: 2,
-    descricao: 'Doença pulmonar',
+    'id': 2,
+    'descricao': 'Doença vascular periférica'
   },
+  {
+    'id': 3,
+    'descricao': 'Doença pulmonar'
+  },
+  {
+    'id': 4,
+    'descricao': 'Doença reumatológica'
+  },
+  {
+    'id': 5,
+    'descricao': 'Neoplasia'
+  },
+  {
+    'id': 6,
+    'descricao': 'Doença autoimune'
+  },
+  {
+    'id': 7,
+    'descricao': 'Doença renal crônica'
+  },
+  {
+    'id': 8,
+    'descricao': 'Doença hepática crônica'
+  },
+  {
+    'id': 9,
+    'descricao': 'Doença neurológica'
+  },
+  {
+    'id': 10,
+    'descricao': 'Doença psiquiátrica'
+  }
 ];
 
-const comorbirdades = {
-  id: 1,
-  paciente_id: 2,
-  diabetes: false,
-  obesidade: true,
-  hipertensao: null,
-  doenca_cardiaca: null,
-  doenca_vascular_periferica: null,
-  doenca_pulmonar_cronica: null,
-  doenca_reumatologica: null,
-  neoplasia: null,
-  quimioterapia: null,
-  HIV: null,
-  transplantado: null,
-  corticosteroide: null,
-  doenca_autoimune: null,
-  doenca_renal_cronica: null,
-  doenca_hepatica_cronica: null,
-  doenca_neurologica: null,
-  tuberculose: null,
-  gestacao: null,
-  gestacao_semanas: null,
-  puerperio: null,
-  puerperio_semanas: null,
-  outras_condicoes: ['Outra Comorbidade 1', 'Outra Comorbidade 2'],
-  medicacoes: ['Medicacao 1', 'Medicacao 2'],
-  created_at: '2020-08-18T19:46:42.000000Z',
-  updated_at: '2020-08-18T19:46:42.000000Z',
-  doencas: [
-    {
-      id: 1,
-      tipo_doenca_id: 1,
-      descricao: 'Doença arterial coronariana',
-      pivot: {
-        comorbidade_id: 1,
-        doenca_id: 1,
-      },
-    },
-    {
-      id: 4,
-      tipo_doenca_id: 1,
-      descricao: 'Cardiopatia não-especificada',
-      pivot: {
-        comorbidade_id: 1,
-        doenca_id: 4,
-      },
-    },
-  ],
-  orgaos: [
-    {
-      id: 2,
-      descricao: 'Estômago',
-      pivot: {
-        comorbidade_id: 1,
-        orgao_id: 2,
-      },
-    },
-  ],
-  corticosteroides: [
-    {
-      id: 1,
-      descricao: 'Prednisona > 40 mg/dia',
-      pivot: {
-        comorbidade_id: 1,
-        corticosteroide_id: 1,
-      },
-    },
-    {
-      id: 2,
-      descricao: 'Hidrocortisona > 160 mg/dia',
-      pivot: {
-        comorbidade_id: 1,
-        corticosteroide_id: 2,
-      },
-    },
-    {
-      id: 3,
-      descricao: 'Metilprednisolona > 32 mg/dia',
-      pivot: {
-        comorbidade_id: 1,
-        corticosteroide_id: 3,
-      },
-    },
-  ],
-};
+const doencas = [
+  {
+    'id': 1,
+    'tipo_doenca_id': 1,
+    'descricao': 'Doença arterial coronariana'
+  },
+  {
+    'id': 2,
+    'tipo_doenca_id': 1,
+    'descricao': 'Insuficiência cardíaca congestiva'
+  },
+  {
+    'id': 3,
+    'tipo_doenca_id': 1,
+    'descricao': 'Arritmia cardíaca'
+  },
+  {
+    'id': 4,
+    'tipo_doenca_id': 1,
+    'descricao': 'Cardiopatia não-especificada'
+  },
+  {
+    'id': 5,
+    'tipo_doenca_id': 2,
+    'descricao': 'Insuficiencia venosa'
+  },
+  {
+    'id': 7,
+    'tipo_doenca_id': 3,
+    'descricao': 'Doença pulmonar obstrutiva crônica'
+  },
+  {
+    'id': 8,
+    'tipo_doenca_id': 3,
+    'descricao': 'Asma'
+  }
+];
+
