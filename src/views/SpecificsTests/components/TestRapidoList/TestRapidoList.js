@@ -12,7 +12,6 @@ const TestRapidoList = () => {
       <Grid
         component={Card}
         item
-        spacing={2}
         xs={10}
       >
         <TesteRapidoItem />

@@ -17,7 +17,6 @@ const TesteRapidoForm = () => {
   const classes = useStyles();
 
   return (
-
     <Grid
       className={classes.root}
       component={Card}
@@ -39,8 +38,8 @@ const TesteRapidoForm = () => {
             className={classes.radioGroup}
             name="cor_id"
             row
-          // onChange={handleChange}
-          // value={values.cor_id}
+            // onChange={handleChange}
+            // value={values.cor_id}
           >
             <FormControlLabel
               control={<Radio />}
@@ -68,11 +67,11 @@ const TesteRapidoForm = () => {
             <Typography variant="h4">Data de coleta da rápida </Typography>
           </FormLabel>
           <Field
-            as={TextField}
-            className={classes.dateField}
             InputLabelProps={{
               shrink: true,
             }}
+            as={TextField}
+            className={classes.dateField}
             // error={errors.data_nascimento && touched.data_nascimento}
             // helperText={
             //  errors.data_nascimento && touched.data_nascimento

@@ -15,8 +15,7 @@ import schema from './schema';
 import SelectTestType from './components/SelectTestType';
 import TestRTCPRList from './components/TestRTCPRList';
 import TestRapidoList from './components/TestRapidoList';
-import TesteRapidoForm from './components/TesteRapidoForm';
-import TesteRTPCRForm from './components/TesteRTPCRForm';
+import api from 'services/api';
 
 const SpecificsTests = () => {
   const { id } = useParams();
@@ -25,11 +24,18 @@ const SpecificsTests = () => {
 
   const [loading, setLoading] = useState(false);
 
+  const [specificsTests, setSpecificsTests] = useState([]);
+
   // trata de carregar as informações
   const handleSpecificsTests = useCallback(async id => {
     try {
       setLoading(true);
-      console.log(id);
+      const response = await api.get(`pacientes/${id}/exames-laboratoriais`);
+      const { data } = response;
+
+      // TODO: separar os testes em testes-rápidos e testes-rt-pcr
+      setSpecificsTests(oldTestes => [...oldTestes, data]);
+      console.log(response);
       // TODO buscar as informacoes pela api.
     } catch (err) {
       // TODO: tratamento dos erros aqui.
@@ -100,13 +106,9 @@ const SpecificsTests = () => {
 
                   <SelectTestType />
 
-                  <TestRTCPRList />
+                  <TestRTCPRList testes={specificsTests} />
 
-                  <TestRapidoList />
-
-                  <TesteRTPCRForm />
-
-                  <TesteRapidoForm />
+                  <TestRapidoList testes={specificsTests} />
                 </Form>
               )}
             </Formik>
