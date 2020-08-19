@@ -49,6 +49,8 @@ import PatientInfo from 'components/PatientInfo';
 import { useToast } from 'hooks/toast';
 import { usePatient } from 'context/PatientContext';
 
+import FormatDate from 'helpers/formatDate'
+
 import api from 'services/api';
 
 import useStyles from './styles';
@@ -59,9 +61,8 @@ const schema = Yup.object().shape({
   pressao_sistolica: Yup.number().integer('Valor deve ser inteiro'),
   pressao_diastolica: Yup.number().integer('Valor deve ser inteiro'),
   frequencia_cardiaca: Yup.number().integer('Valor deve ser inteiro'),
-  altura: Yup.number().integer('Altura deve ser dada em centimetros'),
-  escala_glasgow: Yup.number().integer().moreThan(2, 'Por favor Selecione a opção').lessThan(16, 'Por favor Selecione a opção'),
-  ascultura_pulmonar: Yup.number().integer().max(191, 'Valor máximo permitido é 191')
+  altura: Yup.number().integer('Altura deve ser dada em centimetros').positive('Altura deve ser positiva'),
+  ascultura_pulmonar: Yup.string().max(191, 'Tamanho máximo é 120')
 })
 
 const PhysicalExam = () => {
@@ -74,24 +75,19 @@ const PhysicalExam = () => {
   const buttonDisabled = useRef(false);
 
   const [loading, setLoading] = useState(false);
-  const [patientHistory, setPatientHistory] = useState({});
-  const [usoDrogas, setUsoDrogas] = useState([]);
-  const [drogas, setDrogas] = useState([]);
+  const [PhysicalExam, setPhysicalExam] = useState({});
 
   const handleInfos = useCallback(async () => {
     try {
       setLoading(true);
       //TODO Carregar informações apartir do history.params.examId ( Se vinher da Listagem )
-      const responseUsoDrogas = await api.get('/situacao-uso-drogas');
-      setUsoDrogas(responseUsoDrogas.data);
 
-      const responseDrogas = await api.get('/drogas');
-      setDrogas(responseDrogas.data);
+      const response = await api.get(`/pacientes/${patient.id}/evolucoes-diarias/11`);
 
-      const responseHistory = await api.get(`/pacientes/${patient.id}/historico`);
-      setPatientHistory(responseHistory.data);
+      setPhysicalExam(response.data);
+      // setPatientHistory(responseHistory.data);
 
-      if (responseHistory) {
+      if (response.status === 200) {
         buttonDisabled.current = true;
       }
     } catch (err) {
@@ -111,7 +107,7 @@ const PhysicalExam = () => {
   }, [addToast, history, patient.id]);
 
   useEffect(() => {
-    // handleInfos();
+    handleInfos();
   }, [handleInfos]);
 
   const handleSubmit = () => {
@@ -152,6 +148,7 @@ const PhysicalExam = () => {
 
         {loading ? <CircularProgress /> : (
           <Form
+            physicalExam={PhysicalExam}
             ref={formRef}
           />
         )}
@@ -163,7 +160,7 @@ const PhysicalExam = () => {
 export default PhysicalExam;
 
 const Form = forwardRef((props, ref) => {
-  // const { patientHistory, usoDrogas, drogas } = props;
+  const { physicalExam } = props;
   const classes = useStyles();
   const history = useHistory();
   const { addToast } = useToast();
@@ -171,22 +168,30 @@ const Form = forwardRef((props, ref) => {
 
   const handleSubmit = async (values) => {
     try {
-
-      // TODO Salvar formulário novo!
-      const historico = {
-        situacao_uso_drogas_id: Number(values.situacao_uso_drogas_id),
-        drogas: values.drogas,
-        tabagismo: values.tabagismo === 'true' ? true : false,
-        etilismo: values.etilismo === 'true' ? true : false
+      
+      
+      const jsonToSend = {
+        'data_evolucao': values.data_evolucao,
       };
 
-      // await api.post(`/pacientes/${patient.id}/historico`, historico);
+      if(values.temperatura) jsonToSend.temperatura = values.temperatura;
+      if(values.frequencia_respiratoria) jsonToSend.frequencia_respiratoria = values.frequencia_respiratoria;
+      if(values.peso) jsonToSend.peso = values.peso;
+      if(values.altura) jsonToSend.altura = values.altura;
+      if(values.pressao_sistolica) jsonToSend.pressao_sistolica = values.pressao_sistolica;
+      if(values.pressao_diastolica) jsonToSend.pressao_diastolica = values.pressao_diastolica;
+      if(values.frequencia_cardiaca) jsonToSend.frequencia_cardiaca = values.frequencia_cardiaca;
+      if(values.ascultura_pulmonar) jsonToSend.ascultura_pulmonar = values.ascultura_pulmonar;
+      if(values.oximetria) jsonToSend.oximetria = values.oximetria;
+      if(values.escala_glasgow) jsonToSend.escala_glasgow = values.escala_glasgow;
+
+      await api.post(`/pacientes/${patient.id}/evolucoes-diarias`, jsonToSend);
 
       addToast({
         type: 'success',
         message: 'Dados salvos com sucesso'
       });
-      history.push('/categorias');
+      history.push('/categorias'); // TODO mudar para rota da listagem
     } catch {
       addToast({
         type: 'error',
@@ -197,17 +202,17 @@ const Form = forwardRef((props, ref) => {
 
   const formik = useFormik({
     initialValues: {
-      data_evolucao: '',
-      temperatura: '',
-      frequencia_respiratoria: '',
-      peso: '',
-      altura: '',
-      pressao_sistolica: '',
-      pressao_diastolica: '',
-      frequencia_cardiaca: '',
-      ascultura_pulmonar: '',
-      oximetria: '',
-      escala_glasgow: 0
+      data_evolucao: physicalExam.data_evolucao || '',
+      temperatura: physicalExam.temperatura || '',
+      frequencia_respiratoria: physicalExam.frequencia_respiratoria || '',
+      peso: physicalExam.peso || '',
+      altura: physicalExam.altura || '',
+      pressao_sistolica: physicalExam.pressao_sistolica || '',
+      pressao_diastolica: physicalExam.pressao_diastolica || '',
+      frequencia_cardiaca: physicalExam.frequencia_cardiaca || '',
+      ascultura_pulmonar: physicalExam.ascultura_pulmonar || '',
+      oximetria: physicalExam.oximetria || '',
+      escala_glasgow: physicalExam.escala_glasgow || 0
     },
     onSubmit: handleSubmit,
     validationSchema: schema,
@@ -218,6 +223,7 @@ const Form = forwardRef((props, ref) => {
   useImperativeHandle(ref, () => {
     return {
       submit: formik.handleSubmit,
+      disableButton: formik.isSubmitting
     }
   }, [formik.handleSubmit]);
 
@@ -460,7 +466,7 @@ const Form = forwardRef((props, ref) => {
                         name="ascultura_pulmonar"
                         onBlur={formik.handleBlur}
                         onChange={formik.handleChange}
-                        type="number"
+                        type="text"
                         value={formik.values.ascultura_pulmonar}
                         variant={'outlined'}
                       />
