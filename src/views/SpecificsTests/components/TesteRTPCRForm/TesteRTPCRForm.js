@@ -138,6 +138,45 @@ const TesteRTPCRForm = () => {
           />
         </FormGroup>
       </Grid>
+      {/* Sítio da amostra RT-PCR* */}
+      <Grid
+        className={classes.fieldTesteRTPCR}
+        item
+        sm={12}
+      >
+        <FormGroup>
+          <FormLabel>
+            <Typography variant="h4">Resultado RT-PCR </Typography>
+          </FormLabel>
+          <Field
+            as={RadioGroup}
+            className={classes.radioGroup}
+            name="cor_id"
+            row
+            // onChange={handleChange}
+            // value={values.cor_id}
+          >
+            <FormControlLabel
+              control={<Radio />}
+              label="Detectável"
+              value="1"
+            />
+
+            <FormControlLabel
+              control={<Radio />}
+              label="Não detectável"
+              value="2"
+            />
+
+            <FormControlLabel
+              control={<Radio />}
+              label="Inconclusivo"
+              value="3"
+            />
+
+          </Field>
+        </FormGroup>
+      </Grid>
     </Grid>
   );
 };

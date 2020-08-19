@@ -24,35 +24,43 @@ const TesteRapidoForm = () => {
       item
       sm={10}
     >
-      <FormGroup>
-        <FormLabel>
-          <Typography variant="h4">Cor (autoreferida)</Typography>
-        </FormLabel>
-        <Field
-          as={RadioGroup}
-          className={classes.radioGroup}
-          name="cor_id"
+      <Typography variant="h3">Formulário do Teste Rápido</Typography>
+      <Grid
+        className={classes.fieldTesteRapido}
+        item
+        sm={12}
+      >
+        <FormGroup>
+          <FormLabel>
+            <Typography variant="h4">Resultado de teste rápido</Typography>
+          </FormLabel>
+          <Field
+            as={RadioGroup}
+            className={classes.radioGroup}
+            name="cor_id"
+            row
           // onChange={handleChange}
           // value={values.cor_id}
-        >
-          <FormControlLabel
-            control={<Radio />}
-            label="Regagente"
-            value="1"
-          />
+          >
+            <FormControlLabel
+              control={<Radio />}
+              label="Regagente"
+              value="1"
+            />
 
-          <FormControlLabel
-            control={<Radio />}
-            label="Não regagente"
-            value="2"
-          />
-        </Field>
-      </FormGroup>
+            <FormControlLabel
+              control={<Radio />}
+              label="Não regagente"
+              value="2"
+            />
+          </Field>
+        </FormGroup>
+      </Grid>
 
       {/* Data de coleta RT-PCR */}
       <Grid
+        className={classes.fieldTesteRapido}
         item
-        md={6}
         sm={12}
       >
         <FormGroup>
@@ -71,7 +79,7 @@ const TesteRapidoForm = () => {
             //    ? errors.data_nascimento
             //    : null
             //}
-            label="Data de nascimento"
+            label="Data da coleta do teste rápido"
             name="data_nascimento"
             // onChange={handleChange}
             type="date"
