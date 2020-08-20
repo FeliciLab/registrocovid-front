@@ -5,9 +5,14 @@ import useStyles from './styles';
 
 import { Card, Grid } from '@material-ui/core';
 import TesteRTCPRItem from '../TesteRTCPRItem';
+import { useFormikContext } from 'formik';
+import TesteRTPCRForm from '../TesteRTPCRForm';
 
 const TestRTCPRList = ({ testes }) => {
+
   const classes = useStyles();
+
+  const {values} = useFormikContext();
 
   return (
     <div className={classes.root}>
@@ -21,6 +26,10 @@ const TestRTCPRList = ({ testes }) => {
             key={index}
             teste={teste}
           />
+        ))}
+
+        {values.newsTestsRTCPRs.map(newTeste => (
+          <TesteRTPCRForm key={values.newsTestsRTCPRs.indexOf(newTeste)} />
         ))}
       </Grid>
     </div>

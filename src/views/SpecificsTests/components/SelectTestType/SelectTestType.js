@@ -15,10 +15,28 @@ import AddIcon from '@material-ui/icons/Add';
 
 import { Field, useFormikContext } from 'formik';
 
+// Valores iniciais
+//const initialValues = {
+//  newsTestsRTCPRs: [],
+//  newsTestsRapidos: [],
+//  tipo_new_teste: '',
+//};
+
 const SelectTestType = () => {
   const classes = useStyles();
 
-  const { values, handleChange } = useFormikContext();
+  const { values, handleChange, setFieldValue } = useFormikContext();
+
+  // TODO testando
+  const handleAddTesteType = () => {
+
+    if (values.tipo_new_teste === 'RTPCR') {
+      setFieldValue('newsTestsRTCPRs', [...values.newsTestsRTCPRs, {}])
+    } else {
+      setFieldValue('newsTestsRapidos', [...values.newsTestsRapidos, {}])
+    }
+
+  };
 
   return (
     <Grid
@@ -55,6 +73,7 @@ const SelectTestType = () => {
               className={classes.buttonAddType}
               color="secondary"
               disabled={values.tipo_new_teste === ''}
+              onClick={() => handleAddTesteType()}
               startIcon={<AddIcon />}
               variant="contained"
             >

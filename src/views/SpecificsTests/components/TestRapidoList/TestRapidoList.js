@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { memo } from 'react';
 import useStyles from './styles';
 
 import PropTypes from 'prop-types';
 
 import { Card, Grid } from '@material-ui/core';
 import TesteRapidoItem from '../TesteRapidoItem';
+import TesteRapidoForm from '../TesteRapidoForm';
+import { useFormikContext } from 'formik';
 
 const TestRapidoList = ({ testes }) => {
   const classes = useStyles();
+
+  const { values } = useFormikContext();
 
   return (
     <div className={classes.root}>
@@ -21,6 +25,10 @@ const TestRapidoList = ({ testes }) => {
             key={index}
             teste={teste}
           />
+        ))}
+
+        {values.newsTestsRapidos.map(newTeste => (
+          <TesteRapidoForm key={values.newsTestsRapidos.indexOf(newTeste)} />
         ))}
       </Grid>
     </div>
@@ -38,4 +46,4 @@ TestRapidoList.propTypes = {
   ).isRequired,
 };
 
-export default TestRapidoList;
+export default memo(TestRapidoList);
