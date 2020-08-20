@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
+import { Checkbox, FormControlLabel } from '@material-ui/core';
+import { useComorbidade } from 'context/ComorbidadesContex';
 
-import {
-  Checkbox,
-  FormControlLabel,
-} from '@material-ui/core';
-
-const CheckBox = ({ label }) => {
+const CheckBox = ({ label, id }) => {
+  const { handleComorbidade } = useComorbidade();
   const [checked, setChecked] = useState(false);
 
   const handleCheckBoxClick = () => {
     setChecked(prevState => !prevState);
+    handleComorbidade(id);
   };
 
   return (
@@ -24,6 +23,6 @@ const CheckBox = ({ label }) => {
       label={label}
     />
   );
-}
+};
 
 export default CheckBox;

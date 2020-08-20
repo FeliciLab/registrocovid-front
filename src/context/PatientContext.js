@@ -11,7 +11,7 @@ function PatientProvider({ children }) {
     }
   });
 
-  const addPatient = useCallback((patient) => {
+  const addPatient = useCallback(patient => {
     localStorage.setItem('@RegistroCovid:paciente', JSON.stringify(patient));
     setPatient(patient);
   }, []);
