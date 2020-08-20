@@ -4,31 +4,26 @@ import PropTypes from 'prop-types';
 
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 
-import {
-  TableRow,
-  TableCell,
-  Button
-} from '@material-ui/core';
+import { TableRow, TableCell, Button } from '@material-ui/core';
 
 import { usePatient } from 'context/PatientContext';
 
 const PatientRow = props => {
-  const { patient,...rest } = props;
+  const { patient, ...rest } = props;
   const { addPatient } = usePatient();
 
   const history = useHistory();
 
-  const handleNavigate = (patient) => {
+  const handleNavigate = patient => {
     addPatient(patient);
-    history.push('/categorias');
+    history.push('/categorias/identificacao-paciente/');
   };
 
   return (
-    <TableRow
-      {...rest}
-      onClick={() => handleNavigate(patient)}
-    >
-      <TableCell align="left"><strong>#</strong> {patient.prontuario}</TableCell>
+    <TableRow {...rest} onClick={() => handleNavigate(patient)}>
+      <TableCell align="left">
+        <strong>#</strong> {patient.prontuario}
+      </TableCell>
       <TableCell align="left">{patient.data_internacao}</TableCell>
       <TableCell align="left">{patient.created_at}</TableCell>
       <TableCell align="right">
@@ -38,7 +33,7 @@ const PatientRow = props => {
       </TableCell>
     </TableRow>
   );
-}
+};
 
 PatientRow.propTypes = {
   className: PropTypes.string,
@@ -47,7 +42,7 @@ PatientRow.propTypes = {
     prontuario: PropTypes.string,
     data_internacao: PropTypes.string,
     created_at: PropTypes.string,
-  }).isRequired
+  }).isRequired,
 };
 
 export default memo(PatientRow);

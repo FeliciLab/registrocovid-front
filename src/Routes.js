@@ -10,17 +10,17 @@ import {
   ListPatients as ListPatientsView,
   Categories as CategoriesView,
   GeneralInfo as GeneralInfoView,
+  PersonalHistory as PersonalHistoryView,
+  InitialSymptoms as InitialSymptomsView,
+  Comorbidities as ComorbiditiesView,
   PhysicalExamsList as PhysicalExamsListView
 } from './views';
+import PatientIdentification from 'views/PatientIdentification';
 
 const Routes = () => {
   return (
     <Switch>
-      <Redirect
-        exact
-        from="/"
-        to="/meus-pacientes"
-      />
+      <Redirect exact from="/" to="/meus-pacientes" />
       <RouteWithLayout
         component={SignInView}
         exact
@@ -56,10 +56,38 @@ const Routes = () => {
         path="/lista-exame-fisico"
       />
       <RouteWithLayout
+        component={PersonalHistoryView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/historia-pessoal"
+      />
+      <RouteWithLayout
+        component={InitialSymptomsView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/sintomas-iniciais"
+      />
+      <RouteWithLayout
+        component={ComorbiditiesView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/comorbidades"
+      />
+      <RouteWithLayout
         component={NotFoundView}
         exact
         layout={MinimalLayout}
         path="/not-found"
+      />
+      <RouteWithLayout
+        component={PatientIdentification}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/identificacao-paciente/:id"
       />
       <Redirect to="/not-found" />
     </Switch>
