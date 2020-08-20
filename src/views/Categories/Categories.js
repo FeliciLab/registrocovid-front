@@ -36,7 +36,7 @@ const Categories = () => {
 
   const secondaryForm = useMemo(() => {
     return [
-      { id: 1, label: 'Exame físico (admissão e evolução diária)', url: 'categorias/exame-fisico' },
+      { id: 1, label: 'Exame físico (admissão e evolução diária)', url: 'categorias/lista-exame-fisico' },
       { id: 2, label: 'Complicações relacionadas à ventilação mecânica' },
       { id: 3, label: 'Exames laboratoriais exclusivos COVID 19' },
       { id: 4, label: 'Exames complementares' },

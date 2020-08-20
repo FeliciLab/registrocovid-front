@@ -61,6 +61,13 @@ const Routes = () => {
         exact
         isPrivate
         layout={MainLayout}
+        path="/categorias/exame-fisico"
+      />
+      <RouteWithLayout
+        component={PhysicalExamView}
+        exact
+        isPrivate
+        layout={MainLayout}
         path="/categorias/exame-fisico/:examId"
       />
       <RouteWithLayout
