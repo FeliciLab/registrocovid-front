@@ -9,10 +9,9 @@ import { useFormikContext } from 'formik';
 import TesteRTPCRForm from '../TesteRTPCRForm';
 
 const TestRTCPRList = ({ testes }) => {
-
   const classes = useStyles();
 
-  const {values} = useFormikContext();
+  const { values } = useFormikContext();
 
   return (
     <div className={classes.root}>
@@ -28,8 +27,11 @@ const TestRTCPRList = ({ testes }) => {
           />
         ))}
 
-        {values.newsTestsRTCPRs.map(newTeste => (
-          <TesteRTPCRForm key={values.newsTestsRTCPRs.indexOf(newTeste)} />
+        {values.newsTestsRTCPRs.map((newTeste, index) => (
+          <TesteRTPCRForm
+            index={index}
+            key={index}
+          />
         ))}
       </Grid>
     </div>

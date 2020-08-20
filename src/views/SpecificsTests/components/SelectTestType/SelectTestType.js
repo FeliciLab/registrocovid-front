@@ -29,13 +29,19 @@ const SelectTestType = () => {
 
   // TODO testando
   const handleAddTesteType = () => {
-
     if (values.tipo_new_teste === 'RTPCR') {
-      setFieldValue('newsTestsRTCPRs', [...values.newsTestsRTCPRs, {}])
+      setFieldValue('newsTestsRTCPRs', [
+        ...values.newsTestsRTCPRs,
+        {
+          data_coleta: '',
+          data_resultado: '',
+          sitio_tipo: '',
+          rt_pcr_resultado: '',
+        },
+      ]);
     } else {
-      setFieldValue('newsTestsRapidos', [...values.newsTestsRapidos, {}])
+      setFieldValue('newsTestsRapidos', [...values.newsTestsRapidos, {}]);
     }
-
   };
 
   return (

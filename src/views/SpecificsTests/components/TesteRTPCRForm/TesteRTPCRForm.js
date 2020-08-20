@@ -10,12 +10,23 @@ import {
   TextField,
   Card,
 } from '@material-ui/core';
-import { Field } from 'formik';
+import { Field, useFormikContext } from 'formik';
 import useStyles from './styles';
 import api from 'services/api';
 
-const TesteRTPCRForm = () => {
+// Valores iniciais
+//const initialValues = {
+//  newsTestsRTCPRs: [],
+//  newsTestsRapidos: [],
+//  tipo_new_teste: '',
+//};
+
+const TesteRTPCRForm = props => {
   const classes = useStyles();
+
+  const { index } = props;
+
+  const { values, handleChange } = useFormikContext();
 
   const [sitiosRTPCR, setSitiosRTPCR] = useState([]);
   const [tiposResultadosRTPCR, setTiposResultadosRTPCR] = useState([]);
@@ -50,11 +61,10 @@ const TesteRTPCRForm = () => {
       className={classes.root}
       component={Card}
       item
-      sm={10}
     >
       <Typography variant="h3">Formulário do Teste RT-PCR</Typography>
 
-      {/* Data de coleta RT-PCR */}
+      {/* data_coleta */}
       <Grid
         className={classes.fieldTesteRTPCR}
         item
@@ -70,22 +80,16 @@ const TesteRTPCRForm = () => {
             }}
             as={TextField}
             className={classes.dateField}
-            // error={errors.data_nascimento && touched.data_nascimento}
-            // helperText={
-            //  errors.data_nascimento && touched.data_nascimento
-            //    ? errors.data_nascimento
-            //    : null
-            //}
             label="Data de coleta RT-PCR "
-            name="data_nascimento"
-            // onChange={handleChange}
+            name={`newsTestsRTCPRs[${index}].data_coleta`}
+            onChange={handleChange}
             type="date"
-            // value={values.data_nascimento}
+            value={values.newsTestsRTCPRs[index].data_coleta}
           />
         </FormGroup>
       </Grid>
 
-      {/* Sítio da amostra RT-PCR* */}
+      {/* sitio_tipo */}
       <Grid
         className={classes.fieldTesteRTPCR}
         item
@@ -98,10 +102,10 @@ const TesteRTPCRForm = () => {
           <Field
             as={RadioGroup}
             className={classes.radioGroup}
-            name="cor_id"
+            name={`newsTestsRTCPRs[${index}].sitio_tipo`}
+            onChange={handleChange}
             row
-            // onChange={handleChange}
-            // value={values.cor_id}
+            value={values.newsTestsRTCPRs[index].sitio_tipo}
           >
             {sitiosRTPCR.map(({ id, descricao }) => (
               <FormControlLabel
@@ -115,7 +119,7 @@ const TesteRTPCRForm = () => {
         </FormGroup>
       </Grid>
 
-      {/* Data de coleta RT-PCR */}
+      {/* data_resultado */}
       <Grid
         className={classes.fieldTesteRTPCR}
         item
@@ -131,21 +135,16 @@ const TesteRTPCRForm = () => {
             }}
             as={TextField}
             className={classes.dateField}
-            // error={errors.data_nascimento && touched.data_nascimento}
-            // helperText={
-            //  errors.data_nascimento && touched.data_nascimento
-            //    ? errors.data_nascimento
-            //    : null
-            //}
             label="Data do resultado RT-PCR"
-            name="data_nascimento"
-            // onChange={handleChange}
+            name={`newsTestsRTCPRs[${index}].data_resultado`}
+            onChange={handleChange}
             type="date"
-            // value={values.data_nascimento}
+            value={values.newsTestsRTCPRs[index].data_resultado}
           />
         </FormGroup>
       </Grid>
-      {/* Sítio da amostra RT-PCR* */}
+
+      {/* rt_pcr_resultado */}
       <Grid
         className={classes.fieldTesteRTPCR}
         item
@@ -158,10 +157,10 @@ const TesteRTPCRForm = () => {
           <Field
             as={RadioGroup}
             className={classes.radioGroup}
-            name="cor_id"
+            name={`newsTestsRTCPRs[${index}].rt_pcr_resultado`}
+            onChange={handleChange}
             row
-            // onChange={handleChange}
-            // value={values.cor_id}
+            value={values.newsTestsRTCPRs[index].rt_pcr_resultado}
           >
             {tiposResultadosRTPCR.map(({ id, descricao }) => (
               <FormControlLabel
@@ -171,7 +170,6 @@ const TesteRTPCRForm = () => {
                 value={id.toString()}
               />
             ))}
-
           </Field>
         </FormGroup>
       </Grid>
