@@ -13,6 +13,10 @@ const useStyles = makeStyles(theme => ({
   headingLabel: {
     marginRight: theme.spacing(1),
   },
+  accordionDetails: {
+    display: 'flex',
+    flexDirection: 'column',
+  }
 }));
 
 export default useStyles;

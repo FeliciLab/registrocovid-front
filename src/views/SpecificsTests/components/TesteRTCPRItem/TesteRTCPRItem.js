@@ -14,7 +14,7 @@ import useStyles from './styles';
 import formatDate from 'helpers/formatDate';
 
 // TODO: colocar aqui o conteudo do AccordionDetails
-const TesteRTCPRItem = ({ teste }) => {
+const TesteRTPCRItem = ({ teste }) => {
   const classes = useStyles();
 
   return (
@@ -36,14 +36,22 @@ const TesteRTCPRItem = ({ teste }) => {
           </Typography>
         </div>
       </AccordionSummary>
-      <AccordionDetails>
-        <Typography>Conteudo de um TesteRTCPRItem: {teste.id}</Typography>
+      <AccordionDetails className={classes.accordionDetails}>
+        <Typography variant="subtitle1">
+          Conteudo de um Teste RT-CPRItem
+        </Typography>
+        <Typography>Data da coleta: {formatDate(teste.data_coleta)}</Typography>
+        <Typography>
+          Data da coleta: {formatDate(teste.data_resultado)}
+        </Typography>
+        <Typography>Tipo do sítio: {teste.sitio_tipo}</Typography>
+        <Typography>Resultado: {teste.rt_pcr_resultado.descricao}</Typography>
       </AccordionDetails>
     </Accordion>
   );
 };
 
-TesteRTCPRItem.propTypes = {
+TesteRTPCRItem.propTypes = {
   teste: PropTypes.exact({
     id: PropTypes.number,
     data_coleta: PropTypes.string,
@@ -56,4 +64,4 @@ TesteRTCPRItem.propTypes = {
   }).isRequired,
 };
 
-export default memo(TesteRTCPRItem);
+export default memo(TesteRTPCRItem);

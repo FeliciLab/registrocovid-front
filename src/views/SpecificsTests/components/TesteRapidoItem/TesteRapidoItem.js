@@ -35,10 +35,13 @@ const TesteRapidoItem = ({ teste }) => {
           </Typography>
         </div>
       </AccordionSummary>
-      <AccordionDetails>
+      <AccordionDetails className={classes.accordionDetails}>
+        <Typography variant="subtitle1">
+          Conteudo de um Teste rápido
+        </Typography>
+        <Typography>Data da coleta: {formatDate(teste.data_realizacao)}</Typography>
         <Typography>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-          malesuada lacus ex, sit amet blandit leo lobortis eget.
+          Resultado: {teste.resultado ? 'Reagente' : 'Não reagente'}
         </Typography>
       </AccordionDetails>
     </Accordion>

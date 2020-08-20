@@ -24,7 +24,7 @@ const TesteRTPCRForm = () => {
   const handleSitiosRTPCR = useCallback(async () => {
     const response = await api.get('/sitios-rt-pcr');
     setSitiosRTPCR(sitos => [...sitos, ...response.data]);
-  }, []);
+  }, [setSitiosRTPCR]);
 
   // busca os tipos de sitios do form.
   const handleTiposResultadosRTPCR = useCallback(async () => {
@@ -33,7 +33,7 @@ const TesteRTPCRForm = () => {
       ...tiposResultados,
       ...response.data,
     ]);
-  }, []);
+  }, [setTiposResultadosRTPCR]);
 
   useEffect(() => {
     try {
@@ -43,7 +43,7 @@ const TesteRTPCRForm = () => {
       // TOdO: tratar aqui os erros
       console.log(err);
     }
-  }, []);
+  }, [handleSitiosRTPCR, handleTiposResultadosRTPCR]);
 
   return (
     <Grid
@@ -106,6 +106,7 @@ const TesteRTPCRForm = () => {
             {sitiosRTPCR.map(({ id, descricao }) => (
               <FormControlLabel
                 control={<Radio />}
+                key={id}
                 label={descricao}
                 value={id.toString()}
               />
@@ -165,6 +166,7 @@ const TesteRTPCRForm = () => {
             {tiposResultadosRTPCR.map(({ id, descricao }) => (
               <FormControlLabel
                 control={<Radio />}
+                key={id}
                 label={descricao}
                 value={id.toString()}
               />
