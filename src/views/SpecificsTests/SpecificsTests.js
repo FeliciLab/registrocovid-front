@@ -16,6 +16,7 @@ import SelectTestType from './components/SelectTestType';
 import TestRTCPRList from './components/TestRTCPRList';
 import TestRapidoList from './components/TestRapidoList';
 import api from 'services/api';
+import TesteRTPCRForm from './components/TesteRTPCRForm';
 
 // Valores iniciais
 const initialValues = {
@@ -118,6 +119,8 @@ const SpecificsTests = () => {
                   <TestRTCPRList testes={examesPCR} />
 
                   <TestRapidoList testes={examesTesteRapido} />
+
+                  <TesteRTPCRForm />
                 </Form>
               )}
             </Formik>

@@ -11,6 +11,7 @@ import {
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import useStyles from './styles';
+import formatDate from 'helpers/formatDate';
 
 const TesteRapidoItem = ({ teste }) => {
   const classes = useStyles();
@@ -29,7 +30,9 @@ const TesteRapidoItem = ({ teste }) => {
           >
             Teste Rápido
           </Typography>
-          <Typography variant="caption">Data da coleta: {teste.id}</Typography>
+          <Typography variant="caption">
+            Data da coleta: {formatDate(teste.data_realizacao)}
+          </Typography>
         </div>
       </AccordionSummary>
       <AccordionDetails>

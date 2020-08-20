@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   Grid,
   FormGroup,
@@ -12,9 +12,38 @@ import {
 } from '@material-ui/core';
 import { Field } from 'formik';
 import useStyles from './styles';
+import api from 'services/api';
 
 const TesteRTPCRForm = () => {
   const classes = useStyles();
+
+  const [sitiosRTPCR, setSitiosRTPCR] = useState([]);
+  const [tiposResultadosRTPCR, setTiposResultadosRTPCR] = useState([]);
+
+  // busca os tipos de sitios do form.
+  const handleSitiosRTPCR = useCallback(async () => {
+    const response = await api.get('/sitios-rt-pcr');
+    setSitiosRTPCR(sitos => [...sitos, ...response.data]);
+  }, []);
+
+  // busca os tipos de sitios do form.
+  const handleTiposResultadosRTPCR = useCallback(async () => {
+    const response = await api.get('/pcr-resultado');
+    setTiposResultadosRTPCR(tiposResultados => [
+      ...tiposResultados,
+      ...response.data,
+    ]);
+  }, []);
+
+  useEffect(() => {
+    try {
+      handleSitiosRTPCR();
+      handleTiposResultadosRTPCR();
+    } catch (err) {
+      // TOdO: tratar aqui os erros
+      console.log(err);
+    }
+  }, []);
 
   return (
     <Grid
@@ -22,7 +51,6 @@ const TesteRTPCRForm = () => {
       component={Card}
       item
       sm={10}
-
     >
       <Typography variant="h3">Formulário do Teste RT-PCR</Typography>
 
@@ -37,11 +65,11 @@ const TesteRTPCRForm = () => {
             <Typography variant="h4">Data de coleta RT-PCR*</Typography>
           </FormLabel>
           <Field
-            as={TextField}
-            className={classes.dateField}
             InputLabelProps={{
               shrink: true,
             }}
+            as={TextField}
+            className={classes.dateField}
             // error={errors.data_nascimento && touched.data_nascimento}
             // helperText={
             //  errors.data_nascimento && touched.data_nascimento
@@ -75,35 +103,13 @@ const TesteRTPCRForm = () => {
             // onChange={handleChange}
             // value={values.cor_id}
           >
-            <FormControlLabel
-              control={<Radio />}
-              label="Swab de nasofaringe/orofaringe"
-              value="1"
-            />
-
-            <FormControlLabel
-              control={<Radio />}
-              label="Secreção traqueal"
-              value="2"
-            />
-
-            <FormControlLabel
-              control={<Radio />}
-              label="Lavado broncoalveolar"
-              value="3"
-            />
-
-            <FormControlLabel
-              control={<Radio />}
-              label="Escarro"
-              value="4"
-            />
-
-            <FormControlLabel
-              control={<Radio />}
-              label="Outros"
-              value="5"
-            />
+            {sitiosRTPCR.map(({ id, descricao }) => (
+              <FormControlLabel
+                control={<Radio />}
+                label={descricao}
+                value={id.toString()}
+              />
+            ))}
           </Field>
         </FormGroup>
       </Grid>
@@ -119,11 +125,11 @@ const TesteRTPCRForm = () => {
             <Typography variant="h4">Data do resultado RT-PCR*</Typography>
           </FormLabel>
           <Field
-            as={TextField}
-            className={classes.dateField}
             InputLabelProps={{
               shrink: true,
             }}
+            as={TextField}
+            className={classes.dateField}
             // error={errors.data_nascimento && touched.data_nascimento}
             // helperText={
             //  errors.data_nascimento && touched.data_nascimento
@@ -156,23 +162,13 @@ const TesteRTPCRForm = () => {
             // onChange={handleChange}
             // value={values.cor_id}
           >
-            <FormControlLabel
-              control={<Radio />}
-              label="Detectável"
-              value="1"
-            />
-
-            <FormControlLabel
-              control={<Radio />}
-              label="Não detectável"
-              value="2"
-            />
-
-            <FormControlLabel
-              control={<Radio />}
-              label="Inconclusivo"
-              value="3"
-            />
+            {tiposResultadosRTPCR.map(({ id, descricao }) => (
+              <FormControlLabel
+                control={<Radio />}
+                label={descricao}
+                value={id.toString()}
+              />
+            ))}
 
           </Field>
         </FormGroup>
