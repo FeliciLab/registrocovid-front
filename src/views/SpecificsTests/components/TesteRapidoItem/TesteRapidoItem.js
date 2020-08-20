@@ -1,5 +1,7 @@
 import React from 'react';
 
+import PropTypes from 'prop-types';
+
 import {
   Accordion,
   AccordionSummary,
@@ -10,7 +12,7 @@ import {
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import useStyles from './styles';
 
-const TesteRapidoItem = () => {
+const TesteRapidoItem = ({ teste }) => {
   const classes = useStyles();
 
   return (
@@ -25,9 +27,9 @@ const TesteRapidoItem = () => {
             className={classes.headingLabel}
             variant="h4"
           >
-            Teste RT-PCR
+            Teste Rápido
           </Typography>
-          <Typography variant="caption">Data da coleta:</Typography>
+          <Typography variant="caption">Data da coleta: {teste.id}</Typography>
         </div>
       </AccordionSummary>
       <AccordionDetails>
@@ -38,6 +40,14 @@ const TesteRapidoItem = () => {
       </AccordionDetails>
     </Accordion>
   );
+};
+
+TesteRapidoItem.propTypes = {
+  teste: PropTypes.exact({
+    id: PropTypes.number,
+    data_realizacao: PropTypes.string,
+    resultado: PropTypes.bool,
+  }).isRequired,
 };
 
 export default TesteRapidoItem;

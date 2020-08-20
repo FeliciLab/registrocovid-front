@@ -1,10 +1,12 @@
 import React from 'react';
 import useStyles from './styles';
 
+import PropTypes from 'prop-types';
+
 import { Card, Grid } from '@material-ui/core';
 import TesteRapidoItem from '../TesteRapidoItem';
 
-const TestRapidoList = () => {
+const TestRapidoList = ({ testes }) => {
   const classes = useStyles();
 
   return (
@@ -14,13 +16,26 @@ const TestRapidoList = () => {
         item
         xs={10}
       >
-        <TesteRapidoItem />
-        <TesteRapidoItem />
-        <TesteRapidoItem />
-        <TesteRapidoItem />
+        {testes.map((teste, index) => (
+          <TesteRapidoItem
+            key={index}
+            teste={teste}
+          />
+        ))}
       </Grid>
     </div>
   );
+};
+
+TestRapidoList.propTypes = {
+  className: PropTypes.string,
+  testes: PropTypes.arrayOf(
+    PropTypes.exact({
+      id: PropTypes.number,
+      data_realizacao: PropTypes.string,
+      resultado: PropTypes.bool,
+    }),
+  ).isRequired,
 };
 
 export default TestRapidoList;

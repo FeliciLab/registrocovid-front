@@ -34,11 +34,8 @@ TestRTCPRList.propTypes = {
       id: PropTypes.number,
       data_coleta: PropTypes.string,
       data_resultado: PropTypes.string,
-      sitios_tipos: PropTypes.exact({
-        id: PropTypes.number,
-        descricao: PropTypes.string,
-      }),
-      rt_pcr_resultados: PropTypes.exact({
+      sitio_tipo: PropTypes.string,
+      rt_pcr_resultado: PropTypes.exact({
         id: PropTypes.number,
         descricao: PropTypes.string,
       }),

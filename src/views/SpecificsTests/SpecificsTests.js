@@ -22,7 +22,7 @@ const initialValues = {
   newsTestsRTCPRs: [],
   newsTestsRapidos: [],
   tipo_new_teste: '',
-}
+};
 
 const SpecificsTests = () => {
   const { id } = useParams();
@@ -33,19 +33,18 @@ const SpecificsTests = () => {
 
   const [examesPCR, setexamesPCR] = useState([]);
 
-  const [examesTtesteRapido, setExamesTtesteRapido] = useState([]);
+  const [examesTesteRapido, setExamesTesteRapido] = useState([]);
 
   // trata de carregar as informações
   const handleSpecificsTests = useCallback(async id => {
     try {
       setLoading(true);
 
-      // TODO: talvez poderemos usar aqui o useAxios
       const response = await api.get(`pacientes/${id}/exames-laboratoriais`);
-      const { data } = response;
+      const { exames_pcr, exames_teste_rapido } = response.data;
 
-      setexamesPCR(data.exames_pcr);
-      setExamesTtesteRapido(data.exames_teste_rapido);
+      setexamesPCR(exames => [...exames, ...exames_pcr]);
+      setExamesTesteRapido(exames => [...exames, ...exames_teste_rapido]);
     } catch (err) {
       // TODO: tratamento dos erros aqui.
       console.log(err);
@@ -59,6 +58,7 @@ const SpecificsTests = () => {
   }, [handleSpecificsTests, id]);
 
   const handleSubmit = values => {
+    // TODO: Provalvemente teremos que enviar cada exame em requests separadas.
     console.log(values);
   };
 
@@ -117,7 +117,7 @@ const SpecificsTests = () => {
 
                   <TestRTCPRList testes={examesPCR} />
 
-                  <TestRapidoList testes={examesTtesteRapido} />
+                  <TestRapidoList testes={examesTesteRapido} />
                 </Form>
               )}
             </Formik>
