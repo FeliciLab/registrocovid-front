@@ -92,6 +92,13 @@ const Routes = () => {
         exact
         isPrivate
         layout={MainLayout}
+        path="/categorias/identificacao-paciente"
+      />
+      <RouteWithLayout
+        component={PatientIdentification}
+        exact
+        isPrivate
+        layout={MainLayout}
         path="/categorias/identificacao-paciente/:id"
       />
       <RouteWithLayout
