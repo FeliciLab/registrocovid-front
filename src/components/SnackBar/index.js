@@ -7,21 +7,7 @@ import MuiAlert from '@material-ui/lab/Alert';
 import { useToast } from 'hooks/toast';
 
 function Alert(props) {
-<<<<<<< HEAD
-  return <MuiAlert
-    elevation={6}
-    variant="filled"
-    {...props}
-  />;
-=======
-  return (
-    <MuiAlert
-      elevation={6}
-      variant="filled"
-      {...props}
-    />
-  );
->>>>>>> develop
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
 const Toast = ({ toast }) => {
@@ -32,18 +18,10 @@ const Toast = ({ toast }) => {
       anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       autoHideDuration={5000}
       onClose={handleClose}
-      open={open}
-    >
-      <Alert
-        onClose={handleClose}
-        severity={toast?.type}
-      >
+      open={open}>
+      <Alert onClose={handleClose} severity={toast?.type}>
         {toast?.message}
       </Alert>
-<<<<<<< HEAD
-=======
-
->>>>>>> develop
     </Snackbar>
   );
 };
@@ -51,16 +29,8 @@ const Toast = ({ toast }) => {
 Toast.propTypes = {
   toast: PropTypes.shape({
     type: PropTypes.oneOf(['success', 'warning', 'info', 'error']).isRequired,
-<<<<<<< HEAD
     message: PropTypes.string.isRequired,
-=======
-    message: PropTypes.string.isRequired
->>>>>>> develop
   }),
 };
 
 export default Toast;
-<<<<<<< HEAD
-=======
-
->>>>>>> develop
