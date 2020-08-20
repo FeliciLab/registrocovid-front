@@ -11,6 +11,7 @@ import {
   Categories as CategoriesView,
   GeneralInfo as GeneralInfoView,
   PersonalHistory as PersonalHistoryView,
+  PhysicalExam as PhysicalExamView,
   InitialSymptoms as InitialSymptomsView,
   Comorbidities as ComorbiditiesView,
 } from './views';
@@ -57,6 +58,20 @@ const Routes = () => {
         isPrivate
         layout={MainLayout}
         path="/categorias/historia-pessoal"
+      />
+      <RouteWithLayout
+        component={PhysicalExamView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/exame-fisico"
+      />
+      <RouteWithLayout
+        component={PhysicalExamView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/exame-fisico/:examId"
       />
       <RouteWithLayout
         component={InitialSymptomsView}

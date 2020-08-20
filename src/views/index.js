@@ -5,5 +5,6 @@ export { default as PatientIdentification } from './PatientIdentification';
 export { default as Categories } from './Categories';
 export { default as GeneralInfo } from './GeneralInfo';
 export { default as PersonalHistory } from './PersonalHistory';
+export { default as PhysicalExam } from './PhysicalExam';
 export { default as InitialSymptoms } from './InitialSymptoms';
 export { default as Comorbidities } from './Comorbidities';
