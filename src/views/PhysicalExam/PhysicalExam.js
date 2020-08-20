@@ -4,7 +4,7 @@ import React, {
   useEffect,
   useRef,
 } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 
 import {
   Typography,
@@ -26,6 +26,7 @@ import useStyles from './styles';
 const PhysicalExam = () => {
   const classes = useStyles();
   const history = useHistory();
+  const { params } = useRouteMatch();
   const { addToast } = useToast();
   const { patient } = usePatient();
 
@@ -39,10 +40,10 @@ const PhysicalExam = () => {
     try {
       setLoading(true);
 
-      const response = await api.get(`/pacientes/${patient.id}/evolucoes-diarias/8`);
-      setPhysicalExam(response.data);
+      const response = await api.get(`/pacientes/${patient.id}/evolucoes-diarias/${params.examId}`);
 
       if (response.status === 200) {
+        setPhysicalExam(response.data);
         buttonDisabled.current = true;
       }
     } catch (err) {
