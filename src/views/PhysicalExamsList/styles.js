@@ -56,6 +56,9 @@ const useStyles = makeStyles(theme => ({
             cursor: 'pointer',
             backgroundColor: '#E6E6E6'
         } 
+    },
+    tableCellHead: {
+        height: '50px'
     }
 }));
 

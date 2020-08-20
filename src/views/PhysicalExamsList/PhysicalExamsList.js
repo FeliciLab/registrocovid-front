@@ -18,6 +18,7 @@ import {
     TableContainer,
     Table,
     TableBody,
+    TableHead,
     TableCell,
     TableRow,
     Paper,
@@ -95,31 +96,37 @@ const PhysicalExamsList = () => {
                         type="submit"
                         variant="contained"
                         color="secondary"
-                        onClick={() => handleNavigate(`/`)}>
+                        onClick={() => handleNavigate(`/categorias/exame-fisico`)}>
                         <AddIcon fontSize="small" />
                         INSERIR NOVA OCORRÊNCIA
                     </Button>
                 </div>
             </div>
             <div>
-                <Typography variant="h4">Ficha Inicial</Typography>
 
                 {!data ? (
                     <CircularProgress />
                 ):(
-                    (data.length === 0) ? 'Nenhum Exame Encontrado' :
-                        (<TableContainer
+                    (data.length === 0) ? 
+                        <Typography variant="h4">Nenhum Exame Encontrado</Typography>:
+                        (<><Typography variant="h4">Ficha Inicial</Typography>
+                        <TableContainer
                             component={Paper}
                             elevation={2}
                             style={{ marginTop: 10 }}>
                             <Table
                                 size="small">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell colSpan={2} className={classes.tableCellHead}>Data de Evolução</TableCell>
+                                    </TableRow>
+                                </TableHead>
                                 <TableBody>
                                     {data.map(exam => (
                                         <TableRow 
                                             className={classes.tableRowExamDate}
                                             key={exam.id}
-                                            onClick={() => handleNavigate(`/exame-fisico/${exam.id}`)}>
+                                            onClick={() => handleNavigate(`/categorias/exame-fisico/${exam.id}`)}>
                                             <TableCell
                                                 component="th"
                                                 scope="row">
@@ -134,7 +141,7 @@ const PhysicalExamsList = () => {
                                     ))}
                                 </TableBody>
                             </Table>
-                        </TableContainer>)
+                        </TableContainer></>)
                     )}
             </div>
         </div>
