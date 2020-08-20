@@ -31,21 +31,24 @@ const PhysicalExamsList = () => {
     const { patient } = usePatient();
 
     const { data } = useAxios(`/pacientes/${patient.id}/evolucoes-diarias`, {
-        allExamsData: [
-          examData => {
-            return JSON.parse(examData);
-            // return data;
-            // return data.map(exam => {
-            //     exam = {
-            //       ...paciente,
-            //       data_internacao: paciente.data_internacao.split('-').reverse().join('/'),
-            //       created_at: formatDate(paciente.created_at)
-            //     }
-            //     return exam;
-            // })
-          }
+        transformResponse: [
+            response => {
+                const examData = JSON.parse(response);
+                examData.sort((a, b) => {
+                    return a.data_evolucao > b.data_evolucao ? 1: -1;
+                });
+                return examData;
+            }
         ],
-      });
+    });
+
+    const transformDate = (rawDate) =>{
+        let dateFormat = new Date(rawDate);
+        let dd = ("0" + dateFormat.getDate()).slice(-2);
+        let mm = ("0" + (dateFormat.getMonth()+1)).slice(-2); 
+        let yyyy = dateFormat.getFullYear();
+        return dd + '/' + mm + '/' + yyyy;
+    }
 
     const history = useHistory();
     const classes = useStyles();
@@ -91,47 +94,48 @@ const PhysicalExamsList = () => {
                         className={classes.buttonSave}
                         type="submit"
                         variant="contained"
-                        color="secondary">
+                        color="secondary"
+                        onClick={() => handleNavigate(`/`)}>
                         <AddIcon fontSize="small" />
                         INSERIR NOVA OCORRÊNCIA
                     </Button>
-                </div> 
+                </div>
             </div>
             <div>
                 <Typography variant="h4">Ficha Inicial</Typography>
 
                 {!data ? (
                     <CircularProgress />
-                ) : (
-                    (data.length === 0) ? 'Nenhum Exame Encontrado':
-                (<TableContainer
-                    component={Paper}
-                    elevation={2}
-                    style={{ marginTop: 10 }}>
-                    <Table
-                        size="small">
-                        <TableBody>
-                            {data.map(exam => (
-                                <TableRow
-                                    key={exam.id}
-                                    onClick={() => handleNavigate(`/exame-fisico/${exam.id}`)}>
-                                    <TableCell
-                                        component="th"
-                                        scope="row">
-                                        {exam.data_evolucao}
-                                    </TableCell>
-                                    <TableCell align="right">
-                                        <Button color="inherit">
-                                            <NavigateNextIcon fontSize="small" />
-                                        </Button>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>)
-
-                )}
+                ):(
+                    (data.length === 0) ? 'Nenhum Exame Encontrado' :
+                        (<TableContainer
+                            component={Paper}
+                            elevation={2}
+                            style={{ marginTop: 10 }}>
+                            <Table
+                                size="small">
+                                <TableBody>
+                                    {data.map(exam => (
+                                        <TableRow 
+                                            className={classes.tableRowExamDate}
+                                            key={exam.id}
+                                            onClick={() => handleNavigate(`/exame-fisico/${exam.id}`)}>
+                                            <TableCell
+                                                component="th"
+                                                scope="row">
+                                                {transformDate(exam.data_evolucao)}
+                                            </TableCell>
+                                            <TableCell align="right">
+                                                <Button color="inherit">
+                                                    <NavigateNextIcon fontSize="small" />
+                                                </Button>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>)
+                    )}
             </div>
         </div>
     );

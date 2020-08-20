@@ -1,5 +1,6 @@
 import { makeStyles } from '@material-ui/styles';
 
+
 const useStyles = makeStyles(theme => ({
     root: {
         display: 'flex',
@@ -49,6 +50,12 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
+    },
+    tableRowExamDate: {
+        '&:hover':{
+            cursor: 'pointer',
+            backgroundColor: '#E6E6E6'
+        } 
     }
 }));
 
