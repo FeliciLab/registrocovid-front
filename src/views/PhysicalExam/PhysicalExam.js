@@ -60,7 +60,7 @@ const PhysicalExam = () => {
     } finally {
       setLoading(false);
     }
-  }, [addToast, history, patient.id]);
+  }, [addToast, history, patient.id, params.examId]);
 
   useEffect(() => {
     handleInfos();
