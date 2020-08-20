@@ -19,7 +19,7 @@ const PatientInfo = () => {
         <div className={classes.button}>
           <span className={classes.spanButton}>Data de cadastro</span>
           <strong className={classes.strongButton}>
-            {patient ? new Date(patient.created_at).toLocaleDateString() : ''}
+            {patient?.created_at}
           </strong>
         </div>
       </Button>

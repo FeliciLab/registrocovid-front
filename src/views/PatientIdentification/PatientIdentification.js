@@ -33,6 +33,11 @@ const PatientIdentification = () => {
 
   const { id } = useParams();
 
+  // buscando o paciente pelo contexto
+  const { patient } = usePatient();
+
+  let patientId = id ? id : patient.id;
+
   const { addToast } = useToast();
 
   const [initialValues, setinItialValues] = useState({
@@ -54,9 +59,6 @@ const PatientIdentification = () => {
     municipios: [],
     isPrevSaved: false,
   });
-
-  // buscando o paciente pelo contexto
-  const { patient, setPatient } = usePatient();
 
   // Buscando a Lista de Estados
   const [estados, setEstados] = useState([]);
@@ -114,8 +116,7 @@ const PatientIdentification = () => {
 
   const handleInfos = useCallback(async () => {
     try {
-      const response = await api.get(`/pacientes/${id}/identificacao`);
-      setPatient(response.data);
+      const response = await api.get(`/pacientes/${patientId}/identificacao`);
 
       // busca os possíveis municípios do estado_id
       const municipiosSelected = await getMunicipios(response.data.estado.id);
@@ -198,7 +199,7 @@ const PatientIdentification = () => {
     } catch (err) {
       console.log(err);
     }
-  }, [id, setPatient]);
+  }, [patientId]);
 
   // Setando as variáveis do paciente no Formik
   useEffect(() => {
@@ -267,7 +268,7 @@ const PatientIdentification = () => {
 
     try {
       const response = await api.post(
-        `/pacientes/${id}/identificacao`,
+        `/pacientes/${patientId}/identificacao`,
         patientSanitized,
       );
       const { status, data } = response;
@@ -278,7 +279,7 @@ const PatientIdentification = () => {
           message: data.message,
         });
         // TODO: quando enviar para a pg de categorias do paciente
-        history.push('/');
+        history.push('/categorias');
       }
     } catch (err) {
       addToast({
@@ -297,7 +298,7 @@ const PatientIdentification = () => {
             { label: 'Categorias', route: '/categorias' },
             {
               label: 'Identificação do paciente',
-              route: '/cateorias/identificacao-paciente/',
+              route: `/categorias/identificacao-paciente/${patientId}`,
             },
           ]}
         />
@@ -329,7 +330,7 @@ const PatientIdentification = () => {
                 >
                   {/* patient info */}
                   <section className={classes.patienteInfo}>
-                    <PatientInfo patient={patient} />
+                    <PatientInfo />
                   </section>
                   <Button
                     className={classes.buttonSave}
