@@ -9,6 +9,8 @@ import TesteRTCPRItem from '../TesteRTCPRItem';
 const TestRTCPRList = ({ testes }) => {
   const classes = useStyles();
 
+  console.log(testes);
+
   return (
     <div className={classes.root}>
       <Grid
@@ -16,7 +18,7 @@ const TestRTCPRList = ({ testes }) => {
         item
         xs={10}
       >
-        {testes.map((teste) => (
+        {testes.map(teste => (
           <TesteRTCPRItem
             key={teste}
             teste={teste}
@@ -27,16 +29,18 @@ const TestRTCPRList = ({ testes }) => {
   );
 };
 
-//TODO: colocar aqui os atributos do
 TestRTCPRList.propTypes = {
   className: PropTypes.string,
   testes: PropTypes.arrayOf(
     PropTypes.exact({
       id: PropTypes.number,
       data_coleta: PropTypes.string,
-      sitio_amostra: PropTypes.string,
       data_resultado: PropTypes.string,
-      resultado: PropTypes.string,
+      sitios_tipos: PropTypes.exact({
+        id: PropTypes.number,
+        descricao: PropTypes.string,
+      }),
+      rt_pcr_resultados: PropTypes.string,
     }),
   ).isRequired,
 };

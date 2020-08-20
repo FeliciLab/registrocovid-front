@@ -24,7 +24,9 @@ const SpecificsTests = () => {
 
   const [loading, setLoading] = useState(false);
 
-  const [specificsTests, setSpecificsTests] = useState([]);
+  const [examesPCR, setexamesPCR] = useState([]);
+
+  const [examesTtesteRapido, setExamesTtesteRapido] = useState([]);
 
   // trata de carregar as informações
   const handleSpecificsTests = useCallback(async id => {
@@ -34,8 +36,10 @@ const SpecificsTests = () => {
       const { data } = response;
 
       // TODO: separar os testes em testes-rápidos e testes-rt-pcr
-      setSpecificsTests(oldTestes => [...oldTestes, data]);
-      console.log(response);
+      setexamesPCR(data.exames_pcr);
+      setExamesTtesteRapido(data.exames_teste_rapido);
+
+      console.log(data);
       // TODO buscar as informacoes pela api.
     } catch (err) {
       // TODO: tratamento dos erros aqui.
@@ -73,7 +77,11 @@ const SpecificsTests = () => {
           <div className={classes.formWrapper}>
             <Formik
               enableReinitialize
-              initialValues={{}}
+              initialValues={{
+                newsTestsRTCPRs: [],
+                newsTestsRapidos: [],
+                tipo_new_teste: ''
+              }}
               onSubmit={handleSubmit}
               validateOnMount
               validationSchema={schema}
@@ -106,9 +114,9 @@ const SpecificsTests = () => {
 
                   <SelectTestType />
 
-                  <TestRTCPRList testes={specificsTests} />
+                  <TestRTCPRList testes={examesPCR} />
 
-                  <TestRapidoList testes={specificsTests} />
+                  <TestRapidoList testes={examesTtesteRapido} />
                 </Form>
               )}
             </Formik>

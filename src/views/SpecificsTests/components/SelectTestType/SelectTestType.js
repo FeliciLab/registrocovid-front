@@ -13,10 +13,12 @@ import useStyles from './styles';
 
 import AddIcon from '@material-ui/icons/Add';
 
-import { Field } from 'formik';
+import { Field, useFormikContext } from 'formik';
 
 const SelectTestType = () => {
   const classes = useStyles();
+
+  const { values, handleChange } = useFormikContext();
 
   return (
     <Grid
@@ -38,19 +40,21 @@ const SelectTestType = () => {
               as={TextField}
               className={classes.textField}
               label="Tipo teste"
-              name="tipo_teste"
+              name="tipo_new_teste"
+              onChange={handleChange}
               select
               type="text"
+              value={values.tipo_new_teste}
               variant="outlined"
             >
-              <MenuItem value="Teste RT-PCR">Teste RT-PCR</MenuItem>
-              <MenuItem value="Teste rápido">Teste rápido</MenuItem>
+              <MenuItem value="RTPCR">Teste RT-PCR</MenuItem>
+              <MenuItem value="RAPIDO">Teste rápido</MenuItem>
             </Field>
 
             <Button
               className={classes.buttonAddType}
               color="secondary"
-              disabled
+              disabled={values.tipo_new_teste === ''}
               startIcon={<AddIcon />}
               type="submit"
               variant="contained"
