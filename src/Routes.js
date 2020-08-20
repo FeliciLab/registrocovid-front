@@ -53,7 +53,7 @@ const Routes = () => {
         exact
         isPrivate
         layout={MainLayout}
-        path="/categorias/exame-fisico"
+        path="/lista-exame-fisico"
       />
       <RouteWithLayout
         component={NotFoundView}
