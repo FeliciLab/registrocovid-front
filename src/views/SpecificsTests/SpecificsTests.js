@@ -35,12 +35,8 @@ const SpecificsTests = () => {
       const response = await api.get(`pacientes/${id}/exames-laboratoriais`);
       const { data } = response;
 
-      // TODO: separar os testes em testes-rápidos e testes-rt-pcr
       setexamesPCR(data.exames_pcr);
       setExamesTtesteRapido(data.exames_teste_rapido);
-
-      console.log(data);
-      // TODO buscar as informacoes pela api.
     } catch (err) {
       // TODO: tratamento dos erros aqui.
       console.log(err);
@@ -80,7 +76,7 @@ const SpecificsTests = () => {
               initialValues={{
                 newsTestsRTCPRs: [],
                 newsTestsRapidos: [],
-                tipo_new_teste: ''
+                tipo_new_teste: '',
               }}
               onSubmit={handleSubmit}
               validateOnMount

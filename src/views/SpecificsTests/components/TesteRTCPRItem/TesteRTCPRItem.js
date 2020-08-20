@@ -52,7 +52,10 @@ TesteRTCPRItem.propTypes = {
       id: PropTypes.number,
       descricao: PropTypes.string,
     }),
-    rt_pcr_resultados: PropTypes.string,
+    rt_pcr_resultados: PropTypes.exact({
+      id: PropTypes.number,
+      descricao: PropTypes.string,
+    }),
   }).isRequired,
 };
 

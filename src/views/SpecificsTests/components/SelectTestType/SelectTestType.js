@@ -56,7 +56,6 @@ const SelectTestType = () => {
               color="secondary"
               disabled={values.tipo_new_teste === ''}
               startIcon={<AddIcon />}
-              type="submit"
               variant="contained"
             >
               ADICIONAR OCORRÊNCIA

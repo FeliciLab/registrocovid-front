@@ -9,8 +9,6 @@ import TesteRTCPRItem from '../TesteRTCPRItem';
 const TestRTCPRList = ({ testes }) => {
   const classes = useStyles();
 
-  console.log(testes);
-
   return (
     <div className={classes.root}>
       <Grid
@@ -40,7 +38,10 @@ TestRTCPRList.propTypes = {
         id: PropTypes.number,
         descricao: PropTypes.string,
       }),
-      rt_pcr_resultados: PropTypes.string,
+      rt_pcr_resultados: PropTypes.exact({
+        id: PropTypes.number,
+        descricao: PropTypes.string,
+      }),
     }),
   ).isRequired,
 };
