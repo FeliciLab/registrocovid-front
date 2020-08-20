@@ -1,7 +1,9 @@
 import * as Yup from 'yup';
 
 const schema = Yup.object().shape({
-  // TODO: colocar os valores que serão validados
+  newsTestsRTCPRs: Yup.array(),
+  newsTestsRapidos: Yup.array(),
+  tipo_new_teste: Yup.string(),
 });
 
 export default schema;

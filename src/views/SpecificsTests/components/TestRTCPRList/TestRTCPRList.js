@@ -16,9 +16,9 @@ const TestRTCPRList = ({ testes }) => {
         item
         xs={10}
       >
-        {testes.map(teste => (
+        {testes.map((teste, index) => (
           <TesteRTCPRItem
-            key={teste}
+            key={index}
             teste={teste}
           />
         ))}

@@ -17,6 +17,13 @@ import TestRTCPRList from './components/TestRTCPRList';
 import TestRapidoList from './components/TestRapidoList';
 import api from 'services/api';
 
+// Valores iniciais
+const initialValues = {
+  newsTestsRTCPRs: [],
+  newsTestsRapidos: [],
+  tipo_new_teste: '',
+}
+
 const SpecificsTests = () => {
   const { id } = useParams();
 
@@ -32,6 +39,8 @@ const SpecificsTests = () => {
   const handleSpecificsTests = useCallback(async id => {
     try {
       setLoading(true);
+
+      // TODO: talvez poderemos usar aqui o useAxios
       const response = await api.get(`pacientes/${id}/exames-laboratoriais`);
       const { data } = response;
 
@@ -73,11 +82,7 @@ const SpecificsTests = () => {
           <div className={classes.formWrapper}>
             <Formik
               enableReinitialize
-              initialValues={{
-                newsTestsRTCPRs: [],
-                newsTestsRapidos: [],
-                tipo_new_teste: '',
-              }}
+              initialValues={initialValues}
               onSubmit={handleSubmit}
               validateOnMount
               validationSchema={schema}
