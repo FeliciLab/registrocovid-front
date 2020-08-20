@@ -67,7 +67,7 @@ const Form = forwardRef((props, ref) => {
     } catch {
       addToast({
         type: 'error',
-        message: 'Erro ao tentar registrar história pessoal, tente novamente',
+        message: 'Erro ao tentar registrar exame físico, tente novamente',
       });
     }
   };
