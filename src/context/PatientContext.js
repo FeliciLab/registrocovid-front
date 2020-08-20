@@ -3,6 +3,7 @@ import React, { createContext, useState, useContext, useCallback } from 'react';
 const PatientContext = createContext();
 
 function PatientProvider({ children }) {
+
   const [patient, setPatient] = useState(() => {
     const patientLocal = localStorage.getItem('@RegistroCovid:paciente');
 
@@ -25,11 +26,6 @@ function PatientProvider({ children }) {
 
 function usePatient() {
   const context = useContext(PatientContext);
-
-  if (!context) {
-    throw new Error('useToast must be used within an ToastProvider');
-  }
-
   return context;
 }
 
