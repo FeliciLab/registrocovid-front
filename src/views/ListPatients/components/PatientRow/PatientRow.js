@@ -14,13 +14,16 @@ const PatientRow = props => {
 
   const history = useHistory();
 
-  const handleNavigate = patient => {
-    addPatient(patient);
-    history.push('/categorias/identificacao-paciente/');
+  const handleNavigate = (patientProps) => {
+    addPatient(patientProps);
+    history.push('/categorias');
   };
 
   return (
-    <TableRow {...rest} onClick={() => handleNavigate(patient)}>
+    <TableRow
+      {...rest}
+      onClick={() => handleNavigate(patient)}
+    >
       <TableCell align="left">
         <strong>#</strong> {patient.prontuario}
       </TableCell>
