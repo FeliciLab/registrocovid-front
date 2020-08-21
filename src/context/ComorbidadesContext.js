@@ -8,9 +8,6 @@ function ComorbidadeProvider({ children }) {
   const [corticosteroides, setCorticosteroides] = useState([]);
   const [cards, setCards] = useState([]);
 
-  console.log(orgaos);
-  console.log(corticosteroides);
-
   const removeOrgaos = () => {
     setOrgaos([]);
   }

@@ -52,6 +52,11 @@ const Comorbidities = () => {
   const [puerperio, setPuerperio] = useState('');
   const [semanasPuerperio, setSemanasPuerperio] = useState(0);
 
+  const [outrasCondicoes, setOutrasCondicoes] = useState([]);
+  const [medicacoes, setMedicacoes] = useState([]);
+
+  const [outraCondicao, setOutraCondicao] = useState('');
+  const [medicacao, setMedicacao] = useState('');
 
   const [selectedField, setSelectedField] = useState({});
 
@@ -114,7 +119,7 @@ const Comorbidities = () => {
               clickable
               color={hipertensao ? 'primary' : 'default'}
               icon={hipertensao ? <DoneIcon /> : null}
-              label="hipertensao"
+              label="Hipertensão (pressão arterial)"
               onClick={() => {
                 setHipertensao(prevHipertensao => !prevHipertensao);
               }}
@@ -123,7 +128,7 @@ const Comorbidities = () => {
               clickable
               color={hiv ? 'primary' : 'default'}
               icon={hiv ? <DoneIcon /> : null}
-              label="hiv"
+              label="HIV Positivo"
               onClick={() => {
                 setHiv(prevHiv => !prevHiv);
               }}
@@ -132,7 +137,7 @@ const Comorbidities = () => {
               clickable
               color={tuberculose ? 'primary' : 'default'}
               icon={tuberculose ? <DoneIcon /> : null}
-              label="tuberculose"
+              label="Tuberculose"
               onClick={() => {
                 setTuberculose(prevTuberculose => !prevTuberculose);
               }}
@@ -141,7 +146,7 @@ const Comorbidities = () => {
               clickable
               color={renal ? 'primary' : 'default'}
               icon={renal ? <DoneIcon /> : null}
-              label="renal"
+              label="Doença renal crônica"
               onClick={() => {
                 setRenal(prevRenal => !prevRenal);
               }}
@@ -423,17 +428,30 @@ const Comorbidities = () => {
             <TextField
               className={classes.textFieldWithButton}
               label="Outras condições"
+              onChange={(event) => { setOutraCondicao(event.target.value) }}
               variant="filled"
             />
             <Button
               className={classes.buttonAdd}
               color="secondary"
+              onClick={() => { setOutrasCondicoes(prevOutrasCondicoes => [...prevOutrasCondicoes, outraCondicao]) }}
               startIcon={<Add />}
               type="button"
               variant="contained"
+              
             >
               Adicionar
             </Button>
+          </div>
+          <div className={classes.chipWrapper}>
+            {outrasCondicoes && outrasCondicoes.map(outraCondicao =>
+              <Chip
+                color="primary"
+                label={outraCondicao}
+                onDelete={() => {
+                  setOutrasCondicoes(outrasCondicoes.filter((outraCondicao2) => outraCondicao2 !== outraCondicao));
+                }}
+              />)}
           </div>
         </FormGroup>
 
@@ -448,17 +466,29 @@ const Comorbidities = () => {
             <TextField
               className={classes.textFieldWithButton}
               label="Medicações de uso contínuo"
+              onChange={(event) => { setMedicacao(event.target.value) }}
               variant="filled"
             />
             <Button
               className={classes.buttonAdd}
               color="secondary"
+              onClick={() => { setMedicacoes(prevMedicacoes => [...prevMedicacoes, medicacao]) }}
               startIcon={<Add />}
               type="button"
               variant="contained"
             >
               Adicionar
             </Button>
+          </div>
+          <div className={classes.chipWrapper}>
+            {medicacoes && medicacoes.map(medicacao =>
+              <Chip
+                color="primary"
+                label={medicacao}
+                onDelete={() => {
+                  setMedicacoes(medicacoes.filter((medicacao2) => medicacao2 !== medicacao));
+                }}
+              />)}
           </div>
         </FormGroup>
       </Paper>
