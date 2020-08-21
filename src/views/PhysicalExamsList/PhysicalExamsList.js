@@ -81,8 +81,8 @@ const PhysicalExamsList = () => {
                     <MuiLink
                         color="textPrimary"
                         component={Link}
-                        to="/categorias/exame-fisico">
-                        Exame físico
+                        to="/categorias/lista-exame-fisico">
+                        Lista de evoluções
                     </MuiLink>
                 </Breadcrumbs>
             </div>
