@@ -16,12 +16,15 @@ import {
   Radio,
 } from '@material-ui/core';
 
+import api from 'services/api';
+
 import CardComorbirdades from './CardComorbidades';
 import PatientInfo from 'components/PatientInfo';
 import useStyles from './styles';
 import CustonBreadcrumbs from 'components/CustonBreadcrumbs';
 
 import { useComorbidade } from 'context/ComorbidadesContext';
+import { usePatient } from 'context/PatientContext';
 
 import CheckBoxCard from './CheckBoxCard';
 
@@ -29,6 +32,9 @@ const Comorbidities = () => {
   const classes = useStyles();
 
   const {
+    doencas,
+    orgaos,
+    corticosteroides,
     addCard,
     cards,
     handleOrgaoId,
@@ -37,12 +43,16 @@ const Comorbidities = () => {
     removeCorticosteroides
   } = useComorbidade();
 
+  const { patient } = usePatient();
+
   const [diabetes, setDiabetes] = useState(false);
   const [obesidade, setObesidade] = useState(false);
   const [hipertensao, setHipertensao] = useState(false);
   const [hiv, setHiv] = useState(false);
   const [tuberculose, setTuberculose] = useState(false);
-  const [renal, setRenal] = useState(false);
+  const [neoplasia, setNeoplasia] = useState(false);
+  const [quimioterapia, setQuimioterapia] = useState(false);
+
   const [transplantado, setTransplantado] = useState('');
   const [corticosteroide, setCorticosteroide] = useState('');
 
@@ -59,6 +69,32 @@ const Comorbidities = () => {
   const [medicacao, setMedicacao] = useState('');
 
   const [selectedField, setSelectedField] = useState({});
+
+  const handleSubmit = () => {
+    const submitData = {
+      diabetes,
+      obesidade,
+      hipertensao,
+      neoplasia,
+      quimioterapia,
+      HIV: hiv,
+      transplantado: transplantado === 'sim',
+      tuberculose,
+      gestacao: gestacao === 'sim',
+      gestacao_semanas: semanasGestacao,
+      puerperio: puerperio === 'sim',
+      puerperio_semanas: semanasPuerperio,
+      doencas,
+      orgaos,
+      corticosteroide: corticosteroide === 'sim',
+      corticosteroides,
+      outras_condicoes: outrasCondicoes,
+      medicacoes
+    };
+
+    api.post(`/pacientes/${patient.id}/comorbidades`, submitData);
+
+  }
 
   return (
     <div className={classes.root}>
@@ -81,6 +117,7 @@ const Comorbidities = () => {
           <Button
             className={classes.buttonSave}
             color="secondary"
+            onClick={handleSubmit}
             type="submit"
             variant="contained"
           >
@@ -117,6 +154,24 @@ const Comorbidities = () => {
             />
             <Chip
               clickable
+              color={neoplasia ? 'primary' : 'default'}
+              icon={neoplasia ? <DoneIcon /> : null}
+              label="Neoplasia"
+              onClick={() => {
+                setNeoplasia(prevNeoplasia => !prevNeoplasia);
+              }}
+            />
+            <Chip
+              clickable
+              color={quimioterapia ? 'primary' : 'default'}
+              icon={quimioterapia ? <DoneIcon /> : null}
+              label="Quimioterapia"
+              onClick={() => {
+                setQuimioterapia(prevQuimioterapia => !prevQuimioterapia);
+              }}
+            />
+            <Chip
+              clickable
               color={hipertensao ? 'primary' : 'default'}
               icon={hipertensao ? <DoneIcon /> : null}
               label="Hipertensão (pressão arterial)"
@@ -142,15 +197,7 @@ const Comorbidities = () => {
                 setTuberculose(prevTuberculose => !prevTuberculose);
               }}
             />
-            <Chip
-              clickable
-              color={renal ? 'primary' : 'default'}
-              icon={renal ? <DoneIcon /> : null}
-              label="Doença renal crônica"
-              onClick={() => {
-                setRenal(prevRenal => !prevRenal);
-              }}
-            />
+
           </div>
         </div>
 
@@ -181,7 +228,7 @@ const Comorbidities = () => {
             <Button
               className={classes.buttonAdd}
               color="secondary"
-              onClick={() => addCard(selectedField, doencas)}
+              onClick={() => addCard(selectedField, doencasAPI)}
               startIcon={<Add />}
               type="button"
               variant="contained"
@@ -243,7 +290,7 @@ const Comorbidities = () => {
               Quais órgãos?
             </FormLabel>
             <div className={classes.orgaosWrapper}>
-              {orgaos.map(orgao =>
+              {orgaosAPI.map(orgao =>
                 <CheckBoxCard
                   handleArray={handleOrgaoId}
                   id={orgao.id}
@@ -299,7 +346,7 @@ const Comorbidities = () => {
               Quais corticosteroides?
             </FormLabel>
             <div className={classes.orgaosWrapper}>
-              {corticosteroides.map(corticosteroide =>
+              {corticosteroidesAPI.map(corticosteroide =>
                 <CheckBoxCard
                   handleArray={handleCorticosteroideId}
                   id={corticosteroide.id}
@@ -434,11 +481,16 @@ const Comorbidities = () => {
             <Button
               className={classes.buttonAdd}
               color="secondary"
-              onClick={() => { setOutrasCondicoes(prevOutrasCondicoes => [...prevOutrasCondicoes, outraCondicao]) }}
+              onClick={() => {
+                const exists = outrasCondicoes.some(outraCondicao2 => outraCondicao2 === outraCondicao);
+
+                if (!exists) {
+                  setOutrasCondicoes(prevOutrasCondicoes => [...prevOutrasCondicoes, outraCondicao]);
+                }
+              }}
               startIcon={<Add />}
               type="button"
               variant="contained"
-              
             >
               Adicionar
             </Button>
@@ -472,7 +524,14 @@ const Comorbidities = () => {
             <Button
               className={classes.buttonAdd}
               color="secondary"
-              onClick={() => { setMedicacoes(prevMedicacoes => [...prevMedicacoes, medicacao]) }}
+              onClick={() => {
+                const exists = medicacoes.some(medicacao2 => medicacao2 === medicacao);
+                
+                if (!exists) {
+                  setMedicacoes(prevMedicacoes => [...prevMedicacoes, medicacao]);
+                }
+
+              }}
               startIcon={<Add />}
               type="button"
               variant="contained"
@@ -498,7 +557,7 @@ const Comorbidities = () => {
 
 export default withRouter(Comorbidities);
 
-const orgaos = [
+const orgaosAPI = [
   {
     id: 1,
     descricao: 'Coracao',
@@ -556,7 +615,7 @@ const tiposDoenca = [
   },
 ];
 
-const doencas = [
+const doencasAPI = [
   {
     id: 1,
     tipo_doenca_id: 1,
@@ -594,7 +653,7 @@ const doencas = [
   },
 ];
 
-const corticosteroides = [
+const corticosteroidesAPI = [
   {
     id: 1,
     descricao: 'Prednisona > 40 mg dia',

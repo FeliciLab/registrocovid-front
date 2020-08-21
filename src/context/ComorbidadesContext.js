@@ -82,6 +82,8 @@ function ComorbidadeProvider({ children }) {
     <ComorbidadesContext.Provider
       value={{
         doencas,
+        orgaos,
+        corticosteroides,
         handleDoencaId,
         addCard,
         cards,

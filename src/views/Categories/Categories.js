@@ -31,7 +31,7 @@ const Categories = () => {
       { id: 2, label: 'Identificação do paciente' },
       { id: 3, label: 'História pessoal' },
       { id: 4, label: 'Sintomas iniciais da COVID-19', url: 'categorias/sintomas-iniciais' },
-      { id: 5, label: 'Comorbidades / Condições clínicas da base' },
+      { id: 5, label: 'Comorbidades / Condições clínicas da base', url: 'categorias/comorbidades' },
     ];
   }, []);
 
