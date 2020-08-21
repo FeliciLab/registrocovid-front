@@ -25,6 +25,7 @@ import CustonBreadcrumbs from 'components/CustonBreadcrumbs';
 
 import { useComorbidade } from 'context/ComorbidadesContext';
 import { usePatient } from 'context/PatientContext';
+import { useToast } from 'hooks/toast';
 
 import CheckBoxCard from './CheckBoxCard';
 
@@ -44,6 +45,7 @@ const Comorbidities = () => {
   } = useComorbidade();
 
   const { patient } = usePatient();
+  const { addToast } = useToast();
 
   const [diabetes, setDiabetes] = useState(false);
   const [obesidade, setObesidade] = useState(false);
@@ -70,7 +72,9 @@ const Comorbidities = () => {
 
   const [selectedField, setSelectedField] = useState({});
 
-  const handleSubmit = () => {
+  const [isSaving, setIsSaving] = useState(false);
+
+  const handleSubmit = async () => {
     const submitData = {
       diabetes,
       obesidade,
@@ -92,7 +96,24 @@ const Comorbidities = () => {
       medicacoes
     };
 
-    api.post(`/pacientes/${patient.id}/comorbidades`, submitData);
+    setIsSaving(true);
+    try {
+      await api.post(`/pacientes/${patient.id}/comorbidades`, submitData);
+
+      addToast({
+        type: 'success',
+        message: 'Dados salvos com sucesso',
+      });
+
+      setIsSaving(false);
+    } catch(err) {
+      addToast({
+        type: 'error',
+        message:
+          'Ocorreu um erro ao salvar os dados, por favor tente novamente',
+      });
+      setIsSaving(false);
+    }
 
   }
 
@@ -117,11 +138,12 @@ const Comorbidities = () => {
           <Button
             className={classes.buttonSave}
             color="secondary"
+            disabled={isSaving}
             onClick={handleSubmit}
             type="submit"
             variant="contained"
           >
-            Salvar
+            { isSaving ? 'Salvando...' : 'Salvar' }
           </Button>
         </div>
       </div>
