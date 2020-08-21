@@ -63,6 +63,13 @@ const useStyles = makeStyles(theme => ({
   textFieldWithButton: {
     display: 'flex',
     flex: 1,
+  },
+  radiosWrapper: {
+    display: 'flex'
+  },
+  orgaosWrapper: {
+    display: 'flex',
+    flexWrap: 'wrap'
   }
 }));
 

@@ -2,10 +2,10 @@ import React from 'react';
 import { Typography, Paper, IconButton } from '@material-ui/core';
 import CheckBoxCard from './CheckBoxCard';
 import Delete from '@material-ui/icons/Delete';
-import { useComorbidade } from 'context/ComorbidadesContex';
+import { useComorbidade } from 'context/ComorbidadesContext';
 
 const CardComorbidades = ({ card }) => {
-  const { removeCard } = useComorbidade();
+  const { removeCard, handleDoencaId } = useComorbidade();
 
   return (
     <Paper style={{ padding: 10, marginBottom: 20 }}>
@@ -15,7 +15,8 @@ const CardComorbidades = ({ card }) => {
           flexDirection: 'row',
           justifyContent: 'space-between',
           alignItems: 'center',
-        }}>
+        }}
+      >
         <Typography style={{ fontSize: 20, fontWeight: 'bold' }}>
           {card.descricao}
         </Typography>
@@ -28,7 +29,11 @@ const CardComorbidades = ({ card }) => {
         Selecione a(s) doença(s) que o paciente apresenta
       </Typography>
       {card.doencas.map(doenca => (
-        <CheckBoxCard id={doenca.id} label={doenca.descricao} />
+        <CheckBoxCard
+          handleArray={handleDoencaId}
+          id={doenca.id}
+          label={doenca.descricao}
+        />
       ))}
     </Paper>
   );
