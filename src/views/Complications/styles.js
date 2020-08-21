@@ -76,16 +76,12 @@ const useStyles = makeStyles(theme => ({
   dateField: {
     marginTop: theme.spacing(1)
   },
-  // AccordionDetails:{
-  //   flexDirection: 'column'
-  // },
-  // radioGroupAmostra: {
-  //   flexWrap: 'wrap',
-  //   flexDirection: 'row'
-  // },
-  // radioAmostra:{
-  //   flex: '1 0 41%',
-  // }
+  deleteIcon: {
+    transform: 'rotate(180deg)'
+  },
+  fullWidth: {
+    width: '100%'
+  }
 }));
 
 export default useStyles;

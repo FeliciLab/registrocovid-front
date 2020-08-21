@@ -19,6 +19,12 @@ import Form from './components/Form';
 import { useToast } from 'hooks/toast';
 import { usePatient } from 'context/PatientContext';
 
+import {Extubacao} from './components/Extubacao';
+import {Hemorragia} from './components/Hemorragia';
+import {Pneumotorax} from './components/Pneumotorax';
+import {Transfusional} from './components/Transfusional';
+import {Outras} from './components/Outras';
+
 import api from 'services/api';
 
 import useStyles from './styles';
@@ -70,6 +76,10 @@ const Complications = () => {
     formRef.current.submit();
   }
 
+  const handleDelete = (panelId) => {
+    console.log(panelId)
+  }
+
   return (
     <div className={classes.root}>
       <div className={classes.header}>
@@ -106,7 +116,38 @@ const Complications = () => {
           <Form
             physicalExam={physicalExam}
             ref={formRef}
-          />
+          >
+            <Extubacao 
+              visible
+              isNew
+              id={1}
+              onDelete={handleDelete}
+            />
+            <Hemorragia 
+              visible
+              isNew
+              id={1}
+              onDelete={handleDelete}
+            />
+            <Pneumotorax 
+              visible
+              isNew
+              id={1}
+              onDelete={handleDelete}
+            />
+            <Transfusional 
+              visible
+              isNew={false}
+              id={1}
+              onDelete={handleDelete}
+            />
+            <Outras 
+              visible
+              isNew
+              id={1}
+              onDelete={handleDelete}
+            />
+          </Form>
         )}
       </div>
     </div>

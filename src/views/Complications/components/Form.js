@@ -64,7 +64,11 @@ const Form = forwardRef((props, ref) => {
   return (
     <form onSubmit={formik.handleSubmit}>
       <div className={classes.formContainer}>
-        <Grid container />
+        <Grid container>
+          <Grid item lg>
+            {props.children}
+          </Grid>  
+        </Grid>
       </div>
     </form>
   )
