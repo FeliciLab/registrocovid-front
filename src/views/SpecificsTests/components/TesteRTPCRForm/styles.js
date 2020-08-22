@@ -8,7 +8,12 @@ const useStyles = makeStyles(theme => ({
   },
   fieldTesteRTPCR:{
     marginTop: theme.spacing(2)
-  }
+  },
+  formLabel: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
 }));
 
 export default useStyles;

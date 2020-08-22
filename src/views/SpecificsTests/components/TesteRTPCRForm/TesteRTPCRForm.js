@@ -9,7 +9,11 @@ import {
   Radio,
   TextField,
   Card,
+  IconButton,
 } from '@material-ui/core';
+
+import DeleteIcon from '@material-ui/icons/Delete';
+
 import { Field, useFormikContext } from 'formik';
 import useStyles from './styles';
 import api from 'services/api';
@@ -26,7 +30,7 @@ const TesteRTPCRForm = props => {
 
   const { index } = props;
 
-  const { values, handleChange } = useFormikContext();
+  const { values, handleChange, setFieldValue } = useFormikContext();
 
   const [sitiosRTPCR, setSitiosRTPCR] = useState([]);
   const [tiposResultadosRTPCR, setTiposResultadosRTPCR] = useState([]);
@@ -46,12 +50,19 @@ const TesteRTPCRForm = props => {
     ]);
   }, [setTiposResultadosRTPCR]);
 
+  const handleDeleteForm = () => {
+    console.log('handleDeleteForm', `index: ${index}`);
+    let aux = values.newsTestsRTCPRs;
+    aux.splice(index, 1);
+    setFieldValue('newsTestsRTCPRs', aux);
+  }
+
   useEffect(() => {
     try {
       handleSitiosRTPCR();
       handleTiposResultadosRTPCR();
     } catch (err) {
-      // TOdO: tratar aqui os erros
+      // TODO: tratar aqui os erros
       console.log(err);
     }
   }, [handleSitiosRTPCR, handleTiposResultadosRTPCR]);
@@ -62,7 +73,15 @@ const TesteRTPCRForm = props => {
       component={Card}
       item
     >
-      <Typography variant="h3">Formulário do Teste RT-PCR</Typography>
+      <FormLabel className={classes.formLabel}>
+        <Typography variant="h3">Formulário do Teste RT-PCR</Typography>
+        <IconButton
+          aria-label="delete"
+          onClick={() => handleDeleteForm()}
+        >
+          <DeleteIcon fontSize="small" />
+        </IconButton>
+      </FormLabel>
 
       {/* data_coleta */}
       <Grid

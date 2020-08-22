@@ -15,13 +15,6 @@ import AddIcon from '@material-ui/icons/Add';
 
 import { Field, useFormikContext } from 'formik';
 
-// Valores iniciais
-//const initialValues = {
-//  newsTestsRTCPRs: [],
-//  newsTestsRapidos: [],
-//  tipo_new_teste: '',
-//};
-
 const SelectTestType = () => {
   const classes = useStyles();
 
@@ -40,7 +33,13 @@ const SelectTestType = () => {
         },
       ]);
     } else {
-      setFieldValue('newsTestsRapidos', [...values.newsTestsRapidos, {}]);
+      setFieldValue('newsTestsRapidos', [
+        ...values.newsTestsRapidos,
+        {
+          data_realizacao: '',
+          resultado: false,
+        },
+      ]);
     }
   };
 

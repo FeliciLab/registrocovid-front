@@ -27,8 +27,11 @@ const TestRapidoList = ({ testes }) => {
           />
         ))}
 
-        {values.newsTestsRapidos.map(newTeste => (
-          <TesteRapidoForm key={values.newsTestsRapidos.indexOf(newTeste)} />
+        {values.newsTestsRapidos.map((newTeste, index) => (
+          <TesteRapidoForm
+            index={index}
+            key={index}
+          />
         ))}
       </Grid>
     </div>
