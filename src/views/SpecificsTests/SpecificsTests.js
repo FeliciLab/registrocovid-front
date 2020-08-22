@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 
 import useStyles from './styles';
 import { CustonBreadcrumbs } from 'components';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import {
   CircularProgress,
   FormControl,
@@ -35,6 +35,8 @@ const SpecificsTests = () => {
 
   const [examesTesteRapido, setExamesTesteRapido] = useState([]);
 
+  const history = useHistory();
+
   // trata de carregar as informações
   const handleSpecificsTests = useCallback(async id => {
     try {
@@ -57,9 +59,38 @@ const SpecificsTests = () => {
     handleSpecificsTests(id);
   }, [handleSpecificsTests, id]);
 
-  const handleSubmit = values => {
-    // TODO: Provalvemente teremos que enviar cada exame em requests separadas.
-    console.log(values);
+  const handleSubmit = async ({ newsTestsRTCPRs, newsTestsRapidos }) => {
+    console.log(newsTestsRTCPRs, newsTestsRapidos);
+    try {
+      // sanitizando os dasos para o envio dos testes novos
+      const newsTestsRTCPRsSanitized = newsTestsRTCPRs.map(test => ({
+        data_coleta: test.data_coleta,
+        sitio_tipo_id: test.sitio_tipo,
+        data_resultado: test.data_resultado,
+        rt_pcr_resultado_id: test.rt_pcr_resultado,
+      }));
+
+      const newsTestsRapidosSanitized = newsTestsRapidos.map(test => ({
+        data_realizacao: test.data_realizacao,
+        resultado: test.resultado === 'true' ? true : false,
+      }));
+
+      // criando as promises
+      const newsTestsRTCPRsPromises = newsTestsRTCPRsSanitized.map(test =>
+        api.post(`/pacientes/${id}/exames-laboratoriais`, test),
+      );
+
+      const newsTestsRapidosPromises = newsTestsRapidosSanitized.map(test =>
+        api.post(`/pacientes/${id}/exames-laboratoriais`, test),
+      );
+
+      // enviando todas as requests juntas.
+      Promise.all([...newsTestsRTCPRsPromises, ...newsTestsRapidosPromises]);
+
+      history.push('/categorias');
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -87,7 +118,7 @@ const SpecificsTests = () => {
               validateOnMount
               validationSchema={schema}
             >
-              {({ values, isSubmitting }) => (
+              {({ isSubmitting }) => (
                 <Form component={FormControl}>
                   <div className={classes.titleWrapper}>
                     <Typography variant="h1">
@@ -104,7 +135,7 @@ const SpecificsTests = () => {
                       <Button
                         className={classes.buttonSave}
                         color="secondary"
-                        disabled={isSubmitting || values.isPrevSaved}
+                        disabled={isSubmitting}
                         type="submit"
                         variant="contained"
                       >
@@ -118,7 +149,6 @@ const SpecificsTests = () => {
                   <TestRTCPRList testes={examesPCR} />
 
                   <TestRapidoList testes={examesTesteRapido} />
-
                 </Form>
               )}
             </Formik>
