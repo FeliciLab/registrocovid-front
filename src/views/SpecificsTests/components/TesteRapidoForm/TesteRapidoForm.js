@@ -84,12 +84,12 @@ const TesteRapidoForm = props => {
           </Field>
           {/* Campo de erro */}
           {errors.newsTestsRapidos &&
-            touched.newsTestsRapidos &&
-            errors.newsTestsRapidos[index].resultado && (
-            <RadioGroupErroMessage
-              message={errors.newsTestsRapidos[index].resultado}
-            />
-          )}
+          touched.newsTestsRapidos &&
+          errors.newsTestsRapidos[index].resultado ? (
+              <RadioGroupErroMessage
+                message={errors.newsTestsRapidos[index].resultado}
+              />
+            ) : null}
         </FormGroup>
       </Grid>
 
@@ -110,14 +110,15 @@ const TesteRapidoForm = props => {
             as={TextField}
             className={classes.dateField}
             error={
-              errors.newsTestsRapidos && touched.newsTestsRapidos
-                ? errors.newsTestsRapidos[index].data_realizacao
-                : null
+              errors.newsTestsRapidos &&
+              touched.newsTestsRapidos &&
+              errors.newsTestsRapidos[index].data_realizacao
             }
             helperText={
-              errors.newsTestsRapidos && touched.newsTestsRapidos
-                ? errors.newsTestsRapidos[index].data_realizacao
-                : null
+              (errors.newsTestsRapidos &&
+              touched.newsTestsRapidos &&
+              errors.newsTestsRapidos[index].data_realizacao) ?
+                errors.newsTestsRapidos[index].data_realizacao : null
             }
             label="Data da coleta do teste rápido"
             name={`newsTestsRapidos[${index}].data_realizacao`}

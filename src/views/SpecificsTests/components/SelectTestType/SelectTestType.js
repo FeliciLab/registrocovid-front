@@ -9,6 +9,7 @@ import {
   MenuItem,
   Button,
 } from '@material-ui/core';
+
 import useStyles from './styles';
 
 import AddIcon from '@material-ui/icons/Add';
@@ -37,7 +38,7 @@ const SelectTestType = () => {
         ...values.newsTestsRapidos,
         {
           data_realizacao: '',
-          resultado: undefined,
+          resultado: '',
         },
       ]);
     }

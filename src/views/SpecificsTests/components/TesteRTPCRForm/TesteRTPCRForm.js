@@ -100,12 +100,14 @@ const TesteRTPCRForm = props => {
             as={TextField}
             className={classes.dateField}
             error={
-              errors.newsTestsRTCPRs && touched.newsTestsRTCPRs
-                ? errors.newsTestsRTCPRs[index].data_coleta
-                : null
+              errors.newsTestsRTCPRs &&
+              touched.newsTestsRTCPRs &&
+              errors.newsTestsRTCPRs[index].data_coleta
             }
             helperText={
-              errors.newsTestsRTCPRs && touched.newsTestsRTCPRs
+              errors.newsTestsRTCPRs &&
+              touched.newsTestsRTCPRs &&
+              errors.newsTestsRTCPRs[index].data_coleta
                 ? errors.newsTestsRTCPRs[index].data_coleta
                 : null
             }
@@ -147,12 +149,12 @@ const TesteRTPCRForm = props => {
           </Field>
           {/* Campo de erro */}
           {errors.newsTestsRTCPRs &&
-            touched.newsTestsRTCPRs &&
-            errors.newsTestsRTCPRs[index].sitio_tipo && (
-            <RadioGroupErroMessage
-              message={errors.newsTestsRTCPRs[index].sitio_tipo}
-            />
-          )}
+          touched.newsTestsRTCPRs &&
+          errors.newsTestsRTCPRs[index].sitio_tipo ? (
+              <RadioGroupErroMessage
+                message={errors.newsTestsRTCPRs[index].sitio_tipo}
+              />
+            ) : null}
         </FormGroup>
       </Grid>
 

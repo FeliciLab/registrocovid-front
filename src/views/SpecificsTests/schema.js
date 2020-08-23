@@ -5,16 +5,15 @@ const schema = Yup.object().shape({
     Yup.object().shape({
       data_coleta: Yup.string().required('Campo obrigatório'),
       sitio_tipo: Yup.number()
-        .required('Campo obrigatório')
-        .min(1, 'Campo obrigatório'),
+        .required('Campo obrigatório'),
       data_resultado: Yup.string(),
       rt_pcr_resultado: Yup.number(),
     }),
   ),
   newsTestsRapidos: Yup.array().of(
     Yup.object().shape({
-      data_realizacao: Yup.date().required('Campo obrigatório'),
-      resultado: Yup.boolean().required('Campo obrigatório'),
+      data_realizacao: Yup.string().required('Campo obrigatório'),
+      resultado: Yup.string().required('Campo obrigatório'),
     }),
   ),
   tipo_new_teste: Yup.string(),
