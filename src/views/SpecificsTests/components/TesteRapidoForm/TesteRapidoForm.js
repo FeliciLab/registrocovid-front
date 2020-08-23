@@ -16,16 +16,22 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 import { Field, useFormikContext } from 'formik';
 import useStyles from './styles';
+import { RadioGroupErroMessage } from 'components';
 
 const TesteRapidoForm = props => {
   const classes = useStyles();
 
   const { index } = props;
 
-  const { values, handleChange, setFieldValue } = useFormikContext();
+  const {
+    values,
+    handleChange,
+    setFieldValue,
+    errors,
+    touched,
+  } = useFormikContext();
 
   const handleDeleteForm = () => {
-    console.log('handleDeleteForm', `index: ${index}`);
     let aux = values.newsTestsRapidos;
     aux.splice(index, 1);
     setFieldValue('newsTestsRapidos', aux);
@@ -70,13 +76,20 @@ const TesteRapidoForm = props => {
               label="Regagente"
               value="true"
             />
-
             <FormControlLabel
               control={<Radio />}
               label="Não regagente"
               value="false"
             />
           </Field>
+          {/* Campo de erro */}
+          {errors.newsTestsRapidos &&
+            touched.newsTestsRapidos &&
+            errors.newsTestsRapidos[index].resultado && (
+            <RadioGroupErroMessage
+              message={errors.newsTestsRapidos[index].resultado}
+            />
+          )}
         </FormGroup>
       </Grid>
 
@@ -96,6 +109,16 @@ const TesteRapidoForm = props => {
             }}
             as={TextField}
             className={classes.dateField}
+            error={
+              errors.newsTestsRapidos && touched.newsTestsRapidos
+                ? errors.newsTestsRapidos[index].data_realizacao
+                : null
+            }
+            helperText={
+              errors.newsTestsRapidos && touched.newsTestsRapidos
+                ? errors.newsTestsRapidos[index].data_realizacao
+                : null
+            }
             label="Data da coleta do teste rápido"
             name={`newsTestsRapidos[${index}].data_realizacao`}
             onChange={handleChange}

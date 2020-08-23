@@ -17,20 +17,20 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { Field, useFormikContext } from 'formik';
 import useStyles from './styles';
 import api from 'services/api';
-
-// Valores iniciais
-//const initialValues = {
-//  newsTestsRTCPRs: [],
-//  newsTestsRapidos: [],
-//  tipo_new_teste: '',
-//};
+import { RadioGroupErroMessage } from 'components';
 
 const TesteRTPCRForm = props => {
   const classes = useStyles();
 
   const { index } = props;
 
-  const { values, handleChange, setFieldValue } = useFormikContext();
+  const {
+    values,
+    handleChange,
+    setFieldValue,
+    errors,
+    touched,
+  } = useFormikContext();
 
   const [sitiosRTPCR, setSitiosRTPCR] = useState([]);
   const [tiposResultadosRTPCR, setTiposResultadosRTPCR] = useState([]);
@@ -55,7 +55,7 @@ const TesteRTPCRForm = props => {
     let aux = values.newsTestsRTCPRs;
     aux.splice(index, 1);
     setFieldValue('newsTestsRTCPRs', aux);
-  }
+  };
 
   useEffect(() => {
     try {
@@ -99,6 +99,16 @@ const TesteRTPCRForm = props => {
             }}
             as={TextField}
             className={classes.dateField}
+            error={
+              errors.newsTestsRTCPRs && touched.newsTestsRTCPRs
+                ? errors.newsTestsRTCPRs[index].data_coleta
+                : null
+            }
+            helperText={
+              errors.newsTestsRTCPRs && touched.newsTestsRTCPRs
+                ? errors.newsTestsRTCPRs[index].data_coleta
+                : null
+            }
             label="Data de coleta RT-PCR "
             name={`newsTestsRTCPRs[${index}].data_coleta`}
             onChange={handleChange}
@@ -135,6 +145,14 @@ const TesteRTPCRForm = props => {
               />
             ))}
           </Field>
+          {/* Campo de erro */}
+          {errors.newsTestsRTCPRs &&
+            touched.newsTestsRTCPRs &&
+            errors.newsTestsRTCPRs[index].sitio_tipo && (
+            <RadioGroupErroMessage
+              message={errors.newsTestsRTCPRs[index].sitio_tipo}
+            />
+          )}
         </FormGroup>
       </Grid>
 

@@ -37,7 +37,7 @@ const SelectTestType = () => {
         ...values.newsTestsRapidos,
         {
           data_realizacao: '',
-          resultado: false,
+          resultado: undefined,
         },
       ]);
     }

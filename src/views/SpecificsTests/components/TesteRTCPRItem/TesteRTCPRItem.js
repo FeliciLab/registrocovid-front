@@ -44,8 +44,15 @@ const TesteRTPCRItem = ({ teste }) => {
         <Typography>
           Data da coleta: {formatDate(teste.data_resultado)}
         </Typography>
-        <Typography>Tipo do sítio: {teste.sitio_tipo}</Typography>
-        <Typography>Resultado: {teste.rt_pcr_resultado.descricao}</Typography>
+        <Typography>
+          Tipo do sítio: {teste.sitio_tipo ? teste.sitio_tipo : 'Não informado'}
+        </Typography>
+        <Typography>
+          Resultado:
+          {teste.rt_pcr_resultado
+            ? teste.rt_pcr_resultado.descricao
+            : 'Não informado'}
+        </Typography>
       </AccordionDetails>
     </Accordion>
   );
