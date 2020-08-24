@@ -10,13 +10,14 @@ import {
   Grid,
   Button,
 } from '@material-ui/core';
-import { Formik, Form } from 'formik';
+import { Formik, Form, withFormik } from 'formik';
 import schema from './schema';
 import SelectTestType from './components/SelectTestType';
 import TestRTCPRList from './components/TestRTCPRList';
 import TestRapidoList from './components/TestRapidoList';
 import api from 'services/api';
 import { useToast } from 'hooks/toast';
+import PatientInfo from 'components/PatientInfo';
 
 // Valores iniciais
 const initialValues = {
@@ -24,6 +25,13 @@ const initialValues = {
   newsTestsRapidos: [],
   tipo_new_teste: '',
 };
+
+// TODO: testando
+const formikEnhancer = withFormik({
+  handleSubmit: (values, { validateForm }) => {
+    console.log('teste', values, validateForm);
+  }
+});
 
 const SpecificsTests = () => {
   const { id } = useParams();
@@ -67,9 +75,8 @@ const SpecificsTests = () => {
   }, [handleSpecificsTests, id]);
 
   const handleSubmit = async ({ newsTestsRTCPRs, newsTestsRapidos }) => {
-    console.log(newsTestsRTCPRs, newsTestsRapidos);
     try {
-      // sanitizando os dasos para o envio dos testes novos
+      // sanitizando os dasos de newsTestsRTCPRs para o envio dos testes novos
       const newsTestsRTCPRsSanitized = newsTestsRTCPRs.map(test => ({
         data_coleta: test.data_coleta,
         sitio_tipo_id: test.sitio_tipo,
@@ -77,6 +84,7 @@ const SpecificsTests = () => {
         rt_pcr_resultado_id: test.rt_pcr_resultado,
       }));
 
+      // sanitizando os dasos de newsTestsRapidos para o envio dos testes novos
       const newsTestsRapidosSanitized = newsTestsRapidos.map(test => ({
         data_realizacao: test.data_realizacao,
         resultado: test.resultado === 'true' ? true : false,
@@ -91,6 +99,15 @@ const SpecificsTests = () => {
         api.post(`/pacientes/${id}/exames-laboratoriais`, test),
       );
 
+      // tentando salvar mas sem nada para enviar.
+      if ( newsTestsRapidosPromises.length === 0 && newsTestsRTCPRsPromises.length === 0) {
+        addToast({
+          type: 'warning',
+          message: 'Nada para salvar.',
+        });
+        return;
+      }
+
       // enviando todas as requests juntas.
       await Promise.all([
         ...newsTestsRTCPRsPromises,
@@ -99,7 +116,7 @@ const SpecificsTests = () => {
 
       addToast({
         type: 'success',
-        message: 'Dados salvos com sucesso',
+        message: 'Dados salvos com sucesso.',
       });
 
       history.go(0); // TODO: melhorar isso.
@@ -143,10 +160,11 @@ const SpecificsTests = () => {
                       className={classes.actionSection}
                       item
                     >
-                      {/* patient info
-                        <section className={classes.patienteInfo}>
-                          <PatientInfo patient={patient} />
-                        </section */}
+                      {/* info do paciente */}
+                      <section className={classes.patienteInfo}>
+                        <PatientInfo />
+                      </section>
+
                       <Button
                         className={classes.buttonSave}
                         color="secondary"
@@ -174,4 +192,4 @@ const SpecificsTests = () => {
   );
 };
 
-export default SpecificsTests;
+export default formikEnhancer(SpecificsTests);
