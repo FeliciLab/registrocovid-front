@@ -30,6 +30,8 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingBottom: theme.spacing(3),
+    paddingTop: theme.spacing(3),
   },
   form: {
     backgroundColor: '#fff',
@@ -69,7 +71,7 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'space-between',
     alignItems: 'center'
   },
-  examsFormGroup: {
+  panels: {
     width: '50%',
     marginBottom: 24,
   },
@@ -81,6 +83,11 @@ const useStyles = makeStyles(theme => ({
   },
   fullWidth: {
     width: '100%'
+  },
+  centralPaper: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center'
   }
 }));
 

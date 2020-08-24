@@ -10,6 +10,8 @@ import {
   Typography,
   Button,
   CircularProgress,
+  Paper,
+  Grid,
 } from '@material-ui/core';
 
 import CustonBreadcrumbs from 'components/CustonBreadcrumbs';
@@ -19,11 +21,11 @@ import Form from './components/Form';
 import { useToast } from 'hooks/toast';
 import { usePatient } from 'context/PatientContext';
 
-import {Extubacao} from './components/Extubacao';
-import {Hemorragia} from './components/Hemorragia';
-import {Pneumotorax} from './components/Pneumotorax';
-import {Transfusional} from './components/Transfusional';
-import {Outras} from './components/Outras';
+import { Extubacao } from './components/Extubacao';
+import { Hemorragia } from './components/Hemorragia';
+import { Pneumotorax } from './components/Pneumotorax';
+import { Transfusional } from './components/Transfusional';
+import { Outras } from './components/Outras';
 
 import api from 'services/api';
 
@@ -113,41 +115,48 @@ const Complications = () => {
         </div>
 
         {loading ? <CircularProgress /> : (
-          <Form
-            physicalExam={physicalExam}
-            ref={formRef}
-          >
-            <Extubacao 
-              visible
-              isNew
-              id={1}
-              onDelete={handleDelete}
-            />
-            <Hemorragia 
-              visible
-              isNew
-              id={1}
-              onDelete={handleDelete}
-            />
-            <Pneumotorax 
-              visible
-              isNew
-              id={1}
-              onDelete={handleDelete}
-            />
-            <Transfusional 
-              visible
-              isNew={false}
-              id={1}
-              onDelete={handleDelete}
-            />
-            <Outras 
-              visible
-              isNew
-              id={1}
-              onDelete={handleDelete}
-            />
-          </Form>
+          <Grid container justify={'center'}>
+            <Grid item lg={8}>
+              <Paper className={classes.centralPaper, classes.fullWidth}>
+                <Form
+                  physicalExam={physicalExam}
+                  ref={formRef}
+                  className={classes.examsFormGroup}
+                >
+                  <Extubacao
+                    visible
+                    isNew
+                    id={1}
+                    onDelete={handleDelete}
+                  />
+                  <Hemorragia
+                    visible
+                    isNew
+                    id={1}
+                    onDelete={handleDelete}
+                  />
+                  <Pneumotorax
+                    visible
+                    isNew
+                    id={1}
+                    onDelete={handleDelete}
+                  />
+                  <Transfusional
+                    visible
+                    isNew={false}
+                    id={1}
+                    onDelete={handleDelete}
+                  />
+                  <Outras
+                    visible
+                    isNew
+                    id={1}
+                    onDelete={handleDelete}
+                  />
+                </Form>
+              </Paper>
+            </Grid>
+          </Grid>
         )}
       </div>
     </div>

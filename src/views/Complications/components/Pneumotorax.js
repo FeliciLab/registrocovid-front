@@ -5,7 +5,10 @@ import {
   AccordionDetails,
   Typography,
   IconButton,
-  Grid
+  Grid,
+  TextField,
+  FormLabel,
+  FormGroup
 } from '@material-ui/core'
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -37,7 +40,30 @@ export const Pneumotorax = (props) => {
               </Grid>
             </Grid>
           </AccordionSummary>
-          <AccordionDetails />
+          <AccordionDetails >
+            <FormGroup className={classes.formGroup}>
+              <FormLabel>
+                <Typography variant="h5">Data de pneumotórax:</Typography>
+              </FormLabel>
+              <TextField
+                className={classes.dateField}
+                // error={(formik.errors.temperatura && formik.touched.temperatura)}
+                // helperText={
+                //   (formik.errors.temperatura && formik.touched.temperatura) ? formik.errors.temperatura : null
+                // }
+                label="Data"
+                name={`dataPneumotorax${props.key}`}
+                // onBlur={formik.handleBlur}
+                // onChange={formik.handleChange}
+                type="date"
+                // value={formik.values.temperatura}
+                // variant={'outlined'}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </FormGroup>
+          </AccordionDetails>
         </Accordion>}
     </>
   )
