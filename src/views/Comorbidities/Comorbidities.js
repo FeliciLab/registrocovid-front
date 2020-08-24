@@ -33,6 +33,7 @@ import CheckBoxCard from './CheckBoxCard';
 const Comorbidities = () => {
   const classes = useStyles();
   const history = useHistory();
+
   const {
     doencas,
     orgaos,
@@ -46,37 +47,17 @@ const Comorbidities = () => {
     fetchDoencasAPI,
   } = useComorbidade();
 
-  useEffect(() => {
-    setLoading(true);
-    // const response = getUserComorbidades();
-
-    //chips
-    setDiabetes(apiCompleta.diabetes);
-    setObesidade(apiCompleta.obesidade);
-    setHipertensao(apiCompleta.hipertensao);
-    setHiv(apiCompleta.HIV);
-    setTuberculose(apiCompleta.tuberculose);
-    setNeoplasia(apiCompleta.neoplasia);
-    setQuimioterapia(apiCompleta.quimioterapia);
-
-    setCorticosteroide(apiCompleta.corticosteroide ? 'sim' : 'nao');
-
-    setTransplantado(apiCompleta.transplantado ? 'sim' : 'nao');
-    setGestacao(apiCompleta.gestacao ? 'sim' : 'nao');
-    setSemanasGestacao(apiCompleta.gestacao_semanas);
-    setPuerperio(apiCompleta.puerperio ? 'sim' : 'nao');
-    setSemanasPuerperio(apiCompleta.puerperio_semanas);
-
-    setOutrasCondicoes(apiCompleta.outras_condicoes);
-    setMedicacoes(apiCompleta.medicacoes);
-
-    fetchDoencasAPI(tiposDoenca, apiCompleta.doencas, doencasAPI);
-
-    setLoading(false);
-  }, []);
-
   const { patient } = usePatient();
   const { addToast } = useToast();
+
+  const [tiposDoenca, setTiposDoenca] = useState([]);
+  const [allDoencas, setAllDoencas] = useState([]);
+  const [allCorticosteroides, setAllCorticosteroides] = useState([]);
+  const [allOrgaos, setAllOrgaos] = useState([]);
+
+  const [orgaosFromUser, setOrgaosFromUser] = useState([]);
+  const [doencasFromUser, setDoencasFromUser] = useState([]);
+  const [corticosteroidesFromUser, setCorticosteroidesFromUser] = useState([]);
 
   const [diabetes, setDiabetes] = useState(false);
   const [obesidade, setObesidade] = useState(false);
@@ -105,9 +86,109 @@ const Comorbidities = () => {
 
   const [isSaving, setIsSaving] = useState(false);
 
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [visualization, setVisualization] = useState(true);
+
+  useEffect(() => {
+    setIsLoading(true);
+
+    api.get('/tipos-doencas').then((response) => {
+      setTiposDoenca(response.data);
+    }).catch(() => {
+      addToast({
+        type: 'error',
+        message: 'Ocorreu um erro ao carregar os tipos de doenças, por favor tente novamente.'
+      });
+    });
+
+    api.get('/corticosteroides').then((response) => {
+      setAllCorticosteroides(response.data);
+    }).catch(() => {
+      addToast({
+        type: 'error',
+        message: 'Ocorreu um erro ao carregar os corticosteroides, por favor tente novamente.'
+      });
+    });
+
+    api.get('/corticosteroides').then((response) => {
+      setAllCorticosteroides(response.data);
+    }).catch(() => {
+      addToast({
+        type: 'error',
+        message: 'Ocorreu um erro ao carregar os corticosteroides, por favor tente novamente.'
+      });
+    });
+
+    api.get('/orgaos').then((response) => {
+      setAllOrgaos(response.data);
+    }).catch(() => {
+      addToast({
+        type: 'error',
+        message: 'Ocorreu um erro ao carregar os orgaos, por favor tente novamente.'
+      });
+    });
+
+    api.get('/doencas').then((response) => {
+      setAllDoencas(response.data);
+    }).catch(() => {
+      addToast({
+        type: 'error',
+        message: 'Ocorreu um erro ao carregar as doenças, por favor tente novamente.'
+      });
+    });
+
+    api.get(`/pacientes/${patient.id}/comorbidades`).then((response) => {
+      if (response.status === 204) {
+        setVisualization(false);
+        setIsLoading(false);
+        return;
+      } else {
+        setVisualization(true);
+
+        const apiData = response.data;
+
+        setDoencasFromUser(apiData.doencas);
+        setCorticosteroidesFromUser(apiData.corticosteroides);
+        setOrgaosFromUser(apiData.orgaos);
+
+        //chips
+        setDiabetes(apiData.diabetes);
+        setObesidade(apiData.obesidade);
+        setHipertensao(apiData.hipertensao);
+        setHiv(apiData.HIV);
+        setTuberculose(apiData.tuberculose);
+        setNeoplasia(apiData.neoplasia);
+        setQuimioterapia(apiData.quimioterapia);
+
+        setCorticosteroide(apiData.corticosteroide === null ? '' : apiData.corticosteroide ? 'sim' : 'nao' );
+        setTransplantado(apiData.transplantado === null ? '' : apiData.transplantado ? 'sim' : 'nao' );
+        setGestacao(apiData.gestacao === null ? '' : apiData.gestacao ? 'sim' : 'nao' );
+        setSemanasGestacao(apiData.gestacao_semanas);
+        setPuerperio(apiData.puerperio === null ? '' : apiData.puerperio ? 'sim' : 'nao' );
+        setSemanasPuerperio(apiData.puerperio_semanas);
+
+        setOutrasCondicoes(apiData.outras_condicoes);
+        setMedicacoes(apiData.medicacoes);
+
+        // arrays de ids
+        fetchDoencasAPI(tiposDoenca, apiData.doencas, allDoencas);
+      }
+      setIsLoading(false);
+    }).catch(() => {
+      addToast({
+        type: 'error',
+        message: 'Ocorreu um erro ao carregar suas informações, por favor tente novamente.'
+      });
+    });
+
+  }, []);
 
   const handleSubmit = async () => {
+    if (visualization) {
+      return;
+    }
+
     const submitData = {
       diabetes,
       obesidade,
@@ -115,19 +196,31 @@ const Comorbidities = () => {
       neoplasia,
       quimioterapia,
       HIV: hiv,
-      transplantado: transplantado === 'sim',
       tuberculose,
-      gestacao: gestacao === 'sim',
       gestacao_semanas: semanasGestacao,
-      puerperio: puerperio === 'sim',
       puerperio_semanas: semanasPuerperio,
       doencas,
       orgaos,
-      corticosteroide: corticosteroide === 'sim',
       corticosteroides,
       outras_condicoes: outrasCondicoes,
       medicacoes,
     };
+
+    if (transplantado) {
+      submitData.transplantado = transplantado === 'sim';
+    }
+
+    if (gestacao) {
+      submitData.gestacao = gestacao === 'sim';
+    }
+
+    if (puerperio) {
+      submitData.puerperio = puerperio === 'sim';
+    }
+
+    if (corticosteroide) {
+      submitData.corticosteroide = corticosteroide === 'sim';
+    }
 
     setIsSaving(true);
     try {
@@ -170,7 +263,7 @@ const Comorbidities = () => {
           <Button
             className={classes.buttonSave}
             color="secondary"
-            disabled={isSaving}
+            disabled={isSaving || visualization}
             onClick={handleSubmit}
             type="submit"
             variant="contained"
@@ -205,6 +298,10 @@ const Comorbidities = () => {
                 icon={diabetes ? <DoneIcon /> : null}
                 label="Diabetes"
                 onClick={() => {
+                  if (visualization) {
+                    return;
+                  }
+
                   setDiabetes(prevDiabetes => !prevDiabetes);
                 }}
               />
@@ -214,6 +311,10 @@ const Comorbidities = () => {
                 icon={obesidade ? <DoneIcon /> : null}
                 label="Obesidade"
                 onClick={() => {
+                  if (visualization) {
+                    return;
+                  }
+
                   setObesidade(prevObesidade => !prevObesidade);
                 }}
               />
@@ -223,6 +324,10 @@ const Comorbidities = () => {
                 icon={neoplasia ? <DoneIcon /> : null}
                 label="Neoplasia"
                 onClick={() => {
+                  if (visualization) {
+                    return;
+                  }
+
                   setNeoplasia(prevNeoplasia => !prevNeoplasia);
                 }}
               />
@@ -232,6 +337,10 @@ const Comorbidities = () => {
                 icon={quimioterapia ? <DoneIcon /> : null}
                 label="Quimioterapia"
                 onClick={() => {
+                  if (visualization) {
+                    return;
+                  }
+
                   setQuimioterapia(prevQuimioterapia => !prevQuimioterapia);
                 }}
               />
@@ -241,6 +350,10 @@ const Comorbidities = () => {
                 icon={hipertensao ? <DoneIcon /> : null}
                 label="Hipertensão (pressão arterial)"
                 onClick={() => {
+                  if (visualization) {
+                    return;
+                  }
+
                   setHipertensao(prevHipertensao => !prevHipertensao);
                 }}
               />
@@ -250,6 +363,10 @@ const Comorbidities = () => {
                 icon={hiv ? <DoneIcon /> : null}
                 label="HIV Positivo"
                 onClick={() => {
+                  if (visualization) {
+                    return;
+                  }
+
                   setHiv(prevHiv => !prevHiv);
                 }}
               />
@@ -259,13 +376,17 @@ const Comorbidities = () => {
                 icon={tuberculose ? <DoneIcon /> : null}
                 label="Tuberculose"
                 onClick={() => {
+                  if (visualization) {
+                    return;
+                  }
+
                   setTuberculose(prevTuberculose => !prevTuberculose);
                 }}
               />
             </div>
           </div>
 
-          <div className={classes.control}>
+          {!visualization && <div className={classes.control}>
             <Typography
               className={classes.label}
               variant="h6"
@@ -282,7 +403,7 @@ const Comorbidities = () => {
                 {tiposDoenca.map(({ id, descricao }) => (
                   <MenuItem
                     key={id}
-                    onClick={() => setSelectedField({ id, descricao })}
+                    onClick={() => { setSelectedField({ id, descricao }) }}
                     value={id}
                   >
                     {descricao}
@@ -292,7 +413,14 @@ const Comorbidities = () => {
               <Button
                 className={classes.buttonAdd}
                 color="secondary"
-                onClick={() => addCard(selectedField, doencasAPI)}
+                disabled={visualization}
+                onClick={() => {
+                  if (visualization) {
+                    return;
+                  }
+
+                  addCard(selectedField, allDoencas);
+                }}
                 startIcon={<Add />}
                 type="button"
                 variant="contained"
@@ -300,12 +428,12 @@ const Comorbidities = () => {
                 Adicionar
               </Button>
             </div>
-          </div>
+          </div>}
 
           {cards.map(card => (
             <CardComorbirdades
               card={card}
-              doencas={apiCompleta.doencas}
+              doencasFromUser={doencasFromUser}
               key={card.id}
             />
           ))}
@@ -354,9 +482,9 @@ const Comorbidities = () => {
                 Quais órgãos?
               </FormLabel>
               <div className={classes.orgaosWrapper}>
-                {orgaosAPI.map(orgao => (
+                {allOrgaos.map(orgao => (
                   <CheckBoxCard
-                    alreadyExists={apiCompleta.orgaos.some(item => item.id === orgao.id)}
+                    alreadyExists={orgaosFromUser.some(item => item.id === orgao.id)}
                     handleArray={handleOrgaoId}
                     id={orgao.id}
                     label={orgao.descricao}
@@ -410,9 +538,9 @@ const Comorbidities = () => {
                 Quais corticosteroides?
               </FormLabel>
               <div className={classes.orgaosWrapper}>
-                {corticosteroidesAPI.map(corticosteroide => (
+                {allCorticosteroides.map(corticosteroide => (
                   <CheckBoxCard
-                    alreadyExists={apiCompleta.corticosteroides.some(item => item.id === corticosteroide.id)}
+                    alreadyExists={corticosteroidesFromUser.some(item => item.id === corticosteroide.id)}
                     handleArray={handleCorticosteroideId}
                     id={corticosteroide.id}
                     key={corticosteroide.id}
@@ -546,7 +674,12 @@ const Comorbidities = () => {
               <Button
                 className={classes.buttonAdd}
                 color="secondary"
+                disabled={visualization}
                 onClick={() => {
+                  if (visualization) {
+                    return;
+                  }
+
                   const exists = outrasCondicoes.some(
                     outraCondicao2 => outraCondicao2 === outraCondicao,
                   );
@@ -602,7 +735,12 @@ const Comorbidities = () => {
               <Button
                 className={classes.buttonAdd}
                 color="secondary"
+                disabled={visualization}
                 onClick={() => {
+                  if (visualization) {
+                    return;
+                  }
+
                   const exists = medicacoes.some(
                     medicacao2 => medicacao2 === medicacao,
                   );
@@ -645,178 +783,3 @@ const Comorbidities = () => {
 };
 
 export default withRouter(Comorbidities);
-
-const orgaosAPI = [
-  {
-    id: 1,
-    descricao: 'Coracao',
-  },
-  {
-    id: 2,
-    descricao: 'Estômago',
-  },
-  {
-    id: 3,
-    descricao: 'Fígado',
-  },
-];
-
-const tiposDoenca = [
-  {
-    id: 1,
-    descricao: 'Doença cardíaca',
-  },
-  {
-    id: 2,
-    descricao: 'Doença vascular periférica',
-  },
-  {
-    id: 3,
-    descricao: 'Doença pulmonar',
-  },
-  {
-    id: 4,
-    descricao: 'Doença reumatológica',
-  },
-  {
-    id: 5,
-    descricao: 'Neoplasia',
-  },
-  {
-    id: 6,
-    descricao: 'Doença autoimune',
-  },
-  {
-    id: 7,
-    descricao: 'Doença renal crônica',
-  },
-  {
-    id: 8,
-    descricao: 'Doença hepática crônica',
-  },
-  {
-    id: 9,
-    descricao: 'Doença neurológica',
-  },
-  {
-    id: 10,
-    descricao: 'Doença psiquiátrica',
-  },
-];
-
-const doencasAPI = [
-  {
-    id: 1,
-    tipo_doenca_id: 1,
-    descricao: 'Doença arterial coronariana',
-  },
-  {
-    id: 2,
-    tipo_doenca_id: 1,
-    descricao: 'Insuficiência cardíaca congestiva',
-  },
-  {
-    id: 3,
-    tipo_doenca_id: 1,
-    descricao: 'Arritmia cardíaca',
-  },
-  {
-    id: 4,
-    tipo_doenca_id: 1,
-    descricao: 'Cardiopatia não-especificada',
-  },
-  {
-    id: 5,
-    tipo_doenca_id: 2,
-    descricao: 'Insuficiencia venosa',
-  },
-  {
-    id: 7,
-    tipo_doenca_id: 3,
-    descricao: 'Doença pulmonar obstrutiva crônica',
-  },
-  {
-    id: 8,
-    tipo_doenca_id: 3,
-    descricao: 'Asma',
-  },
-];
-
-const corticosteroidesAPI = [
-  {
-    id: 1,
-    descricao: 'Prednisona > 40 mg dia',
-  },
-  {
-    id: 2,
-    descricao: 'Hidrocortisona > 160 mg dia',
-  },
-  {
-    id: 3,
-    descricao: 'Metilprednisolona > 32 mg dia',
-  },
-  {
-    id: 4,
-    descricao: 'Dexametasona > 6 mg dia',
-  },
-];
-
-const apiCompleta = {
-  id: 2,
-  paciente_id: 19,
-  diabetes: true,
-  obesidade: true,
-  hipertensao: false,
-  doenca_cardiaca: null,
-  doenca_vascular_periferica: null,
-  doenca_pulmonar_cronica: null,
-  doenca_reumatologica: null,
-  neoplasia: true,
-  quimioterapia: false,
-  HIV: false,
-  transplantado: false,
-  corticosteroide: true,
-  doenca_autoimune: null,
-  doenca_renal_cronica: null,
-  doenca_hepatica_cronica: null,
-  doenca_neurologica: null,
-  tuberculose: false,
-  gestacao: false,
-  gestacao_semanas: 0,
-  puerperio: true,
-  puerperio_semanas: 2,
-  outras_condicoes: ['Teste'],
-  medicacoes: ['Teste1', 'Teste2'],
-  created_at: '2020-08-21T20:28:26.000000Z',
-  updated_at: '2020-08-21T20:28:26.000000Z',
-  doencas: [
-    {
-      id: 1,
-      tipo_doenca_id: 1,
-      descricao: 'Doença arterial coronariana',
-      pivot: {
-        comorbidade_id: 2,
-        doenca_id: 1,
-      },
-    },
-  ],
-  orgaos: [],
-  corticosteroides: [
-    {
-      id: 1,
-      descricao: 'Prednisona > 40 mg/dia',
-      pivot: {
-        comorbidade_id: 2,
-        corticosteroide_id: 1,
-      },
-    },
-    {
-      id: 4,
-      descricao: 'Dexametasona > 6 mg/dia',
-      pivot: {
-        comorbidade_id: 2,
-        corticosteroide_id: 4,
-      },
-    },
-  ],
-};

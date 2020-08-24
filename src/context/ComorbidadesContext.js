@@ -69,12 +69,12 @@ function ComorbidadeProvider({ children }) {
   };
 
   const fetchDoencasAPI = (tiposDoencas, doencasFromUser, allDoencas) => {
-    setDoencas(doencasFromUser.map(doenca => doenca.id));
+    setDoencas(doencasFromUser.map(item => item.id));
 
     tiposDoencas.forEach(tipoDoenca => {
       const { descricao, id } = tipoDoenca;
 
-      const checkExists = doencasFromUser.some(doenca => doenca.tipo_doenca_id === id);
+      const checkExists = doencasFromUser.some(item => item.tipo_doenca_id === id);
 
       if (checkExists) {
         const filteredDoencas = allDoencas.filter(
