@@ -14,20 +14,18 @@ import {
 
 import DeleteIcon from '@material-ui/icons/Delete';
 
-import { Field, useFormikContext } from 'formik';
+import { Field, useFormikContext, ErrorMessage } from 'formik';
 import useStyles from './styles';
 import api from 'services/api';
-import { RadioGroupErroMessage } from 'components';
 
 const TesteRTPCRForm = props => {
   const classes = useStyles();
 
-  const { index } = props;
+  const { index, remove } = props;
 
   const {
     values,
     handleChange,
-    setFieldValue,
     errors,
     touched,
   } = useFormikContext();
@@ -50,13 +48,6 @@ const TesteRTPCRForm = props => {
     ]);
   }, [setTiposResultadosRTPCR]);
 
-  const handleDeleteForm = () => {
-    console.log('handleDeleteForm', `index: ${index}`);
-    let aux = values.newsTestsRTCPRs;
-    aux.splice(index, 1);
-    setFieldValue('newsTestsRTCPRs', aux);
-  };
-
   useEffect(() => {
     try {
       handleSitiosRTPCR();
@@ -77,7 +68,7 @@ const TesteRTPCRForm = props => {
         <Typography variant="h3">Formulário do Teste RT-PCR</Typography>
         <IconButton
           aria-label="delete"
-          onClick={() => handleDeleteForm()}
+          onClick={() => remove(index)}
         >
           <DeleteIcon fontSize="small" />
         </IconButton>
@@ -101,18 +92,18 @@ const TesteRTPCRForm = props => {
             className={classes.dateField}
             error={
               errors.newsTestsRTCPRs &&
-              touched.newsTestsRTCPRs &&
-              errors.newsTestsRTCPRs[index].data_coleta
+              touched.newsTestsRTCPRs ?
+                !!errors.newsTestsRTCPRs[index].data_coleta : false
             }
             helperText={
               errors.newsTestsRTCPRs &&
               touched.newsTestsRTCPRs &&
               errors.newsTestsRTCPRs[index].data_coleta
                 ? errors.newsTestsRTCPRs[index].data_coleta
-                : null
+                : ''
             }
             label="Data de coleta RT-PCR "
-            name={`newsTestsRTCPRs[${index}].data_coleta`}
+            name={`newsTestsRTCPRs.${index}.data_coleta`}
             onChange={handleChange}
             type="date"
             value={values.newsTestsRTCPRs[index].data_coleta}
@@ -133,7 +124,7 @@ const TesteRTPCRForm = props => {
           <Field
             as={RadioGroup}
             className={classes.radioGroup}
-            name={`newsTestsRTCPRs[${index}].sitio_tipo`}
+            name={`newsTestsRTCPRs.${index}.sitio_tipo`}
             onChange={handleChange}
             row
             value={values.newsTestsRTCPRs[index].sitio_tipo}
@@ -147,14 +138,12 @@ const TesteRTPCRForm = props => {
               />
             ))}
           </Field>
-          {/* Campo de erro */}
-          {errors.newsTestsRTCPRs &&
-          touched.newsTestsRTCPRs &&
-          errors.newsTestsRTCPRs[index].sitio_tipo ? (
-              <RadioGroupErroMessage
-                message={errors.newsTestsRTCPRs[index].sitio_tipo}
-              />
-            ) : null}
+          <ErrorMessage
+            color="error"
+            component={Typography}
+            name={`newsTestsRTCPRs.${index}.sitio_tipo`}
+            variant="caption"
+          />
         </FormGroup>
       </Grid>
 

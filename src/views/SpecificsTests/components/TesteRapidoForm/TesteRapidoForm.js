@@ -14,28 +14,23 @@ import {
 
 import DeleteIcon from '@material-ui/icons/Delete';
 
-import { Field, useFormikContext } from 'formik';
+import { Field, useFormikContext, ErrorMessage } from 'formik';
 import useStyles from './styles';
-import { RadioGroupErroMessage } from 'components';
 
 const TesteRapidoForm = props => {
   const classes = useStyles();
+
+  // function para remover um form
+  const { remove } = props;
 
   const { index } = props;
 
   const {
     values,
     handleChange,
-    setFieldValue,
     errors,
     touched,
   } = useFormikContext();
-
-  const handleDeleteForm = () => {
-    let aux = values.newsTestsRapidos;
-    aux.splice(index, 1);
-    setFieldValue('newsTestsRapidos', aux);
-  };
 
   return (
     <Grid
@@ -47,7 +42,7 @@ const TesteRapidoForm = props => {
         <Typography variant="h3">Formulário do Teste RT-PCR</Typography>
         <IconButton
           aria-label="delete"
-          onClick={() => handleDeleteForm()}
+          onClick={() => remove(index)}
         >
           <DeleteIcon fontSize="small" />
         </IconButton>
@@ -66,7 +61,7 @@ const TesteRapidoForm = props => {
           <Field
             as={RadioGroup}
             className={classes.radioGroup}
-            name={`newsTestsRapidos[${index}].resultado`}
+            name={`newsTestsRapidos.${index}.resultado`}
             onChange={handleChange}
             row
             value={values.newsTestsRapidos[index].resultado}
@@ -82,14 +77,12 @@ const TesteRapidoForm = props => {
               value="false"
             />
           </Field>
-          {/* Campo de erro */}
-          {errors.newsTestsRapidos &&
-          touched.newsTestsRapidos &&
-          errors.newsTestsRapidos[index].resultado ? (
-              <RadioGroupErroMessage
-                message={errors.newsTestsRapidos[index].resultado}
-              />
-            ) : null}
+          <ErrorMessage
+            color="error"
+            component={Typography}
+            name={`newsTestsRapidos.${index}.resultado`}
+            variant="caption"
+          />
         </FormGroup>
       </Grid>
 
@@ -112,7 +105,7 @@ const TesteRapidoForm = props => {
             error={
               errors.newsTestsRapidos &&
               touched.newsTestsRapidos &&
-              errors.newsTestsRapidos[index].data_realizacao
+              !!errors.newsTestsRapidos[index].data_realizacao
             }
             helperText={
               (errors.newsTestsRapidos &&
@@ -121,7 +114,7 @@ const TesteRapidoForm = props => {
                 errors.newsTestsRapidos[index].data_realizacao : null
             }
             label="Data da coleta do teste rápido"
-            name={`newsTestsRapidos[${index}].data_realizacao`}
+            name={`newsTestsRapidos.${index}.data_realizacao`}
             onChange={handleChange}
             type="date"
             value={values.newsTestsRapidos[index].data_realizacao}

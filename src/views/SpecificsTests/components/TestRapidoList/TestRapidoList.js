@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { Card, Grid } from '@material-ui/core';
 import TesteRapidoItem from '../TesteRapidoItem';
 import TesteRapidoForm from '../TesteRapidoForm';
-import { useFormikContext } from 'formik';
+import { useFormikContext, FieldArray } from 'formik';
 
 const TestRapidoList = ({ testes }) => {
   const classes = useStyles();
@@ -27,12 +27,22 @@ const TestRapidoList = ({ testes }) => {
           />
         ))}
 
-        {values.newsTestsRapidos.map((newTeste, index) => (
-          <TesteRapidoForm
-            index={index}
-            key={index}
-          />
-        ))}
+        <FieldArray name="newsTestsRapidos">
+          {({ remove }) => (
+            <div>
+              {values.newsTestsRapidos &&
+                values.newsTestsRapidos.length > 0 &&
+                values.newsTestsRapidos.map((teste, index) => (
+                  <TesteRapidoForm
+                    index={index}
+                    key={index}
+                    remove={remove}
+                  />
+                ))}
+            </div>
+          )}
+        </FieldArray>
+
       </Grid>
     </div>
   );

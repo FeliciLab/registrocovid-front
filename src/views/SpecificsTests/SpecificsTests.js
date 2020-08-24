@@ -87,7 +87,7 @@ const SpecificsTests = () => {
       // enviando todas as requests juntas.
       Promise.all([...newsTestsRTCPRsPromises, ...newsTestsRapidosPromises]);
 
-      history.push('/categorias');
+      history.go(0); // TODO: melhorar isso.
     } catch (err) {
       console.log(err);
     }

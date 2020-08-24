@@ -5,7 +5,7 @@ import useStyles from './styles';
 
 import { Card, Grid } from '@material-ui/core';
 import TesteRTCPRItem from '../TesteRTCPRItem';
-import { useFormikContext } from 'formik';
+import { useFormikContext, FieldArray } from 'formik';
 import TesteRTPCRForm from '../TesteRTPCRForm';
 
 const TestRTCPRList = ({ testes }) => {
@@ -26,13 +26,22 @@ const TestRTCPRList = ({ testes }) => {
             teste={teste}
           />
         ))}
+        <FieldArray name="newsTestsRTCPRs">
+          {({ remove }) => (
+            <div>
+              {values.newsTestsRTCPRs &&
+                values.newsTestsRTCPRs.length > 0 &&
+                values.newsTestsRTCPRs.map((teste, index) => (
+                  <TesteRTPCRForm
+                    index={index}
+                    key={index}
+                    remove={remove}
+                  />
+                ))}
+            </div>
+          )}
+        </FieldArray>
 
-        {values.newsTestsRTCPRs.map((newTeste, index) => (
-          <TesteRTPCRForm
-            index={index}
-            key={index}
-          />
-        ))}
       </Grid>
     </div>
   );
