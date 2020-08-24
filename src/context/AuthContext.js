@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { createContext } from 'react';
 
 import useAuth from './hooks/useAuth';

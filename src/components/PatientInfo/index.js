@@ -13,22 +13,26 @@ const PatientInfo = () => {
   return (
     <div>
       <Button
-        style={{ pointerEvents: 'none' }}
+        className={classes.buttonContainer}
         variant="outlined"
       >
         <div className={classes.button}>
           <span className={classes.spanButton}>Data de cadastro</span>
-          <strong className={classes.strongButton}>{patient?.created_at}</strong>
+          <strong className={classes.strongButton}>
+            {patient?.created_at}
+          </strong>
         </div>
       </Button>
 
       <Button
-        style={{ pointerEvents: 'none', marginLeft: 10 }}
+        className={classes.buttonContainer}
         variant="outlined"
       >
         <div className={classes.button}>
           <span className={classes.spanButton}>Número de Prontuário</span>
-          <strong className={classes.strongButton}>{patient?.prontuario}</strong>
+          <strong className={classes.strongButton}>
+            {patient?.prontuario}
+          </strong>
         </div>
       </Button>
     </div>

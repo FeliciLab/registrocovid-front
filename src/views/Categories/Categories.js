@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import useStyles from './styles';
 
 // Icons
@@ -8,8 +8,6 @@ import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 // Material-UI Components
 import {
   Typography,
-  Breadcrumbs,
-  Link as MuiLink,
   Button,
   TableContainer,
   Table,
@@ -19,6 +17,7 @@ import {
   Paper
 } from '@material-ui/core';
 
+import CustonBreadcrumbs from 'components/CustonBreadcrumbs';
 import PatientInfo from 'components/PatientInfo';
 
 const Categories = () => {
@@ -28,8 +27,8 @@ const Categories = () => {
   const initialForm = useMemo(() => {
     return [
       { id: 1, label: 'Informações gerais', url: 'categorias/informacoes-gerais' },
-      { id: 2, label: 'Identificação do paciente' },
-      { id: 3, label: 'História pessoal' },
+      { id: 2, label: 'Identificação do paciente', url: 'categorias/identificacao-paciente' },
+      { id: 3, label: 'História pessoal', url: 'categorias/historia-pessoal' },
       { id: 4, label: 'Sintomas iniciais da COVID-19', url: 'categorias/sintomas-iniciais' },
       { id: 5, label: 'Comorbidades / Condições clínicas da base', url: 'categorias/comorbidades' },
     ];
@@ -37,7 +36,7 @@ const Categories = () => {
 
   const secondaryForm = useMemo(() => {
     return [
-      { id: 1, label: 'Exame físico (admissão e evolução diária)' },
+      { id: 1, label: 'Exame físico (admissão e evolução diária)', url: 'categorias/lista-exame-fisico' },
       { id: 2, label: 'Complicações relacionadas à ventilação mecânica' },
       { id: 3, label: 'Exames laboratoriais exclusivos COVID 19' },
       { id: 4, label: 'Exames complementares' },
@@ -56,27 +55,12 @@ const Categories = () => {
   return (
     <div className={classes.root}>
       <div className={classes.header}>
-        <Breadcrumbs
-          aria-label="breadcrumb"
-          separator={
-            <NavigateNextIcon fontSize="small" />
-          }
-        >
-          <MuiLink
-            color="textPrimary"
-            component={Link}
-            to="/meus-pacientes"
-          >
-            Meus pacientes
-          </MuiLink>
-          <MuiLink
-            color="textPrimary"
-            component={Link}
-            to="/categorias"
-          >
-            Categorias
-          </MuiLink>
-        </Breadcrumbs>
+        <CustonBreadcrumbs
+          links={[
+            { label: 'Meus pacientes', route: '/meus-pacientes' },
+            { label: 'Categorias', route: '/categorias' },
+          ]}
+        />
       </div>
       <div className={classes.titleWrapper}>
         <Typography variant="h1">Categorias</Typography>
@@ -137,7 +121,10 @@ const Categories = () => {
           >
             <TableBody>
               {secondaryForm.map(form => (
-                <TableRow key={form.id}>
+                <TableRow
+                  key={form.id}
+                  onClick={() => handleNavigate(form.url)}
+                >
                   <TableCell
                     component="th"
                     scope="row"

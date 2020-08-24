@@ -65,7 +65,7 @@ const InitialSymptoms = () => {
       });
       setIsFetching(false);
     }
-  }, []);
+  }, [addToast, patient.sintomas]);
 
   // Checando se os sintomas selecionados são o mesmo do que o paciente já possui
   useEffect(() => {
@@ -82,7 +82,7 @@ const InitialSymptoms = () => {
 
       setSelectedSintomasHasChanged(!checkHasNotChanged);
     }
-  }, [selectedSintomas]);
+  }, [selectedSintomas, patient.sintomas]);
 
   const handleClickChip = async sintomaId => {
     const exists = selectedSintomas.some(
