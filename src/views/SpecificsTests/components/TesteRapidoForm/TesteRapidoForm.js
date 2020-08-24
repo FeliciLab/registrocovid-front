@@ -57,7 +57,12 @@ const TesteRapidoForm = props => {
           <FormLabel>
             <Typography variant="h4">Resultado de teste rápido</Typography>
           </FormLabel>
-
+          <ErrorMessage
+            color="error"
+            component={Typography}
+            name={`newsTestsRapidos.${index}.resultado`}
+            variant="caption"
+          />
           <Field
             as={RadioGroup}
             className={classes.radioGroup}
@@ -68,21 +73,16 @@ const TesteRapidoForm = props => {
           >
             <FormControlLabel
               control={<Radio />}
-              label="Regagente"
+              label="Reagente"
               value="true"
             />
             <FormControlLabel
               control={<Radio />}
-              label="Não regagente"
+              label="Não reagente"
               value="false"
             />
           </Field>
-          <ErrorMessage
-            color="error"
-            component={Typography}
-            name={`newsTestsRapidos.${index}.resultado`}
-            variant="caption"
-          />
+
         </FormGroup>
       </Grid>
 

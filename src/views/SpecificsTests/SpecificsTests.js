@@ -10,7 +10,7 @@ import {
   Grid,
   Button,
 } from '@material-ui/core';
-import { Formik, Form, withFormik } from 'formik';
+import { Formik, Form } from 'formik';
 import schema from './schema';
 import SelectTestType from './components/SelectTestType';
 import TestRTCPRList from './components/TestRTCPRList';
@@ -25,13 +25,6 @@ const initialValues = {
   newsTestsRapidos: [],
   tipo_new_teste: '',
 };
-
-// TODO: testando
-const formikEnhancer = withFormik({
-  handleSubmit: (values, { validateForm }) => {
-    console.log('teste', values, validateForm);
-  }
-});
 
 const SpecificsTests = () => {
   const { id } = useParams();
@@ -49,26 +42,29 @@ const SpecificsTests = () => {
   const { addToast } = useToast();
 
   // trata de carregar as informações
-  const handleSpecificsTests = useCallback(async id => {
-    try {
-      setLoading(true);
+  const handleSpecificsTests = useCallback(
+    async id => {
+      try {
+        setLoading(true);
 
-      const response = await api.get(`pacientes/${id}/exames-laboratoriais`);
-      const { exames_pcr, exames_teste_rapido } = response.data;
+        const response = await api.get(`pacientes/${id}/exames-laboratoriais`);
+        const { exames_pcr, exames_teste_rapido } = response.data;
 
-      setexamesPCR(exames => [...exames, ...exames_pcr]);
-      setExamesTesteRapido(exames => [...exames, ...exames_teste_rapido]);
-    } catch (err) {
-      addToast({
-        type: 'error',
-        message: 'Algo inesperado aconteceu. Tente novamente.',
-      });
-
-      history.goBack();
-    } finally {
-      setLoading(false);
-    }
-  }, [addToast, history]);
+        setexamesPCR(exames => [...exames, ...exames_pcr]);
+        setExamesTesteRapido(exames => [...exames, ...exames_teste_rapido]);
+      } catch (err) {
+        //addToast({
+        //  type: 'error',
+        //  message: 'Algo inesperado aconteceu. Tente novamente.',
+        //});
+        //
+        //history.goBack();
+      } finally {
+        setLoading(false);
+      }
+    },
+    [addToast, history],
+  );
 
   useEffect(() => {
     handleSpecificsTests(id);
@@ -100,7 +96,10 @@ const SpecificsTests = () => {
       );
 
       // tentando salvar mas sem nada para enviar.
-      if ( newsTestsRapidosPromises.length === 0 && newsTestsRTCPRsPromises.length === 0) {
+      if (
+        newsTestsRapidosPromises.length === 0 &&
+        newsTestsRTCPRsPromises.length === 0
+      ) {
         addToast({
           type: 'warning',
           message: 'Nada para salvar.',
@@ -192,4 +191,4 @@ const SpecificsTests = () => {
   );
 };
 
-export default formikEnhancer(SpecificsTests);
+export default SpecificsTests;

@@ -121,6 +121,12 @@ const TesteRTPCRForm = props => {
           <FormLabel>
             <Typography variant="h4">Sítio da amostra RT-PCR*</Typography>
           </FormLabel>
+          <ErrorMessage
+            color="error"
+            component={Typography}
+            name={`newsTestsRTCPRs.${index}.sitio_tipo`}
+            variant="caption"
+          />
           <Field
             as={RadioGroup}
             className={classes.radioGroup}
@@ -138,12 +144,6 @@ const TesteRTPCRForm = props => {
               />
             ))}
           </Field>
-          <ErrorMessage
-            color="error"
-            component={Typography}
-            name={`newsTestsRTCPRs.${index}.sitio_tipo`}
-            variant="caption"
-          />
         </FormGroup>
       </Grid>
 
@@ -155,7 +155,7 @@ const TesteRTPCRForm = props => {
       >
         <FormGroup>
           <FormLabel>
-            <Typography variant="h4">Data do resultado RT-PCR*</Typography>
+            <Typography variant="h4">Data do resultado RT-PCR</Typography>
           </FormLabel>
           <Field
             InputLabelProps={{
