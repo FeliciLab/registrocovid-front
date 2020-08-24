@@ -16,6 +16,7 @@ import SelectTestType from './components/SelectTestType';
 import TestRTCPRList from './components/TestRTCPRList';
 import TestRapidoList from './components/TestRapidoList';
 import api from 'services/api';
+import { useToast } from 'hooks/toast';
 
 // Valores iniciais
 const initialValues = {
@@ -37,6 +38,8 @@ const SpecificsTests = () => {
 
   const history = useHistory();
 
+  const { addToast } = useToast();
+
   // trata de carregar as informações
   const handleSpecificsTests = useCallback(async id => {
     try {
@@ -48,12 +51,16 @@ const SpecificsTests = () => {
       setexamesPCR(exames => [...exames, ...exames_pcr]);
       setExamesTesteRapido(exames => [...exames, ...exames_teste_rapido]);
     } catch (err) {
-      // TODO: tratamento dos erros aqui.
-      console.log(err);
+      addToast({
+        type: 'error',
+        message: 'Algo inesperado aconteceu. Tente novamente.',
+      });
+
+      history.goBack();
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [addToast, history]);
 
   useEffect(() => {
     handleSpecificsTests(id);
@@ -85,7 +92,15 @@ const SpecificsTests = () => {
       );
 
       // enviando todas as requests juntas.
-      Promise.all([...newsTestsRTCPRsPromises, ...newsTestsRapidosPromises]);
+      await Promise.all([
+        ...newsTestsRTCPRsPromises,
+        ...newsTestsRapidosPromises,
+      ]);
+
+      addToast({
+        type: 'success',
+        message: 'Dados salvos com sucesso',
+      });
 
       history.go(0); // TODO: melhorar isso.
     } catch (err) {
@@ -121,7 +136,7 @@ const SpecificsTests = () => {
               {({ isSubmitting }) => (
                 <Form component={FormControl}>
                   <div className={classes.titleWrapper}>
-                    <Typography variant="h1">
+                    <Typography variant="h2">
                       Exames laboratoriais específicos COVID 19
                     </Typography>
                     <Grid
