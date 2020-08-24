@@ -16,6 +16,9 @@ const useStyles = makeStyles(theme => ({
   accordionDetails: {
     display: 'flex',
     flexDirection: 'column',
+  },
+  fieldData: {
+    marginTop: theme.spacing(1),
   }
 }));
 

@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useState, useCallback, useEffect } from 'react';
 
 import PropTypes from 'prop-types';
 
@@ -7,15 +7,50 @@ import {
   AccordionSummary,
   Typography,
   AccordionDetails,
+  Grid,
+  FormGroup,
+  FormLabel,
+  TextField,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
 } from '@material-ui/core';
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import useStyles from './styles';
 import formatDate from 'helpers/formatDate';
+import api from 'services/api';
 
-// TODO: colocar aqui o conteudo do AccordionDetails
 const TesteRTPCRItem = ({ teste }) => {
   const classes = useStyles();
+
+  const [sitiosRTPCR, setSitiosRTPCR] = useState([]);
+  const [tiposResultadosRTPCR, setTiposResultadosRTPCR] = useState([]);
+
+  // busca os tipos de sitios do form.
+  const handleSitiosRTPCR = useCallback(async () => {
+    const response = await api.get('/sitios-rt-pcr');
+    setSitiosRTPCR(sitos => [...sitos, ...response.data]);
+  }, [setSitiosRTPCR]);
+
+  // busca os tipos de sitios do form.
+  const handleTiposResultadosRTPCR = useCallback(async () => {
+    const response = await api.get('/pcr-resultado');
+    setTiposResultadosRTPCR(tiposResultados => [
+      ...tiposResultados,
+      ...response.data,
+    ]);
+  }, [setTiposResultadosRTPCR]);
+
+  useEffect(() => {
+    try {
+      handleSitiosRTPCR();
+      handleTiposResultadosRTPCR();
+    } catch (err) {
+      // TODO: tratar aqui os erros
+      console.log(err);
+    }
+  }, [handleSitiosRTPCR, handleTiposResultadosRTPCR]);
 
   return (
     <Accordion>
@@ -37,22 +72,103 @@ const TesteRTPCRItem = ({ teste }) => {
         </div>
       </AccordionSummary>
       <AccordionDetails className={classes.accordionDetails}>
-        <Typography variant="subtitle1">
-          Conteudo de um Teste RT-CPRItem
-        </Typography>
-        <Typography>Data da coleta: {formatDate(teste.data_coleta)}</Typography>
-        <Typography>
-          Data da coleta: {formatDate(teste.data_resultado)}
-        </Typography>
-        <Typography>
-          Tipo do sítio: {teste.sitio_tipo ? teste.sitio_tipo : 'Não informado'}
-        </Typography>
-        <Typography>
-          Resultado:
-          {teste.rt_pcr_resultado
-            ? teste.rt_pcr_resultado.descricao
-            : 'Não informado'}
-        </Typography>
+        {/* data_coleta */}
+        <Grid
+          item
+          sm={12}
+        >
+          <FormGroup>
+            <FormLabel>
+              <Typography variant="h4">Data de coleta da rápida </Typography>
+            </FormLabel>
+            <TextField
+              InputLabelProps={{
+                shrink: true,
+              }}
+              contentEditable={false}
+              label="Data da coleta do teste rápido"
+              type="date"
+              value={teste.data_coleta}
+            />
+          </FormGroup>
+        </Grid>
+
+        {/* sitio_tipo */}
+        <Grid
+          className={classes.fieldData}
+          item
+          sm={12}
+        >
+          <FormGroup>
+            <FormLabel>
+              <Typography variant="h4">Sítio da amostra RT-PCR*</Typography>
+            </FormLabel>
+            <RadioGroup
+              row
+              value={teste.sitio_tipo}
+            >
+              {sitiosRTPCR.map(({ id, descricao }) => (
+                <FormControlLabel
+                  control={<Radio />}
+                  key={id}
+                  label={descricao}
+                  value={descricao}
+                />
+              ))}
+            </RadioGroup>
+          </FormGroup>
+        </Grid>
+
+        {/* data_resultado */}
+        <Grid
+          className={classes.fieldData}
+          item
+          sm={12}
+        >
+          <FormGroup>
+            <FormLabel>
+              <Typography variant="h4">Data de resultado RT-PCR</Typography>
+            </FormLabel>
+            <TextField
+              InputLabelProps={{
+                shrink: true,
+              }}
+              contentEditable={false}
+              type="date"
+              value={teste.data_resultado}
+            />
+          </FormGroup>
+        </Grid>
+
+        {/* rt_pcr_resultado */}
+        <Grid
+          className={classes.fieldData}
+          item
+          sm={12}
+        >
+          <FormGroup>
+            <FormLabel>
+              <Typography variant="h4">Sítio da amostra RT-PCR*</Typography>
+            </FormLabel>
+            <RadioGroup
+              row
+              value={
+                teste.rt_pcr_resultado
+                  ? teste.rt_pcr_resultado.id.toString()
+                  : ''
+              }
+            >
+              {tiposResultadosRTPCR.map(({ id, descricao }) => (
+                <FormControlLabel
+                  control={<Radio />}
+                  key={id}
+                  label={descricao}
+                  value={id.toString()}
+                />
+              ))}
+            </RadioGroup>
+          </FormGroup>
+        </Grid>
       </AccordionDetails>
     </Accordion>
   );

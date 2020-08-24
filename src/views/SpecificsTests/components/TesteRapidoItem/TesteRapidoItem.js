@@ -7,6 +7,13 @@ import {
   AccordionSummary,
   Typography,
   AccordionDetails,
+  Grid,
+  FormGroup,
+  FormLabel,
+  TextField,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
 } from '@material-ui/core';
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -36,13 +43,56 @@ const TesteRapidoItem = ({ teste }) => {
         </div>
       </AccordionSummary>
       <AccordionDetails className={classes.accordionDetails}>
-        <Typography variant="subtitle1">
-          Conteudo de um Teste rápido
-        </Typography>
-        <Typography>Data da coleta: {formatDate(teste.data_realizacao)}</Typography>
-        <Typography>
-          Resultado: {teste.resultado ? 'Reagente' : 'Não reagente'}
-        </Typography>
+
+        {/* resultado */}
+        <Grid
+          item
+        >
+          <FormGroup>
+            <FormLabel>
+              <Typography variant="h4">Resultado de teste rápido</Typography>
+            </FormLabel>
+            <RadioGroup
+              contentEditable={false}
+              row
+              value={teste.resultado ? 'true' : 'false'}
+            >
+              <FormControlLabel
+                control={<Radio />}
+                label="Reagente"
+                value="true"
+              />
+              <FormControlLabel
+                control={<Radio />}
+                label="Não reagente"
+                value="false"
+              />
+            </RadioGroup>
+
+          </FormGroup>
+        </Grid>
+
+        {/* data_realizacao */}
+        <Grid
+          item
+          sm={12}
+        >
+          <FormGroup>
+            <FormLabel>
+              <Typography variant="h4">Data de coleta da rápida </Typography>
+            </FormLabel>
+            <TextField
+              InputLabelProps={{
+                shrink: true,
+              }}
+              contentEditable={false}
+              label="Data da coleta do teste rápido"
+              type="date"
+              value={teste.data_realizacao}
+            />
+          </FormGroup>
+        </Grid>
+
       </AccordionDetails>
     </Accordion>
   );
