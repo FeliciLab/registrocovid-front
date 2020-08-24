@@ -56,6 +56,13 @@ const Routes = () => {
         path="/categorias/exames-especificos/:id"
       />
       <RouteWithLayout
+        component={SpecificsTestsView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/exames-especificos/"
+      />
+      <RouteWithLayout
         component={NotFoundView}
         exact
         layout={MinimalLayout}

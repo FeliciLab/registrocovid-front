@@ -18,6 +18,7 @@ import TestRapidoList from './components/TestRapidoList';
 import api from 'services/api';
 import { useToast } from 'hooks/toast';
 import PatientInfo from 'components/PatientInfo';
+import { usePatient } from 'context/PatientContext';
 
 // Valores iniciais
 const initialValues = {
@@ -27,7 +28,11 @@ const initialValues = {
 };
 
 const SpecificsTests = () => {
-  const { id } = useParams();
+  let { id } = useParams();
+
+  const { patient } = usePatient();
+
+  id = id ? id : patient.id;
 
   const classes = useStyles();
 
