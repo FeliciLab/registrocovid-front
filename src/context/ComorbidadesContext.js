@@ -10,11 +10,11 @@ function ComorbidadeProvider({ children }) {
 
   const removeOrgaos = () => {
     setOrgaos([]);
-  }
+  };
 
   const removeCorticosteroides = () => {
     setCorticosteroides([]);
-  }
+  };
 
   const handleOrgaoId = orgaoId => {
     if (orgaos.some(id => id === orgaoId)) {
@@ -34,7 +34,10 @@ function ComorbidadeProvider({ children }) {
       });
       setCorticosteroides(filteredCorticosteroides);
     } else {
-      setCorticosteroides(prevCorticosteroides => [...prevCorticosteroides, corticosteroidesId]);
+      setCorticosteroides(prevCorticosteroides => [
+        ...prevCorticosteroides,
+        corticosteroidesId,
+      ]);
     }
 
     console.log(corticosteroides);
@@ -78,6 +81,22 @@ function ComorbidadeProvider({ children }) {
     setCards(filteredCards);
   };
 
+  const allDataComorbidades = apiCompleta => {
+    console.log(apiCompleta);
+    // const [doencas, setDoencas] = useState([]);
+
+    // const getCorticosteroides = apiCompleta.corticosteroides;
+    // console.log(getCorticosteroides);
+
+    // const arrayCorticosteroides = getCorticosteroides.map(item => {
+    //   return item.id;
+    // });
+    // setCorticosteroides(arrayCorticosteroides);
+
+    const getDoencas = apiCompleta.doencas;
+    const getOrgaos = apiCompleta.orgaos;
+  };
+
   return (
     <ComorbidadesContext.Provider
       value={{
@@ -91,9 +110,9 @@ function ComorbidadeProvider({ children }) {
         handleOrgaoId,
         handleCorticosteroideId,
         removeOrgaos,
-        removeCorticosteroides
-      }}
-    >
+        removeCorticosteroides,
+        allDataComorbidades,
+      }}>
       {children}
     </ComorbidadesContext.Provider>
   );

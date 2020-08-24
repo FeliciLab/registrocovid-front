@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { withRouter } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { withRouter, useHistory } from 'react-router-dom';
 import DoneIcon from '@material-ui/icons/Done';
 import Add from '@material-ui/icons/Add';
 import {
@@ -14,6 +14,7 @@ import {
   RadioGroup,
   FormControlLabel,
   Radio,
+  CircularProgress,
 } from '@material-ui/core';
 
 import api from 'services/api';
@@ -31,7 +32,7 @@ import CheckBoxCard from './CheckBoxCard';
 
 const Comorbidities = () => {
   const classes = useStyles();
-
+  const history = useHistory();
   const {
     doencas,
     orgaos,
@@ -41,8 +42,38 @@ const Comorbidities = () => {
     handleOrgaoId,
     handleCorticosteroideId,
     removeOrgaos,
-    removeCorticosteroides
+    removeCorticosteroides,
+    allDataComorbidades,
   } = useComorbidade();
+
+  useEffect(() => {
+    setLoading(true);
+    // const response = getUserComorbidades();
+
+    //chips
+    setDiabetes(apiCompleta.diabetes);
+    setObesidade(apiCompleta.obesidade);
+    setHipertensao(apiCompleta.hipertensao);
+    setHiv(apiCompleta.HIV);
+    setTuberculose(apiCompleta.tuberculose);
+    setNeoplasia(apiCompleta.neoplasia);
+    setQuimioterapia(apiCompleta.quimioterapia);
+
+    setCorticosteroide(apiCompleta.corticosteroide ? 'sim' : 'nao');
+
+    setTransplantado(apiCompleta.transplantado ? 'sim' : 'nao');
+    setGestacao(apiCompleta.gestacao ? 'sim' : 'nao');
+    setSemanasGestacao(apiCompleta.gestacao_semanas);
+    setPuerperio(apiCompleta.puerperio ? 'sim' : 'nao');
+    setSemanasPuerperio(apiCompleta.puerperio_semanas);
+
+    setOutrasCondicoes(apiCompleta.outras_condicoes);
+    setMedicacoes(apiCompleta.medicacoes);
+
+    allDataComorbidades(apiCompleta);
+
+    setLoading(false);
+  }, []);
 
   const { patient } = usePatient();
   const { addToast } = useToast();
@@ -74,6 +105,8 @@ const Comorbidities = () => {
 
   const [isSaving, setIsSaving] = useState(false);
 
+  const [isLoading, setLoading] = useState(false);
+
   const handleSubmit = async () => {
     const submitData = {
       diabetes,
@@ -93,7 +126,7 @@ const Comorbidities = () => {
       corticosteroide: corticosteroide === 'sim',
       corticosteroides,
       outras_condicoes: outrasCondicoes,
-      medicacoes
+      medicacoes,
     };
 
     setIsSaving(true);
@@ -104,9 +137,9 @@ const Comorbidities = () => {
         type: 'success',
         message: 'Dados salvos com sucesso',
       });
-
       setIsSaving(false);
-    } catch(err) {
+      history.push('/categorias');
+    } catch (err) {
       addToast({
         type: 'error',
         message:
@@ -114,8 +147,7 @@ const Comorbidities = () => {
       });
       setIsSaving(false);
     }
-
-  }
+  };
 
   return (
     <div className={classes.root}>
@@ -141,438 +173,374 @@ const Comorbidities = () => {
             disabled={isSaving}
             onClick={handleSubmit}
             type="submit"
-            variant="contained"
-          >
-            { isSaving ? 'Salvando...' : 'Salvar' }
+            variant="contained">
+            {isSaving ? 'Salvando...' : 'Salvar'}
           </Button>
         </div>
       </div>
-      <Paper className={classes.paper}>
-        <div className={classes.control}>
-          <Typography
-            className={classes.label}
-            variant="h6"
-          >
-            Selecione as doenças que o paciente apresenta
-          </Typography>
-          <div className={classes.chipWrapper}>
-            <Chip
-              clickable
-              color={diabetes ? 'primary' : 'default'}
-              icon={diabetes ? <DoneIcon /> : null}
-              label="Diabetes"
-              onClick={() => {
-                setDiabetes(prevDiabetes => !prevDiabetes);
-              }}
-            />
-            <Chip
-              clickable
-              color={obesidade ? 'primary' : 'default'}
-              icon={obesidade ? <DoneIcon /> : null}
-              label="Obesidade"
-              onClick={() => {
-                setObesidade(prevObesidade => !prevObesidade);
-              }}
-            />
-            <Chip
-              clickable
-              color={neoplasia ? 'primary' : 'default'}
-              icon={neoplasia ? <DoneIcon /> : null}
-              label="Neoplasia"
-              onClick={() => {
-                setNeoplasia(prevNeoplasia => !prevNeoplasia);
-              }}
-            />
-            <Chip
-              clickable
-              color={quimioterapia ? 'primary' : 'default'}
-              icon={quimioterapia ? <DoneIcon /> : null}
-              label="Quimioterapia"
-              onClick={() => {
-                setQuimioterapia(prevQuimioterapia => !prevQuimioterapia);
-              }}
-            />
-            <Chip
-              clickable
-              color={hipertensao ? 'primary' : 'default'}
-              icon={hipertensao ? <DoneIcon /> : null}
-              label="Hipertensão (pressão arterial)"
-              onClick={() => {
-                setHipertensao(prevHipertensao => !prevHipertensao);
-              }}
-            />
-            <Chip
-              clickable
-              color={hiv ? 'primary' : 'default'}
-              icon={hiv ? <DoneIcon /> : null}
-              label="HIV Positivo"
-              onClick={() => {
-                setHiv(prevHiv => !prevHiv);
-              }}
-            />
-            <Chip
-              clickable
-              color={tuberculose ? 'primary' : 'default'}
-              icon={tuberculose ? <DoneIcon /> : null}
-              label="Tuberculose"
-              onClick={() => {
-                setTuberculose(prevTuberculose => !prevTuberculose);
-              }}
-            />
 
-          </div>
+      {isLoading ? (
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+          }}>
+          <CircularProgress />
         </div>
-
-        <div className={classes.control}>
-          <Typography
-            className={classes.label}
-            variant="h6"
-          >
-            Acrescente outras doenças que o paciente apresenta
-          </Typography>
-          <div className={classes.buttonWrapper}>
-            <TextField
-              className={classes.textFieldWithButton}
-              label="Escolher tipo de doença"
-              select
-              variant="filled"
-            >
-              {tiposDoenca.map(({ id, descricao }) => (
-                <MenuItem
-                  key={id}
-                  onClick={() => setSelectedField({ id, descricao })}
-                  value={id}
-                >
-                  {descricao}
-                </MenuItem>
-              ))}
-            </TextField>
-            <Button
-              className={classes.buttonAdd}
-              color="secondary"
-              onClick={() => addCard(selectedField, doencasAPI)}
-              startIcon={<Add />}
-              type="button"
-              variant="contained"
-            >
-              Adicionar
-            </Button>
-          </div>
-        </div>
-
-        {cards.map(card => (
-          <CardComorbirdades
-            card={card}
-            key={card.id}
-          />
-        ))}
-        
-        <FormGroup
-          className={classes.control}
-          component="fieldset"
-        >
-          <FormLabel
-            className={classes.label}
-            component="legend"
-          >
-            Transplantado
-          </FormLabel>
-          <RadioGroup
-            aria-label="transplantado"
-            name="transplantado"
-            onChange={(event) => setTransplantado(event.target.value)}
-            value={transplantado}
-          >
-            <div className={classes.radiosWrapper}>
-              <FormControlLabel
-                control={<Radio />}
-                label="Sim"
-                value="sim"
-              />
-              <FormControlLabel
-                control={<Radio />}
-                label="Não"
-                onClick={removeOrgaos}
-                value="nao"
-              />
-            </div>
-          </RadioGroup>
-            
-        </FormGroup>
-
-        {transplantado === 'sim' &&
-          <FormGroup
-            className={classes.control}
-            component="fieldset"
-          >
-            <FormLabel
-              className={classes.label}
-              component="legend"
-            >
-              Quais órgãos?
-            </FormLabel>
-            <div className={classes.orgaosWrapper}>
-              {orgaosAPI.map(orgao =>
-                <CheckBoxCard
-                  handleArray={handleOrgaoId}
-                  id={orgao.id}
-                  label={orgao.descricao}
-                />
-              )}
-            </div>
-              
-          </FormGroup>
-        }
-        
-        <FormGroup
-          className={classes.control}
-          component="fieldset"
-        >
-          <FormLabel
-            className={classes.label}
-            component="legend"
-          >
-            Usou corticosteroides por mais de 15 dias?
-          </FormLabel>
-          <RadioGroup
-            aria-label="corticosteroides"
-            name="corticosteroides"
-            onChange={(event) => setCorticosteroide(event.target.value)}
-            value={corticosteroide}
-          >
-            <div className={classes.radiosWrapper}>
-              <FormControlLabel
-                control={<Radio />}
-                label="Sim"
-                value="sim"
-              />
-              <FormControlLabel
-                control={<Radio />}
-                label="Não"
-                onClick={removeCorticosteroides}
-                value="nao"
-              />
-            </div>
-          </RadioGroup>
-        </FormGroup>
-
-        {corticosteroide === 'sim' &&
-          <FormGroup
-            className={classes.control}
-            component="fieldset"
-          >
-            <FormLabel
-              className={classes.label}
-              component="legend"
-            >
-              Quais corticosteroides?
-            </FormLabel>
-            <div className={classes.orgaosWrapper}>
-              {corticosteroidesAPI.map(corticosteroide =>
-                <CheckBoxCard
-                  handleArray={handleCorticosteroideId}
-                  id={corticosteroide.id}
-                  label={corticosteroide.descricao}
-                />
-              )}
-            </div>
-              
-          </FormGroup>
-        }
-
-        <FormGroup
-          className={classes.control}
-          component="fieldset"
-        >
-          <FormLabel
-            className={classes.label}
-            component="legend"
-          >
-            Gestação
-          </FormLabel>
-          <RadioGroup
-            aria-label="gestacao"
-            name="gestacao"
-            onChange={(event) => setGestacao(event.target.value)}
-            value={gestacao}
-          >
-            <div className={classes.radiosWrapper}>
-              <FormControlLabel
-                control={<Radio />}
-                label="Sim"
-                value="sim"
-              />
-              <FormControlLabel
-                control={<Radio />}
-                label="Não"
-                value="nao"
-              />
-            </div>
-          </RadioGroup>
-        </FormGroup>
-
-        {gestacao === 'sim' &&
-          <FormGroup
-            className={classes.control}
-            component="fieldset"
-          >
-            <FormLabel
-              className={classes.label}
-              component="legend"
-            >
-              Há quantas semanas?
-            </FormLabel>
-            <TextField
-              onChange={(event) => setSemanasGestacao(event.target.value)}
-              type="number"
-              value={semanasGestacao}
-            />
-              
-          </FormGroup>
-        }
-
-        <FormGroup
-          className={classes.control}
-          component="fieldset"
-        >
-          <FormLabel
-            className={classes.label}
-            component="legend"
-          >
-            Puerpério
-          </FormLabel>
-          <RadioGroup
-            aria-label="puerperio"
-            name="puerperio"
-            onChange={(event) => setPuerperio(event.target.value)}
-            value={puerperio}
-          >
-            <div className={classes.radiosWrapper}>
-              <FormControlLabel
-                control={<Radio />}
-                label="Sim"
-                value="sim"
-              />
-              <FormControlLabel
-                control={<Radio />}
-                label="Não"
-                onClick={() => setSemanasPuerperio(0)}
-                value="nao"
-              />
-            </div>
-          </RadioGroup>
-        </FormGroup>
-
-        {puerperio === 'sim' &&
-          <FormGroup
-            className={classes.control}
-            component="fieldset"
-          >
-            <FormLabel
-              className={classes.label}
-              component="legend"
-            >
-              Há quantas semanas?
-            </FormLabel>
-            <TextField
-              onChange={(event) => setSemanasPuerperio(event.target.value)}
-              type="number"
-              value={semanasPuerperio}
-            />
-              
-          </FormGroup>
-        }
-
-        <FormGroup
-          className={classes.control}
-          component="fieldset"
-        >
-          <FormLabel
-            className={classes.label}
-            component="legend"
-          >
-            Outras condições
-          </FormLabel>
-          <div className={classes.buttonWrapper}>
-            <TextField
-              className={classes.textFieldWithButton}
-              label="Outras condições"
-              onChange={(event) => { setOutraCondicao(event.target.value) }}
-              variant="filled"
-            />
-            <Button
-              className={classes.buttonAdd}
-              color="secondary"
-              onClick={() => {
-                const exists = outrasCondicoes.some(outraCondicao2 => outraCondicao2 === outraCondicao);
-
-                if (!exists) {
-                  setOutrasCondicoes(prevOutrasCondicoes => [...prevOutrasCondicoes, outraCondicao]);
-                }
-              }}
-              startIcon={<Add />}
-              type="button"
-              variant="contained"
-            >
-              Adicionar
-            </Button>
-          </div>
-          <div className={classes.chipWrapper}>
-            {outrasCondicoes && outrasCondicoes.map(outraCondicao =>
+      ) : (
+        <Paper className={classes.paper}>
+          <div className={classes.control}>
+            <Typography className={classes.label} variant="h6">
+              Selecione as doenças que o paciente apresenta
+            </Typography>
+            <div className={classes.chipWrapper}>
               <Chip
-                color="primary"
-                label={outraCondicao}
-                onDelete={() => {
-                  setOutrasCondicoes(outrasCondicoes.filter((outraCondicao2) => outraCondicao2 !== outraCondicao));
+                clickable
+                color={diabetes ? 'primary' : 'default'}
+                icon={diabetes ? <DoneIcon /> : null}
+                label="Diabetes"
+                onClick={() => {
+                  setDiabetes(prevDiabetes => !prevDiabetes);
                 }}
-              />)}
-          </div>
-        </FormGroup>
-
-        <FormGroup component="fieldset">
-          <FormLabel
-            className={classes.label}
-            component="legend"
-          >
-            Medicações de uso contínuo
-          </FormLabel>
-          <div className={classes.buttonWrapper}>
-            <TextField
-              className={classes.textFieldWithButton}
-              label="Medicações de uso contínuo"
-              onChange={(event) => { setMedicacao(event.target.value) }}
-              variant="filled"
-            />
-            <Button
-              className={classes.buttonAdd}
-              color="secondary"
-              onClick={() => {
-                const exists = medicacoes.some(medicacao2 => medicacao2 === medicacao);
-                
-                if (!exists) {
-                  setMedicacoes(prevMedicacoes => [...prevMedicacoes, medicacao]);
-                }
-
-              }}
-              startIcon={<Add />}
-              type="button"
-              variant="contained"
-            >
-              Adicionar
-            </Button>
-          </div>
-          <div className={classes.chipWrapper}>
-            {medicacoes && medicacoes.map(medicacao =>
+              />
               <Chip
-                color="primary"
-                label={medicacao}
-                onDelete={() => {
-                  setMedicacoes(medicacoes.filter((medicacao2) => medicacao2 !== medicacao));
+                clickable
+                color={obesidade ? 'primary' : 'default'}
+                icon={obesidade ? <DoneIcon /> : null}
+                label="Obesidade"
+                onClick={() => {
+                  setObesidade(prevObesidade => !prevObesidade);
                 }}
-              />)}
+              />
+              <Chip
+                clickable
+                color={neoplasia ? 'primary' : 'default'}
+                icon={neoplasia ? <DoneIcon /> : null}
+                label="Neoplasia"
+                onClick={() => {
+                  setNeoplasia(prevNeoplasia => !prevNeoplasia);
+                }}
+              />
+              <Chip
+                clickable
+                color={quimioterapia ? 'primary' : 'default'}
+                icon={quimioterapia ? <DoneIcon /> : null}
+                label="Quimioterapia"
+                onClick={() => {
+                  setQuimioterapia(prevQuimioterapia => !prevQuimioterapia);
+                }}
+              />
+              <Chip
+                clickable
+                color={hipertensao ? 'primary' : 'default'}
+                icon={hipertensao ? <DoneIcon /> : null}
+                label="Hipertensão (pressão arterial)"
+                onClick={() => {
+                  setHipertensao(prevHipertensao => !prevHipertensao);
+                }}
+              />
+              <Chip
+                clickable
+                color={hiv ? 'primary' : 'default'}
+                icon={hiv ? <DoneIcon /> : null}
+                label="HIV Positivo"
+                onClick={() => {
+                  setHiv(prevHiv => !prevHiv);
+                }}
+              />
+              <Chip
+                clickable
+                color={tuberculose ? 'primary' : 'default'}
+                icon={tuberculose ? <DoneIcon /> : null}
+                label="Tuberculose"
+                onClick={() => {
+                  setTuberculose(prevTuberculose => !prevTuberculose);
+                }}
+              />
+            </div>
           </div>
-        </FormGroup>
-      </Paper>
+
+          <div className={classes.control}>
+            <Typography className={classes.label} variant="h6">
+              Acrescente outras doenças que o paciente apresenta
+            </Typography>
+            <div className={classes.buttonWrapper}>
+              <TextField
+                className={classes.textFieldWithButton}
+                label="Escolher tipo de doença"
+                select
+                variant="filled">
+                {tiposDoenca.map(({ id, descricao }) => (
+                  <MenuItem
+                    key={id}
+                    onClick={() => setSelectedField({ id, descricao })}
+                    value={id}>
+                    {descricao}
+                  </MenuItem>
+                ))}
+              </TextField>
+              <Button
+                className={classes.buttonAdd}
+                color="secondary"
+                onClick={() => addCard(selectedField, doencasAPI)}
+                startIcon={<Add />}
+                type="button"
+                variant="contained">
+                Adicionar
+              </Button>
+            </div>
+          </div>
+
+          {cards.map(card => (
+            <CardComorbirdades card={card} key={card.id} />
+          ))}
+
+          <FormGroup className={classes.control} component="fieldset">
+            <FormLabel className={classes.label} component="legend">
+              Transplantado
+            </FormLabel>
+            <RadioGroup
+              aria-label="transplantado"
+              name="transplantado"
+              onChange={event => setTransplantado(event.target.value)}
+              value={transplantado}>
+              <div className={classes.radiosWrapper}>
+                <FormControlLabel control={<Radio />} label="Sim" value="sim" />
+                <FormControlLabel
+                  control={<Radio />}
+                  label="Não"
+                  onClick={removeOrgaos}
+                  value="nao"
+                />
+              </div>
+            </RadioGroup>
+          </FormGroup>
+
+          {transplantado === 'sim' && (
+            <FormGroup className={classes.control} component="fieldset">
+              <FormLabel className={classes.label} component="legend">
+                Quais órgãos?
+              </FormLabel>
+              <div className={classes.orgaosWrapper}>
+                {orgaosAPI.map(orgao => (
+                  <CheckBoxCard
+                    handleArray={handleOrgaoId}
+                    id={orgao.id}
+                    label={orgao.descricao}
+                  />
+                ))}
+              </div>
+            </FormGroup>
+          )}
+
+          <FormGroup className={classes.control} component="fieldset">
+            <FormLabel className={classes.label} component="legend">
+              Usou corticosteroides por mais de 15 dias?
+            </FormLabel>
+            <RadioGroup
+              aria-label="corticosteroides"
+              name="corticosteroides"
+              onChange={event => setCorticosteroide(event.target.value)}
+              value={corticosteroide}>
+              <div className={classes.radiosWrapper}>
+                <FormControlLabel control={<Radio />} label="Sim" value="sim" />
+                <FormControlLabel
+                  control={<Radio />}
+                  label="Não"
+                  onClick={removeCorticosteroides}
+                  value="nao"
+                />
+              </div>
+            </RadioGroup>
+          </FormGroup>
+
+          {corticosteroide === 'sim' && (
+            <FormGroup className={classes.control} component="fieldset">
+              <FormLabel className={classes.label} component="legend">
+                Quais corticosteroides?
+              </FormLabel>
+              <div className={classes.orgaosWrapper}>
+                {corticosteroidesAPI.map(corticosteroide => (
+                  <CheckBoxCard
+                    // checked={corticosteroide.id} verificar se o id esta inserido no array
+                    handleArray={handleCorticosteroideId}
+                    id={corticosteroide.id}
+                    key={corticosteroide.id}
+                    label={corticosteroide.descricao}
+                  />
+                ))}
+              </div>
+            </FormGroup>
+          )}
+
+          <FormGroup className={classes.control} component="fieldset">
+            <FormLabel className={classes.label} component="legend">
+              Gestação
+            </FormLabel>
+            <RadioGroup
+              aria-label="gestacao"
+              name="gestacao"
+              onChange={event => setGestacao(event.target.value)}
+              value={gestacao}>
+              <div className={classes.radiosWrapper}>
+                <FormControlLabel control={<Radio />} label="Sim" value="sim" />
+                <FormControlLabel control={<Radio />} label="Não" value="nao" />
+              </div>
+            </RadioGroup>
+          </FormGroup>
+
+          {gestacao === 'sim' && (
+            <FormGroup className={classes.control} component="fieldset">
+              <FormLabel className={classes.label} component="legend">
+                Há quantas semanas?
+              </FormLabel>
+              <TextField
+                onChange={event => setSemanasGestacao(event.target.value)}
+                type="number"
+                value={semanasGestacao}
+              />
+            </FormGroup>
+          )}
+
+          <FormGroup className={classes.control} component="fieldset">
+            <FormLabel className={classes.label} component="legend">
+              Puerpério
+            </FormLabel>
+            <RadioGroup
+              aria-label="puerperio"
+              name="puerperio"
+              onChange={event => setPuerperio(event.target.value)}
+              value={puerperio}>
+              <div className={classes.radiosWrapper}>
+                <FormControlLabel control={<Radio />} label="Sim" value="sim" />
+                <FormControlLabel
+                  control={<Radio />}
+                  label="Não"
+                  onClick={() => setSemanasPuerperio(0)}
+                  value="nao"
+                />
+              </div>
+            </RadioGroup>
+          </FormGroup>
+
+          {puerperio === 'sim' && (
+            <FormGroup className={classes.control} component="fieldset">
+              <FormLabel className={classes.label} component="legend">
+                Há quantas semanas?
+              </FormLabel>
+              <TextField
+                onChange={event => setSemanasPuerperio(event.target.value)}
+                type="number"
+                value={semanasPuerperio}
+              />
+            </FormGroup>
+          )}
+
+          <FormGroup className={classes.control} component="fieldset">
+            <FormLabel className={classes.label} component="legend">
+              Outras condições
+            </FormLabel>
+            <div className={classes.buttonWrapper}>
+              <TextField
+                className={classes.textFieldWithButton}
+                label="Outras condições"
+                onChange={event => {
+                  setOutraCondicao(event.target.value);
+                }}
+                variant="filled"
+              />
+              <Button
+                className={classes.buttonAdd}
+                color="secondary"
+                onClick={() => {
+                  const exists = outrasCondicoes.some(
+                    outraCondicao2 => outraCondicao2 === outraCondicao,
+                  );
+
+                  if (!exists) {
+                    setOutrasCondicoes(prevOutrasCondicoes => [
+                      ...prevOutrasCondicoes,
+                      outraCondicao,
+                    ]);
+                  }
+                }}
+                startIcon={<Add />}
+                type="button"
+                variant="contained">
+                Adicionar
+              </Button>
+            </div>
+            <div className={classes.chipWrapper}>
+              {outrasCondicoes &&
+                outrasCondicoes.map(outraCondicao => (
+                  <Chip
+                    color="primary"
+                    label={outraCondicao}
+                    onDelete={() => {
+                      setOutrasCondicoes(
+                        outrasCondicoes.filter(
+                          outraCondicao2 => outraCondicao2 !== outraCondicao,
+                        ),
+                      );
+                    }}
+                  />
+                ))}
+            </div>
+          </FormGroup>
+
+          <FormGroup component="fieldset">
+            <FormLabel className={classes.label} component="legend">
+              Medicações de uso contínuo
+            </FormLabel>
+            <div className={classes.buttonWrapper}>
+              <TextField
+                className={classes.textFieldWithButton}
+                label="Medicações de uso contínuo"
+                onChange={event => {
+                  setMedicacao(event.target.value);
+                }}
+                variant="filled"
+              />
+              <Button
+                className={classes.buttonAdd}
+                color="secondary"
+                onClick={() => {
+                  const exists = medicacoes.some(
+                    medicacao2 => medicacao2 === medicacao,
+                  );
+
+                  if (!exists) {
+                    setMedicacoes(prevMedicacoes => [
+                      ...prevMedicacoes,
+                      medicacao,
+                    ]);
+                  }
+                }}
+                startIcon={<Add />}
+                type="button"
+                variant="contained">
+                Adicionar
+              </Button>
+            </div>
+            <div className={classes.chipWrapper}>
+              {medicacoes &&
+                medicacoes.map(medicacao => (
+                  <Chip
+                    color="primary"
+                    label={medicacao}
+                    onDelete={() => {
+                      setMedicacoes(
+                        medicacoes.filter(
+                          medicacao2 => medicacao2 !== medicacao,
+                        ),
+                      );
+                    }}
+                  />
+                ))}
+            </div>
+          </FormGroup>
+        </Paper>
+      )}
     </div>
   );
 };
@@ -591,7 +559,7 @@ const orgaosAPI = [
   {
     id: 3,
     descricao: 'Fígado',
-  }
+  },
 ];
 
 const tiposDoenca = [
@@ -691,5 +659,92 @@ const corticosteroidesAPI = [
   {
     id: 4,
     descricao: 'Dexametasona > 6 mg dia',
-  }
+  },
 ];
+
+const apiCompleta = {
+  id: 2,
+  paciente_id: 19,
+  diabetes: true,
+  obesidade: true,
+  hipertensao: false,
+  doenca_cardiaca: null,
+  doenca_vascular_periferica: null,
+  doenca_pulmonar_cronica: null,
+  doenca_reumatologica: null,
+  neoplasia: true,
+  quimioterapia: false,
+  HIV: false,
+  transplantado: false,
+  corticosteroide: true,
+  doenca_autoimune: null,
+  doenca_renal_cronica: null,
+  doenca_hepatica_cronica: null,
+  doenca_neurologica: null,
+  tuberculose: false,
+  gestacao: false,
+  gestacao_semanas: 0,
+  puerperio: true,
+  puerperio_semanas: 2,
+  outras_condicoes: ['Teste'],
+  medicacoes: ['Teste1', 'Teste2'],
+  created_at: '2020-08-21T20:28:26.000000Z',
+  updated_at: '2020-08-21T20:28:26.000000Z',
+  doencas: [
+    {
+      id: 1,
+      tipo_doenca_id: 1,
+      descricao: 'Doença arterial coronariana',
+      pivot: {
+        comorbidade_id: 2,
+        doenca_id: 1,
+      },
+    },
+    {
+      id: 2,
+      tipo_doenca_id: 1,
+      descricao: 'Insuficiência cardíaca congestiva',
+      pivot: {
+        comorbidade_id: 2,
+        doenca_id: 2,
+      },
+    },
+    {
+      id: 4,
+      tipo_doenca_id: 1,
+      descricao: 'Cardiopatia não-especificada',
+      pivot: {
+        comorbidade_id: 2,
+        doenca_id: 4,
+      },
+    },
+    {
+      id: 8,
+      tipo_doenca_id: 3,
+      descricao: 'Asma',
+      pivot: {
+        comorbidade_id: 2,
+        doenca_id: 8,
+      },
+    },
+  ],
+  orgaos: [],
+  corticosteroides: [
+    {
+      id: 1,
+      descricao: 'Prednisona > 40 mg/dia',
+      pivot: {
+        comorbidade_id: 2,
+        corticosteroide_id: 1,
+      },
+    },
+    {
+      id: 4,
+      descricao: 'Dexametasona > 6 mg/dia',
+      pivot: {
+        comorbidade_id: 2,
+        corticosteroide_id: 4,
+      },
+    },
+  ],
+};
