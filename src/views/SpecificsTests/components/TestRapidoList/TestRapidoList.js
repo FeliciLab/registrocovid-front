@@ -38,7 +38,7 @@ const TestRapidoList = ({ testes }) => {
                     key={index}
                     remove={remove}
                   />
-                ))}
+                )).reverse()}
             </div>
           )}
         </FieldArray>

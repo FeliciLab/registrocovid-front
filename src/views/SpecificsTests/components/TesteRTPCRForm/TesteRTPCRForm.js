@@ -93,13 +93,13 @@ const TesteRTPCRForm = props => {
             error={
               errors.newsTestsRTCPRs &&
               touched.newsTestsRTCPRs ?
-                !!errors.newsTestsRTCPRs[index].data_coleta : false
+                !!errors.newsTestsRTCPRs[index]?.data_coleta : false
             }
             helperText={
               errors.newsTestsRTCPRs &&
               touched.newsTestsRTCPRs &&
-              errors.newsTestsRTCPRs[index].data_coleta
-                ? errors.newsTestsRTCPRs[index].data_coleta
+              errors.newsTestsRTCPRs[index]?.data_coleta
+                ? errors.newsTestsRTCPRs[index]?.data_coleta
                 : ''
             }
             label="Data de coleta RT-PCR "

@@ -37,7 +37,7 @@ const TestRTCPRList = ({ testes }) => {
                     key={index}
                     remove={remove}
                   />
-                ))}
+                )).reverse()}
             </div>
           )}
         </FieldArray>

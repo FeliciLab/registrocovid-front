@@ -105,13 +105,13 @@ const TesteRapidoForm = props => {
             error={
               errors.newsTestsRapidos &&
               touched.newsTestsRapidos &&
-              !!errors.newsTestsRapidos[index].data_realizacao
+              !!errors.newsTestsRapidos[index]?.data_realizacao
             }
             helperText={
               (errors.newsTestsRapidos &&
               touched.newsTestsRapidos &&
-              errors.newsTestsRapidos[index].data_realizacao) ?
-                errors.newsTestsRapidos[index].data_realizacao : null
+              errors.newsTestsRapidos[index]?.data_realizacao) ?
+                errors.newsTestsRapidos[index]?.data_realizacao : null
             }
             label="Data da coleta do teste rápido"
             name={`newsTestsRapidos.${index}.data_realizacao`}
