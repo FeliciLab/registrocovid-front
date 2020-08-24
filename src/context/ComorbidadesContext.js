@@ -68,6 +68,28 @@ function ComorbidadeProvider({ children }) {
     ]);
   };
 
+  const fetchDoencasAPI = (tiposDoencas, doencasFromUser, allDoencas) => {
+    setDoencas(doencasFromUser.map(doenca => doenca.id));
+
+    tiposDoencas.forEach(tipoDoenca => {
+      const { descricao, id } = tipoDoenca;
+
+      const checkExists = doencasFromUser.some(doenca => doenca.tipo_doenca_id === id);
+
+      if (checkExists) {
+        const filteredDoencas = allDoencas.filter(
+          doenca => doenca.tipo_doenca_id === id,
+        );
+  
+        setCards(prevCards => [
+          ...prevCards,
+          { id, doencas: filteredDoencas, descricao },
+        ]);
+      }
+
+    });
+  };
+
   const removeCard = (id, doencas) => {
     const filteredCards = cards.filter(card => {
       return card.id !== id;
@@ -79,22 +101,6 @@ function ComorbidadeProvider({ children }) {
 
     setDoencas(filteredDoencasIds);
     setCards(filteredCards);
-  };
-
-  const allDataComorbidades = apiCompleta => {
-    console.log(apiCompleta);
-    // const [doencas, setDoencas] = useState([]);
-
-    // const getCorticosteroides = apiCompleta.corticosteroides;
-    // console.log(getCorticosteroides);
-
-    // const arrayCorticosteroides = getCorticosteroides.map(item => {
-    //   return item.id;
-    // });
-    // setCorticosteroides(arrayCorticosteroides);
-
-    const getDoencas = apiCompleta.doencas;
-    const getOrgaos = apiCompleta.orgaos;
   };
 
   return (
@@ -111,8 +117,9 @@ function ComorbidadeProvider({ children }) {
         handleCorticosteroideId,
         removeOrgaos,
         removeCorticosteroides,
-        allDataComorbidades,
-      }}>
+        fetchDoencasAPI
+      }}
+    >
       {children}
     </ComorbidadesContext.Provider>
   );

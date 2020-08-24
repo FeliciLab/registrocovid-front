@@ -4,7 +4,7 @@ import CheckBoxCard from './CheckBoxCard';
 import Delete from '@material-ui/icons/Delete';
 import { useComorbidade } from 'context/ComorbidadesContext';
 
-const CardComorbidades = ({ card }) => {
+const CardComorbidades = ({ card, doencas }) => {
   const { removeCard, handleDoencaId } = useComorbidade();
 
   return (
@@ -30,6 +30,7 @@ const CardComorbidades = ({ card }) => {
       </Typography>
       {card.doencas.map(doenca => (
         <CheckBoxCard
+          alreadyExists={doencas.some(item => item.id === doenca.id)}
           handleArray={handleDoencaId}
           id={doenca.id}
           label={doenca.descricao}

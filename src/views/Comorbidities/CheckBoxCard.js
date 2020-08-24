@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Checkbox, FormControlLabel } from '@material-ui/core';
 
-const CheckBox = ({ label, id, handleArray }) => {
-  const [checked, setChecked] = useState(false);
+const CheckBox = ({ label, id, handleArray, alreadyExists }) => {
+  const [checked, setChecked] = useState(alreadyExists || false);
 
   const handleCheckBoxClick = () => {
     setChecked(prevState => !prevState);
