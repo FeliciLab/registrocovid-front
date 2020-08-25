@@ -164,11 +164,7 @@ const SpecificsTests = () => {
                       className={classes.actionSection}
                       item
                     >
-                      {/* info do paciente */}
-                      <section className={classes.patienteInfo}>
-                        <PatientInfo />
-                      </section>
-
+                      <PatientInfo />
                       <Button
                         className={classes.buttonSave}
                         color="secondary"
