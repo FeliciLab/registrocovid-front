@@ -21,15 +21,16 @@ import {
 } from '@material-ui/core';
 
 import { useToast } from 'hooks/toast';
+import { usePatient } from 'context/PatientContext';
 import api from 'services/api';
+import formatDate from 'helpers/formatDate';
 
 const schema = Yup.object().shape({
   prontuario: Yup.number()
     .integer('Número de prontuário inválido (apenas números inteiros)')
     .min(1, 'Número de prontuário deve ser maior que 0 (zero)')
     .required('Campo obrigatório'),
-  data_internacao: Yup.date()
-    .required('Campo obrigatório'),
+  data_internacao: Yup.date().required('Campo obrigatório'),
   unidade_primeiro_atendimento: Yup.string(),
   unidade_de_saude: Yup.string(),
   data_atendimento: Yup.date(),
@@ -40,6 +41,7 @@ const schema = Yup.object().shape({
 
 const GeneralInfo = () => {
   const { addToast } = useToast();
+  const { addPatient } = usePatient();
   const history = useHistory();
   const classes = useStyles();
 
@@ -54,7 +56,9 @@ const GeneralInfo = () => {
       const responseInstituicoes = await api.get('/instituicoes');
       setInstituicoes(responseInstituicoes.data);
 
-      const responseSuportesRespiratorio = await api.get('/suportes-respiratorios');
+      const responseSuportesRespiratorio = await api.get(
+        '/suportes-respiratorios',
+      );
       setTiposSuporteRespiratorio(responseSuportesRespiratorio.data);
     } catch {
       addToast({
@@ -72,11 +76,11 @@ const GeneralInfo = () => {
     handleInfos();
   }, [handleInfos]);
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async values => {
     if (!values.prontuario && !values.data_internacao) {
       addToast({
         type: 'warning',
-        message: 'Existem campos obrigatórios em branco'
+        message: 'Existem campos obrigatórios em branco',
       });
       return;
     }
@@ -88,24 +92,31 @@ const GeneralInfo = () => {
       instituicao_refererencia_id: values.unidade_de_saude,
       data_atendimento_referencia: values.data_atendimento,
       suporte_respiratorio: values.suporte_respiratorio,
-      reinternacao: values.reinternacao
+      reinternacao: values.reinternacao,
     };
 
     if (values.suporte_respiratorio) {
       patient = {
         ...patient,
-        tipos_suporte_respiratorio: [{ id: values.tipo_suport_respiratorio }]
+        tipos_suporte_respiratorio: [{ id: values.tipo_suport_respiratorio }],
       };
     }
 
     try {
-      await api.post('/pacientes', patient);
+      const response = await api.post('/pacientes', patient);
+
+      const responsePatient = {
+        id: response.data.paciente.id,
+        prontuario: response.data.paciente.prontuario,
+        created_at: formatDate(response.data.paciente.created_at),
+      };
 
       addToast({
         type: 'success',
-        message: 'Dados salvos com sucesso'
+        message: 'Dados salvos com sucesso',
       });
 
+      addPatient(responsePatient);
       history.push('/categorias');
     } catch (err) {
       if (err.response.data.message === 'The given data was invalid.') {
@@ -129,7 +140,10 @@ const GeneralInfo = () => {
           links={[
             { label: 'Meus pacientes', route: '/meus-pacientes' },
             { label: 'Categorias', route: '/categorias' },
-            { label: 'Informações gerais', route: '/categorias/informacoes-gerais' },
+            {
+              label: 'Informações gerais',
+              route: '/categorias/informacoes-gerais',
+            },
           ]}
         />
       </div>
@@ -144,7 +158,7 @@ const GeneralInfo = () => {
             data_atendimento: '',
             suporte_respiratorio: false,
             tipo_suport_respiratorio: '',
-            reinternacao: false
+            reinternacao: false,
           }}
           onSubmit={handleSubmit}
           validateOnMount
@@ -166,7 +180,9 @@ const GeneralInfo = () => {
                 </Button>
               </div>
 
-              {loading ? (<CircularProgress />) : (
+              {loading ? (
+                <CircularProgress />
+              ) : (
                 <Grid
                   container
                   item
@@ -181,14 +197,18 @@ const GeneralInfo = () => {
                   >
                     <FormGroup>
                       <FormLabel>
-                        <Typography variant="h4">Número do prontuário</Typography>
+                        <Typography variant="h4">
+                          Número do prontuário
+                        </Typography>
                       </FormLabel>
                       <Field
                         as={TextField}
                         className={classes.textField}
-                        error={(errors.prontuario && touched.prontuario)}
+                        error={errors.prontuario && touched.prontuario}
                         helperText={
-                          (errors.prontuario && touched.prontuario) ? errors.prontuario : null
+                          errors.prontuario && touched.prontuario
+                            ? errors.prontuario
+                            : null
                         }
                         label="Número do prontuário"
                         name="prontuario"
@@ -216,9 +236,13 @@ const GeneralInfo = () => {
                         }}
                         as={TextField}
                         className={classes.dateField}
-                        error={(errors.data_internacao && touched.data_internacao)}
+                        error={
+                          errors.data_internacao && touched.data_internacao
+                        }
                         helperText={
-                          (errors.data_internacao && touched.data_internacao) ? errors.data_internacao : null
+                          errors.data_internacao && touched.data_internacao
+                            ? errors.data_internacao
+                            : null
                         }
                         label="Data de internação"
                         name="data_internacao"
@@ -236,7 +260,10 @@ const GeneralInfo = () => {
                   >
                     <FormGroup>
                       <FormLabel>
-                        <Typography variant="h4">Nome do serviço / Unidade de Saúde onde o paciente recebeu o primeiro atendimento</Typography>
+                        <Typography variant="h4">
+                          Nome do serviço / Unidade de Saúde onde o paciente
+                          recebeu o primeiro atendimento
+                        </Typography>
                       </FormLabel>
                       <Field
                         as={TextField}
@@ -252,7 +279,9 @@ const GeneralInfo = () => {
                           <MenuItem
                             key={id}
                             value={id}
-                          >{nome}</MenuItem>
+                          >
+                            {nome}
+                          </MenuItem>
                         ))}
                       </Field>
                     </FormGroup>
@@ -265,7 +294,10 @@ const GeneralInfo = () => {
                   >
                     <FormGroup>
                       <FormLabel>
-                        <Typography variant="h4">Nome do serviço / Unidade de Saúde que referenciou o paciente</Typography>
+                        <Typography variant="h4">
+                          Nome do serviço / Unidade de Saúde que referenciou o
+                          paciente
+                        </Typography>
                       </FormLabel>
                       <Field
                         as={TextField}
@@ -281,7 +313,9 @@ const GeneralInfo = () => {
                           <MenuItem
                             key={id}
                             value={id}
-                          >{nome}</MenuItem>
+                          >
+                            {nome}
+                          </MenuItem>
                         ))}
                       </Field>
                     </FormGroup>
@@ -294,7 +328,10 @@ const GeneralInfo = () => {
                   >
                     <FormGroup>
                       <FormLabel>
-                        <Typography variant="h4">Data do atendimento na unidade que referenciou o paciente</Typography>
+                        <Typography variant="h4">
+                          Data do atendimento na unidade que referenciou o
+                          paciente
+                        </Typography>
                       </FormLabel>
                       <Field
                         InputLabelProps={{
@@ -354,7 +391,9 @@ const GeneralInfo = () => {
                             <MenuItem
                               key={id}
                               value={id}
-                            >{nome}</MenuItem>
+                            >
+                              {nome}
+                            </MenuItem>
                           ))}
                         </Field>
                       </FormControl>
@@ -378,9 +417,7 @@ const GeneralInfo = () => {
                           />
                         }
                         label={
-                          <Typography variant="h4">
-                            Reinternação?
-                          </Typography>
+                          <Typography variant="h4">Reinternação?</Typography>
                         }
                         name="reinternacao"
                       />
@@ -392,8 +429,8 @@ const GeneralInfo = () => {
           )}
         </Formik>
       </div>
-    </div >
+    </div>
   );
-}
+};
 
 export default GeneralInfo;
