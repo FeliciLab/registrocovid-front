@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+
 import {
   Accordion,
   AccordionSummary,
@@ -9,14 +10,16 @@ import {
   FormGroup,
   FormLabel,
   TextField
-} from '@material-ui/core'
+} from '@material-ui/core';
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import DeleteIcon from '@material-ui/icons/Delete'
+import DeleteIcon from '@material-ui/icons/Delete';
 
 import useStyles from '../styles';
+
 export const Extubacao = (props) => {
   const classes = useStyles();
+
   const handleDelete = () => {
     console.log(props);
     props.onDelete(props.id);
@@ -31,8 +34,14 @@ export const Extubacao = (props) => {
             expandIcon={props.isNew ? <DeleteAction onClick={handleDelete} /> : <ExpandMoreIcon />}
             id="panel1a-header"
           >
-            <Grid container alignItems={"center"}>
-              <Grid item lg={4}>
+            <Grid
+              alignItems={'center'}
+              container
+            >
+              <Grid
+                item
+                lg={4}
+              >
                 <Typography variant="h3">Extubação acidental</Typography>
               </Grid>
               <Grid item>
@@ -46,21 +55,21 @@ export const Extubacao = (props) => {
                 <Typography variant="h5">Data de extubação acidental:</Typography>
               </FormLabel>
               <TextField
-                className={classes.dateField}
+                InputLabelProps={{
+                  shrink: true,
+                }}
                 // error={(formik.errors.temperatura && formik.touched.temperatura)}
                 // helperText={
                 //   (formik.errors.temperatura && formik.touched.temperatura) ? formik.errors.temperatura : null
                 // }
+                className={classes.dateField}
                 label="Data"
-                name={`dataExtubacao${props.key}`}
                 // onBlur={formik.handleBlur}
                 // onChange={formik.handleChange}
-                type="date"
+                name={`dataExtubacao${props.key}`}
                 // value={formik.values.temperatura}
                 // variant={'outlined'}
-                InputLabelProps={{
-                  shrink: true,
-                }}
+                type="date"
               />
             </FormGroup>
           </AccordionDetails>

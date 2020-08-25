@@ -81,13 +81,28 @@ const useStyles = makeStyles(theme => ({
   deleteIcon: {
     transform: 'rotate(180deg)'
   },
-  fullWidth: {
-    width: '100%'
+
+  container: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   centralPaper: {
+    width: 864,
+    paddingLeft: 30,
+    paddingRight: 30,
+    paddingTop: 30,
+  },
+  headerForm: {
     display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center'
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: theme.spacing(1),
+  },
+  selectField: {
+    height: '48px',
+    marginRight: theme.spacing(1),
   }
 }));
 

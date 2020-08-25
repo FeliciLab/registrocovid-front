@@ -12,7 +12,7 @@ import {
   GeneralInfo as GeneralInfoView,
   PersonalHistory as PersonalHistoryView,
   PhysicalExam as PhysicalExamView,
-  Complications as ComplicationsView,
+  ComplicationsVM as ComplicationsVMView,
   InitialSymptoms as InitialSymptomsView,
   Comorbidities as ComorbiditiesView,
 } from './views';
@@ -75,11 +75,11 @@ const Routes = () => {
         path="/categorias/exame-fisico/:examId"
       />
       <RouteWithLayout
-        component={ComplicationsView}
+        component={ComplicationsVMView}
         exact
         isPrivate
         layout={MainLayout}
-        path="/categorias/complicacoes"
+        path="/categorias/complicacoes-vm"
       />
       <RouteWithLayout
         component={InitialSymptomsView}
