@@ -27,12 +27,7 @@ import Form from './components/Form';
 import { useToast } from 'hooks/toast';
 import { usePatient } from 'context/PatientContext';
 
-// import { Extubacao } from './components/Extubacao';
-// import { Hemorragia } from './components/Hemorragia';
-// import { Pneumotorax } from './components/Pneumotorax';
-// import { Transfusional } from './components/Transfusional';
-// import { Outras } from './components/Outras';
-import Components from './components';
+import Complications from './components';
 
 // import api from 'services/api';
 
@@ -204,7 +199,7 @@ const ComplicationsVM = () => {
                   ref={formRef}
                 >
                   {newsComplications.map((complication) => (
-                    <Components
+                    <Complications
                       handleDelete={() => handleDelete(complication.id)}
                       isNew
                       key={String(complication.id)}
@@ -212,37 +207,6 @@ const ComplicationsVM = () => {
                       visible
                     />
                   ))}
-
-                  {/* <Extubacao
-                    id={1}
-                    isNew
-                    onDelete={handleDelete}
-                    visible
-                  />
-                  <Hemorragia
-                    id={1}
-                    isNew
-                    onDelete={handleDelete}
-                    visible
-                  />
-                  <Pneumotorax
-                    id={1}
-                    isNew
-                    onDelete={handleDelete}
-                    visible
-                  />
-                  <Transfusional
-                    id={1}
-                    isNew={false}
-                    onDelete={handleDelete}
-                    visible
-                  />
-                  <Outras
-                    id={1}
-                    isNew
-                    onDelete={handleDelete}
-                    visible
-                  /> */}
                 </Form>
               </Paper>
             </Grid>
