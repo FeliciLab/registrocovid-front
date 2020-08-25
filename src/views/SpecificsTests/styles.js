@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
   },
   buttonSave: {
-    // width: '200px',
+    width: '200px',
     height: '48px',
   },
 }));
