@@ -18,6 +18,7 @@ import {
   Grid,
   MenuItem,
   CircularProgress,
+  Card,
 } from '@material-ui/core';
 
 import { useToast } from 'hooks/toast';
@@ -184,6 +185,7 @@ const GeneralInfo = () => {
                 <CircularProgress />
               ) : (
                 <Grid
+                  component={Card}
                   container
                   item
                   lg={8}
