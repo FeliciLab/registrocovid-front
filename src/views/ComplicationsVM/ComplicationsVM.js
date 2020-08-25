@@ -4,7 +4,7 @@ import React, {
   useEffect,
   useRef,
 } from 'react';
-import { useHistory, useRouteMatch } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import {
   Typography,
@@ -27,21 +27,20 @@ import Form from './components/Form';
 import { useToast } from 'hooks/toast';
 import { usePatient } from 'context/PatientContext';
 
-import { Extubacao } from './components/Extubacao';
-import { Hemorragia } from './components/Hemorragia';
-import { Pneumotorax } from './components/Pneumotorax';
-import { Transfusional } from './components/Transfusional';
-import { Outras } from './components/Outras';
+// import { Extubacao } from './components/Extubacao';
+// import { Hemorragia } from './components/Hemorragia';
+// import { Pneumotorax } from './components/Pneumotorax';
+// import { Transfusional } from './components/Transfusional';
+// import { Outras } from './components/Outras';
 import Components from './components';
 
-import api from 'services/api';
+// import api from 'services/api';
 
 import useStyles from './styles';
 
 const ComplicationsVM = () => {
   const classes = useStyles();
   const history = useHistory();
-  const { params } = useRouteMatch();
   const { addToast } = useToast();
   const { patient } = usePatient();
 
@@ -50,19 +49,19 @@ const ComplicationsVM = () => {
   const selectedComplication = useRef();
 
   const [loading, setLoading] = useState(false);
-  const [physicalExam, setPhysicalExam] = useState({});
+  // const [oldsComplications, setOldsComplications] = useState([]);
   const [newsComplications, setNewsComplications] = useState([]);
 
   const handleInfos = useCallback(async () => {
     try {
       setLoading(true);
 
-      const response = await api.get(`/pacientes/${patient.id}/evolucoes-diarias/${params.examId}`);
+      // const response = await api.get(`/pacientes/${patient.id}/evolucoes-diarias/${params.examId}`);
 
-      if (response.status === 200) {
-        setPhysicalExam(response.data);
-        buttonDisabled.current = true;
-      }
+      // if (response.status === 200) {
+      //   setPhysicalExam(response.data);
+      //   buttonDisabled.current = true;
+      // }
     } catch (err) {
       if (err.response.status === 404) {
         return null;
@@ -77,7 +76,7 @@ const ComplicationsVM = () => {
     } finally {
       setLoading(false);
     }
-  }, [addToast, history, patient.id, params.examId]);
+  }, [addToast, history, patient.id]);
 
   useEffect(() => {
     // handleInfos();
@@ -88,11 +87,18 @@ const ComplicationsVM = () => {
   };
 
   const handleNewComplication = () => {
-    setNewsComplications(oldState => [...oldState, selectedComplication.current]);
+    const newComplication = {
+      id: Math.random(),
+      complication: selectedComplication.current
+    };
+
+    setNewsComplications(oldState => [newComplication, ...oldState]);
   };
 
-  const handleDelete = (panelId) => {
-    console.log(panelId)
+  const handleDelete = (complicationId) => {
+    const updatedComplications = newsComplications.filter(({ id }) => id !== complicationId);
+
+    setNewsComplications(updatedComplications);
   };
 
   const handleSubmit = () => {
@@ -195,13 +201,13 @@ const ComplicationsVM = () => {
 
                 <Form
                   className={classes.examsFormGroup}
-                  physicalExam={physicalExam}
                   ref={formRef}
                 >
-                  {newsComplications.map((complication, index) => (
+                  {newsComplications.map((complication) => (
                     <Components
+                      handleDelete={() => handleDelete(complication.id)}
                       isNew
-                      key={index}
+                      key={String(complication.id)}
                       newComplication={complication}
                       visible
                     />
@@ -241,7 +247,6 @@ const ComplicationsVM = () => {
               </Paper>
             </Grid>
           </div>
-          // </Grid>
         )}
       </div>
     </div>

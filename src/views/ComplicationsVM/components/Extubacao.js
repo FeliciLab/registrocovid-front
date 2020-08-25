@@ -19,16 +19,17 @@ import useStyles from '../styles';
 
 export const Extubacao = (props) => {
   const classes = useStyles();
+  const { visible, isNew, handleDelete } = props;
 
-  const handleDelete = () => {
-    console.log(props);
-    props.onDelete(props.id);
-  };
+  // const handleDelete = () => {
+  //   console.log(props);
+  //   props.onDelete(props.id);
+  // };
 
   return (
     <>
-      {props.visible &&
-        <Accordion expanded={props.isNew ? true : undefined}>
+      {visible &&
+        <Accordion expanded={isNew ? true : undefined}>
           <AccordionSummary
             aria-controls="panel1a-content"
             expandIcon={props.isNew ? <DeleteAction onClick={handleDelete} /> : <ExpandMoreIcon />}
