@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import {formContext} from './Form'
 
 import {
   Accordion,
@@ -6,7 +7,10 @@ import {
   AccordionDetails,
   Typography,
   IconButton,
-  Grid
+  Grid,
+  TextField,
+  FormGroup,
+  FormLabel
 } from '@material-ui/core';
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -17,6 +21,7 @@ import useStyles from '../styles';
 export const Outras = (props) => {
   const classes = useStyles();
   const { visible, isNew, handleDelete } = props;
+  const fContext = useContext(formContext);
 
   // const handleDelete = () => {
   //   console.log(props);
@@ -26,7 +31,10 @@ export const Outras = (props) => {
   return (
     <>
       {visible &&
-        <Accordion expanded={isNew ? true : undefined}>
+        <Accordion
+          elevation={4}
+          expanded={isNew ? true : undefined}
+        >
           <AccordionSummary
             aria-controls="panel1a-content"
             expandIcon={props.isNew ? <DeleteAction onClick={handleDelete} /> : <ExpandMoreIcon />}
@@ -47,7 +55,52 @@ export const Outras = (props) => {
               </Grid>
             </Grid>
           </AccordionSummary>
-          <AccordionDetails />
+          <AccordionDetails className={classes.accordionDetails} >
+            <FormGroup className={classes.formGroup}>
+              <FormLabel>
+                <Typography variant="h5">Em caso afirmativo para outra complicação, qual?</Typography>
+              </FormLabel>
+              <TextField
+                // InputLabelProps={{
+                //   shrink: true,
+                // }}
+                error={(fContext.errors[`localOutras${props.id}`] && fContext.touched[`localOutras${props.id}`])}
+                helperText={
+                  (fContext.errors[`localOutras${props.id}`] && fContext.touched[`localOutras${props.id}`]) ? fContext.errors[`localOutras${props.id}`] : null
+                }
+                className={classes.dateField}
+                label="Outras Complicações"
+                onBlur={fContext.handleBlur}
+                onChange={fContext.handleChange}
+                name={`localOutras${props.id}`}
+                value={fContext.values[`localOutras${props.id}`]}
+                variant={'outlined'}
+                type="text"
+              />
+            </FormGroup>
+            <FormGroup className={classes.formGroup}>
+              <FormLabel>
+                <Typography variant="h5">Data de outra(s) complicação(ões):</Typography>
+              </FormLabel>
+              <TextField
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                error={(fContext.errors[`dataOutros${props.id}`] && fContext.touched[`dataOutros${props.id}`])}
+                helperText={
+                  (fContext.errors[`dataOutros${props.id}`] && fContext.touched[`dataOutros${props.id}`]) ? fContext.errors[`dataOutros${props.id}`] : null
+                }
+                className={classes.dateField}
+                label="Data"
+                onBlur={fContext.handleBlur}
+                onChange={fContext.handleChange}
+                name={`dataOutros${props.id}`}
+                value={fContext.values[`dataOutros${props.id}`]}
+                // variant={'outlined'}
+                type="date"
+              />
+            </FormGroup>
+          </AccordionDetails>
         </Accordion>
       }
     </>

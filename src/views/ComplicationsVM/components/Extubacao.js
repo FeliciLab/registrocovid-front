@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import {formContext} from './Form'
 
 import {
   Accordion,
@@ -20,6 +21,7 @@ import useStyles from '../styles';
 export const Extubacao = (props) => {
   const classes = useStyles();
   const { visible, isNew, handleDelete } = props;
+  const fContext = useContext(formContext);
 
   // const handleDelete = () => {
   //   console.log(props);
@@ -59,16 +61,16 @@ export const Extubacao = (props) => {
                 InputLabelProps={{
                   shrink: true,
                 }}
-                // error={(formik.errors.temperatura && formik.touched.temperatura)}
-                // helperText={
-                //   (formik.errors.temperatura && formik.touched.temperatura) ? formik.errors.temperatura : null
-                // }
+                error={(fContext.errors[`dataExtubacao${props.id}`] && fContext.touched[`dataExtubacao${props.id}`])}
+                helperText={
+                  (fContext.errors[`dataExtubacao${props.id}`] && fContext.touched[`dataExtubacao${props.id}`]) ? fContext.errors[`dataExtubacao${props.id}`] : null
+                }
                 className={classes.dateField}
                 label="Data"
-                // onBlur={formik.handleBlur}
-                // onChange={formik.handleChange}
-                name={`dataExtubacao${props.key}`}
-                // value={formik.values.temperatura}
+                onBlur={fContext.handleBlur}
+                onChange={fContext.handleChange}
+                name={`dataExtubacao${props.id}`}
+                value={fContext.values[`dataExtubacao${props.id}`]}
                 // variant={'outlined'}
                 type="date"
               />

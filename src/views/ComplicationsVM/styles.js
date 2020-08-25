@@ -81,7 +81,6 @@ const useStyles = makeStyles(theme => ({
   deleteIcon: {
     transform: 'rotate(180deg)'
   },
-
   container: {
     display: 'flex',
     alignItems: 'center',
@@ -103,6 +102,15 @@ const useStyles = makeStyles(theme => ({
   selectField: {
     height: '48px',
     marginRight: theme.spacing(1),
+  },
+  accordionDetails: {
+    flexDirection: 'column',
+    '& > *': {
+      marginBottom: theme.spacing(2),
+    }
+  },
+  fullWidth: {
+    width: '100%'
   }
 }));
 

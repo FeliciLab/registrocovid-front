@@ -14,6 +14,7 @@ const Complications = (props) => {
       return (
         <Extubacao
           handleDelete={handleDelete}
+          id={newComplication.id}
           isNew={isNew}
           visible={visible}
         />
@@ -22,6 +23,7 @@ const Complications = (props) => {
       return (
         <Pneumotorax
           handleDelete={handleDelete}
+          id={newComplication.id}
           isNew={isNew}
           visible={visible}
         />
@@ -30,6 +32,7 @@ const Complications = (props) => {
       return (
         <Hemorragia
           handleDelete={handleDelete}
+          id={newComplication.id}
           isNew={isNew}
           visible={visible}
         />
@@ -38,6 +41,7 @@ const Complications = (props) => {
       return (
         <Transfusional
           handleDelete={handleDelete}
+          id={newComplication.id}
           isNew={isNew}
           visible={visible}
         />
@@ -46,6 +50,7 @@ const Complications = (props) => {
       return (
         <Outras
           handleDelete={handleDelete}
+          id={newComplication.id}
           isNew={isNew}
           visible={visible}
         />

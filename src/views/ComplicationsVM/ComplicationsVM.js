@@ -46,6 +46,7 @@ const ComplicationsVM = () => {
   const [loading, setLoading] = useState(false);
   // const [oldsComplications, setOldsComplications] = useState([]);
   const [newsComplications, setNewsComplications] = useState([]);
+  const [complicationId, setComplicationId] = useState(0)
 
   const handleInfos = useCallback(async () => {
     try {
@@ -82,12 +83,14 @@ const ComplicationsVM = () => {
   };
 
   const handleNewComplication = () => {
-    const newComplication = {
-      id: Math.random(),
-      complication: selectedComplication.current
-    };
-
-    setNewsComplications(oldState => [newComplication, ...oldState]);
+    if (selectedComplication.current) {
+      const newComplication = {
+        id: complicationId,
+        complication: selectedComplication.current
+      };
+      setComplicationId(complicationId+1);
+      setNewsComplications(oldState => [newComplication, ...oldState]);
+    }
   };
 
   const handleDelete = (complicationId) => {
