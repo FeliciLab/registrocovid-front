@@ -58,12 +58,14 @@ const SpecificsTests = () => {
         setexamesPCR(exames => [...exames, ...exames_pcr]);
         setExamesTesteRapido(exames => [...exames, ...exames_teste_rapido]);
       } catch (err) {
-        //addToast({
-        //  type: 'error',
-        //  message: 'Algo inesperado aconteceu. Tente novamente.',
-        //});
-        //
-        //history.goBack();
+        // TODO: ajeitar quando moises concertar o back
+        if(!err) {
+          addToast({
+            type: 'error',
+            message: 'Algo inesperado aconteceu. Tente novamente.',
+          });
+          history.goBack();
+        }
       } finally {
         setLoading(false);
       }
@@ -123,7 +125,7 @@ const SpecificsTests = () => {
         message: 'Dados salvos com sucesso.',
       });
 
-      history.go(0); // TODO: melhorar isso.
+      window.location.reload();
     } catch (err) {
       console.log(err);
     }

@@ -1,25 +1,18 @@
 import { makeStyles } from '@material-ui/styles';
 
-const useStyles = makeStyles(() => ({
-  buttonContainer: {
-    pointerEvents: 'none',
-    marginRight: 10,
-    height: 48
+const useStyles = makeStyles(theme => ({
+  root: {
+    display: 'flex',
   },
-  button: {
+  paperContainer: {
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'center',
+    padding: theme.spacing(1),
+    marginRight: 10,
+    height: '52px',
     alignItems: 'center',
+    justifyContent: 'center',
   },
-  spanButton: {
-    fontSize: 10,
-    letterSpacing: 1.25
-  },
-  strongButton: {
-    fontSize: 16,
-    letterSpacing: 1.25
-  }
 }));
 
 export default useStyles;

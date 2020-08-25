@@ -56,7 +56,7 @@ const Categories = () => {
       { id: 2, label: 'Complicações relacionadas à ventilação mecânica' },
       {
         id: 3,
-        label: 'Exames laboratoriais exclusivos COVID 19',
+        label: 'Exames laboratoriais específicos COVID 19',
         url: 'categorias/exames-especificos/',
       },
       { id: 4, label: 'Exames complementares' },
