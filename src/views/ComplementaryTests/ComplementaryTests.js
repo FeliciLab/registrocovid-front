@@ -2,11 +2,19 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { usePatient } from 'context/PatientContext';
 import useStyles from './styles';
 import { CustonBreadcrumbs } from 'components';
-import { CircularProgress, FormControl, Typography, Grid, Button } from '@material-ui/core';
+import {
+  CircularProgress,
+  FormControl,
+  Typography,
+  Grid,
+  Button,
+} from '@material-ui/core';
 import { Formik, Form } from 'formik';
 import schema from './schema';
 import PatientInfo from 'components/PatientInfo';
 import SelectComplementaryTestType from './componentes/SelectComplementaryTestType';
+import apiFake from 'services/apiFake';
+import TestComplementaryList from './componentes/TestComplementaryList';
 
 // Valores iniciais
 const initialValues = {
@@ -24,10 +32,18 @@ function ComplementaryTests() {
 
   const [loading, setLoading] = useState(false);
 
+  const [examesComplementares, setExamesComplementares] = useState([]);
+
   const handleComplementaryTests = useCallback(async id => {
     try {
       setLoading(true);
       console.log(id);
+      const response = await apiFake.get('/exames-complementares');
+      const { data } = response;
+      console.log(data);
+
+      // TODO: separar aqui por tipos os exames
+      setExamesComplementares(exames => [...exames, ...data]);
     } catch (err) {
       // TODO: tratar os erros do carregamento aqui.
     } finally {
@@ -68,7 +84,7 @@ function ComplementaryTests() {
               validateOnMount
               validationSchema={schema}
             >
-              {({isSubmitting}) => (
+              {({ isSubmitting }) => (
                 <Form component={FormControl}>
                   <div className={classes.titleWrapper}>
                     <Typography variant="h2">
@@ -92,6 +108,8 @@ function ComplementaryTests() {
                   </div>
 
                   <SelectComplementaryTestType />
+
+                  <TestComplementaryList testes={examesComplementares} />
 
                 </Form>
               )}

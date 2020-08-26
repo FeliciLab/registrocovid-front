@@ -47,7 +47,8 @@ const SelectComplementaryTestType = () => {
       className={classes.root}
       component={Card}
       item
-      xs={10}
+      md={10}
+      xs={12}
     >
       <Grid item>
         <FormGroup>
