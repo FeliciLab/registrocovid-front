@@ -6,9 +6,14 @@ import { CircularProgress, FormControl, Typography, Grid, Button } from '@materi
 import { Formik, Form } from 'formik';
 import schema from './schema';
 import PatientInfo from 'components/PatientInfo';
+import SelectComplementaryTestType from './componentes/SelectComplementaryTestType';
 
 // Valores iniciais
-const initialValues = {};
+const initialValues = {
+  newsTestsTCTorax: [],
+  newsTestsECG: [],
+  tipo_new_teste: '',
+};
 
 function ComplementaryTests() {
   const { patient } = usePatient();
@@ -28,7 +33,7 @@ function ComplementaryTests() {
     } finally {
       setLoading(false);
     }
-  });
+  }, []);
 
   // TODO: nada ainda
   const handleSubmit = values => {
@@ -85,6 +90,8 @@ function ComplementaryTests() {
                       </Button>
                     </Grid>
                   </div>
+
+                  <SelectComplementaryTestType />
 
                 </Form>
               )}
