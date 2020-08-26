@@ -14,7 +14,7 @@ const PatientRow = props => {
 
   const history = useHistory();
 
-  const handleNavigate = patientProps => {
+  const handleNavigate = (patientProps) => {
     addPatient(patientProps);
     history.push('/categorias');
   };

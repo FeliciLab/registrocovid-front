@@ -37,9 +37,9 @@ const PatientInfo = props => {
           <strong>{patient?.prontuario}</strong>
         </Typography>
       </Paper>
-
     </div>
   );
 };
 
 export default PatientInfo;
+  

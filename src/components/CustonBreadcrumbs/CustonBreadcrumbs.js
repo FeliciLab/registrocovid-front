@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import {
   Link as MuiLink,
   Breadcrumbs,
-} from "@material-ui/core";
+} from '@material-ui/core';
 
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 
@@ -19,9 +19,10 @@ const CustonBreadcrumbs = props => {
       separator={<NavigateNextIcon fontSize="small" />}
     >
       {links.map((link, index) => (
-        <MuiLink key={index}
-          color={links.length === index + 1 ? "textPrimary" : "inherit"}
+        <MuiLink
+          color={links.length === index + 1 ? 'textPrimary' : 'inherit'}
           component={Link}
+          key={index}
           to={link.route}
         >
           {link.label}

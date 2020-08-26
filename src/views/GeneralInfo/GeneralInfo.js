@@ -109,7 +109,7 @@ const GeneralInfo = () => {
       const responsePatient = {
         id: response.data.paciente.id,
         prontuario: response.data.paciente.prontuario,
-        created_at: formatDate(response.data.paciente.created_at),
+        created_at: formatDate(response.data.paciente.created_at)
       };
 
       addToast({
