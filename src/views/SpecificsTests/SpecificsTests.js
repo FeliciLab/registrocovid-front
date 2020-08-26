@@ -59,7 +59,7 @@ const SpecificsTests = () => {
         setExamesTesteRapido(exames => [...exames, ...exames_teste_rapido]);
       } catch (err) {
         // TODO: ajeitar quando moises concertar o back
-        if(!err) {
+        if (!err) {
           addToast({
             type: 'error',
             message: 'Algo inesperado aconteceu. Tente novamente.',
@@ -156,7 +156,7 @@ const SpecificsTests = () => {
               validateOnMount
               validationSchema={schema}
             >
-              {({ isSubmitting }) => (
+              {({ isSubmitting, isValid, isValidating }) => (
                 <Form component={FormControl}>
                   <div className={classes.titleWrapper}>
                     <Typography variant="h2">
@@ -184,6 +184,12 @@ const SpecificsTests = () => {
                   <TestRTCPRList testes={examesPCR} />
 
                   <TestRapidoList testes={examesTesteRapido} />
+
+                  <FormikErroObserver
+                    isSubmitting={isSubmitting}
+                    isValid={isValid}
+                    isValidating={isValidating}
+                  />
                 </Form>
               )}
             </Formik>
@@ -192,6 +198,22 @@ const SpecificsTests = () => {
       </div>
     </div>
   );
+};
+
+const FormikErroObserver = props => {
+  const { isValid, isValidating, isSubmitting } = props;
+
+  const { addToast } = useToast();
+
+  useEffect(() => {
+    if (isSubmitting & isValidating && !isValid)
+      addToast({
+        type: 'error',
+        message: 'Erro ao tentar registrar',
+      });
+  }, [isValidating, addToast, isSubmitting, isValid]);
+
+  return null;
 };
 
 export default SpecificsTests;
