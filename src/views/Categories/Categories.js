@@ -30,7 +30,7 @@ const Categories = () => {
       { id: 2, label: 'Identificação do paciente', url: 'categorias/identificacao-paciente' },
       { id: 3, label: 'História pessoal', url: 'categorias/historia-pessoal' },
       { id: 4, label: 'Sintomas iniciais da COVID-19', url: 'categorias/sintomas-iniciais' },
-      { id: 5, label: 'Comorbidades / Condições clínicas da base' },
+      { id: 5, label: 'Comorbidades / Condições clínicas da base', url: 'categorias/comorbidades' },
     ];
   }, []);
 
