@@ -7,23 +7,32 @@ import { Transfusional } from './Transfusional';
 import { Outras } from './Outras';
 
 const Complications = (props) => {
-  const { newComplication, isNew, visible, handleDelete } = props;
+  const {
+    id,
+    newComplication,
+    isNew,
+    visible,
+    handleDelete,
+    infos,
+  } = props;
 
-  switch (newComplication.complication) {
+  switch (newComplication) {
     case 1:
       return (
-        <Extubacao
+        <Pneumotorax
           handleDelete={handleDelete}
-          id={newComplication.id}
+          id={id}
+          infos={infos}
           isNew={isNew}
           visible={visible}
         />
       );
     case 2:
       return (
-        <Pneumotorax
+        <Extubacao
           handleDelete={handleDelete}
-          id={newComplication.id}
+          id={id}
+          infos={infos}
           isNew={isNew}
           visible={visible}
         />
@@ -32,7 +41,8 @@ const Complications = (props) => {
       return (
         <Hemorragia
           handleDelete={handleDelete}
-          id={newComplication.id}
+          id={id}
+          infos={infos}
           isNew={isNew}
           visible={visible}
         />
@@ -41,7 +51,8 @@ const Complications = (props) => {
       return (
         <Transfusional
           handleDelete={handleDelete}
-          id={newComplication.id}
+          id={id}
+          infos={infos}
           isNew={isNew}
           visible={visible}
         />
@@ -50,7 +61,8 @@ const Complications = (props) => {
       return (
         <Outras
           handleDelete={handleDelete}
-          id={newComplication.id}
+          id={id}
+          infos={infos}
           isNew={isNew}
           visible={visible}
         />

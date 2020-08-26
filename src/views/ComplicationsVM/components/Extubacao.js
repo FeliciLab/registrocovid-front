@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
-import {formContext} from './Form'
+
+import { formContext } from './Form';
 
 import {
   Accordion,
@@ -20,21 +21,20 @@ import useStyles from '../styles';
 
 export const Extubacao = (props) => {
   const classes = useStyles();
-  const { visible, isNew, handleDelete } = props;
   const fContext = useContext(formContext);
 
-  // const handleDelete = () => {
-  //   console.log(props);
-  //   props.onDelete(props.id);
-  // };
+  const { id, visible, isNew, handleDelete, infos } = props;
 
   return (
     <>
       {visible &&
-        <Accordion expanded={isNew ? true : undefined}>
+        <Accordion
+          elevation={2}
+          expanded={isNew || undefined}
+        >
           <AccordionSummary
             aria-controls="panel1a-content"
-            expandIcon={props.isNew ? <DeleteAction onClick={handleDelete} /> : <ExpandMoreIcon />}
+            expandIcon={isNew ? <DeleteAction onClick={handleDelete} /> : <ExpandMoreIcon />}
             id="panel1a-header"
           >
             <Grid
@@ -45,10 +45,10 @@ export const Extubacao = (props) => {
                 item
                 lg={4}
               >
-                <Typography variant="h3">Extubação acidental</Typography>
+                <Typography variant="h4">Extubação acidental</Typography>
               </Grid>
               <Grid item>
-                <Typography variant="body2">Data: {Date()}</Typography>
+                <Typography variant="body2">Data: {infos?.data_complicacao.split('-').reverse().join('/') ?? undefined} </Typography>
               </Grid>
             </Grid>
           </AccordionSummary>
@@ -61,18 +61,17 @@ export const Extubacao = (props) => {
                 InputLabelProps={{
                   shrink: true,
                 }}
-                error={(fContext.errors[`dataExtubacao${props.id}`] && fContext.touched[`dataExtubacao${props.id}`])}
-                helperText={
-                  (fContext.errors[`dataExtubacao${props.id}`] && fContext.touched[`dataExtubacao${props.id}`]) ? fContext.errors[`dataExtubacao${props.id}`] : null
-                }
                 className={classes.dateField}
+                error={(fContext.errors[`dataExtubacao${id}`] && fContext.touched[`dataExtubacao${id}`])}
+                helperText={
+                  (fContext.errors[`dataExtubacao${id}`] && fContext.touched[`dataExtubacao${id}`]) ? fContext.errors[`dataExtubacao${id}`] : null
+                }
                 label="Data"
+                name={`dataExtubacao${id}`}
                 onBlur={fContext.handleBlur}
                 onChange={fContext.handleChange}
-                name={`dataExtubacao${props.id}`}
-                value={fContext.values[`dataExtubacao${props.id}`]}
-                // variant={'outlined'}
                 type="date"
+                value={infos?.data_complicacao ?? fContext.values[`dataExtubacao${id}`]}
               />
             </FormGroup>
           </AccordionDetails>

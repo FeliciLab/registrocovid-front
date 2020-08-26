@@ -21,32 +21,32 @@ const schema = Yup.lazy(obj =>
     mapValues(obj, (value, key) => {
       // Transfusional
       if (key.includes('volumeTransfusional')) {
-        return Yup.string().required();
+        return Yup.number().positive();
       }
       if (key.includes('dataTransfusional')) {
-        return Yup.date().required();
+        return Yup.date().required('Campo Obrigatório');
       }
       // Extubacao
       if (key.includes('dataExtubacao')) {
-        return Yup.date().required();
+        return Yup.date().required('Campo Obrigatório');
       }
       // Penumotorax
       if (key.includes('dataPneumotorax')) {
-        return Yup.date().required();
+        return Yup.date().required('Campo Obrigatório');
       }
       // Hemorragia
       if (key.includes('localHemorragia')) {
-        return Yup.string().required();
+        return Yup.string();
       }
       if (key.includes('dataHemorragia')) {
-        return Yup.date().required();
+        return Yup.date().required('Campo Obrigatório');
       }
       // Outras
       if (key.includes('localOutros')) {
         return Yup.string().required();
       }
       if (key.includes('dataOutros')) {
-        return Yup.date().required();
+        return Yup.date().required('Campo Obrigatório');
       }
     })
   )
@@ -63,7 +63,7 @@ const Form = forwardRef((props, ref) => {
 
   useEffect( () => {
     makeInitialValues();
-  }, [props.children])
+  }, [props.children]);
 
   const handleSubmit = async (values) => {
     try {
@@ -92,7 +92,7 @@ const Form = forwardRef((props, ref) => {
     validationSchema: schema,
     validateOnMount: true,
     abortEarly: false,
-    enableReinitialize:true
+    enableReinitialize: true
   });
 
   useImperativeHandle(ref, () => {
@@ -111,25 +111,26 @@ const Form = forwardRef((props, ref) => {
 
   const makeInitialValues = () => {
     const initialValues = {};
-    props.children.forEach( children => {
-      switch (children.props.newComplication.complication) {
+    props.children.forEach(children => {
+      switch (children.props?.newComplication) {
         case 1:
-          initialValues[`dataExtubacao${children.props.newComplication.id}`] = formik.values[`dataExtubacao${children.props.newComplication.id}`] || '';
+          initialValues[`dataPneumotorax${children.props.id}`] = formik.values[`dataPneumotorax${children.props.id}`] || '';
           break;
         case 2:
-          initialValues[`dataPneumotorax${children.props.newComplication.id}`] = formik.values[`dataPneumotorax${children.props.newComplication.id}`] || '';
+          initialValues[`dataExtubacao${children.props.id}`] = formik.values[`dataExtubacao${children.props.id}`] || '';
           break;
         case 3:
-          initialValues[`dataHemorragia${children.props.newComplication.id}`] = formik.values[`dataHemorragia${children.props.newComplication.id}`] || '';
-          initialValues[`localHemorragia${children.props.newComplication.id}`] = formik.values[`localHemorragia${children.props.newComplication.id}`] || '';
+          initialValues[`dataHemorragia${children.props.id}`] = formik.values[`dataHemorragia${children.props.id}`] || '';
+          initialValues[`localHemorragia${children.props.id}`] = formik.values[`localHemorragia${children.props.id}`] || '';
           break;
         case 4:
-          initialValues[`dataTransfusional${children.props.newComplication.id}`] = formik.values[`dataTransfusional${children.props.newComplication.id}`] || '';
-          initialValues[`volumeTransfusional${children.props.newComplication.id}`] = formik.values[`volumeTransfusional${children.props.newComplication.id}`] || '';
+          // initialValues[`tipo_transfusao_id${children.props.id}`] = formik.values[`tipo_transfusao_id${children.props.id}`] || '';
+          initialValues[`dataTransfusional${children.props.id}`] = formik.values[`dataTransfusional${children.props.id}`] || '';
+          initialValues[`volumeTransfusional${children.props.id}`] = formik.values[`volumeTransfusional${children.props.id}`] || '';
           break;
         case 5:
-          initialValues[`dataOutros${children.props.newComplication.id}`] = formik.values[`dataOutros${children.props.newComplication.id}`] || '';
-          initialValues[`localOutros${children.props.newComplication.id}`] = formik.values[`localOutros${children.props.newComplication.id}`] || '';
+          initialValues[`dataOutros${children.props.id}`] = formik.values[`dataOutros${children.props.id}`] || '';
+          initialValues[`localOutros${children.props.id}`] = formik.values[`localOutros${children.props.id}`] || '';
           break;
         default:
           break;

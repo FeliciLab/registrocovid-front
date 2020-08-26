@@ -29,7 +29,7 @@ import { usePatient } from 'context/PatientContext';
 
 import Complications from './components';
 
-// import api from 'services/api';
+import api from 'services/api';
 
 import useStyles from './styles';
 
@@ -40,11 +40,12 @@ const ComplicationsVM = () => {
   const { patient } = usePatient();
 
   const formRef = useRef(null);
-  const buttonDisabled = useRef(false);
   const selectedComplication = useRef();
 
   const [loading, setLoading] = useState(false);
-  // const [oldsComplications, setOldsComplications] = useState([]);
+  const [complicationsTypes, setComplicationsTypes] = useState([]);
+  const [oldsComplications, setOldsComplications] = useState([]);
+  const [transfusions, setTransfusions] = useState([]);
   const [newsComplications, setNewsComplications] = useState([]);
   const [complicationId, setComplicationId] = useState(0)
 
@@ -52,17 +53,15 @@ const ComplicationsVM = () => {
     try {
       setLoading(true);
 
-      // const response = await api.get(`/pacientes/${patient.id}/evolucoes-diarias/${params.examId}`);
+      const [complications, complicationsPatient] = await Promise.all([
+        api.get('/tipos-complicacao-vm'),
+        api.get(`pacientes/${patient.id}/ventilacao-mecanica`)
+      ]);
 
-      // if (response.status === 200) {
-      //   setPhysicalExam(response.data);
-      //   buttonDisabled.current = true;
-      // }
-    } catch (err) {
-      if (err.response.status === 404) {
-        return null;
-      }
-
+      setComplicationsTypes(complications.data);
+      setOldsComplications(complicationsPatient.data.complicacoes_ventilacao_mecanica);
+      setTransfusions(complicationsPatient.data.transfussoes_ocorrencia);
+    } catch {
       addToast({
         type: 'error',
         message: 'Erro ao tentar carregar informações, tente novamente',
@@ -75,7 +74,7 @@ const ComplicationsVM = () => {
   }, [addToast, history, patient.id]);
 
   useEffect(() => {
-    // handleInfos();
+    handleInfos();
   }, [handleInfos]);
 
   const handleSelect = (event) => {
@@ -88,7 +87,8 @@ const ComplicationsVM = () => {
         id: complicationId,
         complication: selectedComplication.current
       };
-      setComplicationId(complicationId+1);
+
+      setComplicationId(oldState => oldState + 1);
       setNewsComplications(oldState => [newComplication, ...oldState]);
     }
   };
@@ -125,7 +125,6 @@ const ComplicationsVM = () => {
             <Button
               className={classes.buttonSave}
               color="secondary"
-              disabled={buttonDisabled.current}
               onClick={handleSubmit}
               type="submit"
               variant="contained"
@@ -155,7 +154,7 @@ const ComplicationsVM = () => {
                       <FormControl variant={'outlined'}>
                         <Select
                           className={classes.selectField}
-                          name="escala_glasgow"
+                          name="complication"
                           onChange={handleSelect}
                           value={selectedComplication.current}
                         >
@@ -165,12 +164,12 @@ const ComplicationsVM = () => {
                           >
                             Escolher tipo de complicação (ventilação mecânica)
                           </MenuItem>
-                          {new Array(5).fill('').map((_, index) => (
+                          {complicationsTypes.map((complication) => (
                             <MenuItem
-                              key={String(Math.random())}
-                              value={++index}
+                              key={complication.id}
+                              value={complication.id}
                             >
-                              {index++}
+                              {complication.descricao}
                             </MenuItem>
                           )
                           )}
@@ -201,12 +200,35 @@ const ComplicationsVM = () => {
                   className={classes.examsFormGroup}
                   ref={formRef}
                 >
-                  {newsComplications.map((complication) => (
+                  {newsComplications.map((item) => (
                     <Complications
-                      handleDelete={() => handleDelete(complication.id)}
+                      handleDelete={() => handleDelete(item.id)}
+                      id={item.id}
                       isNew
-                      key={String(complication.id)}
-                      newComplication={complication}
+                      key={String(item.id)}
+                      newComplication={item.complication}
+                      visible
+                    />
+                  ))}
+
+                  {oldsComplications?.map((item) => (
+                    <Complications
+                      id={item.id}
+                      infos={item}
+                      isNew={false}
+                      key={String(item.id)}
+                      newComplication={item.tipo_complicacao.id}
+                      visible
+                    />
+                  ))}
+
+                  {transfusions?.map((item) => (
+                    <Complications
+                      id={item.id}
+                      infos={item}
+                      isNew={false}
+                      key={String(item.id)}
+                      newComplication={4}
                       visible
                     />
                   ))}

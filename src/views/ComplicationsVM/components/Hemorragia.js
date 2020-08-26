@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
-import {formContext} from './Form'
+
+import { formContext } from './Form';
 
 import {
   Accordion,
@@ -20,24 +21,20 @@ import useStyles from '../styles';
 
 export const Hemorragia = (props) => {
   const classes = useStyles();
-  const { visible, isNew, handleDelete } = props;
   const fContext = useContext(formContext);
 
-  // const handleDelete = () => {
-  //   console.log(props);
-  //   props.onDelete(props.id);
-  // };
+  const { id, visible, isNew, handleDelete, infos } = props;
 
   return (
     <>
       {visible &&
-        <Accordion 
-          elevation={4}
-          expanded={isNew ? true : undefined} 
+        <Accordion
+          elevation={2}
+          expanded={isNew || undefined}
         >
           <AccordionSummary
             aria-controls="panel1a-content"
-            expandIcon={props.isNew ? <DeleteAction onClick={handleDelete} /> : <ExpandMoreIcon />}
+            expandIcon={isNew ? <DeleteAction onClick={handleDelete} /> : <ExpandMoreIcon />}
             id="panel1a-header"
           >
             <Grid
@@ -48,10 +45,10 @@ export const Hemorragia = (props) => {
                 item
                 lg={4}
               >
-                <Typography variant="h3">Hemorragia</Typography>
+                <Typography variant="h4">Hemorragia</Typography>
               </Grid>
               <Grid item>
-                <Typography variant="body2">Data: {Date()}</Typography>
+                <Typography variant="body2">Data: {infos?.data_complicacao.split('-').reverse().join('/') ?? undefined} </Typography>
               </Grid>
             </Grid>
           </AccordionSummary>
@@ -61,21 +58,18 @@ export const Hemorragia = (props) => {
                 <Typography variant="h5">Em caso afirmativo para hemorragia, especificar o local:</Typography>
               </FormLabel>
               <TextField
-                // InputLabelProps={{
-                //   shrink: true,
-                // }}
-                error={(fContext.errors[`localHemorragia${props.id}`] && fContext.touched[`localHemorragia${props.id}`])}
-                helperText={
-                  (fContext.errors[`localHemorragia${props.id}`] && fContext.touched[`localHemorragia${props.id}`]) ? fContext.errors[`localHemorragia${props.id}`] : null
-                }
                 className={classes.dateField}
+                error={(fContext.errors[`localHemorragia${id}`] && fContext.touched[`localHemorragia${id}`])}
+                helperText={
+                  (fContext.errors[`localHemorragia${id}`] && fContext.touched[`localHemorragia${id}`]) ? fContext.errors[`localHemorragia${id}`] : null
+                }
                 label="Local de Hemorragia"
+                name={`localHemorragia${id}`}
                 onBlur={fContext.handleBlur}
                 onChange={fContext.handleChange}
-                name={`localHemorragia${props.id}`}
-                value={fContext.values[`localHemorragia${props.id}`]}
-                variant={'outlined'}
                 type="text"
+                value={infos?.descricao ?? fContext.values[`localHemorragia${id}`]}
+                variant={'outlined'}
               />
             </FormGroup>
             <FormGroup className={classes.formGroup}>
@@ -86,18 +80,17 @@ export const Hemorragia = (props) => {
                 InputLabelProps={{
                   shrink: true,
                 }}
-                error={(fContext.errors[`dataHemorragia${props.id}`] && fContext.touched[`dataHemorragia${props.id}`])}
-                helperText={
-                  (fContext.errors[`dataHemorragia${props.id}`] && fContext.touched[`dataHemorragia${props.id}`]) ? fContext.errors[`dataHemorragia${props.id}`] : null
-                }
                 className={classes.dateField}
+                error={(fContext.errors[`dataHemorragia${id}`] && fContext.touched[`dataHemorragia${id}`])}
+                helperText={
+                  (fContext.errors[`dataHemorragia${id}`] && fContext.touched[`dataHemorragia${id}`]) ? fContext.errors[`dataHemorragia${id}`] : null
+                }
                 label="Data"
+                name={`dataHemorragia${id}`}
                 onBlur={fContext.handleBlur}
                 onChange={fContext.handleChange}
-                name={`dataHemorragia${props.id}`}
-                value={fContext.values[`dataHemorragia${props.id}`]}
-                // variant={'outlined'}
                 type="date"
+                value={infos?.data_complicacao ?? fContext.values[`dataHemorragia${id}`]}
               />
             </FormGroup>
           </AccordionDetails>

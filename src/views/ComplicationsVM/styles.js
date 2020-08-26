@@ -52,7 +52,6 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     fontWeight: 'bold',
-    // color: theme.palette.primary.main,
     letterSpacing: 1.25,
     textTransform: 'uppercase',
     fontSize: 16
