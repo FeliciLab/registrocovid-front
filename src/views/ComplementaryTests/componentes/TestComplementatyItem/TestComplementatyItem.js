@@ -16,7 +16,7 @@ import {
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import useStyles from './styles';
 
-const TesteRapidoItem = ({ teste }) => {
+const TestComplementaryItem = ({ teste }) => {
   const classes = useStyles();
 
   return (
@@ -88,7 +88,7 @@ const TesteRapidoItem = ({ teste }) => {
   );
 };
 
-TesteRapidoItem.propTypes = {
+TestComplementaryItem.propTypes = {
   teste: PropTypes.exact({
     tipo_outro_exame_id: PropTypes.number,
     data: PropTypes.string,
@@ -96,4 +96,4 @@ TesteRapidoItem.propTypes = {
   }).isRequired,
 };
 
-export default TesteRapidoItem;
+export default TestComplementaryItem;
