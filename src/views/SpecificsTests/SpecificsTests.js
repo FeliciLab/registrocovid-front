@@ -209,7 +209,7 @@ const FormikErroObserver = props => {
     if (isSubmitting & isValidating && !isValid)
       addToast({
         type: 'error',
-        message: 'Erro ao tentar registrar',
+        message: 'Existem campos obrigatórios não preenchidos',
       });
   }, [isValidating, addToast, isSubmitting, isValid]);
 
