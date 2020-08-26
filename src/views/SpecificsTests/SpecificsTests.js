@@ -58,14 +58,11 @@ const SpecificsTests = () => {
         setexamesPCR(exames => [...exames, ...exames_pcr]);
         setExamesTesteRapido(exames => [...exames, ...exames_teste_rapido]);
       } catch (err) {
-        // TODO: ajeitar quando moises concertar o back
-        if (!err) {
-          addToast({
-            type: 'error',
-            message: 'Algo inesperado aconteceu. Tente novamente.',
-          });
-          history.goBack();
-        }
+        addToast({
+          type: 'error',
+          message: 'Algo inesperado aconteceu. Tente novamente.',
+        });
+        history.goBack();
       } finally {
         setLoading(false);
       }
@@ -156,7 +153,7 @@ const SpecificsTests = () => {
               validateOnMount
               validationSchema={schema}
             >
-              {({ isSubmitting, isValid, isValidating }) => (
+              {({ isSubmitting }) => (
                 <Form component={FormControl}>
                   <div className={classes.titleWrapper}>
                     <Typography variant="h2">
@@ -185,11 +182,7 @@ const SpecificsTests = () => {
 
                   <TestRapidoList testes={examesTesteRapido} />
 
-                  <FormikErroObserver
-                    isSubmitting={isSubmitting}
-                    isValid={isValid}
-                    isValidating={isValidating}
-                  />
+                  {/* <FormikErroObserver /> */}
                 </Form>
               )}
             </Formik>
@@ -198,22 +191,6 @@ const SpecificsTests = () => {
       </div>
     </div>
   );
-};
-
-const FormikErroObserver = props => {
-  const { isValid, isValidating, isSubmitting } = props;
-
-  const { addToast } = useToast();
-
-  useEffect(() => {
-    if (isSubmitting & isValidating && !isValid)
-      addToast({
-        type: 'error',
-        message: 'Existem campos obrigatórios não preenchidos',
-      });
-  }, [isValidating, addToast, isSubmitting, isValid]);
-
-  return null;
 };
 
 export default SpecificsTests;
