@@ -4,9 +4,6 @@ import {
   FormGroup,
   FormLabel,
   Typography,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
   TextField,
   Card,
   IconButton,
@@ -14,15 +11,8 @@ import {
 
 import DeleteIcon from '@material-ui/icons/Delete';
 
-import { Field, useFormikContext, ErrorMessage } from 'formik';
+import { Field, useFormikContext } from 'formik';
 import useStyles from './styles';
-
-// Valores iniciais
-// const initialValues = {
-//   newsTestsTCTorax: [],
-//   newsTestsECG: [],
-//   tipo_new_teste: '',
-// };
 
 const TestComplementaryForm = props => {
   const classes = useStyles();
@@ -35,8 +25,8 @@ const TestComplementaryForm = props => {
   const {
     values,
     handleChange,
-    errors,
-    touched,
+    // errors,
+    // touched,
   } = useFormikContext();
 
   return (
@@ -55,79 +45,75 @@ const TestComplementaryForm = props => {
         </IconButton>
       </FormLabel>
 
-      {/* resultado */}
       <Grid
-        className={classes.fieldTesteRapido}
-        item
+        className={classes.fieldsWraper}
+        container
+        spacing={1}
       >
-        <FormGroup>
-          <FormLabel>
-            <Typography variant="h4">Resultado de teste rápido</Typography>
-          </FormLabel>
-          <ErrorMessage
-            color="error"
-            component={Typography}
-            name={`newsTestsRapidos.${index}.resultado`}
-            variant="caption"
-          />
-          <Field
-            as={RadioGroup}
-            className={classes.radioGroup}
-            name={`newsTestsRapidos.${index}.resultado`}
-            onChange={handleChange}
-            row
-            value={values.newsTestsRapidos[index].resultado}
-          >
-            <FormControlLabel
-              control={<Radio />}
-              label="Reagente"
-              value="true"
+        {/* resultado */}
+        <Grid
+          className={classes.fieldTesteRapido}
+          item
+          md={6}
+          sm={12}
+        >
+          <FormGroup>
+            <FormLabel>
+              <Typography variant="h4">Resultado</Typography>
+            </FormLabel>
+            <Field
+              InputLabelProps={{
+                shrink: true,
+              }}
+              as={TextField}
+              className={classes.radioGroup}
+              name={`newComplementaryTests.${index}.resultado`}
+              onChange={handleChange}
+              value={values.newComplementaryTests[index].resultado}
+              variant="outlined"
             />
-            <FormControlLabel
-              control={<Radio />}
-              label="Não reagente"
-              value="false"
-            />
-          </Field>
 
-        </FormGroup>
+          </FormGroup>
+        </Grid>
+        {/* data */}
+        <Grid
+          className={classes.fieldTesteRapido}
+          item
+          md={6}
+          sm={12}
+        >
+          <FormGroup>
+            <FormLabel>
+              <Typography variant="h4">Data de coleta da rápida </Typography>
+            </FormLabel>
+            <Field
+              InputLabelProps={{
+                shrink: true,
+              }}
+              as={TextField}
+              className={classes.dateField}
+              // error={
+              //   errors.newsTestsRapidos &&
+              //   touched.newsTestsRapidos &&
+              //   !!errors.newsTestsRapidos[index]?.data_realizacao
+              // }
+              // helperText={
+              //   (errors.newsTestsRapidos &&
+              //   touched.newsTestsRapidos &&
+              //   errors.newsTestsRapidos[index]?.data_realizacao) ?
+              //     errors.newsTestsRapidos[index]?.data_realizacao : null
+              // }
+              label="Data da coleta do teste rápido"
+              name={`newComplementaryTests.${index}.data`}
+              onChange={handleChange}
+              type="date"
+              value={values.newComplementaryTests[index].data}
+            />
+          </FormGroup>
+        </Grid>
       </Grid>
 
-      {/* data_realizacao */}
-      <Grid
-        className={classes.fieldTesteRapido}
-        item
-        sm={12}
-      >
-        <FormGroup>
-          <FormLabel>
-            <Typography variant="h4">Data de coleta da rápida </Typography>
-          </FormLabel>
-          <Field
-            InputLabelProps={{
-              shrink: true,
-            }}
-            as={TextField}
-            className={classes.dateField}
-            error={
-              errors.newsTestsRapidos &&
-              touched.newsTestsRapidos &&
-              !!errors.newsTestsRapidos[index]?.data_realizacao
-            }
-            helperText={
-              (errors.newsTestsRapidos &&
-              touched.newsTestsRapidos &&
-              errors.newsTestsRapidos[index]?.data_realizacao) ?
-                errors.newsTestsRapidos[index]?.data_realizacao : null
-            }
-            label="Data da coleta do teste rápido"
-            name={`newsTestsRapidos.${index}.data_realizacao`}
-            onChange={handleChange}
-            type="date"
-            value={values.newsTestsRapidos[index].data_realizacao}
-          />
-        </FormGroup>
-      </Grid>
+
     </Grid>
   );
 };

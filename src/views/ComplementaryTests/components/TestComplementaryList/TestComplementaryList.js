@@ -5,12 +5,13 @@ import PropTypes from 'prop-types';
 
 import { Card, Grid } from '@material-ui/core';
 import TestComplementatyItem from '../TestComplementatyItem';
-//import { useFormikContext, FieldArray } from 'formik';
+import { useFormikContext, FieldArray } from 'formik';
+import TestComplementaryForm from '../TestComplementaryForm';
 
 const TestComplementaryList = ({ testes }) => {
   const classes = useStyles();
 
-  // const { values } = useFormikContext();
+  const { values } = useFormikContext();
 
   return (
     <div className={classes.root}>
@@ -20,7 +21,6 @@ const TestComplementaryList = ({ testes }) => {
         md={10}
         xs={12}
       >
-
         {testes.map((teste, index) => (
           <TestComplementatyItem
             key={index}
@@ -28,15 +28,13 @@ const TestComplementaryList = ({ testes }) => {
           />
         ))}
 
-
-        {/* TODO: ainda não usando isso
-        <FieldArray name="newsTestsRapidos">
+        <FieldArray name="newComplementaryTests">
           {({ remove }) => (
             <div>
-              {values.newsTestsRapidos &&
-                values.newsTestsRapidos.length > 0 &&
-                values.newsTestsRapidos.map((teste, index) => (
-                  <TesteRapidoForm
+              {values.newComplementaryTests &&
+                values.newComplementaryTests.length > 0 &&
+                values.newComplementaryTests.map((teste, index) => (
+                  <TestComplementaryForm
                     index={index}
                     key={index}
                     remove={remove}
@@ -45,7 +43,7 @@ const TestComplementaryList = ({ testes }) => {
             </div>
           )}
         </FieldArray>
-        */}
+
 
       </Grid>
     </div>

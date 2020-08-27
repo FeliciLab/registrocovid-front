@@ -44,9 +44,23 @@ function ComplementaryTests() {
     }
   }, []);
 
+  const [types, setTypes] = useState([]);
+
+  const handleTypesComplementaryTests = useCallback(async () => {
+    try {
+      // carregando os exames complementares do paciente já cadastrados
+      const response = await apiFake.get('/tipos-exames-complementares');
+      setTypes(tipos => [...tipos, ...response.data]);
+    } catch (err) {
+      // TODO: tratar os erros do carregamento aqui.
+      console.log(err);
+    }
+  }, []);
+
   useEffect(() => {
+    handleTypesComplementaryTests();
     handleComplementaryTests(id);
-  }, [handleComplementaryTests, id]);
+  }, [handleTypesComplementaryTests, handleComplementaryTests, id]);
 
   // TODO: nada ainda
   const handleSubmit = values => {
@@ -103,11 +117,9 @@ function ComplementaryTests() {
                     </Grid>
                   </div>
 
-                  <SelectComplementaryTestType />
+                  <SelectComplementaryTestType types={types} />
 
                   <TestComplementaryList testes={examesComplementares} />
-
-                  {/* <TestComplementaryForm /> */}
                 </Form>
               )}
             </Formik>

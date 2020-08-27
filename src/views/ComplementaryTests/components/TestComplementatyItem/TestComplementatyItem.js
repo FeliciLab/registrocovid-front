@@ -31,10 +31,10 @@ const TestComplementaryItem = ({ teste }) => {
             className={classes.headingLabel}
             variant="h4"
           >
-            Teste Complementar
+            Teste Complementar - {teste.tipo_outro_exame_id}
           </Typography>
           <Typography variant="caption">
-            Data da coleta:{' '}
+            Data da:{' '}
             {teste.data
               .split('-')
               .reverse()
