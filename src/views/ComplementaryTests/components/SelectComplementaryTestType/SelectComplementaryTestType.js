@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback, memo } from 'react';
 import {
   Card,
   Typography,
@@ -15,31 +15,48 @@ import useStyles from './styles';
 import AddIcon from '@material-ui/icons/Add';
 
 import { Field, useFormikContext } from 'formik';
+import apiFake from 'services/apiFake';
+
+// initialValues
+// newComplementaryTests: [],
+// tiposNewTestes,
+// tipoNewTesteSelected: '',
 
 const SelectComplementaryTestType = () => {
   const classes = useStyles();
 
   const { values, handleChange, setFieldValue } = useFormikContext();
 
+  // TODO: Testando
+  console.log(values);
+
+  const [types, setTypes] = useState([]);
+
+  const handleTypesComplementaryTests = useCallback(async () => {
+    try {
+      // carregando os exames complementares do paciente já cadastrados
+      const response = await apiFake.get('/tipos-exames-complementares');
+      setTypes(tipos => [...tipos, ...response.data]);
+    } catch (err) {
+      // TODO: tratar os erros do carregamento aqui.
+      console.log(err);
+    }
+  }, []);
+
+  useEffect(() => {
+    handleTypesComplementaryTests();
+  }, [handleTypesComplementaryTests]);
+
   // TODO testando
   const handleAddTesteType = () => {
-    if (values.tipo_new_teste === 'RTPCR') {
-      setFieldValue('newsTestsRTCPRs', [
-        ...values.newsTestsTCTorax,
-        {
-          data: '',
-          resultado: '',
-        },
-      ]);
-    } else {
-      setFieldValue('newsTestsRapidos', [
-        ...values.newsTestsECG,
-        {
-          data: '',
-          resultado: '',
-        },
-      ]);
-    }
+    setFieldValue('newComplementaryTests', [
+      ...values.newComplementaryTests,
+      {
+        tipo_outro_exame_id: values.tipoNewTesteSelected.toString(),
+        data: '',
+        resultado: '',
+      },
+    ]);
   };
 
   return (
@@ -63,21 +80,27 @@ const SelectComplementaryTestType = () => {
               as={TextField}
               className={classes.textField}
               label="Tipo teste"
-              name="tipo_new_teste"
+              name="tipoNewTesteSelected"
               onChange={handleChange}
               select
               type="text"
-              value={values.tipo_new_teste}
+              value={values.tipoNewTesteSelected}
               variant="outlined"
             >
-              <MenuItem value="TCTorax">Exame TC Torax</MenuItem>
-              <MenuItem value="ECG">Exame ECG</MenuItem>
+              {types.map(tipo => (
+                <MenuItem
+                  key={tipo.id}
+                  value={tipo.id.toString()}
+                >
+                  {tipo.descricao}
+                </MenuItem>
+              ))}
             </Field>
 
             <Button
               className={classes.buttonAddType}
               color="secondary"
-              disabled={values.tipo_new_teste === ''}
+              disabled={values.tipoNewTesteSelected === ''}
               onClick={() => handleAddTesteType()}
               startIcon={<AddIcon />}
               variant="contained"
@@ -91,4 +114,4 @@ const SelectComplementaryTestType = () => {
   );
 };
 
-export default SelectComplementaryTestType;
+export default memo(SelectComplementaryTestType);

@@ -12,16 +12,10 @@ import {
 import { Formik, Form } from 'formik';
 import schema from './schema';
 import PatientInfo from 'components/PatientInfo';
-import SelectComplementaryTestType from './componentes/SelectComplementaryTestType';
+import SelectComplementaryTestType from './components/SelectComplementaryTestType';
 import apiFake from 'services/apiFake';
-import TestComplementaryList from './componentes/TestComplementaryList';
-
-// Valores iniciais
-const initialValues = {
-  newsTestsTCTorax: [],
-  newsTestsECG: [],
-  tipo_new_teste: '',
-};
+import TestComplementaryList from './components/TestComplementaryList';
+// import TestComplementaryForm from './components/TestComplementaryForm';
 
 function ComplementaryTests() {
   const { patient } = usePatient();
@@ -37,28 +31,27 @@ function ComplementaryTests() {
   const handleComplementaryTests = useCallback(async id => {
     try {
       setLoading(true);
-      console.log(id);
-      const response = await apiFake.get('/exames-complementares');
-      const { data } = response;
-      console.log(data);
+      console.log('id', id);
 
-      // TODO: separar aqui por tipos os exames
-      setExamesComplementares(exames => [...exames, ...data]);
+      // carregando os exames complementares do paciente já cadastrados
+      const response = await apiFake.get('/exames-complementares');
+      setExamesComplementares(exames => [...exames, ...response.data]);
     } catch (err) {
       // TODO: tratar os erros do carregamento aqui.
+      console.log(err);
     } finally {
       setLoading(false);
     }
   }, []);
 
+  useEffect(() => {
+    handleComplementaryTests(id);
+  }, [handleComplementaryTests, id]);
+
   // TODO: nada ainda
   const handleSubmit = values => {
     console.log('handleSubmit', values);
   };
-
-  useEffect(() => {
-    handleComplementaryTests(id);
-  }, [handleComplementaryTests, id]);
 
   return (
     <div className={classes.root}>
@@ -79,7 +72,10 @@ function ComplementaryTests() {
           <div className={classes.formWrapper}>
             <Formik
               enableReinitialize
-              initialValues={initialValues}
+              initialValues={{
+                newComplementaryTests: [],
+                tipoNewTesteSelected: '',
+              }}
               onSubmit={handleSubmit}
               validateOnMount
               validationSchema={schema}
@@ -111,6 +107,7 @@ function ComplementaryTests() {
 
                   <TestComplementaryList testes={examesComplementares} />
 
+                  {/* <TestComplementaryForm /> */}
                 </Form>
               )}
             </Formik>
