@@ -46,7 +46,16 @@ export const Extubacao = (props) => {
                 lg={4}
               >
                 <Typography variant="h4">Extubação acidental</Typography>
+                <input 
+                  name={`tipo_complicacao_id#${id}`} 
+                  type="hidden" 
+                  value={fContext.values[`tipo_complicacao_id#${id}`] || 2}
+                />
               </Grid>
+              <Grid 
+                item 
+                lg={1} 
+              />
               <Grid item>
                 <Typography variant="body2">Data: {infos?.data_complicacao.split('-').reverse().join('/') ?? undefined} </Typography>
               </Grid>
@@ -62,16 +71,16 @@ export const Extubacao = (props) => {
                   shrink: true,
                 }}
                 className={classes.dateField}
-                error={(fContext.errors[`dataExtubacao${id}`] && fContext.touched[`dataExtubacao${id}`])}
+                error={(fContext.errors[`data_complicacao#${id}`] && fContext.touched[`data_complicacao#${id}`])}
                 helperText={
-                  (fContext.errors[`dataExtubacao${id}`] && fContext.touched[`dataExtubacao${id}`]) ? fContext.errors[`dataExtubacao${id}`] : null
+                  (fContext.errors[`data_complicacao#${id}`] && fContext.touched[`data_complicacao#${id}`]) ? fContext.errors[`data_complicacao#${id}`] : null
                 }
                 label="Data"
-                name={`dataExtubacao${id}`}
+                name={`data_complicacao#${id}`}
                 onBlur={fContext.handleBlur}
                 onChange={fContext.handleChange}
                 type="date"
-                value={infos?.data_complicacao ?? fContext.values[`dataExtubacao${id}`]}
+                value={infos?.data_complicacao ?? fContext.values[`data_complicacao#${id}`]}
               />
             </FormGroup>
           </AccordionDetails>

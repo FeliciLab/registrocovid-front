@@ -46,7 +46,16 @@ export const Outras = (props) => {
                 lg={4}
               >
                 <Typography variant="h4">Outra complicação</Typography>
+                <input 
+                  name={`tipo_complicacao_id#${id}`} 
+                  type="hidden" 
+                  value={fContext.values[`tipo_complicacao_id#${id}`] || 5}
+                />
               </Grid>
+              <Grid 
+                item 
+                lg={1} 
+              />
               <Grid item>
                 <Typography variant="body2">Data: {infos?.data_complicacao.split('-').reverse().join('/') ?? undefined} </Typography>
               </Grid>
@@ -59,16 +68,16 @@ export const Outras = (props) => {
               </FormLabel>
               <TextField
                 className={classes.dateField}
-                error={(fContext.errors[`localOutras${id}`] && fContext.touched[`localOutras${id}`])}
+                error={(fContext.errors[`descricao#${id}`] && fContext.touched[`descricao#${id}`])}
                 helperText={
-                  (fContext.errors[`localOutras${id}`] && fContext.touched[`localOutras${id}`]) ? fContext.errors[`localOutras${id}`] : null
+                  (fContext.errors[`descricao#${id}`] && fContext.touched[`descricao#${id}`]) ? fContext.errors[`descricao#${id}`] : null
                 }
                 label="Outras complicações"
-                name={`localOutras${id}`}
+                name={`descricao#${id}`}
                 onBlur={fContext.handleBlur}
                 onChange={fContext.handleChange}
                 type="text"
-                value={infos?.descricao ?? fContext.values[`localOutras${id}`]}
+                value={infos?.descricao ?? fContext.values[`descricao#${id}`]}
                 variant={'outlined'}
               />
             </FormGroup>
@@ -81,16 +90,16 @@ export const Outras = (props) => {
                   shrink: true,
                 }}
                 className={classes.dateField}
-                error={(fContext.errors[`dataOutros${id}`] && fContext.touched[`dataOutros${id}`])}
+                error={(fContext.errors[`data_complicacao#${id}`] && fContext.touched[`data_complicacao#${id}`])}
                 helperText={
-                  (fContext.errors[`dataOutros${id}`] && fContext.touched[`dataOutros${id}`]) ? fContext.errors[`dataOutros${id}`] : null
+                  (fContext.errors[`data_complicacao#${id}`] && fContext.touched[`data_complicacao#${id}`]) ? fContext.errors[`data_complicacao#${id}`] : null
                 }
                 label="Data"
-                name={`dataOutros${id}`}
+                name={`data_complicacao#${id}`}
                 onBlur={fContext.handleBlur}
                 onChange={fContext.handleChange}
                 type="date"
-                value={infos?.data_complicacao ?? fContext.values[`dataOutros${id}`]}
+                value={infos?.data_complicacao ?? fContext.values[`data_complicacao#${id}`]}
               />
             </FormGroup>
           </AccordionDetails>

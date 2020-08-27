@@ -26,26 +26,16 @@ const schema = Yup.lazy(obj =>
         return Yup.date().required('Campo Obrigatório');
       }
       // Extubacao
-      if (key.includes('dataExtubacao')) {
-        return Yup.date().required('Campo Obrigatório');
-      }
-      // Penumotorax
-      if (key.includes('dataPneumotorax')) {
+      if (key.includes('data_complicacao')) {
         return Yup.date().required('Campo Obrigatório');
       }
       // Hemorragia
-      if (key.includes('localHemorragia')) {
+      if (key.includes('descricao')) {
         return Yup.string();
       }
-      if (key.includes('dataHemorragia')) {
-        return Yup.date().required('Campo Obrigatório');
-      }
       // Outras
-      if (key.includes('localOutros')) {
+      if (key.includes('descricaoOutros')) {
         return Yup.string().required();
-      }
-      if (key.includes('dataOutros')) {
-        return Yup.date().required('Campo Obrigatório');
       }
     })
   )
@@ -60,24 +50,49 @@ const Form = forwardRef((props, ref) => {
   const { patient } = usePatient();
   const [initialValues, setInitialValues] = useState({});
 
-  useEffect( () => {
+  useEffect(() => {
     makeInitialValues();
   }, [props.children]);
 
   const handleSubmit = async (values) => {
     try {
-      const jsonToSend = {
+      
+      /** 
+       * TODO Fazer envio da parte de Transfusão
+       * TODO Fazer verificação do Yup para a descrição de outros e hemorragia
+       * TODO Verificar se não está enviando novamente as complicações já salvas, adicionar complicação -> salvar -> "Espera reload" -> Repetir procedimento e verificar o que foi enviado
+       */
 
-      };
+      const teste = Object.entries(values).reduce((prev, curr) => {
+        let index = curr[0].split('#');
+        if (prev[index[1]]) {
+          prev[index[1]][`${index[0]}`] = curr[1];
+        } else {
+          if (index[0] === 'tipo_transfusao_id') {
+            prev[index[1]] = Object.fromEntries([[index[0], parseInt(curr[1])]]);
+          } else {
+            prev[index[1]] = Object.fromEntries([[ index[0], curr[1] ]]);
+          }
+        }
+        return prev;
+      }, {})
+
+      const promisses = Object.values(teste).map( value => 
+        api.post(`/pacientes/${patient.id}/ventilacao-mecanica`, value)
+      )
+
+      Promise.all(promisses).then(() => {
+        addToast({
+          type: 'success',
+          message: 'Dados salvos com sucesso'
+        });
+        
+        window.location.reload();
+      });
 
       // await api.post(`/pacientes/${patient.id}/evolucoes-diarias`, jsonToSend);
 
-      addToast({
-        type: 'success',
-        message: 'Dados salvos com sucesso'
-      });
-      // window.location.reload();
-    } catch {
+    } catch (err) {
       addToast({
         type: 'error',
         message: 'Erro ao tentar registrar complicações, tente novamente',
@@ -94,11 +109,20 @@ const Form = forwardRef((props, ref) => {
     enableReinitialize: true
   });
 
+  const onDelete = (id) => {
+    const values = formik.values;
+    Object.keys(values).forEach(key => {
+      if (key.includes(id)) {
+        delete values[`${key}`];
+      }
+    })
+  }
   useImperativeHandle(ref, () => {
     return {
       submit: formik.handleSubmit,
+      setValues: onDelete,
     }
-  }, [formik.handleSubmit]);
+  }, [formik.handleSubmit, onDelete]);
 
   useEffect(() => {
     if (!formik.isValid)
@@ -109,34 +133,41 @@ const Form = forwardRef((props, ref) => {
   }, [formik.isValidating]);
 
   const makeInitialValues = () => {
-    const initialValues = {};
-    props.children.forEach(children => {
+    let initialValues = {};
+    props.children[0].forEach(children => {
       switch (children.props?.newComplication) {
         case 1:
-          initialValues[`dataPneumotorax${children.props.id}`] = formik.values[`dataPneumotorax${children.props.id}`] || '';
+          initialValues[`data_complicacao#${children.props.id}`] = formik.values[`data_complicacao#${children.props.id}`] || '';
+          initialValues[`tipo_complicacao_id#${children.props.id}`] = 1;
           break;
         case 2:
-          initialValues[`dataExtubacao${children.props.id}`] = formik.values[`dataExtubacao${children.props.id}`] || '';
+          initialValues[`data_complicacao#${children.props.id}`] = formik.values[`data_complicacao#${children.props.id}`] || '';
+          initialValues[`tipo_complicacao_id#${children.props.id}`] = 2;
           break;
         case 3:
-          initialValues[`dataHemorragia${children.props.id}`] = formik.values[`dataHemorragia${children.props.id}`] || '';
-          initialValues[`localHemorragia${children.props.id}`] = formik.values[`localHemorragia${children.props.id}`] || '';
+          initialValues[`data_complicacao#${children.props.id}`] = formik.values[`data_complicacao#${children.props.id}`] || '';
+          initialValues[`descricao#${children.props.id}`] = formik.values[`descricao#${children.props.id}`] || '';
+          initialValues[`tipo_complicacao_id#${children.props.id}`] = 3;
           break;
         case 4:
           initialValues[`tipo_transfusao_id${children.props.id}`] = formik.values[`tipo_transfusao_id${children.props.id}`] || '';
           initialValues[`dataTransfusional${children.props.id}`] = formik.values[`dataTransfusional${children.props.id}`] || '';
           initialValues[`volumeTransfusional${children.props.id}`] = formik.values[`volumeTransfusional${children.props.id}`] || '';
+          initialValues[`tipo_complicacao_id#${children.props.id}`] = 4;
           break;
         case 5:
-          initialValues[`dataOutros${children.props.id}`] = formik.values[`dataOutros${children.props.id}`] || '';
-          initialValues[`localOutros${children.props.id}`] = formik.values[`localOutros${children.props.id}`] || '';
+          initialValues[`data_complicacao#${children.props.id}`] = formik.values[`data_complicacao#${children.props.id}`] || '';
+          initialValues[`descricao#${children.props.id}`] = formik.values[`descricao#${children.props.id}`] || '';
+          initialValues[`tipo_complicacao_id#${children.props.id}`] = 5;
           break;
         default:
           break;
       }
     })
+    
     return setInitialValues(initialValues);
   }
+
 
   return (
     <form onSubmit={formik.handleSubmit}>

@@ -32,6 +32,7 @@ import Complications from './components';
 import api from 'services/api';
 
 import useStyles from './styles';
+import { Formik } from 'formik';
 
 const ComplicationsVM = () => {
   const classes = useStyles();
@@ -95,7 +96,7 @@ const ComplicationsVM = () => {
 
   const handleDelete = (complicationId) => {
     const updatedComplications = newsComplications.filter(({ id }) => id !== complicationId);
-
+    formRef.current.setValues(complicationId);
     setNewsComplications(updatedComplications);
   };
 
@@ -241,5 +242,7 @@ const ComplicationsVM = () => {
     </div>
   );
 }
+
+
 
 export default ComplicationsVM;

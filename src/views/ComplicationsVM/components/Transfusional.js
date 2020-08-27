@@ -41,10 +41,17 @@ export const Transfusional = (props) => {
   const handleTransfusionTypes = useCallback(async () => {
     try {
       setLoading(true);
+      const transfusions = localStorage.getItem('@RegistroCovid:transfusions');
 
-      const response = await api.get('/tipos-transfusao');
+      if (!transfusions) {
+        const { data } = await api.get('/tipos-transfusao');
+        localStorage.setItem('@RegistroCovid:transfusions', JSON.stringify(data));
+        setTransfusionTypes(data);
+        return;
+      }
 
-      setTransfusionTypes(response.data);
+      setTransfusionTypes(JSON.parse(transfusions));
+
     } catch (err) {
       addToast({
         type: 'error',
@@ -80,8 +87,17 @@ export const Transfusional = (props) => {
                 lg={4}
               >
                 <Typography variant="h4">Necessidade transfusional</Typography>
+                <input
+                  name={`tipo_complicacao_id#${id}`}
+                  type="hidden"
+                  value={fContext.values[`tipo_complicacao_id#${id}`] || 4}
+                />
               </Grid>
-              <Grid item>
+              <Grid
+                item
+                lg={1}
+              />
+              <Grid item >
                 <Typography variant="body2">Data: {infos?.data_transfusao.split('-').reverse().join('/') ?? undefined} </Typography>
               </Grid>
             </Grid>
@@ -92,26 +108,37 @@ export const Transfusional = (props) => {
               component="fieldset"
             >
               <FormLabel>
-                <Typography variant="h5">Em caso afirmativo para necessidade transfusional, especificar o tipo</Typography>
+                <Typography variant="h5">Em caso afirmativo para necessidade transfusional, especificar o tipo
+                </Typography>
               </FormLabel>
 
               <RadioGroup
-                name="tipo_transfusao_id"
+                name={`tipo_transfusao_id#${id}`}
                 row
-                value={infos?.tipos_transfusao.id ?? fContext.values[`tipo_transfusao_id${id}`]}
+                value={infos?.tipos_transfusao.id ?? parseInt(fContext.values[`tipo_transfusao_id#${id}`])}
               >
-                {transfusionTypes.map(item => (
-                  <FormControlLabel
-                    control={
-                      <Radio
-                        onChange={fContext.handleChange}
-                        value={item.id}
+                <Grid
+                  container
+                  spacing={1}
+                >
+                  {transfusionTypes.map(item => (
+                    <Grid
+                      item
+                      lg={4}
+                    >
+                      <FormControlLabel
+                        control={
+                          <Radio
+                            onChange={fContext.handleChange}
+                            value={item.id}
+                          />
+                        }
+                        key={String(item.id)}
+                        label={item.descricao}
                       />
-                    }
-                    key={String(item.id)}
-                    label={item.descricao}
-                  />
-                ))}
+                    </Grid>
+                  ))}
+                </Grid>
               </RadioGroup>
             </FormControl>
 
@@ -129,16 +156,16 @@ export const Transfusional = (props) => {
                   </FormLabel>
                   <TextField
                     className={classes.dateField}
-                    error={(fContext.errors[`volumeTransfusional${id}`] && fContext.touched[`volumeTransfusional${id}`])}
+                    error={(fContext.errors[`volumeTransfusional#${id}`] && fContext.touched[`volumeTransfusional#${id}`])}
                     helperText={
-                      (fContext.errors[`volumeTransfusional${id}`] && fContext.touched[`volumeTransfusional${id}`]) ? fContext.errors[`volumeTransfusional${id}`] : null
+                      (fContext.errors[`volumeTransfusional#${id}`] && fContext.touched[`volumeTransfusional#${id}`]) ? fContext.errors[`volumeTransfusional#${id}`] : null
                     }
                     label="Volume de transfusão"
-                    name={`volumeTransfusional${id}`}
+                    name={`volumeTransfusional#${id}`}
                     onBlur={fContext.handleBlur}
                     onChange={fContext.handleChange}
                     type="number"
-                    value={infos?.volume_transfusao ?? fContext.values[`volumeTransfusional${id}`]}
+                    value={infos?.volume_transfusao ?? fContext.values[`volumeTransfusional#${id}`]}
                     variant={'outlined'}
                   />
                 </FormGroup>
@@ -156,16 +183,16 @@ export const Transfusional = (props) => {
                       shrink: true,
                     }}
                     className={classes.dateField}
-                    error={(fContext.errors[`dataTransfusional${id}`] && fContext.touched[`dataTransfusional${id}`])}
+                    error={(fContext.errors[`dataTransfusional#${id}`] && fContext.touched[`dataTransfusional#${id}`])}
                     helperText={
-                      (fContext.errors[`dataTransfusional${id}`] && fContext.touched[`dataTransfusional${id}`]) ? fContext.errors[`dataTransfusional${id}`] : null
+                      (fContext.errors[`dataTransfusional#${id}`] && fContext.touched[`dataTransfusional#${id}`]) ? fContext.errors[`dataTransfusional#${id}`] : null
                     }
                     label="Data"
-                    name={`dataTransfusional${id}`}
+                    name={`dataTransfusional#${id}`}
                     onBlur={fContext.handleBlur}
                     onChange={fContext.handleChange}
                     type="date"
-                    value={infos?.data_transfusao ?? fContext.values[`dataTransfusional${id}`]}
+                    value={infos?.data_transfusao ?? fContext.values[`dataTransfusional#${id}`]}
                   />
                 </FormGroup>
               </Grid>

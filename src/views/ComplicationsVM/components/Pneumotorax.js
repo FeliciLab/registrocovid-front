@@ -47,6 +47,10 @@ export const Pneumotorax = (props) => {
               >
                 <Typography variant="h4">Pneumotórax</Typography>
               </Grid>
+              <Grid
+                item
+                lg={1}
+              />
               <Grid item>
                 <Typography variant="body2">Data: {infos?.data_complicacao.split('-').reverse().join('/') ?? undefined} </Typography>
               </Grid>
@@ -55,23 +59,31 @@ export const Pneumotorax = (props) => {
           <AccordionDetails >
             <FormGroup className={classes.formGroup}>
               <FormLabel>
-                <Typography variant="h5">Data de pneumotórax:</Typography>
+                <Typography variant="h5">Data de pneumotórax: -- {fContext.values[`tipo_complicacao_id#${id}`]}</Typography>
               </FormLabel>
+
+              <input
+                defaultValue={fContext.values[`tipo_complicacao_id#${id}`] || 1}
+                name={`tipo_complicacao_id#${id}`}
+                onChange={fContext.handleChange}
+                type="hidden"
+                value={fContext.values[`tipo_complicacao_id#${id}`] || 1}
+              />
               <TextField
                 InputLabelProps={{
                   shrink: true,
                 }}
                 className={classes.dateField}
-                error={(fContext.errors[`dataPneumotorax${id}`] && fContext.touched[`dataPneumotorax${id}`])}
+                error={(fContext.errors[`data_complicacao#${id}`] && fContext.touched[`data_complicacao#${id}`])}
                 helperText={
-                  (fContext.errors[`dataPneumotorax${id}`] && fContext.touched[`dataPneumotorax${id}`]) ? fContext.errors[`dataPneumotorax${id}`] : null
+                  (fContext.errors[`data_complicacao#${id}`] && fContext.touched[`data_complicacao#${id}`]) ? fContext.errors[`data_complicacao#${id}`] : null
                 }
                 label="Data"
-                name={`dataPneumotorax${id}`}
+                name={`data_complicacao#${id}`}
                 onBlur={fContext.handleBlur}
                 onChange={fContext.handleChange}
                 type="date"
-                value={infos?.data_complicacao ?? fContext.values[`dataPneumotorax${id}`]}
+                value={infos?.data_complicacao ?? fContext.values[`data_complicacao#${id}`]}
               />
             </FormGroup>
           </AccordionDetails>
