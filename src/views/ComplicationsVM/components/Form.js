@@ -14,7 +14,6 @@ import { usePatient } from 'context/PatientContext';
 import api from 'services/api';
 
 import useStyles from '../styles';
-import { values } from 'underscore';
 
 const schema = Yup.lazy(obj =>
   Yup.object(
@@ -124,7 +123,7 @@ const Form = forwardRef((props, ref) => {
           initialValues[`localHemorragia${children.props.id}`] = formik.values[`localHemorragia${children.props.id}`] || '';
           break;
         case 4:
-          // initialValues[`tipo_transfusao_id${children.props.id}`] = formik.values[`tipo_transfusao_id${children.props.id}`] || '';
+          initialValues[`tipo_transfusao_id${children.props.id}`] = formik.values[`tipo_transfusao_id${children.props.id}`] || '';
           initialValues[`dataTransfusional${children.props.id}`] = formik.values[`dataTransfusional${children.props.id}`] || '';
           initialValues[`volumeTransfusional${children.props.id}`] = formik.values[`volumeTransfusional${children.props.id}`] || '';
           break;

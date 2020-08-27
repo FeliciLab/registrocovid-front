@@ -53,11 +53,11 @@ export const Transfusional = (props) => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [addToast]);
 
   useEffect(() => {
     handleTransfusionTypes();
-  }, []);
+  }, [handleTransfusionTypes]);
 
   return (
     <>
