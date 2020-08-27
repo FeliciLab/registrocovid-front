@@ -17,6 +17,17 @@ import apiFake from 'services/apiFake';
 import TestComplementaryList from './components/TestComplementaryList';
 // import TestComplementaryForm from './components/TestComplementaryForm';
 
+// helper pra ajudar na hora de separar os exames por tipo
+function getExamesPorTipo(exames) {
+  return exames.reduce((acc, curr) => {
+    acc = {
+      ...acc,
+      [curr.tipo_outro_exame_id]: curr,
+    };
+    return acc;
+  }, {});
+}
+
 function ComplementaryTests() {
   const { patient } = usePatient();
 
@@ -28,12 +39,14 @@ function ComplementaryTests() {
 
   const [examesComplementares, setExamesComplementares] = useState([]);
 
+  const [types, setTypes] = useState([]);
+
+  // carregando os exames complementares do paciente já cadastrados
   const handleComplementaryTests = useCallback(async id => {
     try {
       setLoading(true);
+      // TODO: remover quando tivermos o backend pronto
       console.log('id', id);
-
-      // carregando os exames complementares do paciente já cadastrados
       const response = await apiFake.get('/exames-complementares');
       setExamesComplementares(exames => [...exames, ...response.data]);
     } catch (err) {
@@ -44,11 +57,9 @@ function ComplementaryTests() {
     }
   }, []);
 
-  const [types, setTypes] = useState([]);
-
+  // carregando os exames complementares do paciente já cadastrados
   const handleTypesComplementaryTests = useCallback(async () => {
     try {
-      // carregando os exames complementares do paciente já cadastrados
       const response = await apiFake.get('/tipos-exames-complementares');
       setTypes(tipos => [...tipos, ...response.data]);
     } catch (err) {
@@ -119,7 +130,21 @@ function ComplementaryTests() {
 
                   <SelectComplementaryTestType types={types} />
 
-                  <TestComplementaryList testes={examesComplementares} />
+                  {/* {examesComplementares &&
+                    Object.keys(
+                      getExamesPorTipo(examesComplementares),
+                    ).map( key => (
+                      <TestComplementaryList
+                        label="Teste"
+                        testes={}
+                      />
+                    ))} */}
+
+                  {/* TODO: fazer um componente desse pra cada tipo de teste. */}
+                  <TestComplementaryList
+                    label="Teste"
+                    testes={examesComplementares}
+                  />
                 </Form>
               )}
             </Formik>
