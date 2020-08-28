@@ -88,9 +88,6 @@ function ComplementaryTests() {
     console.log('handleSubmit', values);
   };
 
-  // TODO: teste
-  console.log(getExamesPorTipo(examesComplementares));
-
   return (
     <div className={classes.root}>
       <div className={classes.header}>
