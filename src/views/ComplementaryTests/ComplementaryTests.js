@@ -139,18 +139,14 @@ function ComplementaryTests() {
                   <SelectComplementaryTestType types={types} />
 
                   {/* exibindo os exames já cadastrados por tipo de exame */}
-                  {examesCompPorTipo &&
-                    examesCompPorTipo.length !== 0 &&
-                    examesCompPorTipo.map((cnjExames, index) =>
-                      cnjExames ? (
-                        <TestComplementaryList
-                          descricao={
-                            cnjExames[0].descricao
-                          }
-                          key={index}
-                          testes={cnjExames}
-                        />
-                      ) : null,
+                  {types &&
+                    types.length !== 0 &&
+                    types.map((tipo, index) =>
+                      <TestComplementaryList
+                        descricao={tipo.descricao}
+                        key={index}
+                        testes={examesCompPorTipo[tipo.id]}
+                      />
                     )}
                 </Form>
               )}

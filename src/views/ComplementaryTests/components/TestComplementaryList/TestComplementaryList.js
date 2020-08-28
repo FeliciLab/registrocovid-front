@@ -21,32 +21,34 @@ const TestComplementaryList = ({ testes, descricao }) => {
         md={10}
         xs={12}
       >
-        {testes.map((teste, index) => (
-          <TestComplementatyItem
-            descricao={descricao}
-            key={index}
-            teste={teste}
-          />
-        ))}
+        {testes &&
+          testes.map((teste, index) => (
+            <TestComplementatyItem
+              descricao={descricao}
+              key={index}
+              teste={teste}
+            />
+          ))}
 
         <FieldArray name="newComplementaryTests">
           {({ remove }) => (
             <div>
               {values.newComplementaryTests &&
                 values.newComplementaryTests.length > 0 &&
-                values.newComplementaryTests.filter(
-                  teste => teste.descricao === descricao
-                ).map((teste, index) => (
-                  <TestComplementaryForm
-                    index={index}
-                    key={index}
-                    remove={remove}
-                  />
-                )).reverse()}
+                values.newComplementaryTests
+                  .filter(teste => teste.descricao === descricao)
+                  .map((teste, index) => (
+                    <TestComplementaryForm
+                      descricao={descricao}
+                      index={values.newComplementaryTests.indexOf(teste)}
+                      key={index}
+                      remove={remove}
+                    />
+                  ))
+                  .reverse()}
             </div>
           )}
         </FieldArray>
-
       </Grid>
     </div>
   );
@@ -62,7 +64,7 @@ TestComplementaryList.propTypes = {
       resultado: PropTypes.string,
       descricao: PropTypes.string,
     }),
-  ).isRequired,
+  ),
 };
 
 export default memo(TestComplementaryList);

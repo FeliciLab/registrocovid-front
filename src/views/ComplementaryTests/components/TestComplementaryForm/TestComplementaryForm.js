@@ -17,16 +17,13 @@ import useStyles from './styles';
 const TestComplementaryForm = props => {
   const classes = useStyles();
 
-  // function para remover um form
-  const { remove } = props;
-
-  const { index } = props;
+  const { index, remove, descricao } = props;
 
   const {
     values,
     handleChange,
-    // errors,
-    // touched,
+    errors,
+    touched,
   } = useFormikContext();
 
   return (
@@ -36,7 +33,7 @@ const TestComplementaryForm = props => {
       item
     >
       <FormLabel className={classes.formLabel}>
-        <Typography variant="h3">Formulário Exame Complementar</Typography>
+        <Typography variant="h3">Exame Complementar - {descricao}</Typography>
         <IconButton
           aria-label="delete"
           onClick={() => remove(index)}
@@ -59,7 +56,9 @@ const TestComplementaryForm = props => {
         >
           <FormGroup>
             <FormLabel>
-              <Typography variant="h4">{values.newComplementaryTests[index].descricao}</Typography>
+              <Typography variant="h4">
+                {values.newComplementaryTests[index].descricao}
+              </Typography>
             </FormLabel>
             <Field
               InputLabelProps={{
@@ -67,6 +66,17 @@ const TestComplementaryForm = props => {
               }}
               as={TextField}
               className={classes.radioGroup}
+              error={
+                errors.newComplementaryTests &&
+                touched.newComplementaryTests &&
+                !!errors.newComplementaryTests[index]?.resultado
+              }
+              helperText={
+                (errors.newComplementaryTests &&
+                touched.newComplementaryTests &&
+                errors.newComplementaryTests[index]?.resultado) ?
+                  errors.newComplementaryTests[index]?.resultado : null
+              }
               name={`newComplementaryTests.${index}.resultado`}
               onChange={handleChange}
               value={values.newComplementaryTests[index].resultado}
@@ -84,7 +94,7 @@ const TestComplementaryForm = props => {
         >
           <FormGroup>
             <FormLabel>
-              <Typography variant="h4">Data de coleta da rápida </Typography>
+              <Typography variant="h4">Data de coleta</Typography>
             </FormLabel>
             <Field
               InputLabelProps={{
@@ -92,17 +102,17 @@ const TestComplementaryForm = props => {
               }}
               as={TextField}
               className={classes.dateField}
-              // error={
-              //   errors.newsTestsRapidos &&
-              //   touched.newsTestsRapidos &&
-              //   !!errors.newsTestsRapidos[index]?.data_realizacao
-              // }
-              // helperText={
-              //   (errors.newsTestsRapidos &&
-              //   touched.newsTestsRapidos &&
-              //   errors.newsTestsRapidos[index]?.data_realizacao) ?
-              //     errors.newsTestsRapidos[index]?.data_realizacao : null
-              // }
+              error={
+                errors.newComplementaryTests &&
+                touched.newComplementaryTests &&
+                !!errors.newComplementaryTests[index]?.data
+              }
+              helperText={
+                (errors.newComplementaryTests &&
+                touched.newComplementaryTests &&
+                errors.newComplementaryTests[index]?.data) ?
+                  errors.newComplementaryTests[index]?.data : null
+              }
               label="Data da coleta do teste rápido"
               name={`newComplementaryTests.${index}.data`}
               onChange={handleChange}
