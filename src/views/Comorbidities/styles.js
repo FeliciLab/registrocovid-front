@@ -42,8 +42,8 @@ const useStyles = makeStyles(theme => ({
   },
   paper:{
     padding: theme.spacing(3),
-    marginLeft: '25%',
-    marginRight: '25%',
+    marginLeft: '15%',
+    marginRight: '15%',
   },
   control: {
     marginBottom: theme.spacing(3)
@@ -63,6 +63,13 @@ const useStyles = makeStyles(theme => ({
   textFieldWithButton: {
     display: 'flex',
     flex: 1,
+  },
+  radiosWrapper: {
+    display: 'flex'
+  },
+  orgaosWrapper: {
+    display: 'flex',
+    flexWrap: 'wrap'
   }
 }));
 

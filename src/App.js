@@ -12,6 +12,8 @@ import history from './history';
 import { AuthProvider } from './context/AuthContext';
 import { PatientProvider } from './context/PatientContext';
 
+import { ComorbidadeProvider } from './context/ComorbidadesContext';
+
 export default class App extends Component {
   render() {
     return (
@@ -19,9 +21,11 @@ export default class App extends Component {
         <AuthProvider>
           <ToastProvider>
             <PatientProvider>
-              <Router history={history}>
-                <Routes />
-              </Router>
+              <ComorbidadeProvider>
+                <Router history={history}>
+                  <Routes />
+                </Router>
+              </ComorbidadeProvider>
             </PatientProvider>
           </ToastProvider>
         </AuthProvider>

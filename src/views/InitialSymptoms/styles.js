@@ -8,7 +8,7 @@ const useStyles = makeStyles(theme => ({
   },
   header: {
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   titleWrapper: {
     display: 'flex',
@@ -25,18 +25,18 @@ const useStyles = makeStyles(theme => ({
   patientWrapper: {
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
   },
-  label:{
+  label: {
     fontSize: '24px',
     fontStyle: 'bold',
-    marginBottom: theme.spacing(2)
+    marginBottom: theme.spacing(2),
   },
-  paper:{
-    padding: theme.spacing(3)
+  paper: {
+    padding: theme.spacing(3),
   },
   control: {
-    marginBottom: theme.spacing(3)
+    marginBottom: theme.spacing(3),
   },
   chipWrapper: {
     display: 'flex',
@@ -46,8 +46,8 @@ const useStyles = makeStyles(theme => ({
     },
   },
   fixWidthSize: {
-    width: '300px'
-  }
+    width: '300px',
+  },
 }));
 
 export default useStyles;

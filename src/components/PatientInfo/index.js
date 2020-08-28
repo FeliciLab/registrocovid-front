@@ -1,43 +1,45 @@
 import React from 'react';
 
-import { Button } from '@material-ui/core';
+import { Paper, Typography } from '@material-ui/core';
 
 import { usePatient } from 'context/PatientContext';
 
 import useStyles from './styles';
 
-const PatientInfo = () => {
+const PatientInfo = props => {
   const classes = useStyles();
+
+  const { ...rest } = props;
+
   const { patient } = usePatient();
 
   return (
-    <div>
-      <Button
-        className={classes.buttonContainer}
+    <div
+      {...rest}
+      className={classes.root}
+    >
+      <Paper
+        className={classes.paperContainer}
         variant="outlined"
       >
-        <div className={classes.button}>
-          <span className={classes.spanButton}>Data de cadastro</span>
-          <strong className={classes.strongButton}>
-            {patient?.created_at}
-          </strong>
-        </div>
-      </Button>
+        <Typography variant="caption">Data de cadastro</Typography>
+        <Typography variant="subtitle1">
+          <strong className={classes.strongButton}>{patient?.created_at}</strong>
+        </Typography>
+      </Paper>
 
-      <Button
-        className={classes.buttonContainer}
+      <Paper
+        className={classes.paperContainer}
         variant="outlined"
       >
-        <div className={classes.button}>
-          <span className={classes.spanButton}>Número de Prontuário</span>
-          <strong className={classes.strongButton}>
-            {patient?.prontuario}
-          </strong>
-        </div>
-      </Button>
+        <Typography variant="caption">Número de Prontuário</Typography>
+        <Typography variant="subtitle1">
+          <strong>{patient?.prontuario}</strong>
+        </Typography>
+      </Paper>
     </div>
   );
 };
 
 export default PatientInfo;
-
+  
