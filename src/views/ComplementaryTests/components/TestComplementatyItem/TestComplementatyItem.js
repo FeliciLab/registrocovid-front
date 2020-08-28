@@ -42,7 +42,12 @@ const TestComplementaryItem = ({ teste, descricao }) => {
           </Typography>
         </div>
       </AccordionSummary>
-      <AccordionDetails className={classes.accordionDetails}>
+      <Grid
+        className={classes.accordionDetails}
+        component={AccordionDetails}
+        container
+        spacing={1}
+      >
         {/* resultado */}
         <Grid
           item
@@ -54,7 +59,7 @@ const TestComplementaryItem = ({ teste, descricao }) => {
             </FormLabel>
             <TextField
               as={TextField}
-              className={classes.textField}
+              className={classes.field}
               label="Resultado"
               type="text"
               value={teste.resultado}
@@ -76,6 +81,7 @@ const TestComplementaryItem = ({ teste, descricao }) => {
               InputLabelProps={{
                 shrink: true,
               }}
+              className={classes.field}
               contentEditable={false}
               label="Data da coleta do teste rápido"
               type="date"
@@ -83,7 +89,7 @@ const TestComplementaryItem = ({ teste, descricao }) => {
             />
           </FormGroup>
         </Grid>
-      </AccordionDetails>
+      </Grid>
     </Accordion>
   );
 };

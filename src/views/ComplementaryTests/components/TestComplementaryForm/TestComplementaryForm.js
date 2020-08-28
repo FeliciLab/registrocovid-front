@@ -31,7 +31,7 @@ const TestComplementaryForm = props => {
       item
     >
       <FormLabel className={classes.formLabel}>
-        <Typography variant="h3">Exame Complementar - {descricao}</Typography>
+        <Typography variant="h4">Exame Complementar - {descricao}</Typography>
         <IconButton
           aria-label="delete"
           onClick={() => remove(index)}
@@ -41,13 +41,13 @@ const TestComplementaryForm = props => {
       </FormLabel>
 
       <Grid
-        className={classes.fieldsWraper}
+        className={classes.formWraper}
         container
         spacing={1}
       >
         {/* resultado */}
         <Grid
-          className={classes.fieldTesteRapido}
+          className={classes.fieldWraper}
           item
           md={6}
           sm={12}
@@ -63,7 +63,7 @@ const TestComplementaryForm = props => {
                 shrink: true,
               }}
               as={TextField}
-              className={classes.radioGroup}
+              className={classes.field}
               error={
                 errors.newComplementaryTests &&
                 touched.newComplementaryTests &&
@@ -76,6 +76,7 @@ const TestComplementaryForm = props => {
                   ? errors.newComplementaryTests[index]?.resultado
                   : null
               }
+              label={descricao}
               name={`newComplementaryTests.${index}.resultado`}
               onChange={handleChange}
               value={values.newComplementaryTests[index].resultado}
@@ -85,7 +86,7 @@ const TestComplementaryForm = props => {
         </Grid>
         {/* data */}
         <Grid
-          className={classes.fieldTesteRapido}
+          className={classes.fieldWraper}
           item
           md={6}
           sm={12}
@@ -99,7 +100,7 @@ const TestComplementaryForm = props => {
                 shrink: true,
               }}
               as={TextField}
-              className={classes.dateField}
+              className={classes.field}
               error={
                 errors.newComplementaryTests &&
                 touched.newComplementaryTests &&

@@ -6,11 +6,14 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     padding: theme.spacing(2),
   },
-  fieldsWraper: {
+  formWraper: {
     display: 'flex',
   },
-  fieldTesteRapido:{
-    marginTop: theme.spacing(2)
+  fieldWraper: {
+    marginTop: theme.spacing(1),
+  },
+  field: {
+    marginTop: theme.spacing(1),
   },
   formLabel: {
     display: 'flex',

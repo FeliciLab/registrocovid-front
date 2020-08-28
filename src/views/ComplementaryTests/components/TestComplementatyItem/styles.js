@@ -15,7 +15,10 @@ const useStyles = makeStyles(theme => ({
   },
   accordionDetails: {
     display: 'flex',
-  }
+  },
+  field: {
+    marginTop: theme.spacing(1),
+  },
 }));
 
 export default useStyles;
