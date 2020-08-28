@@ -1,9 +1,11 @@
 import React from 'react';
 import useStyles from './styles';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useAxios } from 'hooks/axios';
 import { usePatient } from 'context/PatientContext';
 import PatientInfo from 'components/PatientInfo';
+import CustonBreadcrumbs from 'components/CustonBreadcrumbs';
+import formatDate from '../../helpers/formatDate';
 
 // Icons
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
@@ -40,14 +42,6 @@ const PhysicalExamsList = () => {
     ],
   });
 
-  const transformDate = rawDate => {
-    let dateFormat = new Date(rawDate);
-    let dd = ('0' + dateFormat.getDate()).slice(-2);
-    let mm = ('0' + (dateFormat.getMonth() + 1)).slice(-2);
-    let yyyy = dateFormat.getFullYear();
-    return dd + '/' + mm + '/' + yyyy;
-  };
-
   const history = useHistory();
   const classes = useStyles();
 
@@ -58,22 +52,13 @@ const PhysicalExamsList = () => {
   return (
     <div className={classes.root}>
       <div className={classes.header}>
-        <Breadcrumbs
-          aria-label="breadcrumb"
-          separator={<NavigateNextIcon fontSize="small" />}>
-          <MuiLink color="textPrimary" component={Link} to="/meus-pacientes">
-            Meus pacientes
-          </MuiLink>
-          <MuiLink color="textPrimary" component={Link} to="/categorias">
-            Categorias
-          </MuiLink>
-          <MuiLink
-            color="textPrimary"
-            component={Link}
-            to="/categorias/lista-exame-fisico">
-            Lista de evoluções
-          </MuiLink>
-        </Breadcrumbs>
+        <CustonBreadcrumbs
+          links={[
+            { label: 'Meus pacientes', route: '/meus-pacientes' },
+            { label: 'Categorias', route: '/categorias' },
+            { label: 'Lista de evoluções', route: '/categorias/lista-exame-fisico' }
+          ]}
+        />
       </div>
       <div className={classes.titleWrapper}>
         <Typography variant="h1">
@@ -122,7 +107,7 @@ const PhysicalExamsList = () => {
                         handleNavigate(`/categorias/exame-fisico/${exam.id}`)
                       }>
                       <TableCell component="th" scope="row">
-                        {transformDate(exam.data_evolucao)}
+                        {formatDate(exam.data_evolucao)}
                       </TableCell>
                       <TableCell align="right">
                         <Button color="inherit">
