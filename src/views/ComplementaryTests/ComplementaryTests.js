@@ -21,6 +21,9 @@ import PatientInfo from 'components/PatientInfo';
 import SelectComplementaryTestType from './components/SelectComplementaryTestType';
 import apiFake from 'services/apiFake';
 import TestComplementaryList from './components/TestComplementaryList';
+import api from 'services/api';
+import { useToast } from 'hooks/toast';
+import { useHistory } from 'react-router-dom';
 
 // helper pra ajudar na hora de separar os exames por tipo
 function getExamesPorTipo(exames) {
@@ -47,37 +50,38 @@ function ComplementaryTests() {
 
   const [types, setTypes] = useState([]);
 
-  // carregando os exames complementares do paciente já cadastrados
+  const { addToast } = useToast();
+
+  const history = useHistory();
+
+  // carregando os tipos e os exames complementares do paciente já cadastrados
   const handleComplementaryTests = useCallback(async id => {
     try {
       setLoading(true);
       // TODO: remover quando tivermos o backend pronto
       console.log('id', id);
-      const response = await apiFake.get('/exames-complementares');
-      setExamesComplementares(exames => [...exames, ...response.data]);
+
+      const responseTiposExames = await api.get('/tipos-exames-complementares');
+      setTypes(tipos => [...tipos, ...responseTiposExames.data]);
+
+      const responseExames = await apiFake.get('/exames-complementares');
+      setExamesComplementares(exames => [...exames, ...responseExames.data]);
+
     } catch (err) {
-      // TODO: tratar os erros do carregamento aqui.
-      console.log(err);
+      // caso aconteça algum erro, mostra a mensagem de erro e volta a página.
+      addToast({
+        type: 'error',
+        message: 'Erro ao tentar carregar as informações',
+      });
+      history.goBack();
     } finally {
       setLoading(false);
     }
   }, []);
 
-  // carregando os exames complementares do paciente já cadastrados
-  const handleTypesComplementaryTests = useCallback(async () => {
-    try {
-      const response = await apiFake.get('/tipos-exames-complementares');
-      setTypes(tipos => [...tipos, ...response.data]);
-    } catch (err) {
-      // TODO: tratar os erros do carregamento aqui.
-      console.log(err);
-    }
-  }, []);
-
   useEffect(() => {
-    handleTypesComplementaryTests();
     handleComplementaryTests(id);
-  }, [handleTypesComplementaryTests, handleComplementaryTests, id]);
+  }, [handleComplementaryTests, id]);
 
   useEffect(() => {
     setExamesCompPorTipo(getExamesPorTipo(examesComplementares));
