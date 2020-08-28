@@ -36,6 +36,9 @@ const SelectComplementaryTestType = props => {
         tipo_outro_exame_id: values.tipoNewTesteSelected.toString(),
         data: '',
         resultado: '',
+        descricao: types.filter(
+          tipo => tipo.id === Number(values.tipoNewTesteSelected),
+        )[0].descricao,
       },
     ]);
   };

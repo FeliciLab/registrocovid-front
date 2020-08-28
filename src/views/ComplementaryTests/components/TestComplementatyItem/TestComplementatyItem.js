@@ -16,7 +16,7 @@ import {
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import useStyles from './styles';
 
-const TestComplementaryItem = ({ teste, label }) => {
+const TestComplementaryItem = ({ teste, descricao }) => {
   const classes = useStyles();
 
   return (
@@ -31,7 +31,7 @@ const TestComplementaryItem = ({ teste, label }) => {
             className={classes.headingLabel}
             variant="h4"
           >
-            {label}
+            {descricao}
           </Typography>
           <Typography variant="caption">
             Data da:{' '}
@@ -89,11 +89,12 @@ const TestComplementaryItem = ({ teste, label }) => {
 };
 
 TestComplementaryItem.propTypes = {
-  label: PropTypes.string.isRequired,
+  descricao: PropTypes.string.isRequired,
   teste: PropTypes.exact({
     tipo_outro_exame_id: PropTypes.number,
     data: PropTypes.string,
     resultado: PropTypes.string,
+    descricao: PropTypes.string,
   }).isRequired,
 };
 

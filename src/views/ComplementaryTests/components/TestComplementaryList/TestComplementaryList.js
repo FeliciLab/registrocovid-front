@@ -8,7 +8,7 @@ import TestComplementatyItem from '../TestComplementatyItem';
 import { useFormikContext, FieldArray } from 'formik';
 import TestComplementaryForm from '../TestComplementaryForm';
 
-const TestComplementaryList = ({ testes, label }) => {
+const TestComplementaryList = ({ testes, descricao }) => {
   const classes = useStyles();
 
   const { values } = useFormikContext();
@@ -23,8 +23,8 @@ const TestComplementaryList = ({ testes, label }) => {
       >
         {testes.map((teste, index) => (
           <TestComplementatyItem
+            descricao={descricao}
             key={index}
-            label={label}
             teste={teste}
           />
         ))}
@@ -34,7 +34,9 @@ const TestComplementaryList = ({ testes, label }) => {
             <div>
               {values.newComplementaryTests &&
                 values.newComplementaryTests.length > 0 &&
-                values.newComplementaryTests.map((teste, index) => (
+                values.newComplementaryTests.filter(
+                  teste => teste.descricao === descricao
+                ).map((teste, index) => (
                   <TestComplementaryForm
                     index={index}
                     key={index}
@@ -45,7 +47,6 @@ const TestComplementaryList = ({ testes, label }) => {
           )}
         </FieldArray>
 
-
       </Grid>
     </div>
   );
@@ -53,12 +54,13 @@ const TestComplementaryList = ({ testes, label }) => {
 
 TestComplementaryList.propTypes = {
   className: PropTypes.string,
-  label: PropTypes.string.isRequired,
+  descricao: PropTypes.string.isRequired,
   testes: PropTypes.arrayOf(
     PropTypes.exact({
       tipo_outro_exame_id: PropTypes.number,
       data: PropTypes.string,
       resultado: PropTypes.string,
+      descricao: PropTypes.string,
     }),
   ).isRequired,
 };

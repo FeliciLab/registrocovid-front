@@ -20,12 +20,11 @@ import TestComplementaryList from './components/TestComplementaryList';
 // helper pra ajudar na hora de separar os exames por tipo
 function getExamesPorTipo(exames) {
   return exames.reduce((acc, curr) => {
-    acc = {
-      ...acc,
-      [curr.tipo_outro_exame_id]: curr,
-    };
+    var key = curr.tipo_outro_exame_id;
+    acc[key] = acc[key] || [];
+    acc[key].push(curr);
     return acc;
-  }, {});
+  }, []);
 }
 
 function ComplementaryTests() {
@@ -38,6 +37,8 @@ function ComplementaryTests() {
   const [loading, setLoading] = useState(false);
 
   const [examesComplementares, setExamesComplementares] = useState([]);
+
+  const [examesCompPorTipo, setExamesCompPorTipo] = useState([]);
 
   const [types, setTypes] = useState([]);
 
@@ -73,10 +74,17 @@ function ComplementaryTests() {
     handleComplementaryTests(id);
   }, [handleTypesComplementaryTests, handleComplementaryTests, id]);
 
+  useEffect(() => {
+    setExamesCompPorTipo(getExamesPorTipo(examesComplementares));
+  }, [examesComplementares]);
+
   // TODO: nada ainda
   const handleSubmit = values => {
     console.log('handleSubmit', values);
   };
+
+  // TODO: teste
+  console.log(getExamesPorTipo(examesComplementares));
 
   return (
     <div className={classes.root}>
@@ -130,21 +138,20 @@ function ComplementaryTests() {
 
                   <SelectComplementaryTestType types={types} />
 
-                  {/* {examesComplementares &&
-                    Object.keys(
-                      getExamesPorTipo(examesComplementares),
-                    ).map( key => (
-                      <TestComplementaryList
-                        label="Teste"
-                        testes={}
-                      />
-                    ))} */}
-
-                  {/* TODO: fazer um componente desse pra cada tipo de teste. */}
-                  <TestComplementaryList
-                    label="Teste"
-                    testes={examesComplementares}
-                  />
+                  {/* exibindo os exames já cadastrados por tipo de exame */}
+                  {examesCompPorTipo &&
+                    examesCompPorTipo.length !== 0 &&
+                    examesCompPorTipo.map((cnjExames, index) =>
+                      cnjExames ? (
+                        <TestComplementaryList
+                          descricao={
+                            cnjExames[0].descricao
+                          }
+                          key={index}
+                          testes={cnjExames}
+                        />
+                      ) : null,
+                    )}
                 </Form>
               )}
             </Formik>

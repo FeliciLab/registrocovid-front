@@ -59,7 +59,7 @@ const TestComplementaryForm = props => {
         >
           <FormGroup>
             <FormLabel>
-              <Typography variant="h4">Resultado</Typography>
+              <Typography variant="h4">{values.newComplementaryTests[index].descricao}</Typography>
             </FormLabel>
             <Field
               InputLabelProps={{
