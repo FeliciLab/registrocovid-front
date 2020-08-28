@@ -15,6 +15,7 @@ import {
   PhysicalExam as PhysicalExamView,
   InitialSymptoms as InitialSymptomsView,
   Comorbidities as ComorbiditiesView,
+  PhysicalExamsList as PhysicalExamsListView
 } from './views';
 import PatientIdentification from 'views/PatientIdentification';
 
@@ -48,6 +49,13 @@ const Routes = () => {
         isPrivate
         layout={MainLayout}
         path="/categorias/informacoes-gerais"
+      />
+      <RouteWithLayout
+        component={PhysicalExamsListView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/lista-exame-fisico"
       />
       <RouteWithLayout
         component={SpecificsTestsView}
