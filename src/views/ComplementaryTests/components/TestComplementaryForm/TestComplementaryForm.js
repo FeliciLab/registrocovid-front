@@ -1,4 +1,7 @@
 import React from 'react';
+
+import PropTypes from 'prop-types';
+
 import {
   Grid,
   FormGroup,
@@ -19,12 +22,7 @@ const TestComplementaryForm = props => {
 
   const { index, remove, descricao } = props;
 
-  const {
-    values,
-    handleChange,
-    errors,
-    touched,
-  } = useFormikContext();
+  const { values, handleChange, errors, touched } = useFormikContext();
 
   return (
     <Grid
@@ -72,17 +70,17 @@ const TestComplementaryForm = props => {
                 !!errors.newComplementaryTests[index]?.resultado
               }
               helperText={
-                (errors.newComplementaryTests &&
+                errors.newComplementaryTests &&
                 touched.newComplementaryTests &&
-                errors.newComplementaryTests[index]?.resultado) ?
-                  errors.newComplementaryTests[index]?.resultado : null
+                errors.newComplementaryTests[index]?.resultado
+                  ? errors.newComplementaryTests[index]?.resultado
+                  : null
               }
               name={`newComplementaryTests.${index}.resultado`}
               onChange={handleChange}
               value={values.newComplementaryTests[index].resultado}
               variant="outlined"
             />
-
           </FormGroup>
         </Grid>
         {/* data */}
@@ -108,10 +106,11 @@ const TestComplementaryForm = props => {
                 !!errors.newComplementaryTests[index]?.data
               }
               helperText={
-                (errors.newComplementaryTests &&
+                errors.newComplementaryTests &&
                 touched.newComplementaryTests &&
-                errors.newComplementaryTests[index]?.data) ?
-                  errors.newComplementaryTests[index]?.data : null
+                errors.newComplementaryTests[index]?.data
+                  ? errors.newComplementaryTests[index]?.data
+                  : null
               }
               label="Data da coleta do teste rápido"
               name={`newComplementaryTests.${index}.data`}
@@ -122,10 +121,15 @@ const TestComplementaryForm = props => {
           </FormGroup>
         </Grid>
       </Grid>
-
-
     </Grid>
   );
+};
+
+TestComplementaryForm.propTypes = {
+  className: PropTypes.string,
+  descricao: PropTypes.string.isRequired,
+  index: PropTypes.number.isRequired,
+  remove: PropTypes.func.isRequired,
 };
 
 export default TestComplementaryForm;

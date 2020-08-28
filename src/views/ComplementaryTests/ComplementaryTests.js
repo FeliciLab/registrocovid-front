@@ -15,7 +15,6 @@ import PatientInfo from 'components/PatientInfo';
 import SelectComplementaryTestType from './components/SelectComplementaryTestType';
 import apiFake from 'services/apiFake';
 import TestComplementaryList from './components/TestComplementaryList';
-// import TestComplementaryForm from './components/TestComplementaryForm';
 
 // helper pra ajudar na hora de separar os exames por tipo
 function getExamesPorTipo(exames) {

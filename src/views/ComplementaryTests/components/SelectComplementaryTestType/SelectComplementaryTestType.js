@@ -1,4 +1,7 @@
 import React, { memo } from 'react';
+
+import PropTypes from 'prop-types';
+
 import {
   Card,
   Typography,
@@ -15,11 +18,6 @@ import useStyles from './styles';
 import AddIcon from '@material-ui/icons/Add';
 
 import { Field, useFormikContext } from 'formik';
-
-// initialValues
-// newComplementaryTests: [],
-// tiposNewTestes,
-// tipoNewTesteSelected: '',
 
 const SelectComplementaryTestType = props => {
   const { types } = props;
@@ -96,6 +94,16 @@ const SelectComplementaryTestType = props => {
       </Grid>
     </Grid>
   );
+};
+
+SelectComplementaryTestType.propTypes = {
+  className: PropTypes.string,
+  types: PropTypes.arrayOf(
+    PropTypes.exact({
+      id: PropTypes.number,
+      descricao: PropTypes.string,
+    }),
+  ).isRequired,
 };
 
 export default memo(SelectComplementaryTestType);
