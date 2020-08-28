@@ -7,7 +7,6 @@ import {
   AccordionSummary,
   AccordionDetails,
   Typography,
-  IconButton,
   Grid,
   TextField,
   FormLabel,
@@ -15,7 +14,8 @@ import {
 } from '@material-ui/core';
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import DeleteIcon from '@material-ui/icons/Delete';
+
+import DeleteAction from './DeleteIcon';
 
 import useStyles from '../styles';
 
@@ -59,16 +59,15 @@ export const Pneumotorax = (props) => {
           <AccordionDetails >
             <FormGroup className={classes.formGroup}>
               <FormLabel>
-                <Typography variant="h5">Data de pneumotórax: -- {fContext.values[`tipo_complicacao_id#${id}`]}</Typography>
+                <Typography variant="h5">Data de pneumotórax:</Typography>
               </FormLabel>
 
               <input
-                defaultValue={fContext.values[`tipo_complicacao_id#${id}`] || 1}
                 name={`tipo_complicacao_id#${id}`}
-                onChange={fContext.handleChange}
                 type="hidden"
                 value={fContext.values[`tipo_complicacao_id#${id}`] || 1}
               />
+
               <TextField
                 InputLabelProps={{
                   shrink: true,
@@ -87,16 +86,8 @@ export const Pneumotorax = (props) => {
               />
             </FormGroup>
           </AccordionDetails>
-        </Accordion>}
+        </Accordion>
+      }
     </>
-  )
-}
-
-const DeleteAction = (props) => {
-  const classes = useStyles();
-  return (
-    <IconButton onClick={() => props.onClick()}>
-      <DeleteIcon className={classes.deleteIcon} />
-    </IconButton >
   )
 }

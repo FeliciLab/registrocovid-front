@@ -7,7 +7,6 @@ import {
   AccordionSummary,
   AccordionDetails,
   Typography,
-  IconButton,
   Grid,
   FormGroup,
   FormControl,
@@ -20,7 +19,8 @@ import {
 } from '@material-ui/core';
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import DeleteIcon from '@material-ui/icons/Delete';
+
+import DeleteAction from './DeleteIcon';
 
 import api from 'services/api';
 
@@ -87,11 +87,6 @@ export const Transfusional = (props) => {
                 lg={4}
               >
                 <Typography variant="h4">Necessidade transfusional</Typography>
-                <input
-                  name={`tipo_complicacao_id#${id}`}
-                  type="hidden"
-                  value={fContext.values[`tipo_complicacao_id#${id}`] || 4}
-                />
               </Grid>
               <Grid
                 item
@@ -124,6 +119,7 @@ export const Transfusional = (props) => {
                   {transfusionTypes.map(item => (
                     <Grid
                       item
+                      key={String(item.id)}
                       lg={4}
                     >
                       <FormControlLabel
@@ -133,7 +129,6 @@ export const Transfusional = (props) => {
                             value={item.id}
                           />
                         }
-                        key={String(item.id)}
                         label={item.descricao}
                       />
                     </Grid>
@@ -156,16 +151,16 @@ export const Transfusional = (props) => {
                   </FormLabel>
                   <TextField
                     className={classes.dateField}
-                    error={(fContext.errors[`volumeTransfusional#${id}`] && fContext.touched[`volumeTransfusional#${id}`])}
+                    error={(fContext.errors[`volume_transfusao#${id}`] && fContext.touched[`volume_transfusao#${id}`])}
                     helperText={
-                      (fContext.errors[`volumeTransfusional#${id}`] && fContext.touched[`volumeTransfusional#${id}`]) ? fContext.errors[`volumeTransfusional#${id}`] : null
+                      (fContext.errors[`volume_transfusao#${id}`] && fContext.touched[`volume_transfusao#${id}`]) ? fContext.errors[`volume_transfusao#${id}`] : null
                     }
                     label="Volume de transfusão"
-                    name={`volumeTransfusional#${id}`}
+                    name={`volume_transfusao#${id}`}
                     onBlur={fContext.handleBlur}
                     onChange={fContext.handleChange}
                     type="number"
-                    value={infos?.volume_transfusao ?? fContext.values[`volumeTransfusional#${id}`]}
+                    value={infos?.volume_transfusao ?? fContext.values[`volume_transfusao#${id}`]}
                     variant={'outlined'}
                   />
                 </FormGroup>
@@ -183,16 +178,16 @@ export const Transfusional = (props) => {
                       shrink: true,
                     }}
                     className={classes.dateField}
-                    error={(fContext.errors[`dataTransfusional#${id}`] && fContext.touched[`dataTransfusional#${id}`])}
+                    error={(fContext.errors[`data_transfusao#${id}`] && fContext.touched[`data_transfusao#${id}`])}
                     helperText={
-                      (fContext.errors[`dataTransfusional#${id}`] && fContext.touched[`dataTransfusional#${id}`]) ? fContext.errors[`dataTransfusional#${id}`] : null
+                      (fContext.errors[`data_transfusao#${id}`] && fContext.touched[`data_transfusao#${id}`]) ? fContext.errors[`data_transfusao#${id}`] : null
                     }
                     label="Data"
-                    name={`dataTransfusional#${id}`}
+                    name={`data_transfusao#${id}`}
                     onBlur={fContext.handleBlur}
                     onChange={fContext.handleChange}
                     type="date"
-                    value={infos?.data_transfusao ?? fContext.values[`dataTransfusional#${id}`]}
+                    value={infos?.data_transfusao ?? fContext.values[`data_transfusao#${id}`]}
                   />
                 </FormGroup>
               </Grid>
@@ -205,12 +200,3 @@ export const Transfusional = (props) => {
     </>
   )
 };
-
-const DeleteAction = (props) => {
-  const classes = useStyles();
-  return (
-    <IconButton onClick={() => props.onClick()}>
-      <DeleteIcon className={classes.deleteIcon} />
-    </IconButton >
-  )
-}

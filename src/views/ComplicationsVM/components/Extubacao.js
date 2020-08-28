@@ -7,7 +7,6 @@ import {
   AccordionSummary,
   AccordionDetails,
   Typography,
-  IconButton,
   Grid,
   FormGroup,
   FormLabel,
@@ -15,7 +14,8 @@ import {
 } from '@material-ui/core';
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import DeleteIcon from '@material-ui/icons/Delete';
+
+import DeleteAction from './DeleteIcon';
 
 import useStyles from '../styles';
 
@@ -46,15 +46,15 @@ export const Extubacao = (props) => {
                 lg={4}
               >
                 <Typography variant="h4">Extubação acidental</Typography>
-                <input 
-                  name={`tipo_complicacao_id#${id}`} 
-                  type="hidden" 
+                <input
+                  name={`tipo_complicacao_id#${id}`}
+                  type="hidden"
                   value={fContext.values[`tipo_complicacao_id#${id}`] || 2}
                 />
               </Grid>
-              <Grid 
-                item 
-                lg={1} 
+              <Grid
+                item
+                lg={1}
               />
               <Grid item>
                 <Typography variant="body2">Data: {infos?.data_complicacao.split('-').reverse().join('/') ?? undefined} </Typography>
@@ -84,16 +84,8 @@ export const Extubacao = (props) => {
               />
             </FormGroup>
           </AccordionDetails>
-        </Accordion>}
+        </Accordion>
+      }
     </>
-  )
-}
-
-const DeleteAction = (props) => {
-  const classes = useStyles();
-  return (
-    <IconButton onClick={() => props.onClick()}>
-      <DeleteIcon className={classes.deleteIcon} />
-    </IconButton >
   )
 }

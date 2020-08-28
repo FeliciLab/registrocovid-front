@@ -7,7 +7,6 @@ import {
   AccordionSummary,
   AccordionDetails,
   Typography,
-  IconButton,
   Grid,
   TextField,
   FormGroup,
@@ -15,7 +14,8 @@ import {
 } from '@material-ui/core';
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import DeleteIcon from '@material-ui/icons/Delete';
+
+import DeleteAction from './DeleteIcon';
 
 import useStyles from '../styles';
 
@@ -46,15 +46,15 @@ export const Outras = (props) => {
                 lg={4}
               >
                 <Typography variant="h4">Outra complicação</Typography>
-                <input 
-                  name={`tipo_complicacao_id#${id}`} 
-                  type="hidden" 
+                <input
+                  name={`tipo_complicacao_id#${id}`}
+                  type="hidden"
                   value={fContext.values[`tipo_complicacao_id#${id}`] || 5}
                 />
               </Grid>
-              <Grid 
-                item 
-                lg={1} 
+              <Grid
+                item
+                lg={1}
               />
               <Grid item>
                 <Typography variant="body2">Data: {infos?.data_complicacao.split('-').reverse().join('/') ?? undefined} </Typography>
@@ -68,16 +68,16 @@ export const Outras = (props) => {
               </FormLabel>
               <TextField
                 className={classes.dateField}
-                error={(fContext.errors[`descricao#${id}`] && fContext.touched[`descricao#${id}`])}
+                error={(fContext.errors[`descricao_outros#${id}`] && fContext.touched[`descricao_outros#${id}`])}
                 helperText={
-                  (fContext.errors[`descricao#${id}`] && fContext.touched[`descricao#${id}`]) ? fContext.errors[`descricao#${id}`] : null
+                  (fContext.errors[`descricao_outros#${id}`] && fContext.touched[`descricao_outros#${id}`]) ? fContext.errors[`descricao_outros#${id}`] : null
                 }
                 label="Outras complicações"
-                name={`descricao#${id}`}
+                name={`descricao_outros#${id}`}
                 onBlur={fContext.handleBlur}
                 onChange={fContext.handleChange}
                 type="text"
-                value={infos?.descricao ?? fContext.values[`descricao#${id}`]}
+                value={infos?.descricao ?? fContext.values[`descricao_outros#${id}`]}
                 variant={'outlined'}
               />
             </FormGroup>
@@ -106,14 +106,5 @@ export const Outras = (props) => {
         </Accordion>
       }
     </>
-  )
-}
-
-const DeleteAction = (props) => {
-  const classes = useStyles();
-  return (
-    <IconButton onClick={() => props.onClick()}>
-      <DeleteIcon className={classes.deleteIcon} />
-    </IconButton >
   )
 }

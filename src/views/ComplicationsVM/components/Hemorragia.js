@@ -7,7 +7,6 @@ import {
   AccordionSummary,
   AccordionDetails,
   Typography,
-  IconButton,
   Grid,
   TextField,
   FormGroup,
@@ -15,7 +14,8 @@ import {
 } from '@material-ui/core';
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import DeleteIcon from '@material-ui/icons/Delete';
+
+import DeleteAction from './DeleteIcon';
 
 import useStyles from '../styles';
 
@@ -103,16 +103,8 @@ export const Hemorragia = (props) => {
               />
             </FormGroup>
           </AccordionDetails>
-        </Accordion>}
+        </Accordion>
+      }
     </>
-  )
-}
-
-const DeleteAction = (props) => {
-  const classes = useStyles();
-  return (
-    <IconButton onClick={() => props.onClick()}>
-      <DeleteIcon className={classes.deleteIcon} />
-    </IconButton >
   )
 }
