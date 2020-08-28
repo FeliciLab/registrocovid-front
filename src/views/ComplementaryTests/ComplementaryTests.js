@@ -1,7 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { usePatient } from 'context/PatientContext';
 import useStyles from './styles';
-import { CustonBreadcrumbs } from 'components';
+
+import {
+  CustonBreadcrumbs,
+  // FormikErroObserver,
+} from 'components';
+
 import {
   CircularProgress,
   FormControl,
@@ -9,6 +14,7 @@ import {
   Grid,
   Button,
 } from '@material-ui/core';
+
 import { Formik, Form } from 'formik';
 import schema from './schema';
 import PatientInfo from 'components/PatientInfo';
@@ -137,16 +143,23 @@ function ComplementaryTests() {
 
                   <SelectComplementaryTestType types={types} />
 
+                  {/* TODO: colocar depois do primeiro MVP */}
+                  {/* <FormikErroObserver
+                    isSubmitting={isSubmitting}
+                    isValid={isValid}
+                    isValidating={isValidating}
+                  /> */}
+
                   {/* exibindo os exames já cadastrados por tipo de exame */}
                   {types &&
                     types.length !== 0 &&
-                    types.map((tipo, index) =>
+                    types.map((tipo, index) => (
                       <TestComplementaryList
                         descricao={tipo.descricao}
                         key={index}
                         testes={examesCompPorTipo[tipo.id]}
                       />
-                    )}
+                    ))}
                 </Form>
               )}
             </Formik>
