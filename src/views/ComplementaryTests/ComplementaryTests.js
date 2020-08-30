@@ -19,7 +19,6 @@ import { Formik, Form } from 'formik';
 import schema from './schema';
 import PatientInfo from 'components/PatientInfo';
 import SelectComplementaryTestType from './components/SelectComplementaryTestType';
-import apiFake from 'services/apiFake';
 import TestComplementaryList from './components/TestComplementaryList';
 import api from 'services/api';
 import { useToast } from 'hooks/toast';
@@ -55,29 +54,33 @@ function ComplementaryTests() {
   const history = useHistory();
 
   // carregando os tipos e os exames complementares do paciente já cadastrados
-  const handleComplementaryTests = useCallback(async id => {
-    try {
-      setLoading(true);
-      // TODO: remover quando tivermos o backend pronto
-      console.log('id', id);
+  const handleComplementaryTests = useCallback(
+    async id => {
+      try {
+        setLoading(true);
 
-      const responseTiposExames = await api.get('/tipos-exames-complementares');
-      setTypes(tipos => [...tipos, ...responseTiposExames.data]);
+        const responseTiposExames = await api.get(
+          '/tipos-exames-complementares',
+        );
+        setTypes(tipos => [...tipos, ...responseTiposExames.data]);
 
-      const responseExames = await apiFake.get('/exames-complementares');
-      setExamesComplementares(exames => [...exames, ...responseExames.data]);
-
-    } catch (err) {
-      // caso aconteça algum erro, mostra a mensagem de erro e volta a página.
-      addToast({
-        type: 'error',
-        message: 'Erro ao tentar carregar as informações',
-      });
-      history.goBack();
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+        const responseExames = await api.get(
+          `/pacientes/${id}/exames-complementares`,
+        );
+        setExamesComplementares(exames => [...exames, ...responseExames.data]);
+      } catch (err) {
+        // caso aconteça algum erro, mostra a mensagem de erro e volta a página.
+        addToast({
+          type: 'error',
+          message: 'Erro ao tentar carregar as informações',
+        });
+        history.goBack();
+      } finally {
+        setLoading(false);
+      }
+    },
+    [addToast, history],
+  );
 
   useEffect(() => {
     handleComplementaryTests(id);
@@ -88,8 +91,44 @@ function ComplementaryTests() {
   }, [examesComplementares]);
 
   // TODO: nada ainda
-  const handleSubmit = values => {
-    console.log('handleSubmit', values);
+  const handleSubmit = async values => {
+    try {
+      const { newComplementaryTests } = values;
+
+      const newComplementaryTestsSanitized = newComplementaryTests.map(
+        test => ({
+          tipo_exames_complementares_id: test.tipo_outro_exame_id,
+          data: test.data,
+          resultado: test.resultado,
+        }),
+      );
+
+      // tentando salvar mas sem nada para enviar
+      if (newComplementaryTestsSanitized.length === 0) {
+        addToast({
+          type: 'warning',
+          message: 'Nada para salvar.',
+        });
+        return;
+      }
+
+      // enviando
+      await api.post(`/pacientes/${id}/exames-complementares`, {
+        'exames-complementares': newComplementaryTestsSanitized,
+      });
+
+      addToast({
+        type: 'success',
+        message: 'Dados salvos com sucesso.',
+      });
+
+      window.location.reload();
+    } catch (err) {
+      addToast({
+        type: 'error',
+        message: err.toString(),
+      });
+    }
   };
 
   return (
@@ -151,7 +190,6 @@ function ComplementaryTests() {
                     isValidating={isValidating}
                   /> */}
 
-                  {/* exibindo os exames já cadastrados por tipo de exame */}
                   {types &&
                     types.length !== 0 &&
                     types.map((tipo, index) => (
