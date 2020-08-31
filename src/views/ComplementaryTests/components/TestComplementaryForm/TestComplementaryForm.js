@@ -31,7 +31,7 @@ const TestComplementaryForm = props => {
       item
     >
       <FormLabel className={classes.formLabel}>
-        <Typography variant="h4">Exame Complementar - {descricao}</Typography>
+        <Typography variant="h4">{descricao}</Typography>
         <IconButton
           aria-label="delete"
           onClick={() => remove(index)}
