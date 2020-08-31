@@ -10,15 +10,14 @@ function ButtonAddOcorrencia() {
   const { values, setFieldValue } = useFormikContext();
 
   const handleAddSupportTreatment = () => {
-    setFieldValue('newSupportsTreatment', [
-      ...values.newSupportsTreatment,
+    setFieldValue('newSupportTreatments', [
+      ...values.newSupportTreatments,
       {
         data_hemodialise: '',
         motivo_hemodialise: '',
         frequencia_hemodialise: '',
       },
     ]);
-
   };
 
   return (

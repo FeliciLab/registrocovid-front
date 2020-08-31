@@ -14,9 +14,11 @@ import { Formik, Form } from 'formik';
 import schema from './schema';
 import PatientInfo from 'components/PatientInfo';
 import ButtonAddOcorrencia from './components/ButtonAddOcorrencia';
+import apiFake from 'services/apiFake';
+import SupportTreatmentList from './components/SupportTreatmentList';
 
 const initialValues = {
-  newSupportsTreatment: [],
+  newSupportTreatments: [],
 };
 
 function SupportTreatment() {
@@ -24,15 +26,22 @@ function SupportTreatment() {
 
   const [loading, setLoading] = useState(false);
 
+  const [tratamentos, setTratamentos] = useState([]);
+
   const {
     patient: { id },
   } = usePatient();
 
   // TODO: implementar carregamento dos exames
   const handleSupportTreatments = useCallback(async id => {
+    console.log(id);
     try {
       setLoading(true);
-      console.log(id);
+
+      // TODO: usando a apiFake mas depois usar a api oficial
+      const response = await apiFake.get('/tratamentos-suportes');
+      setTratamentos(old => [...old, ...response.data]);
+
     } finally {
       setLoading(false);
     }
@@ -103,6 +112,8 @@ function SupportTreatment() {
                     </Typography>
 
                     <ButtonAddOcorrencia />
+
+                    <SupportTreatmentList tratamentos={tratamentos} />
 
                   </Grid>
                 </Form>
