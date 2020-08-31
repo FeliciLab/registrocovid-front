@@ -69,7 +69,11 @@ function ComplementaryTests() {
         const responseExames = await api.get(
           `/pacientes/${id}/exames-complementares`,
         );
-        setExamesComplementares(exames => [...exames, ...responseExames.data]);
+
+        // os exames podem não existir
+        if (responseExames.data.length) {
+          setExamesComplementares(exames => [...exames, ...responseExames.data]);
+        }
       } catch (err) {
         // caso aconteça algum erro, mostra a mensagem de erro e volta a página.
         addToast({
