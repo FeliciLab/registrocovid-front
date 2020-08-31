@@ -97,7 +97,8 @@ const TestComplementaryItem = ({ teste, descricao }) => {
 TestComplementaryItem.propTypes = {
   descricao: PropTypes.string.isRequired,
   teste: PropTypes.exact({
-    tipo_outro_exame_id: PropTypes.number,
+    id: PropTypes.number,
+    tipo_exame_id: PropTypes.number,
     data: PropTypes.string,
     resultado: PropTypes.string,
     descricao: PropTypes.string,

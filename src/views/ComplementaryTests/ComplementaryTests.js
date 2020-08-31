@@ -27,7 +27,7 @@ import { useHistory } from 'react-router-dom';
 // helper pra ajudar na hora de separar os exames por tipo
 function getExamesPorTipo(exames) {
   return exames.reduce((acc, curr) => {
-    var key = curr.tipo_outro_exame_id;
+    var key = curr.tipo_exame_id;
     acc[key] = acc[key] || [];
     acc[key].push(curr);
     return acc;
@@ -59,11 +59,13 @@ function ComplementaryTests() {
       try {
         setLoading(true);
 
+        // carregando os tipos de exames
         const responseTiposExames = await api.get(
           '/tipos-exames-complementares',
         );
         setTypes(tipos => [...tipos, ...responseTiposExames.data]);
 
+        // carregando os exames complementares já cadastrados
         const responseExames = await api.get(
           `/pacientes/${id}/exames-complementares`,
         );
@@ -95,9 +97,10 @@ function ComplementaryTests() {
     try {
       const { newComplementaryTests } = values;
 
+      // sanitizando os dados antes do envio.
       const newComplementaryTestsSanitized = newComplementaryTests.map(
         test => ({
-          tipo_exames_complementares_id: test.tipo_outro_exame_id,
+          tipo_exames_complementares_id: test.tipo_exames_complementares_id,
           data: test.data,
           resultado: test.resultado,
         }),
@@ -114,7 +117,7 @@ function ComplementaryTests() {
 
       // enviando
       await api.post(`/pacientes/${id}/exames-complementares`, {
-        'exames-complementares': newComplementaryTestsSanitized,
+        examescomplementares: newComplementaryTestsSanitized,
       });
 
       addToast({
@@ -126,7 +129,7 @@ function ComplementaryTests() {
     } catch (err) {
       addToast({
         type: 'error',
-        message: err.toString(),
+        message: 'Algo de errado aconteceu',
       });
     }
   };

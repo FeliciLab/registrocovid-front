@@ -31,7 +31,7 @@ const SelectComplementaryTestType = props => {
     setFieldValue('newComplementaryTests', [
       ...values.newComplementaryTests,
       {
-        tipo_outro_exame_id: values.tipoNewTesteSelected.toString(),
+        tipo_exames_complementares_id: values.tipoNewTesteSelected.toString(),
         data: '',
         resultado: '',
         descricao: types.filter(
