@@ -191,11 +191,7 @@ function ComplementaryTests() {
                   <SelectComplementaryTestType types={types} />
 
                   {/* TODO: colocar depois do primeiro MVP */}
-                  {/* <FormikErroObserver
-                    isSubmitting={isSubmitting}
-                    isValid={isValid}
-                    isValidating={isValidating}
-                  /> */}
+                  {/* <FormikErroObserver /> */}
 
                   {types &&
                     types.length !== 0 &&

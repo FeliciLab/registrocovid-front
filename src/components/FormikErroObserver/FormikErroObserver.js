@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useFormikContext } from 'formik';
 import { useToast } from 'hooks/toast';
-import PropTypes from 'prop-types';
 
 /**
  * Componente usado para mostrar um Toast no casso de campos faltantes de um
@@ -22,11 +21,5 @@ function FormikErroObserver() {
 
   return null;
 }
-
-FormikErroObserver.propTypes = {
-  isSubmitting: PropTypes.bool.isRequired,
-  isValid: PropTypes.bool.isRequired,
-  isValidating: PropTypes.bool.isRequired,
-};
 
 export default FormikErroObserver;
