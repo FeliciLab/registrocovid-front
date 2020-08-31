@@ -34,10 +34,9 @@ function SupportTreatment() {
 
   // TODO: implementar carregamento dos exames
   const handleSupportTreatments = useCallback(async id => {
-    console.log(id);
     try {
       setLoading(true);
-
+      console.log(id);
       // TODO: usando a apiFake mas depois usar a api oficial
       const response = await apiFake.get('/tratamentos-suportes');
       setTratamentos(old => [...old, ...response.data]);
