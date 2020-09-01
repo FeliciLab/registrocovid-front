@@ -1,7 +1,11 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import useStyles from './styles';
 import { usePatient } from 'context/PatientContext';
-import { CustonBreadcrumbs } from 'components';
+import {
+  CustonBreadcrumbs,
+  // FormikErroObserver
+} from 'components';
+
 import {
   CircularProgress,
   FormControl,
@@ -10,6 +14,7 @@ import {
   Button,
   Card,
 } from '@material-ui/core';
+
 import { Formik, Form } from 'formik';
 import schema from './schema';
 import PatientInfo from 'components/PatientInfo';
@@ -18,6 +23,7 @@ import apiFake from 'services/apiFake';
 import SupportTreatmentList from './components/SupportTreatmentList';
 import { useToast } from 'hooks/toast';
 
+// Valores iniciais
 const initialValues = {
   newSupportTreatments: [],
 };
@@ -49,35 +55,38 @@ function SupportTreatment() {
   }, []);
 
   // TODO: implementar o submit do button
-  const handleSubmit = useCallback(async values => {
-    try {
-      const { newSupportTreatments } = values;
+  const handleSubmit = useCallback(
+    async values => {
+      try {
+        const { newSupportTreatments } = values;
 
-      // tentando salvar mas sem nada para enviar
-      if (newSupportTreatments.length === 0) {
+        // tentando salvar mas sem nada para enviar
+        if (newSupportTreatments.length === 0) {
+          addToast({
+            type: 'warning',
+            message: 'Nada para salvar.',
+          });
+          return;
+        }
+
         addToast({
-          type: 'warning',
-          message: 'Nada para salvar.',
+          type: 'success',
+          message: 'Dados salvos com sucesso.',
         });
-        return;
+
+        window.location.reload();
+
+        // TODO: remover isso no final
+        console.log(newSupportTreatments);
+      } catch (error) {
+        addToast({
+          type: 'error',
+          message: 'Algo de errado aconteceu',
+        });
       }
-
-      addToast({
-        type: 'success',
-        message: 'Dados salvos com sucesso.',
-      });
-
-      window.location.reload();
-
-      // TODO: remover isso no final
-      console.log(newSupportTreatments);
-    } catch (error) {
-      addToast({
-        type: 'error',
-        message: 'Algo de errado aconteceu',
-      });
-    }
-  }, [addToast]);
+    },
+    [addToast],
+  );
 
   useEffect(() => {
     handleSupportTreatments(id);
@@ -146,6 +155,9 @@ function SupportTreatment() {
                       <SupportTreatmentList tratamentos={tratamentos} />
                     </Grid>
                   </Grid>
+
+                  {/* TODO: colocar depois do primeiro MVP */}
+                  {/* <FormikErroObserver /> */}
                 </Form>
               )}
             </Formik>
