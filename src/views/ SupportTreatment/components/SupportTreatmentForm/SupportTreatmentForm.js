@@ -35,11 +35,11 @@ function SupportTreatmentForm() {
         <Grid
           className={classes.fieldWraper}
           item
-          sm={12}
+          sm={6}
         >
           <FormGroup>
             <FormLabel>
-              <Typography variant="h4">Primeira Sessão</Typography>
+              <Typography variant="h5">Primeira Sessão</Typography>
             </FormLabel>
             <Field
               InputLabelProps={{
@@ -69,11 +69,11 @@ function SupportTreatmentForm() {
         <Grid
           className={classes.fieldWraper}
           item
-          sm={12}
+          sm={6}
         >
           <FormGroup>
             <FormLabel>
-              <Typography variant="h4">Última Sessão</Typography>
+              <Typography variant="h5">Última Sessão</Typography>
             </FormLabel>
             <Field
               InputLabelProps={{
@@ -108,7 +108,7 @@ function SupportTreatmentForm() {
         >
           <FormGroup>
             <FormLabel>
-              <Typography variant="h4">Motivo</Typography>
+              <Typography variant="h5">Motivo</Typography>
             </FormLabel>
             <Field
               InputLabelProps={{
@@ -133,7 +133,7 @@ function SupportTreatmentForm() {
         >
           <FormGroup>
             <FormLabel>
-              <Typography variant="h4">Frequência</Typography>
+              <Typography variant="h5">Frequência</Typography>
             </FormLabel>
             <Field
               InputLabelProps={{

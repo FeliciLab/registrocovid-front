@@ -53,7 +53,7 @@ function SupportTreatment() {
     try {
       console.log(id);
       setLoading(true);
-      const response = await apiFake.get('/tratamento_suporte_2');
+      const response = await apiFake.get('/tratamento_suporte');
       // verifica se o objeto está vazio
       if (Object.entries(response.data).length === 0) {
         setIsPrevValue(false);

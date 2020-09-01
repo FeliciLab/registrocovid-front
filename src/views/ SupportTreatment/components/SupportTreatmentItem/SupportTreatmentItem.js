@@ -20,7 +20,6 @@ function SupportTreatmentItem({ tratamento }) {
       component={Card}
       container
       item
-      sm={10}
       spacing={2}
     >
       <Grid
