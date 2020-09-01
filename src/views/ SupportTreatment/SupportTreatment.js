@@ -12,21 +12,29 @@ import {
   Typography,
   Grid,
   Button,
-  Card,
+  // Card,
 } from '@material-ui/core';
 
 import { Formik, Form } from 'formik';
 import schema from './schema';
 import PatientInfo from 'components/PatientInfo';
-import ButtonAddOcorrencia from './components/ButtonAddOcorrencia';
-import SupportTreatmentList from './components/SupportTreatmentList';
+// import ButtonAddOcorrencia from './components/ButtonAddOcorrencia';
+// import SupportTreatmentList from './components/SupportTreatmentList';
 import { useToast } from 'hooks/toast';
 import api from 'services/api';
 import { useHistory } from 'react-router-dom';
+import apiFake from 'services/apiFake';
+import SupportTreatmentItem from './components/SupportTreatmentItem';
+import SupportTreatmentForm from './components/SupportTreatmentForm';
 
 // Valores iniciais
 const initialValues = {
-  newSupportTreatments: [],
+  newSupportTreatment: {
+    data_inicio: '',
+    data_termino: '',
+    motivo_hemodialise: '',
+    frequencia_hemodialise: '',
+  },
 };
 
 function SupportTreatment() {
@@ -38,7 +46,9 @@ function SupportTreatment() {
 
   const [loading, setLoading] = useState(false);
 
-  const [tratamentos, setTratamentos] = useState([]);
+  const [isPrevValue, setIsPrevValue] = useState(false);
+
+  const [tratamento, setTratamento] = useState({});
 
   const {
     patient: { id },
@@ -46,16 +56,23 @@ function SupportTreatment() {
 
   const handleSupportTreatments = useCallback(async id => {
     try {
+      console.log(id);
       setLoading(true);
-      const response = await api.get(`/pacientes/${id}/tratamentos-suportes/`);
-      setTratamentos(old => [...old, ...response.data.tratamentos_suportes]);
-    } catch(error) {
+      const response = await apiFake.get('/tratamento_suporte_2');
+      if (Object.entries(response.data).length === 0) {
+        setIsPrevValue(false);
+      } else {
+        setIsPrevValue(true);
+      }
+      console.log(response.data);
+      setTratamento(response.data);
+    } catch (error) {
       addToast({
         type: 'error',
         message: 'Erro ao tentar carregar informações, tente novamente',
       });
       history.goBack();
-    }finally {
+    } finally {
       setLoading(false);
     }
   }, []);
@@ -74,7 +91,10 @@ function SupportTreatment() {
           return;
         }
 
-        await api.post(`/pacientes/${id}/tratamentos-suportes/`, newSupportTreatments);
+        await api.post(
+          `/pacientes/${id}/tratamentos-suportes/`,
+          newSupportTreatments,
+        );
 
         addToast({
           type: 'success',
@@ -118,29 +138,30 @@ function SupportTreatment() {
               initialValues={initialValues}
               onSubmit={handleSubmit}
               validateOnMount
-              validationSchema={schema}
-            >
+              validationSchema={schema}>
               {({ isSubmitting }) => (
                 <Form component={FormControl}>
                   <div className={classes.titleWrapper}>
                     <Typography variant="h2">Tratamento de suporte</Typography>
-                    <Grid
-                      className={classes.actionSection}
-                      item
-                    >
+                    <Grid className={classes.actionSection} item>
                       <PatientInfo />
                       <Button
                         className={classes.buttonSave}
                         color="secondary"
-                        disabled={isSubmitting}
+                        disabled={isSubmitting || isPrevValue}
                         type="submit"
-                        variant="contained"
-                      >
+                        variant="contained">
                         Salvar
                       </Button>
                     </Grid>
                   </div>
-                  <Grid
+                  {isPrevValue ? (
+                    <SupportTreatmentItem tratamento={tratamento} />
+                  ) : (
+                    <SupportTreatmentForm />
+                  )}
+
+                  {/* <Grid
                     className={classes.supportTreatmentContainer}
                     component={Card}
                     container
@@ -160,7 +181,7 @@ function SupportTreatment() {
                     <Grid item>
                       <SupportTreatmentList tratamentos={tratamentos} />
                     </Grid>
-                  </Grid>
+                  </Grid> */}
 
                   {/* TODO: colocar depois do primeiro MVP */}
                   {/* <FormikErroObserver /> */}
