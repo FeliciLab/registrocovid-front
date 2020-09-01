@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 import PropTypes from 'prop-types';
 
@@ -146,4 +146,4 @@ SupportTreatmentForm.propTypes = {
   remove: PropTypes.func.isRequired,
 };
 
-export default SupportTreatmentForm;
+export default memo(SupportTreatmentForm);

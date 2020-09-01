@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, { memo } from 'react';
 
 import PropTypes from 'prop-types';
 import {
@@ -83,7 +83,7 @@ function SupportTreatmentItem({ tratamento }) {
                 }}
                 contentEditable={false}
                 type="text"
-                value={tratamento.motivo_hemodialise}
+                value={tratamento.motivo_hemodialise || ''}
                 variant="outlined"
               />
             </FormGroup>
@@ -105,12 +105,11 @@ function SupportTreatmentItem({ tratamento }) {
                 }}
                 contentEditable={false}
                 type="text"
-                value={tratamento.frequencia_hemodialise}
+                value={tratamento.frequencia_hemodialise || ''}
                 variant="outlined"
               />
             </FormGroup>
           </Grid>
-
         </Grid>
       </AccordionDetails>
     </Accordion>
@@ -122,6 +121,7 @@ SupportTreatmentItem.propTypes = {
   tratamento: PropTypes.exact({
     id: PropTypes.number,
     data_hemodialise: PropTypes.string,
+    hemodialise: PropTypes.bool,
     motivo_hemodialise: PropTypes.string,
     frequencia_hemodialise: PropTypes.string,
   }),

@@ -10,13 +10,6 @@ function SupportTreatmentList({ tratamentos }) {
 
   return (
     <div>
-      {tratamentos.map((tratamento, index) => (
-        <SupportTreatmentItem
-          key={index}
-          tratamento={tratamento}
-        />
-      ))}
-
       <FieldArray name="newSupportTreatments">
         {({ remove }) => (
           <div>
@@ -34,6 +27,19 @@ function SupportTreatmentList({ tratamentos }) {
           </div>
         )}
       </FieldArray>
+
+      {tratamentos
+        .sort((a, b) => {
+          if (a.data_hemodialise > b.data_hemodialise) return -1;
+          else if (a.data_hemodialise < b.data_hemodialise) return 1;
+          else return 0;
+        })
+        .map((tratamento, index) => (
+          <SupportTreatmentItem
+            key={index}
+            tratamento={tratamento}
+          />
+        ))}
     </div>
   );
 }
@@ -43,6 +49,7 @@ SupportTreatmentList.propTypes = {
   tratamentos: PropTypes.arrayOf(
     PropTypes.exact({
       id: PropTypes.number,
+      hemodialise: PropTypes.bool,
       data_hemodialise: PropTypes.string,
       motivo_hemodialise: PropTypes.string,
       frequencia_hemodialise: PropTypes.string,

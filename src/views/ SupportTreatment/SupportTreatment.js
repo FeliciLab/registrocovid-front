@@ -19,9 +19,9 @@ import { Formik, Form } from 'formik';
 import schema from './schema';
 import PatientInfo from 'components/PatientInfo';
 import ButtonAddOcorrencia from './components/ButtonAddOcorrencia';
-import apiFake from 'services/apiFake';
 import SupportTreatmentList from './components/SupportTreatmentList';
 import { useToast } from 'hooks/toast';
+import api from 'services/api';
 
 // Valores iniciais
 const initialValues = {
@@ -41,20 +41,19 @@ function SupportTreatment() {
     patient: { id },
   } = usePatient();
 
-  // TODO: implementar carregamento dos exames
   const handleSupportTreatments = useCallback(async id => {
     try {
       setLoading(true);
-      console.log(id);
-      // TODO: usando a apiFake mas depois usar a api oficial
-      const response = await apiFake.get('/tratamentos-suportes');
-      setTratamentos(old => [...old, ...response.data]);
-    } finally {
+      const response = await api.get(`/pacientes/${id}/tratamentos-suportes/`);
+      setTratamentos(old => [...old, ...response.data.tratamentos_suportes]);
+    } catch(error) {
+      // TODO: tratar os erros aqui
+      console.log(error);
+    }finally {
       setLoading(false);
     }
   }, []);
 
-  // TODO: implementar o submit do button
   const handleSubmit = useCallback(
     async values => {
       try {
@@ -69,23 +68,23 @@ function SupportTreatment() {
           return;
         }
 
+        await api.post(`/pacientes/${id}/tratamentos-suportes/`, newSupportTreatments);
+
         addToast({
           type: 'success',
           message: 'Dados salvos com sucesso.',
         });
 
         window.location.reload();
-
-        // TODO: remover isso no final
-        console.log(newSupportTreatments);
       } catch (error) {
-        addToast({
-          type: 'error',
-          message: 'Algo de errado aconteceu',
-        });
+        console.log(error);
+        // addToast({
+        //   type: 'error',
+        //   message: 'Algo de errado aconteceu',
+        // });
       }
     },
-    [addToast],
+    [addToast, id],
   );
 
   useEffect(() => {
