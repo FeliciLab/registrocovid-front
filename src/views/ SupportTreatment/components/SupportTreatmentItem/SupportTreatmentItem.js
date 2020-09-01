@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 
 import PropTypes from 'prop-types';
 import {
@@ -127,4 +127,4 @@ SupportTreatmentItem.propTypes = {
   }),
 };
 
-export default SupportTreatmentItem;
+export default memo(SupportTreatmentItem);

@@ -22,8 +22,8 @@ function SupportTreatmentForm({ index, remove }) {
   const {
     values,
     handleChange,
-    // errors,
-    // touched
+    errors,
+    touched
   } = useFormikContext();
 
   return (
@@ -63,20 +63,20 @@ function SupportTreatmentForm({ index, remove }) {
               }}
               as={TextField}
               className={classes.field}
-              // error={
-              //   errors.newSupportTreatments &&
-              //   touched.newSupportTreatments &&
-              //   !!errors.newSupportTreatments[index]?.resultado
-              // }
-              // helperText={
-              //   errors.newSupportTreatments &&
-              //   touched.newSupportTreatments &&
-              //   errors.newSupportTreatments[index]?.resultado
-              //     ? errors.newSupportTreatments[index]?.resultado
-              //     : null
-              // }
+              error={
+                errors.newSupportTreatments &&
+                touched.newSupportTreatments &&
+                !!errors.newSupportTreatments[index]?.data_hemodialise
+              }
+              helperText={
+                errors.newSupportTreatments &&
+                touched.newSupportTreatments &&
+                errors.newSupportTreatments[index]?.data_hemodialise
+                  ? errors.newSupportTreatments[index]?.data_hemodialise
+                  : null
+              }
               label="Data da hemodialise"
-              name={`newSupportTreatments.${index}.resultado`}
+              name={`newSupportTreatments.${index}.data_hemodialise`}
               onChange={handleChange}
               type="date"
               value={values.newSupportTreatments[index].data_hemodialise}
@@ -100,18 +100,6 @@ function SupportTreatmentForm({ index, remove }) {
               }}
               as={TextField}
               className={classes.field}
-              // error={
-              //   errors.newSupportTreatments &&
-              //   touched.newSupportTreatments &&
-              //   !!errors.newSupportTreatments[index]?.motivo_hemodialise
-              // }
-              // helperText={
-              //   errors.newSupportTreatments &&
-              //   touched.newSupportTreatments &&
-              //   errors.newSupportTreatments[index]?.motivo_hemodialise
-              //     ? errors.newSupportTreatments[index]?.motivo_hemodialise
-              //     : null
-              // }
               label="Motivo da hemodiálise"
               name={`newSupportTreatments.${index}.motivo_hemodialise`}
               onChange={handleChange}
@@ -138,18 +126,6 @@ function SupportTreatmentForm({ index, remove }) {
               }}
               as={TextField}
               className={classes.field}
-              // error={
-              //   errors.newSupportTreatments &&
-              //   touched.newSupportTreatments &&
-              //   !!errors.newSupportTreatments[index]?.frequencia_hemodialise
-              // }
-              // helperText={
-              //   errors.newSupportTreatments &&
-              //   touched.newSupportTreatments &&
-              //   errors.newSupportTreatments[index]?.frequencia_hemodialise
-              //     ? errors.newSupportTreatments[index]?.frequencia_hemodialise
-              //     : null
-              // }
               label="Frequência de hemodiálise"
               name={`newSupportTreatments.${index}.frequencia_hemodialise`}
               onChange={handleChange}
