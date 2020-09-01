@@ -22,6 +22,7 @@ import ButtonAddOcorrencia from './components/ButtonAddOcorrencia';
 import SupportTreatmentList from './components/SupportTreatmentList';
 import { useToast } from 'hooks/toast';
 import api from 'services/api';
+import { useHistory } from 'react-router-dom';
 
 // Valores iniciais
 const initialValues = {
@@ -32,6 +33,8 @@ function SupportTreatment() {
   const classes = useStyles();
 
   const { addToast } = useToast();
+
+  const history = useHistory();
 
   const [loading, setLoading] = useState(false);
 
@@ -47,8 +50,11 @@ function SupportTreatment() {
       const response = await api.get(`/pacientes/${id}/tratamentos-suportes/`);
       setTratamentos(old => [...old, ...response.data.tratamentos_suportes]);
     } catch(error) {
-      // TODO: tratar os erros aqui
-      console.log(error);
+      addToast({
+        type: 'error',
+        message: 'Erro ao tentar carregar informações, tente novamente',
+      });
+      history.goBack();
     }finally {
       setLoading(false);
     }
@@ -77,11 +83,10 @@ function SupportTreatment() {
 
         window.location.reload();
       } catch (error) {
-        console.log(error);
-        // addToast({
-        //   type: 'error',
-        //   message: 'Algo de errado aconteceu',
-        // });
+        addToast({
+          type: 'error',
+          message: 'Algo de errado aconteceu',
+        });
       }
     },
     [addToast, id],
@@ -140,6 +145,8 @@ function SupportTreatment() {
                     component={Card}
                     container
                     item
+                    md={10}
+                    sm={12}
                     spacing={2}
                   >
                     <Grid item>

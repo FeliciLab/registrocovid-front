@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
   supportTreatmentContainer: {
     display: 'flex',
     flexDirection: 'column',
-    padding: theme.spacing(2)
+    padding: theme.spacing(2),
   },
 }));
 export default useStyles;
