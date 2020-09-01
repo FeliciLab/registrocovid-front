@@ -14,12 +14,7 @@ import useStyles from './styles';
 function SupportTreatmentForm() {
   const classes = useStyles();
 
-  const {
-    values,
-    handleChange,
-    // errors,
-    // touched,
-  } = useFormikContext();
+  const { values, handleChange, errors, touched } = useFormikContext();
 
   return (
     <Grid
@@ -44,31 +39,28 @@ function SupportTreatmentForm() {
         >
           <FormGroup>
             <FormLabel>
-              <Typography variant="h4">Última Sessão</Typography>
+              <Typography variant="h4">Primeira Sessão</Typography>
             </FormLabel>
             <Field
               InputLabelProps={{
                 shrink: true,
               }}
               as={TextField}
-              // error={
-              //   errors.newSupportTreatments &&
-              //   touched.newSupportTreatments &&
-              //   !!errors.newSupportTreatments[index]?.data_hemodialise
-              // }
-              // helperText={
-              //   errors.newSupportTreatments &&
-              //   touched.newSupportTreatments &&
-              //   errors.newSupportTreatments[index]?.data_hemodialise
-              //     ? errors.newSupportTreatments[index]?.data_hemodialise
-              //     : null
-              // }
               className={classes.field}
+              error={
+                errors.data_inicio &&
+                touched.data_inicio
+              }
+              helperText={
+                errors.data_inicio &&
+                touched.data_inicio &&
+                errors.data_inicio
+              }
               label="Data"
-              name={'newSupportTreatment.data_inicio'}
+              name="data_inicio"
               onChange={handleChange}
               type="date"
-              value={values.newSupportTreatment.data_inicio}
+              value={values.data_inicio}
             />
           </FormGroup>
         </Grid>
@@ -88,24 +80,22 @@ function SupportTreatmentForm() {
                 shrink: true,
               }}
               as={TextField}
-              // error={
-              //   errors.newSupportTreatments &&
-              //   touched.newSupportTreatments &&
-              //   !!errors.newSupportTreatments[index]?.data_hemodialise
-              // }
-              // helperText={
-              //   errors.newSupportTreatments &&
-              //   touched.newSupportTreatments &&
-              //   errors.newSupportTreatments[index]?.data_hemodialise
-              //     ? errors.newSupportTreatments[index]?.data_hemodialise
-              //     : null
-              // }
               className={classes.field}
+              error={
+                errors.data_termino &&
+                touched.data_termino &&
+                !!errors.data_termino
+              }
+              helperText={
+                errors.data_termino &&
+                touched.data_termino &&
+                errors.data_termino
+              }
               label="Data"
-              name={'newSupportTreatment.data_termino'}
+              name="data_termino"
               onChange={handleChange}
               type="date"
-              value={values.newSupportTreatment.data_termino}
+              value={values.data_termino}
             />
           </FormGroup>
         </Grid>
@@ -126,10 +116,10 @@ function SupportTreatmentForm() {
               }}
               as={TextField}
               className={classes.field}
-              name={'newSupportTreatment.motivo_hemodialise'}
+              name="motivo_hemodialise"
               onChange={handleChange}
               type="text"
-              value={values.newSupportTreatment.motivo_hemodialise}
+              value={values.motivo_hemodialise}
               variant="outlined"
             />
           </FormGroup>
@@ -151,10 +141,10 @@ function SupportTreatmentForm() {
               }}
               as={TextField}
               className={classes.field}
-              name={'newSupportTreatment.frequencia_hemodialise'}
+              name="frequencia_hemodialise"
               onChange={handleChange}
               type="text"
-              value={values.newSupportTreatment.frequencia_hemodialise}
+              value={values.frequencia_hemodialise}
               variant="outlined"
             />
           </FormGroup>

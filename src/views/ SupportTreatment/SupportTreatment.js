@@ -12,16 +12,13 @@ import {
   Typography,
   Grid,
   Button,
-  // Card,
 } from '@material-ui/core';
 
 import { Formik, Form } from 'formik';
 import schema from './schema';
 import PatientInfo from 'components/PatientInfo';
-// import ButtonAddOcorrencia from './components/ButtonAddOcorrencia';
-// import SupportTreatmentList from './components/SupportTreatmentList';
 import { useToast } from 'hooks/toast';
-import api from 'services/api';
+// import api from 'services/api';
 import { useHistory } from 'react-router-dom';
 import apiFake from 'services/apiFake';
 import SupportTreatmentItem from './components/SupportTreatmentItem';
@@ -29,12 +26,10 @@ import SupportTreatmentForm from './components/SupportTreatmentForm';
 
 // Valores iniciais
 const initialValues = {
-  newSupportTreatment: {
-    data_inicio: '',
-    data_termino: '',
-    motivo_hemodialise: '',
-    frequencia_hemodialise: '',
-  },
+  data_inicio: '',
+  data_termino: '',
+  motivo_hemodialise: '',
+  frequencia_hemodialise: '',
 };
 
 function SupportTreatment() {
@@ -59,6 +54,7 @@ function SupportTreatment() {
       console.log(id);
       setLoading(true);
       const response = await apiFake.get('/tratamento_suporte_2');
+      // verifica se o objeto está vazio
       if (Object.entries(response.data).length === 0) {
         setIsPrevValue(false);
       } else {
@@ -80,28 +76,22 @@ function SupportTreatment() {
   const handleSubmit = useCallback(
     async values => {
       try {
-        const { newSupportTreatments } = values;
 
-        // tentando salvar mas sem nada para enviar
-        if (newSupportTreatments.length === 0) {
-          addToast({
-            type: 'warning',
-            message: 'Nada para salvar.',
-          });
-          return;
-        }
+        console.log(values);
 
-        await api.post(
-          `/pacientes/${id}/tratamentos-suportes/`,
-          newSupportTreatments,
-        );
+        // TODO: colocar quando o back estiver pronto
+        // await api.post(
+        //   `/pacientes/${id}/tratamentos-suportes/`,
+        //   newSupportTreatments,
+        // );
 
         addToast({
           type: 'success',
           message: 'Dados salvos com sucesso.',
         });
 
-        window.location.reload();
+        // TODO: colocar depois quando tiver a api
+        // window.location.reload();
       } catch (error) {
         addToast({
           type: 'error',
@@ -160,33 +150,12 @@ function SupportTreatment() {
                       </Button>
                     </Grid>
                   </div>
+
                   {isPrevValue ? (
                     <SupportTreatmentItem tratamento={tratamento} />
                   ) : (
                     <SupportTreatmentForm />
                   )}
-
-                  {/* <Grid
-                    className={classes.supportTreatmentContainer}
-                    component={Card}
-                    container
-                    item
-                    md={10}
-                    sm={12}
-                    spacing={2}
-                  >
-                    <Grid item>
-                      <Typography variant="h3">
-                        Adicionar tratamento de suporte (hemodiálise):
-                      </Typography>
-                    </Grid>
-                    <Grid item>
-                      <ButtonAddOcorrencia />
-                    </Grid>
-                    <Grid item>
-                      <SupportTreatmentList tratamentos={tratamentos} />
-                    </Grid>
-                  </Grid> */}
 
                   {/* TODO: colocar depois do primeiro MVP */}
                   {/* <FormikErroObserver /> */}
