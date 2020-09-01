@@ -16,24 +16,43 @@ function SupportTreatmentItem({ tratamento }) {
   const classes = useStyles();
 
   return (
-    <Grid component={Card} container item sm={10} spacing={2}>
-      <Grid className={classes.heading} item>
-        <Typography className={classes.headingLabel} variant="h4">
+    <Grid
+      component={Card}
+      container
+      item
+      sm={10}
+      spacing={2}
+    >
+      <Grid
+        className={classes.heading}
+        item
+      >
+        <Typography
+          className={classes.headingLabel}
+          variant="h4"
+        >
           Hemodiálise
         </Typography>
       </Grid>
-      <Grid container item spacing={2}>
+      <Grid
+        container
+        item
+        spacing={2}
+      >
         {/* data_inicio */}
-        <Grid item sm={6}>
+        <Grid
+          item
+          sm={6}
+        >
           <FormGroup>
             <FormLabel>
               <Typography variant="h4">Primeira Sessão</Typography>
             </FormLabel>
             <TextField
-              contentEditable={false}
               InputLabelProps={{
                 shrink: true,
               }}
+              contentEditable={false}
               label="Data"
               type="date"
               value={tratamento.data_inicio}
@@ -42,16 +61,19 @@ function SupportTreatmentItem({ tratamento }) {
         </Grid>
 
         {/* data_termino */}
-        <Grid item sm={6}>
+        <Grid
+          item
+          sm={6}
+        >
           <FormGroup>
             <FormLabel>
               <Typography variant="h4">Última Sessão</Typography>
             </FormLabel>
             <TextField
-              contentEditable={false}
               InputLabelProps={{
                 shrink: true,
               }}
+              contentEditable={false}
               label="Data"
               type="date"
               value={tratamento.data_termino}
@@ -60,16 +82,20 @@ function SupportTreatmentItem({ tratamento }) {
         </Grid>
 
         {/* motivo_hemodialise */}
-        <Grid className={classes.fieldData} item sm={6}>
+        <Grid
+          className={classes.fieldData}
+          item
+          sm={6}
+        >
           <FormGroup>
             <FormLabel>
               <Typography variant="h4">Motivo</Typography>
             </FormLabel>
             <TextField
-              contentEditable={false}
               InputLabelProps={{
                 shrink: true,
               }}
+              contentEditable={false}
               type="text"
               value={tratamento.motivo_hemodialise || ''}
               variant="outlined"
@@ -78,16 +104,20 @@ function SupportTreatmentItem({ tratamento }) {
         </Grid>
 
         {/* frequencia_hemodialise */}
-        <Grid className={classes.fieldData} item sm={6}>
+        <Grid
+          className={classes.fieldData}
+          item
+          sm={6}
+        >
           <FormGroup>
             <FormLabel>
               <Typography variant="h4">Frequência</Typography>
             </FormLabel>
             <TextField
-              contentEditable={false}
               InputLabelProps={{
                 shrink: true,
               }}
+              contentEditable={false}
               type="text"
               value={tratamento.frequencia_hemodialise || ''}
               variant="outlined"
