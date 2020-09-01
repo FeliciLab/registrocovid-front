@@ -1,4 +1,4 @@
-const formatDate = (value) => {
+const formatDate = value => {
   const date = new Date(value);
   return Intl.DateTimeFormat('en-GB').format(date);
 };
