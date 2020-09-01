@@ -24,7 +24,6 @@ import api from 'services/api';
 import { useToast } from 'hooks/toast';
 import { useHistory } from 'react-router-dom';
 
-// helper pra ajudar na hora de separar os exames por tipo
 function getExamesPorTipo(exames) {
   return exames.reduce((acc, curr) => {
     var key = curr.tipo_exame_id;
@@ -96,7 +95,6 @@ function ComplementaryTests() {
     setExamesCompPorTipo(getExamesPorTipo(examesComplementares));
   }, [examesComplementares]);
 
-  // TODO: nada ainda
   const handleSubmit = async values => {
     try {
       const { newComplementaryTests } = values;
