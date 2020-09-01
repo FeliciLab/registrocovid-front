@@ -16,6 +16,7 @@ import PatientInfo from 'components/PatientInfo';
 import ButtonAddOcorrencia from './components/ButtonAddOcorrencia';
 import apiFake from 'services/apiFake';
 import SupportTreatmentList from './components/SupportTreatmentList';
+import { useToast } from 'hooks/toast';
 
 const initialValues = {
   newSupportTreatments: [],
@@ -23,6 +24,8 @@ const initialValues = {
 
 function SupportTreatment() {
   const classes = useStyles();
+
+  const { addToast } = useToast();
 
   const [loading, setLoading] = useState(false);
 
@@ -40,16 +43,41 @@ function SupportTreatment() {
       // TODO: usando a apiFake mas depois usar a api oficial
       const response = await apiFake.get('/tratamentos-suportes');
       setTratamentos(old => [...old, ...response.data]);
-
     } finally {
       setLoading(false);
     }
   }, []);
 
   // TODO: implementar o submit do button
-  const handleSubmit = values => {
-    console.log(values);
-  };
+  const handleSubmit = useCallback(async values => {
+    try {
+      const { newSupportTreatments } = values;
+
+      // tentando salvar mas sem nada para enviar
+      if (newSupportTreatments.length === 0) {
+        addToast({
+          type: 'warning',
+          message: 'Nada para salvar.',
+        });
+        return;
+      }
+
+      addToast({
+        type: 'success',
+        message: 'Dados salvos com sucesso.',
+      });
+
+      window.location.reload();
+
+      // TODO: remover isso no final
+      console.log(newSupportTreatments);
+    } catch (error) {
+      addToast({
+        type: 'error',
+        message: 'Algo de errado aconteceu',
+      });
+    }
+  }, [addToast]);
 
   useEffect(() => {
     handleSupportTreatments(id);
@@ -106,14 +134,17 @@ function SupportTreatment() {
                     item
                     spacing={2}
                   >
-                    <Typography variant="h3">
-                      Adicionar tratamento de suporte (hemodiálise):
-                    </Typography>
-
-                    <ButtonAddOcorrencia />
-
-                    <SupportTreatmentList tratamentos={tratamentos} />
-
+                    <Grid item>
+                      <Typography variant="h3">
+                        Adicionar tratamento de suporte (hemodiálise):
+                      </Typography>
+                    </Grid>
+                    <Grid item>
+                      <ButtonAddOcorrencia />
+                    </Grid>
+                    <Grid item>
+                      <SupportTreatmentList tratamentos={tratamentos} />
+                    </Grid>
                   </Grid>
                 </Form>
               )}
