@@ -26,11 +26,27 @@ const Categories = () => {
 
   const initialForm = useMemo(() => {
     return [
-      { id: 1, label: 'Informações gerais', url: 'categorias/informacoes-gerais' },
-      { id: 2, label: 'Identificação do paciente', url: 'categorias/identificacao-paciente' },
+      {
+        id: 1,
+        label: 'Informações gerais',
+        url: 'categorias/informacoes-gerais',
+      },
+      {
+        id: 2,
+        label: 'Identificação do paciente',
+        url: 'categorias/identificacao-paciente',
+      },
       { id: 3, label: 'História pessoal', url: 'categorias/historia-pessoal' },
-      { id: 4, label: 'Sintomas iniciais da COVID-19', url: 'categorias/sintomas-iniciais' },
-      { id: 5, label: 'Comorbidades / Condições clínicas da base', url: 'categorias/comorbidades' },
+      {
+        id: 4,
+        label: 'Sintomas iniciais da COVID-19',
+        url: 'categorias/sintomas-iniciais',
+      },
+      {
+        id: 5,
+        label: 'Comorbidades / Condições clínicas da base',
+        url: 'categorias/comorbidades',
+      },
     ];
   }, []);
 
@@ -47,7 +63,11 @@ const Categories = () => {
         label: 'Exames laboratoriais específicos COVID 19',
         url: 'categorias/exames-especificos/',
       },
-      { id: 4, label: 'Exames complementares' },
+      {
+        id: 4,
+        label: 'Exames complementares',
+        url: 'categorias/exames-complementares/',
+      },
       { id: 5, label: 'Tratamento de Suporte' },
       { id: 6, label: 'Complicações' },
       { id: 7, label: 'Suporte respiratório' },
@@ -56,7 +76,7 @@ const Categories = () => {
     ];
   }, []);
 
-  const handleNavigate = (url) => {
+  const handleNavigate = url => {
     history.push(url);
   };
 
