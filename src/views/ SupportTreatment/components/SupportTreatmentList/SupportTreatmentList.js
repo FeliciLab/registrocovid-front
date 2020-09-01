@@ -2,8 +2,12 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 import SupportTreatmentItem from '../SupportTreatmentItem';
+import { FieldArray, useFormikContext } from 'formik';
+import SupportTreatmentForm from '../SupportTreatmentForm';
 
-function SupportTreatmentList({tratamentos}) {
+function SupportTreatmentList({ tratamentos }) {
+  const { values } = useFormikContext();
+
   return (
     <div>
       {tratamentos.map((tratamento, index) => (
@@ -12,6 +16,24 @@ function SupportTreatmentList({tratamentos}) {
           tratamento={tratamento}
         />
       ))}
+
+      <FieldArray name="newSupportTreatments">
+        {({ remove }) => (
+          <div>
+            {values.newSupportTreatments &&
+              values.newSupportTreatments.length > 0 &&
+              values.newSupportTreatments
+                .map((tratamento, index) => (
+                  <SupportTreatmentForm
+                    index={values.newSupportTreatments.indexOf(tratamento)}
+                    key={index}
+                    remove={remove}
+                  />
+                ))
+                .reverse()}
+          </div>
+        )}
+      </FieldArray>
     </div>
   );
 }
