@@ -17,10 +17,13 @@ function SupportTreatmentItem({ tratamento }) {
 
   return (
     <Grid
+      className={classes.root}
       component={Card}
       container
       item
+      md={10}
       spacing={2}
+      xs={12}
     >
       <Grid
         className={classes.heading}

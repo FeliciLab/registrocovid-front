@@ -143,11 +143,16 @@ function SupportTreatment() {
                     </Grid>
                   </div>
 
-                  {isPrevValue ? (
-                    <SupportTreatmentItem tratamento={tratamento} />
-                  ) : (
-                    <SupportTreatmentForm />
-                  )}
+                  <Grid
+                    className={classes.contentContainer}
+                    container
+                  >
+                    {isPrevValue ? (
+                      <SupportTreatmentItem tratamento={tratamento} />
+                    ) : (
+                      <SupportTreatmentForm />
+                    )}
+                  </Grid>
 
                   {/* TODO: colocar depois do primeiro MVP */}
                   {/* <FormikErroObserver /> */}

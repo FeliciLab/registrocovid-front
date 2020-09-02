@@ -21,6 +21,9 @@ function SupportTreatmentForm() {
       className={classes.root}
       component={Card}
       item
+      md={10}
+      spacing={2}
+      xs={12}
     >
       <FormLabel className={classes.formLabel}>
         <Typography variant="h4">Hemodiálise</Typography>

@@ -30,5 +30,10 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     padding: theme.spacing(2),
   },
+  contentContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
 }));
 export default useStyles;
