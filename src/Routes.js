@@ -16,7 +16,8 @@ import {
   InitialSymptoms as InitialSymptomsView,
   Comorbidities as ComorbiditiesView,
   ComplementaryTests as ComplementaryTestsView,
-  PhysicalExamsList as PhysicalExamsListView,  
+  PhysicalExamsList as PhysicalExamsListView,
+  RelatedInfections as RelatedInfectionsView,
 } from './views';
 import PatientIdentification from 'views/PatientIdentification';
 
@@ -131,6 +132,13 @@ const Routes = () => {
         isPrivate
         layout={MainLayout}
         path="/categorias/exames-complementares/"
+      />
+      <RouteWithLayout
+        component={RelatedInfectionsView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/iras/"
       />
       <RouteWithLayout
         component={NotFoundView}
