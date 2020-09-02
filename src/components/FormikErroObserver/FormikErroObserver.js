@@ -6,7 +6,7 @@ import { useToast } from 'hooks/toast';
  * Componente usado para mostrar um Toast no casso de campos faltantes de um
  * formulário do Formik
  */
-const FormikErroObserver = () => {
+function FormikErroObserver() {
   const { isValid, isValidating, isSubmitting } = useFormikContext();
 
   const { addToast } = useToast();
@@ -20,6 +20,6 @@ const FormikErroObserver = () => {
   }, [isValidating, addToast, isSubmitting, isValid]);
 
   return null;
-};
+}
 
 export default FormikErroObserver;

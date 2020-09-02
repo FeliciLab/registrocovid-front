@@ -63,7 +63,11 @@ const Categories = () => {
         label: 'Exames laboratoriais específicos COVID 19',
         url: 'categorias/exames-especificos/',
       },
-      { id: 4, label: 'Exames complementares' },
+      {
+        id: 4,
+        label: 'Exames complementares',
+        url: 'categorias/exames-complementares/',
+      },
       {
         id: 5,
         label: 'Tratamento de Suporte',
