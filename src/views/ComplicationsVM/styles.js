@@ -110,6 +110,9 @@ const useStyles = makeStyles(theme => ({
   },
   fullWidth: {
     width: '100%'
+  },
+  newExpPanel: {
+    marginBottom: theme.spacing(1)
   }
 }));
 

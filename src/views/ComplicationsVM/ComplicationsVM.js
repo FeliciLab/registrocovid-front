@@ -59,9 +59,11 @@ const ComplicationsVM = () => {
         api.get(`pacientes/${patient.id}/ventilacao-mecanica`)
       ]);
 
+      let ordenedByDate = await orderByDate(complicationsPatient.data.transfussoes_ocorrencia)
+
       setComplicationsTypes(complications.data);
       setOldComplications(complicationsPatient.data.complicacoes_ventilacao_mecanica);
-      setTransfusions(complicationsPatient.data.transfussoes_ocorrencia);
+      setTransfusions(ordenedByDate);
     } catch {
       addToast({
         type: 'error',
@@ -105,14 +107,19 @@ const ComplicationsVM = () => {
     formRef.current.submit();
   };
 
-  const groupedOldComplications = useMemo(() => {
-    const orderByDate = oldComplications.sort((a, b) => {
-      if (a.data_complicacao > b.data_complicacao) return 1;
-      if (a.data_complicacao < b.data_complicacao) return -1;
+  const orderByDate = (array) => {
+    return array.sort((a, b) => {
+      if (a.data_complicacao > b.data_complicacao || a.data_transfusao > b.data_transfusao) return 1;
+      if (a.data_complicacao < b.data_complicacao || a.data_transfusao < b.data_transfusao) return -1;
       return 0;
     });
+  }
 
-    return orderByDate.reduce((acc, object) => {
+  const groupedOldComplications = useMemo(() => {
+    const ordernedByDate = orderByDate(oldComplications);
+
+    console.log(ordernedByDate);
+    return ordernedByDate.reduce((acc, object) => {
       let key = object.tipo_complicacao['id'];
       if (key !== 4) {
         if (!acc[key]) {
@@ -230,19 +237,23 @@ const ComplicationsVM = () => {
                       visible
                     />
                   ))}
-
-                  {Object.entries(groupedOldComplications).map(element => element[1].map(item => {
-                    return (
-                      <Complications
-                        id={item.id}
-                        infos={item}
-                        isNew={false}
-                        key={String(item.id)}
-                        newComplication={item.tipo_complicacao.id}
-                        visible
-                      />
-                    )
-                  })
+                  {Object.entries(groupedOldComplications).map(element => {
+                    return [
+                      element[1].map(item => {
+                        return (
+                          <Complications
+                            id={item.id}
+                            infos={item}
+                            isNew={false}
+                            key={String(item.id)}
+                            newComplication={item.tipo_complicacao.id}
+                            visible
+                          />
+                        )
+                      }),
+                      <div className={classes.newExpPanel} />
+                    ]
+                  }
                   )}
 
                   {transfusions?.map((item) => (

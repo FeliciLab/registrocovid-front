@@ -76,7 +76,7 @@ const Form = forwardRef((props, ref) => {
         message: 'Dados salvos com sucesso'
       });
 
-      // window.location.reload();
+      window.location.reload();
     } catch (err) {
       addToast({
         type: 'error',
