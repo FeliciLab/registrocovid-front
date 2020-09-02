@@ -18,11 +18,10 @@ import { Formik, Form } from 'formik';
 import schema from './schema';
 import PatientInfo from 'components/PatientInfo';
 import { useToast } from 'hooks/toast';
-// import api from 'services/api';
 import { useHistory } from 'react-router-dom';
-import apiFake from 'services/apiFake';
 import SupportTreatmentItem from './components/SupportTreatmentItem';
 import SupportTreatmentForm from './components/SupportTreatmentForm';
+import api from 'services/api';
 
 // Valores iniciais
 const initialValues = {
@@ -41,6 +40,7 @@ function SupportTreatment() {
 
   const [loading, setLoading] = useState(false);
 
+  // Diz se foram o paciente tem infomções salvas previamente
   const [isPrevValue, setIsPrevValue] = useState(false);
 
   const [tratamento, setTratamento] = useState({});
@@ -49,19 +49,19 @@ function SupportTreatment() {
     patient: { id },
   } = usePatient();
 
+  // Buscando os dados no backend
   const handleSupportTreatments = useCallback(async id => {
     try {
-      console.log(id);
       setLoading(true);
-      const response = await apiFake.get('/tratamento_suporte');
+
+      const response = await api.get(`/pacientes/${id}/tratamento-suporte/`);
+
       // verifica se o objeto está vazio
-      if (Object.entries(response.data).length === 0) {
+      if (Object.entries(response.data.tratamento_suporte).length === 0)
         setIsPrevValue(false);
-      } else {
-        setIsPrevValue(true);
-      }
-      console.log(response.data);
-      setTratamento(response.data);
+      else setIsPrevValue(true);
+
+      setTratamento(response.data.tratamento_suporte);
     } catch (error) {
       addToast({
         type: 'error',
@@ -76,22 +76,14 @@ function SupportTreatment() {
   const handleSubmit = useCallback(
     async values => {
       try {
-
-        console.log(values);
-
-        // TODO: colocar quando o back estiver pronto
-        // await api.post(
-        //   `/pacientes/${id}/tratamentos-suportes/`,
-        //   newSupportTreatments,
-        // );
+        await api.post(`/pacientes/${id}/tratamento-suporte/`, values);
 
         addToast({
           type: 'success',
           message: 'Dados salvos com sucesso.',
         });
 
-        // TODO: colocar depois quando tiver a api
-        // window.location.reload();
+        window.location.reload();
       } catch (error) {
         addToast({
           type: 'error',
