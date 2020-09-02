@@ -110,7 +110,7 @@ export const Transfusional = (props) => {
               <RadioGroup
                 name={`tipo_transfusao_id#${id}`}
                 row
-                value={infos?.tipos_transfusao.id ?? parseInt(fContext.values[`tipo_transfusao_id#${id}`])}
+                value={infos?.tipos_transfusao?.id ?? parseInt(fContext.values[`tipo_transfusao_id#${id}`])}
               >
                 <Grid
                   container
@@ -125,6 +125,7 @@ export const Transfusional = (props) => {
                       <FormControlLabel
                         control={
                           <Radio
+                            disabled={infos?.data_transfusao ? true : undefined}
                             onChange={fContext.handleChange}
                             value={item.id}
                           />
@@ -151,6 +152,7 @@ export const Transfusional = (props) => {
                   </FormLabel>
                   <TextField
                     className={classes.dateField}
+                    disabled={infos?.data_transfusao ? true : undefined}
                     error={(fContext.errors[`volume_transfusao#${id}`] && fContext.touched[`volume_transfusao#${id}`])}
                     helperText={
                       (fContext.errors[`volume_transfusao#${id}`] && fContext.touched[`volume_transfusao#${id}`]) ? fContext.errors[`volume_transfusao#${id}`] : null
@@ -178,16 +180,17 @@ export const Transfusional = (props) => {
                       shrink: true,
                     }}
                     className={classes.dateField}
-                    error={(fContext.errors[`data_transfusao#${id}`] && fContext.touched[`data_transfusao#${id}`])}
+                    disabled={infos?.data_transfusao ? true : undefined}
+                    error={(fContext.errors[`data_complicacao#${id}`] && fContext.touched[`data_complicacao#${id}`])}
                     helperText={
-                      (fContext.errors[`data_transfusao#${id}`] && fContext.touched[`data_transfusao#${id}`]) ? fContext.errors[`data_transfusao#${id}`] : null
+                      (fContext.errors[`data_complicacao#${id}`] && fContext.touched[`data_complicacao#${id}`]) ? fContext.errors[`data_complicacao#${id}`] : null
                     }
                     label="Data"
-                    name={`data_transfusao#${id}`}
+                    name={`data_complicacao#${id}`}
                     onBlur={fContext.handleBlur}
                     onChange={fContext.handleChange}
                     type="date"
-                    value={infos?.data_transfusao ?? fContext.values[`data_transfusao#${id}`]}
+                    value={infos?.data_transfusao ?? fContext.values[`data_complicacao#${id}`]}
                   />
                 </FormGroup>
               </Grid>

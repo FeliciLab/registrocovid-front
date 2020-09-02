@@ -29,16 +29,16 @@ const Form = forwardRef((props, ref) => {
 
   const handleSubmit = async (values) => {
     try {
-
-      /**
-       * TODO Fazer envio da parte de Transfusão
-       * TODO Fazer verificação do Yup para a descrição de outros e hemorragia
-       * TODO Verificar se não está enviando novamente as complicações já salvas, adicionar complicação -> salvar -> "Espera reload" -> Repetir procedimento e verificar o que foi enviado
-       */
+      if (Object.keys(values).length === 0) {
+        addToast({
+          type: 'warning',
+          message: 'Nenhuma complicação para ser registrada',
+        });
+        return;
+      }
 
       const jsonToSend = Object.entries(values).reduce((prev, curr) => {
         let index = curr[0].split('#');
-        console.log(curr);
 
         if (prev[index[1]]) {
           if (index[0] === 'tipo_transfusao_id') {
@@ -65,8 +65,8 @@ const Form = forwardRef((props, ref) => {
         return prev;
       }, {})
 
-      const promisses = Object.values(jsonToSend).map(value =>
-        api.post(`/pacientes/${patient.id}/ventilacao-mecanica`, value)
+      const promisses = Object.values(jsonToSend).map(values =>
+        api.post(`/pacientes/${patient.id}/ventilacao-mecanica`, values)
       );
 
       await Promise.all(promisses);
@@ -114,7 +114,8 @@ const Form = forwardRef((props, ref) => {
         case 4:
           initialValues[`tipo_transfusao_id#${children.props.id}`] = formik.values[`tipo_transfusao_id#${children.props.id}`] || undefined;
           initialValues[`volume_transfusao#${children.props.id}`] = formik.values[`volume_transfusao#${children.props.id}`] || undefined;
-          initialValues[`data_transfusao#${children.props.id}`] = formik.values[`data_transfusao#${children.props.id}`] || '';
+          initialValues[`data_complicacao#${children.props.id}`] = formik.values[`data_complicacao#${children.props.id}`] || '';
+          initialValues[`tipo_complicacao_id#${children.props.id}`] = 4;
           break;
         case 5:
           initialValues[`data_complicacao#${children.props.id}`] = formik.values[`data_complicacao#${children.props.id}`] || '';
@@ -140,14 +141,6 @@ const Form = forwardRef((props, ref) => {
       }
     })
   }, [formik.values]);
-
-  // useEffect(() => {
-  //   if (!formik.isValid)
-  //     addToast({
-  //       type: 'error',
-  //       message: 'Erro ao tentar registrar complicações, por favor verifique os cartões',
-  //     });
-  // }, [addToast, formik.isValid]);
 
   useImperativeHandle(ref, () => {
     return {

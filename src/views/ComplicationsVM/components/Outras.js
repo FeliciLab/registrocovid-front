@@ -68,6 +68,7 @@ export const Outras = (props) => {
               </FormLabel>
               <TextField
                 className={classes.dateField}
+                disabled={infos?.data_complicacao ? true : false}
                 error={(fContext.errors[`descricao_outros#${id}`] && fContext.touched[`descricao_outros#${id}`])}
                 helperText={
                   (fContext.errors[`descricao_outros#${id}`] && fContext.touched[`descricao_outros#${id}`]) ? fContext.errors[`descricao_outros#${id}`] : null
@@ -90,6 +91,7 @@ export const Outras = (props) => {
                   shrink: true,
                 }}
                 className={classes.dateField}
+                disabled={infos?.data_complicacao ? true : false}
                 error={(fContext.errors[`data_complicacao#${id}`] && fContext.touched[`data_complicacao#${id}`])}
                 helperText={
                   (fContext.errors[`data_complicacao#${id}`] && fContext.touched[`data_complicacao#${id}`]) ? fContext.errors[`data_complicacao#${id}`] : null

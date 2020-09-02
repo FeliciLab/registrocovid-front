@@ -3,6 +3,7 @@ import React, {
   useCallback,
   useEffect,
   useRef,
+  useMemo
 } from 'react';
 import { useHistory } from 'react-router-dom';
 
@@ -44,10 +45,10 @@ const ComplicationsVM = () => {
 
   const [loading, setLoading] = useState(false);
   const [complicationsTypes, setComplicationsTypes] = useState([]);
-  const [oldsComplications, setOldsComplications] = useState([]);
+  const [oldComplications, setOldComplications] = useState([]);
   const [transfusions, setTransfusions] = useState([]);
   const [newsComplications, setNewsComplications] = useState([]);
-  const [complicationId, setComplicationId] = useState(0)
+  const [complicationId, setComplicationId] = useState(0);
 
   const handleInfos = useCallback(async () => {
     try {
@@ -59,7 +60,7 @@ const ComplicationsVM = () => {
       ]);
 
       setComplicationsTypes(complications.data);
-      setOldsComplications(complicationsPatient.data.complicacoes_ventilacao_mecanica);
+      setOldComplications(complicationsPatient.data.complicacoes_ventilacao_mecanica);
       setTransfusions(complicationsPatient.data.transfussoes_ocorrencia);
     } catch {
       addToast({
@@ -103,6 +104,25 @@ const ComplicationsVM = () => {
   const handleSubmit = () => {
     formRef.current.submit();
   };
+
+  const groupedOldComplications = useMemo(() => {
+    const orderByDate = oldComplications.sort((a, b) => {
+      if (a.data_complicacao > b.data_complicacao) return 1;
+      if (a.data_complicacao < b.data_complicacao) return -1;
+      return 0;
+    });
+
+    return orderByDate.reduce((acc, object) => {
+      let key = object.tipo_complicacao['id'];
+      if (key !== 4) {
+        if (!acc[key]) {
+          acc[key] = [];
+        }
+        acc[key].push(object);
+      }
+      return acc;
+    }, {});
+  }, [oldComplications]);
 
   return (
     <div className={classes.root}>
@@ -187,10 +207,10 @@ const ComplicationsVM = () => {
                       className={classes.buttonSave}
                       color="secondary"
                       onClick={handleNewComplication}
+                      startIcon={<AddIcon />}
                       type="button"
                       variant="contained"
                     >
-                      <AddIcon style={{ marginRight: 8 }} />
                       Adicionar Ocorrência
                     </Button>
                   </Grid>
@@ -211,16 +231,19 @@ const ComplicationsVM = () => {
                     />
                   ))}
 
-                  {oldsComplications?.map((item) => (
-                    <Complications
-                      id={item.id}
-                      infos={item}
-                      isNew={false}
-                      key={String(item.id)}
-                      newComplication={item.tipo_complicacao.id}
-                      visible
-                    />
-                  ))}
+                  {Object.entries(groupedOldComplications).map(element => element[1].map(item => {
+                    return (
+                      <Complications
+                        id={item.id}
+                        infos={item}
+                        isNew={false}
+                        key={String(item.id)}
+                        newComplication={item.tipo_complicacao.id}
+                        visible
+                      />
+                    )
+                  })
+                  )}
 
                   {transfusions?.map((item) => (
                     <Complications

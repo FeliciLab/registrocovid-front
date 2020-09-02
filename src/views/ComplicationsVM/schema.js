@@ -13,14 +13,14 @@ const schema = Yup.lazy(obj =>
       }
       // Transfusional
       if (key.includes('tipo_transfusao_id')) {
-        return Yup.number();
+        return Yup.number().required('Campo Obrigatório');
       }
       if (key.includes('volume_transfusao')) {
         return Yup.number().positive();
       }
-      if (key.includes('data_transfusao')) {
-        return Yup.date().required('Campo Obrigatório');
-      }
+      // if (key.includes('data_transfusao')) {
+      //   return Yup.date().required('Campo Obrigatório');
+      // }
       // Outras
       if (key.includes('descricao') && key.includes('outros')) {
         return Yup.string().required('Campo Obrigatório');

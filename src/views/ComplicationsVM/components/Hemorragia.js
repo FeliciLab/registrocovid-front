@@ -68,6 +68,7 @@ export const Hemorragia = (props) => {
               />
               <TextField
                 className={classes.dateField}
+                disabled={infos?.data_complicacao ? true : false}
                 error={(fContext.errors[`descricao#${id}`] && fContext.touched[`descricao#${id}`])}
                 helperText={
                   (fContext.errors[`descricao#${id}`] && fContext.touched[`descricao#${id}`]) ? fContext.errors[`descricao#${id}`] : null
@@ -90,6 +91,7 @@ export const Hemorragia = (props) => {
                   shrink: true,
                 }}
                 className={classes.dateField}
+                disabled={infos?.data_complicacao ? true : false}
                 error={(fContext.errors[`data_complicacao#${id}`] && fContext.touched[`data_complicacao#${id}`])}
                 helperText={
                   (fContext.errors[`data_complicacao#${id}`] && fContext.touched[`data_complicacao#${id}`]) ? fContext.errors[`data_complicacao#${id}`] : null
