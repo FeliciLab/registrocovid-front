@@ -27,16 +27,21 @@ const IRASForm = ({ index, remove }) => {
     <Grid
       className={classes.root}
       component={Card}
-      container
       item
-      md={10}
-      spacing={2}
-      xs={12}
     >
       <FormLabel className={classes.formLabel}>
-        <Typography variant="h4">
+        <Typography
+          className={classes.tipoIRASDescricao}
+          variant="h4"
+        >
           {values.newIRASs[index].tipo_iras_descricao}
         </Typography>
+        <IconButton
+          aria-label="delete"
+          onClick={() => remove(index)}
+        >
+          <DeleteIcon fontSize="small" />
+        </IconButton>
       </FormLabel>
 
       <Grid
@@ -53,12 +58,6 @@ const IRASForm = ({ index, remove }) => {
           <FormGroup>
             <FormLabel>
               <Typography variant="h5">Ocorrência</Typography>
-              <IconButton
-                aria-label="delete"
-                onClick={() => remove(index)}
-              >
-                <DeleteIcon fontSize="small" />
-              </IconButton>
             </FormLabel>
             <Field
               InputLabelProps={{

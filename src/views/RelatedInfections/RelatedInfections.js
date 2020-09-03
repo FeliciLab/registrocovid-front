@@ -16,6 +16,7 @@ import api from 'services/api';
 import SelectIRASType from './components/SelectIRASType';
 import IRASList from './components/IRASList';
 import apiFake from 'services/apiFake';
+import IRASFormList from './components/IRASFormList';
 
 const initialValues = {
   newIRASs: [],
@@ -132,6 +133,8 @@ const RelatedInfections = () => {
 
                 {/* TODO: colocar aqui um contentWraper englobando tudo */}
                 <SelectIRASType tipos={tiposIRAS} />
+
+                <IRASFormList />
 
                 <IRASList irasList={iras} />
 

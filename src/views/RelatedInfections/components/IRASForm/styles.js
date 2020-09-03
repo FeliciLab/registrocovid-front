@@ -12,6 +12,9 @@ const useStyles = makeStyles(theme => ({
   fieldWraper: {
     marginTop: theme.spacing(1),
   },
+  tipo_iras_descricao: {
+    maxWidth: '228px',
+  },
   field: {
     marginTop: theme.spacing(1),
   },
