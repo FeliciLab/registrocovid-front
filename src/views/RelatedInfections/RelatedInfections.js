@@ -22,6 +22,15 @@ const initialValues = {
   tipoIRASSelected: '',
 };
 
+function getIRASPorTipo(irasList) {
+  return irasList.reduce((acc, curr) => {
+    var key = curr.tipo_exame_id;
+    acc[key] = acc[key] || [];
+    acc[key].push(curr);
+    return acc;
+  }, []);
+}
+
 // Component da pgiande Infecções relacionadas à assistência à saúde (IRAS)
 const RelatedInfections = () => {
   const {
@@ -47,6 +56,8 @@ const RelatedInfections = () => {
 
       const responseIRAS = await apiFake.get('/iras');
       setIras(old => [...old, ...responseIRAS.data]);
+
+      console.log(getIRASPorTipo(responseIRAS.data));
 
       console.log(id);
     } catch (error) {
@@ -94,26 +105,21 @@ const RelatedInfections = () => {
             initialValues={initialValues}
             onSubmit={handleSubmit}
             validateOnMount
-            validationSchema={schema}
-          >
+            validationSchema={schema}>
             {({ isSubmitting }) => (
               <Form component={FormControl}>
                 <div className={classes.titleWrapper}>
                   <Typography variant="h3">
                     Infecções relacionadas à assistência à saúde (IRAS)
                   </Typography>
-                  <Grid
-                    className={classes.actionSection}
-                    item
-                  >
+                  <Grid className={classes.actionSection} item>
                     <PatientInfo />
                     <Button
                       className={classes.buttonSave}
                       color="secondary"
                       disabled={isSubmitting}
                       type="submit"
-                      variant="contained"
-                    >
+                      variant="contained">
                       Salvar
                     </Button>
                   </Grid>
@@ -122,8 +128,17 @@ const RelatedInfections = () => {
                 {/* TODO: colocar aqui um contentWraper englobando tudo */}
                 <SelectIRASType tipos={tiposIRAS} />
 
-                <IRASList irasList={iras} />
+                {/* <IRASList irasList={iras} /> */}
 
+                {tiposIRAS &&
+                  tiposIRAS.length !== 0 &&
+                  tiposIRAS.map((tipo, index) => (
+                    <IRASList
+                      // descricao={tipo.descricao}
+                      irasList={getIRASPorTipo(iras)[tipo.id]}
+                      key={index}
+                    />
+                  ))}
               </Form>
             )}
           </Formik>

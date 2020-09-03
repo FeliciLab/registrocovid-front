@@ -15,18 +15,7 @@ function IRASList({ irasList }) {
 
   return (
     <div className={classes.root}>
-      <Grid
-        component={Card}
-        item
-      >
-        {/* TODO: fazer o IRASItem */}
-        {irasList.map((iras, index) => (
-          <IRASItem
-            iras={iras}
-            key={index}
-          />
-        ))}
-
+      <Grid component={Card} item>
         <FieldArray name="newIRASs">
           {({ remove }) => (
             <div>
@@ -45,6 +34,9 @@ function IRASList({ irasList }) {
             </div>
           )}
         </FieldArray>
+        {irasList.map((iras, index) => (
+          <IRASItem iras={iras} key={index} />
+        ))}
       </Grid>
     </div>
   );
