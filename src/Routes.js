@@ -10,11 +10,15 @@ import {
   ListPatients as ListPatientsView,
   Categories as CategoriesView,
   GeneralInfo as GeneralInfoView,
+  SpecificsTests as SpecificsTestsView,
   PersonalHistory as PersonalHistoryView,
   PhysicalExam as PhysicalExamView,
   ComplicationsVM as ComplicationsVMView,
   InitialSymptoms as InitialSymptomsView,
   Comorbidities as ComorbiditiesView,
+  PhysicalExamsList as PhysicalExamsListView,
+  SupportTreatment as SupportTreatmentView,
+  ComplementaryTests as ComplementaryTestsView,
 } from './views';
 import PatientIdentification from 'views/PatientIdentification';
 
@@ -52,6 +56,27 @@ const Routes = () => {
         isPrivate
         layout={MainLayout}
         path="/categorias/informacoes-gerais"
+      />
+      <RouteWithLayout
+        component={PhysicalExamsListView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/lista-exame-fisico"
+      />
+      <RouteWithLayout
+        component={SpecificsTestsView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/exames-especificos/:id"
+      />
+      <RouteWithLayout
+        component={SpecificsTestsView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/exames-especificos/"
       />
       <RouteWithLayout
         component={PersonalHistoryView}
@@ -100,7 +125,28 @@ const Routes = () => {
         exact
         isPrivate
         layout={MainLayout}
+        path="/categorias/identificacao-paciente"
+      />
+      <RouteWithLayout
+        component={PatientIdentification}
+        exact
+        isPrivate
+        layout={MainLayout}
         path="/categorias/identificacao-paciente/:id"
+      />
+      <RouteWithLayout
+        component={SupportTreatmentView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/tratamento-suporte/"
+      />
+      <RouteWithLayout
+        component={ComplementaryTestsView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/exames-complementares/"
       />
       <RouteWithLayout
         component={NotFoundView}

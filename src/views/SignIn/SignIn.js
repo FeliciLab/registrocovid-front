@@ -16,6 +16,7 @@ import {
   Typography,
   InputAdornment,
 } from '@material-ui/core';
+import { TextMaskCPF } from 'components';
 
 // Schema do Yup para validação dos campos.
 const schema = Yup.object().shape({
@@ -47,6 +48,9 @@ const SignIn = () => {
       cpf: values.cpf,
       password: values.password
     }
+    // sanitizando o cpf
+    user.cpf = user.cpf.split('.').join('');
+    user.cpf = user.cpf.split('-').join('');
     handleLogin(user);
   };
 
@@ -83,6 +87,9 @@ const SignIn = () => {
                       Entrar no sistema
                     </Typography>
                     <Field
+                      InputProps={{
+                        inputComponent: TextMaskCPF,
+                      }}
                       as={TextField}
                       className={classes.textField}
                       error={(errors.cpf && touched.cpf)}
@@ -98,13 +105,6 @@ const SignIn = () => {
                       variant="outlined"
                     />
                     <Field
-                      as={TextField}
-                      className={classes.textField}
-                      error={(errors.password && touched.password)}
-                      fullWidth
-                      helperText={
-                        (errors.password && touched.password) ? errors.password : null
-                      }
                       InputProps={{
                         endAdornment: (
                           <InputAdornment position="end">
@@ -118,6 +118,13 @@ const SignIn = () => {
                           </InputAdornment>
                         ),
                       }}
+                      as={TextField}
+                      className={classes.textField}
+                      error={(errors.password && touched.password)}
+                      fullWidth
+                      helperText={
+                        (errors.password && touched.password) ? errors.password : null
+                      }
                       label="Password"
                       name="password"
                       onChange={handleChange}
