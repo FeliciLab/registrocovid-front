@@ -26,7 +26,6 @@ const SelectComplementaryTestType = props => {
 
   const { values, handleChange, setFieldValue } = useFormikContext();
 
-  // TODO testando
   const handleAddTesteType = () => {
     setFieldValue('newComplementaryTests', [
       ...values.newComplementaryTests,

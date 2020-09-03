@@ -15,7 +15,6 @@ import PatientInfo from 'components/PatientInfo';
 import api from 'services/api';
 import SelectIRASType from './components/SelectIRASType';
 
-// TODO: nada por enquanto
 const initialValues = {
   newIRASs: [],
   tipoIRASSelected: '',
