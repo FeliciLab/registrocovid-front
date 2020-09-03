@@ -118,7 +118,6 @@ const ComplicationsVM = () => {
   const groupedOldComplications = useMemo(() => {
     const ordernedByDate = orderByDate(oldComplications);
 
-    console.log(ordernedByDate);
     return ordernedByDate.reduce((acc, object) => {
       let key = object.tipo_complicacao['id'];
       if (key !== 4) {
@@ -237,6 +236,7 @@ const ComplicationsVM = () => {
                       visible
                     />
                   ))}
+
                   {Object.entries(groupedOldComplications).map(element => {
                     return [
                       element[1].map(item => {
@@ -275,7 +275,5 @@ const ComplicationsVM = () => {
     </div>
   );
 }
-
-
 
 export default ComplicationsVM;

@@ -52,7 +52,6 @@ export const Transfusional = (props) => {
       }
 
       setTransfusionTypes(JSON.parse(transfusions));
-
     } catch (err) {
       addToast({
         type: 'error',
@@ -107,7 +106,7 @@ export const Transfusional = (props) => {
                 <Typography variant="h5">Em caso afirmativo para necessidade transfusional, especificar o tipo
                 </Typography>
               </FormLabel>
-              
+
               <FormHelperText
                 error={(fContext.errors[`tipo_transfusao_id#${id}`] && fContext.touched[`tipo_transfusao_id#${id}`])}
                 id="component-helper-text"
