@@ -73,6 +73,7 @@ const Form = forwardRef((props, ref) => {
   };
 
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
       data_evolucao: physicalExam.data_evolucao || '',
       temperatura: physicalExam.temperatura || '',

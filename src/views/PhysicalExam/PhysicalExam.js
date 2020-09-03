@@ -1,6 +1,5 @@
 import React, {
   useState,
-  useCallback,
   useEffect,
   useRef,
 } from 'react';
@@ -12,6 +11,7 @@ import {
   CircularProgress,
 } from '@material-ui/core';
 
+import { getPhysicalExam } from '../../services/physicalExam';
 import CustonBreadcrumbs from 'components/CustonBreadcrumbs';
 import PatientInfo from 'components/PatientInfo';
 import Form from './components/Form';
@@ -29,46 +29,43 @@ const PhysicalExam = () => {
   const { params } = useRouteMatch();
   const { addToast } = useToast();
   const { patient } = usePatient();
-
-  const formRef = useRef(null);
-  const buttonDisabled = useRef(false);
-
   const [loading, setLoading] = useState(false);
+  const formRef = useRef(null);
   const [physicalExam, setPhysicalExam] = useState({});
 
-  const handleInfos = useCallback(async () => {
-    try {
-      setLoading(true);
+  const goToNewForm = () => { history.push('/categorias/exame-fisico') };
 
-      const response = await api.get(`/pacientes/${patient.id}/evolucoes-diarias/${params.examId}`);
-
-      if (response.status === 200) {
-        setPhysicalExam(response.data);
-        buttonDisabled.current = true;
+  useEffect( () => {
+    const getPhysicalExam = async () => {
+      try{
+        const response = await api.get(`/pacientes/${patient.id}/evolucoes-diarias/${params.examId}`);
+        if (response.status === 200) {
+          setPhysicalExam(response.data);
+        }
+      }catch(err){
+        let message = 'Erro ao tentar carregar informações, tente novamente.'
+        if (err.response.status === 404) {
+          message = 'Exame não encontrado.'
+        }
+        addToast({
+          type: 'error',
+          message,
+        });
       }
-    } catch (err) {
-      if (err.response.status === 404) {
-        return null;
-      }
-
-      addToast({
-        type: 'error',
-        message: 'Erro ao tentar carregar informações, tente novamente',
-      });
-
-      history.goBack();
-    } finally {
       setLoading(false);
     }
-  }, [addToast, history, patient.id, params.examId]);
 
-  useEffect(() => {
-    handleInfos();
-  }, [handleInfos]);
+    if(params.examId){
+      getPhysicalExam();
+    }
+
+  }, [addToast, params.examId, patient.id]);
 
   const handleSubmit = () => {
     formRef.current.submit();
   }
+
+  const hasExam = Object.entries(physicalExam).length !== 0; 
 
   return (
     <div className={classes.root}>
@@ -89,17 +86,18 @@ const PhysicalExam = () => {
 
           <div className={classes.rightContent}>
             <PatientInfo />
-
-            <Button
-              className={classes.buttonSave}
-              color="secondary"
-              disabled={buttonDisabled.current}
-              onClick={handleSubmit}
-              type="submit"
-              variant="contained"
-            >
-              Salvar
-            </Button>
+            <>
+              <Button
+                className={classes.buttonSave}
+                color="secondary"
+                disabled={hasExam}
+                onClick={handleSubmit}
+                type="submit"
+                variant="contained"
+              >
+                Salvar
+              </Button>
+            </>
           </div>
         </div>
 
