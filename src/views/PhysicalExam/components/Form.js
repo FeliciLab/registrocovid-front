@@ -1,4 +1,5 @@
 import React, { useImperativeHandle, forwardRef } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import {
   Typography,
@@ -34,12 +35,14 @@ const schema = Yup.object().shape({
 });
 
 const Form = forwardRef((props, ref) => {
-  const { physicalExam } = props;
+  const { physicalExam, shouldDisableButton } = props;
   const classes = useStyles();
+  const history = useHistory();
   const { addToast } = useToast();
   const { patient } = usePatient();
 
   const handleSubmit = async (values) => {
+    
     try {
       const jsonToSend = {
         data_evolucao: values.data_evolucao,
@@ -54,15 +57,15 @@ const Form = forwardRef((props, ref) => {
         oximetria: values.oximetria || undefined,
         escala_glasgow: values.escala_glasgow || undefined,
       };
-
+      
+      shouldDisableButton(true);
       await api.post(`/pacientes/${patient.id}/evolucoes-diarias`, jsonToSend);
-
       addToast({
         type: 'success',
         message: 'Dados salvos com sucesso'
       });
       setTimeout( () => { 
-        window.location.replace(`/categorias/exame-fisico/`)
+        history.push( '/categorias/lista-exame-fisico');
       }, 5000);
       
     } catch {
@@ -70,6 +73,7 @@ const Form = forwardRef((props, ref) => {
         type: 'error',
         message: 'Erro ao tentar registrar exame físico, tente novamente',
       });
+      shouldDisableButton(false);
     }
   };
 

@@ -29,6 +29,7 @@ const PhysicalExam = () => {
   const [loading, setLoading] = useState(true);
   const formRef = useRef(null);
   const [physicalExam, setPhysicalExam] = useState({});
+  const [disableButton, setDisableButton] = useState(true);
 
   useEffect( () => {
     if(patient.id && params.examId){
@@ -55,6 +56,13 @@ const PhysicalExam = () => {
   }
 
   const hasExam = Object.entries(physicalExam).length !== 0; 
+  const shouldDisableButton = (disable) => {
+    setDisableButton(disable);
+  }
+
+  useEffect(() => {
+    setDisableButton(loading || hasExam);
+  }, [loading, hasExam]);
 
   return (
     <div className={classes.root}>
@@ -78,7 +86,7 @@ const PhysicalExam = () => {
               <Button
                 className={classes.buttonSave}
                 color="secondary"
-                disabled={loading || hasExam}
+                disabled={disableButton}
                 onClick={handleSubmit}
                 type="submit"
                 variant="contained"
@@ -91,7 +99,7 @@ const PhysicalExam = () => {
 
         {loading ? <CircularProgress /> : (
           <Form
-            
+            shouldDisableButton={shouldDisableButton}
             physicalExam={physicalExam}
             ref={formRef}
           />
