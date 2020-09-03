@@ -82,18 +82,16 @@ const PhysicalExam = () => {
           <Typography variant="h1">Exame Físico</Typography>
           <div className={classes.rightContent}>
             <PatientInfo />
-            <>
-              <Button
-                className={classes.buttonSave}
-                color="secondary"
-                disabled={disableButton}
-                onClick={handleSubmit}
-                type="submit"
-                variant="contained"
-              >
-                Salvar
-              </Button>
-            </>
+            <Button
+              className={classes.buttonSave}
+              color="secondary"
+              disabled={disableButton}
+              onClick={handleSubmit}
+              type="submit"
+              variant="contained"
+            >
+              Salvar
+            </Button>
           </div>
         </div>
 
