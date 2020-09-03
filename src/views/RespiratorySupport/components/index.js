@@ -1,10 +1,13 @@
 import React from 'react';
 
-import { Extubacao } from './Extubacao';
-import { Hemorragia } from './Hemorragia';
-import { Pneumotorax } from './Pneumotorax';
-import { Transfusional } from './Transfusional';
-import { Outras } from './Outras';
+import { Mascara } from './Mascara';
+import { Cateter } from './Cateter';
+import { Canula } from './Canula';
+import { Ventilacao } from './Ventilacao';
+import { Tubo } from './Tubo';
+import { Traqueostomia } from './Traqueostomia';
+import { Pronacao } from './Pronacao';
+import { Desmame } from './Desmame';
 
 const Records = (props) => {
   const {
@@ -19,7 +22,7 @@ const Records = (props) => {
   switch (newComplication) {
     case 1:
       return (
-        <Pneumotorax
+        <Mascara
           handleDelete={handleDelete}
           id={id}
           infos={infos}
@@ -29,7 +32,7 @@ const Records = (props) => {
       );
     case 2:
       return (
-        <Extubacao
+        <Cateter
           handleDelete={handleDelete}
           id={id}
           infos={infos}
@@ -39,7 +42,7 @@ const Records = (props) => {
       );
     case 3:
       return (
-        <Hemorragia
+        <Canula
           handleDelete={handleDelete}
           id={id}
           infos={infos}
@@ -49,7 +52,7 @@ const Records = (props) => {
       );
     case 4:
       return (
-        <Transfusional
+        <Ventilacao
           handleDelete={handleDelete}
           id={id}
           infos={infos}
@@ -59,7 +62,37 @@ const Records = (props) => {
       );
     case 5:
       return (
-        <Outras
+        <Tubo
+          handleDelete={handleDelete}
+          id={id}
+          infos={infos}
+          isNew={isNew}
+          visible={visible}
+        />
+      );
+    case 6:
+      return (
+        <Traqueostomia
+          handleDelete={handleDelete}
+          id={id}
+          infos={infos}
+          isNew={isNew}
+          visible={visible}
+        />
+      );
+    case 7:
+      return (
+        <Pronacao
+          handleDelete={handleDelete}
+          id={id}
+          infos={infos}
+          isNew={isNew}
+          visible={visible}
+        />
+      );
+    case 8:
+      return (
+        <Desmame
           handleDelete={handleDelete}
           id={id}
           infos={infos}

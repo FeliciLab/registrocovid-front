@@ -144,7 +144,7 @@ const ComplicationsVM = () => {
 
       <div>
         <div className={classes.titleWrapper}>
-          <Typography variant="h3">Complicações ( Ventilação Mecânica )</Typography>
+          <Typography variant="h3">Complicações (Ventilação Mecânica)</Typography>
 
           <div className={classes.rightContent}>
             <PatientInfo />

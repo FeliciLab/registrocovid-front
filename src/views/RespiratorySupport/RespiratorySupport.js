@@ -187,12 +187,21 @@ const RespiratorySupport = () => {
                           >
                             Escolher
                           </MenuItem>
-                          {supportsTypes.map((complication) => (
+                          {/* {supportsTypes.map((complication) => (
                             <MenuItem
                               key={complication.id}
                               value={complication.id}
                             >
                               {complication.descricao}
+                            </MenuItem>
+                          )
+                          )} */}
+                          {new Array(8).fill('').map((_, index) => (
+                            <MenuItem
+                              key={String(Math.random())}
+                              value={1 + index}
+                            >
+                              {1 + index}
                             </MenuItem>
                           )
                           )}

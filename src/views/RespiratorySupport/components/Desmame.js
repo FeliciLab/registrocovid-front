@@ -19,7 +19,7 @@ import DeleteAction from './DeleteIcon';
 
 import useStyles from '../styles';
 
-export const Hemorragia = (props) => {
+export const Desmame = (props) => {
   const classes = useStyles();
   const fContext = useContext(formContext);
 
@@ -45,7 +45,7 @@ export const Hemorragia = (props) => {
                 item
                 lg={4}
               >
-                <Typography variant="h4">Hemorragia</Typography>
+                <Typography variant="h4">Desmame</Typography>
               </Grid>
               <Grid
                 item
@@ -56,35 +56,10 @@ export const Hemorragia = (props) => {
               </Grid>
             </Grid>
           </AccordionSummary>
-          <AccordionDetails className={classes.accordionDetails} >
+          <AccordionDetails className={classes.accordionDetails}>
             <FormGroup className={classes.formGroup}>
               <FormLabel>
-                <Typography variant="h5">Em caso afirmativo para hemorragia, especificar o local:</Typography>
-              </FormLabel>
-              <input
-                name={`tipo_complicacao_id#${id}`}
-                type="hidden"
-                value={fContext.values[`tipo_complicacao_id#${id}`] || 3}
-              />
-              <TextField
-                className={classes.dateField}
-                disabled={infos?.data_complicacao ? true : false}
-                error={(fContext.errors[`descricao#${id}`] && fContext.touched[`descricao#${id}`])}
-                helperText={
-                  (fContext.errors[`descricao#${id}`] && fContext.touched[`descricao#${id}`]) ? fContext.errors[`descricao#${id}`] : null
-                }
-                label="Local de Hemorragia"
-                name={`descricao#${id}`}
-                onBlur={fContext.handleBlur}
-                onChange={fContext.handleChange}
-                type="text"
-                value={infos?.descricao ?? fContext.values[`descricao#${id}`]}
-                variant={'outlined'}
-              />
-            </FormGroup>
-            <FormGroup className={classes.formGroup}>
-              <FormLabel>
-                <Typography variant="h5">Data de hemorragia:</Typography>
+                <Typography variant="h5">Em caso afirmativo, informe a data da inclusão do paciente no desmame</Typography>
               </FormLabel>
               <TextField
                 InputLabelProps={{
