@@ -17,7 +17,7 @@ import {
   Comorbidities as ComorbiditiesView,
   PhysicalExamsList as PhysicalExamsListView,
   SupportTreatment as SupportTreatmentView,
-  ComplementaxryTests as ComplementaryTestsView,
+  ComplementaryTests as ComplementaryTestsView,
 } from './views';
 import PatientIdentification from 'views/PatientIdentification';
 
