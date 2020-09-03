@@ -30,13 +30,19 @@ const SelectIRASType = props => {
 
   const { values, handleChange, setFieldValue } = useFormikContext();
 
+  // Gabarito
+  // "id": 3,
+  // "data": "2019-12-01",
+  // "descricao": "Descrição da infecção",
+  // "tipo_iras_id": 2,
+  // "tipo_iras_descricao": "Pneumonia associada não à ventilação (PAV)"
   const handleAddIRASType = useCallback(() => {
     setFieldValue('newIRASs', [
       ...values.newIRASs,
       {
         tipo_iras_id: values.tipoIRASSelected.toString(),
         data: '',
-        labelForm: values.tipoIRASSelected.toString(),
+        descricao: '',
       },
     ]);
   }, [setFieldValue, values.newIRASs, values.tipoIRASSelected]);

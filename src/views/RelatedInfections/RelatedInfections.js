@@ -24,7 +24,7 @@ const initialValues = {
 
 function getIRASPorTipo(irasList) {
   return irasList.reduce((acc, curr) => {
-    var key = curr.tipo_exame_id;
+    var key = curr.tipo_iras_descricao;
     acc[key] = acc[key] || [];
     acc[key].push(curr);
     return acc;
@@ -133,17 +133,17 @@ const RelatedInfections = () => {
                 {/* TODO: colocar aqui um contentWraper englobando tudo */}
                 <SelectIRASType tipos={tiposIRAS} />
 
-                {/* <IRASList irasList={iras} /> */}
+                <IRASList irasList={iras} />
 
-                {tiposIRAS &&
+                {/* {tiposIRAS &&
                   tiposIRAS.length !== 0 &&
                   tiposIRAS.map((tipo, index) => (
                     <IRASList
                       // descricao={tipo.descricao}
-                      irasList={getIRASPorTipo(iras)[tipo.id]}
+                      irasList={getIRASPorTipo(iras)[tipo.descricao]}
                       key={index}
                     />
-                  ))}
+                  ))} */}
               </Form>
             )}
           </Formik>

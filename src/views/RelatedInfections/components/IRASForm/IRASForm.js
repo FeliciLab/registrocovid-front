@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { useFormikContext, Field } from 'formik';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-const IRASForm = ({ index, label, remove }) => {
+const IRASForm = ({ index, remove }) => {
   const classes = useStyles();
 
   const {
@@ -34,7 +34,9 @@ const IRASForm = ({ index, label, remove }) => {
       xs={12}
     >
       <FormLabel className={classes.formLabel}>
-        <Typography variant="h4">{label}</Typography>
+        <Typography variant="h4">
+          {values.newIRASs[index].tipo_iras_descricao}
+        </Typography>
       </FormLabel>
 
       <Grid
@@ -77,7 +79,7 @@ const IRASForm = ({ index, label, remove }) => {
               name={`newIRASs.${index}.data`}
               onChange={handleChange}
               type="date"
-              value={values.data}
+              value={values.newIRASs[index].data}
             />
           </FormGroup>
         </Grid>
@@ -88,7 +90,6 @@ const IRASForm = ({ index, label, remove }) => {
 
 IRASForm.propTypes = {
   index: PropTypes.number.isRequired,
-  label: PropTypes.string.isRequired,
   remove: PropTypes.func.isRequired,
 };
 
