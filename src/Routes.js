@@ -15,8 +15,9 @@ import {
   PhysicalExam as PhysicalExamView,
   InitialSymptoms as InitialSymptomsView,
   Comorbidities as ComorbiditiesView,
-  ComplementaryTests as ComplementaryTestsView,
-  PhysicalExamsList as PhysicalExamsListView,  
+  PhysicalExamsList as PhysicalExamsListView,
+  SupportTreatment as SupportTreatmentView,
+  ComplementaxryTests as ComplementaryTestsView,
 } from './views';
 import PatientIdentification from 'views/PatientIdentification';
 
@@ -124,6 +125,13 @@ const Routes = () => {
         isPrivate
         layout={MainLayout}
         path="/categorias/identificacao-paciente/:id"
+      />
+      <RouteWithLayout
+        component={SupportTreatmentView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/tratamento-suporte/"
       />
       <RouteWithLayout
         component={ComplementaryTestsView}
