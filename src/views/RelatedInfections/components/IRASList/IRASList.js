@@ -15,7 +15,10 @@ function IRASList({ irasList }) {
 
   return (
     <div className={classes.root}>
-      <Grid component={Card} item>
+      <Grid
+        component={Card}
+        item
+      >
         <FieldArray name="newIRASs">
           {({ remove }) => (
             <div>
@@ -35,7 +38,10 @@ function IRASList({ irasList }) {
           )}
         </FieldArray>
         {irasList.map((iras, index) => (
-          <IRASItem iras={iras} key={index} />
+          <IRASItem
+            iras={iras}
+            key={index}
+          />
         ))}
       </Grid>
     </div>

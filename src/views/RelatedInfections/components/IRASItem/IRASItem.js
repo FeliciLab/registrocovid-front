@@ -25,9 +25,13 @@ function IRASItem({ iras }) {
       <AccordionSummary
         aria-controls="panel1a-content"
         expandIcon={<ExpandMoreIcon />}
-        id="panel1a-header">
+        id="panel1a-header"
+      >
         <div className={classes.heading}>
-          <Typography className={classes.headingLabel} variant="h4">
+          <Typography
+            className={classes.headingLabel}
+            variant="h4"
+          >
             {iras.tipo_iras_descricao}
           </Typography>
           <Typography variant="caption">
@@ -41,16 +45,19 @@ function IRASItem({ iras }) {
       </AccordionSummary>
       <AccordionDetails className={classes.accordionDetails}>
         {/* data */}
-        <Grid item sm={12}>
+        <Grid
+          item
+          sm={12}
+        >
           <FormGroup>
             <FormLabel>
               <Typography variant="h4">Data</Typography>
             </FormLabel>
             <TextField
-              contentEditable={false}
               InputLabelProps={{
                 shrink: true,
               }}
+              contentEditable={false}
               label="Data"
               type="date"
               value={iras.data}
