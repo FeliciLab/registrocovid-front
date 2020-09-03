@@ -1,5 +1,4 @@
 import React, { useImperativeHandle, forwardRef } from 'react';
-import { useHistory } from 'react-router-dom';
 
 import {
   Typography,
@@ -37,7 +36,6 @@ const schema = Yup.object().shape({
 const Form = forwardRef((props, ref) => {
   const { physicalExam } = props;
   const classes = useStyles();
-  const history = useHistory();
   const { addToast } = useToast();
   const { patient } = usePatient();
 
@@ -63,7 +61,10 @@ const Form = forwardRef((props, ref) => {
         type: 'success',
         message: 'Dados salvos com sucesso'
       });
-      history.push('/categorias');
+      setTimeout( () => { 
+        window.location.replace(`/categorias/exame-fisico/`)
+      }, 5000);
+      
     } catch {
       addToast({
         type: 'error',

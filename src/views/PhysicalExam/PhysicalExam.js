@@ -3,7 +3,7 @@ import React, {
   useEffect,
   useRef,
 } from 'react';
-import { useHistory, useRouteMatch } from 'react-router-dom';
+import { useRouteMatch } from 'react-router-dom';
 
 import {
   Typography,
@@ -19,46 +19,35 @@ import Form from './components/Form';
 import { useToast } from 'hooks/toast';
 import { usePatient } from 'context/PatientContext';
 
-import api from 'services/api';
-
 import useStyles from './styles';
 
 const PhysicalExam = () => {
   const classes = useStyles();
-  const history = useHistory();
   const { params } = useRouteMatch();
   const { addToast } = useToast();
   const { patient } = usePatient();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const formRef = useRef(null);
   const [physicalExam, setPhysicalExam] = useState({});
 
-  const goToNewForm = () => { history.push('/categorias/exame-fisico') };
-
   useEffect( () => {
-    const getPhysicalExam = async () => {
-      try{
-        const response = await api.get(`/pacientes/${patient.id}/evolucoes-diarias/${params.examId}`);
-        if (response.status === 200) {
+    if(patient.id && params.examId){
+      getPhysicalExam(patient.id, params.examId)
+        .then( response => {
           setPhysicalExam(response.data);
-        }
-      }catch(err){
-        let message = 'Erro ao tentar carregar informações, tente novamente.'
-        if (err.response.status === 404) {
-          message = 'Exame não encontrado.'
-        }
-        addToast({
-          type: 'error',
-          message,
+        })
+        .catch( err => {
+          addToast({
+            type: 'error',
+            message: err.message,
+          });
+        })
+        .finally(() =>{
+          setLoading(false);
         });
-      }
+    }else{
       setLoading(false);
     }
-
-    if(params.examId){
-      getPhysicalExam();
-    }
-
   }, [addToast, params.examId, patient.id]);
 
   const handleSubmit = () => {
@@ -83,14 +72,13 @@ const PhysicalExam = () => {
       <div>
         <div className={classes.titleWrapper}>
           <Typography variant="h1">Exame Físico</Typography>
-
           <div className={classes.rightContent}>
             <PatientInfo />
             <>
               <Button
                 className={classes.buttonSave}
                 color="secondary"
-                disabled={hasExam}
+                disabled={loading || hasExam}
                 onClick={handleSubmit}
                 type="submit"
                 variant="contained"
@@ -103,6 +91,7 @@ const PhysicalExam = () => {
 
         {loading ? <CircularProgress /> : (
           <Form
+            
             physicalExam={physicalExam}
             ref={formRef}
           />
