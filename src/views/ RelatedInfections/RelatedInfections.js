@@ -14,6 +14,8 @@ import schema from './schema';
 import PatientInfo from 'components/PatientInfo';
 import api from 'services/api';
 import SelectIRASType from './components/SelectIRASType';
+import IRASList from './components/IRASList';
+import apiFake from 'services/apiFake';
 
 const initialValues = {
   newIRASs: [],
@@ -32,6 +34,9 @@ const RelatedInfections = () => {
 
   const [tiposIRAS, setTiposIRAS] = useState([]);
 
+  // lista de IRAS previamente salvas
+  const [iras, setIras] = useState([]);
+
   const handleRelatedInfections = useCallback(async id => {
     try {
       setLoading(true);
@@ -39,6 +44,9 @@ const RelatedInfections = () => {
       // buscando os tipos de IRAS
       const responseTiposIRAS = await api.get('/tipos-iras');
       setTiposIRAS(old => [...old, ...responseTiposIRAS.data]);
+
+      const responseIRAS = await apiFake.get('/iras');
+      setIras(old => [...old, ...responseIRAS.data]);
 
       console.log(id);
     } catch (error) {
@@ -113,6 +121,9 @@ const RelatedInfections = () => {
 
                 {/* TODO: colocar aqui um contentWraper englobando tudo */}
                 <SelectIRASType tipos={tiposIRAS} />
+
+                <IRASList irasList={iras} />
+
               </Form>
             )}
           </Formik>

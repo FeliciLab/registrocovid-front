@@ -4,22 +4,21 @@ const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    padding: theme.spacing(2),
-    maxWidth: '860px',
+    marginTop: theme.spacing(2),
   },
-  formWraper: {
+  actionWrapper: {
     display: 'flex',
-  },
-  fieldWraper: {
-    marginTop: theme.spacing(1),
-  },
-  field: {
-    marginTop: theme.spacing(1),
-  },
-  formLabel: {
-    display: 'flex',
-    justifyContent: 'space-between',
     alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  textField: {
+    marginTop: theme.spacing(1),
+    flexGrow: 1,
+    marginRight: theme.spacing(1),
+  },
+  buttonAddType: {
+    width: '258px',
+    height: '50px',
   },
 }));
 

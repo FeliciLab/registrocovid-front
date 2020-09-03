@@ -36,6 +36,7 @@ const SelectIRASType = props => {
       {
         tipo_iras_id: values.tipoIRASSelected.toString(),
         data: '',
+        labelForm: values.tipoIRASSelected.toString(),
       },
     ]);
   }, [setFieldValue, values.newIRASs, values.tipoIRASSelected]);
