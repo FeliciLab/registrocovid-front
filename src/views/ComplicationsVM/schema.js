@@ -4,7 +4,7 @@ import mapValues from 'lodash/mapValues';
 
 const schema = Yup.lazy(obj =>
   Yup.object(
-    mapValues(obj, (value, key) => {
+    mapValues(obj, (_, key) => {
       if (key.includes('data_complicacao')) {
         return Yup.date().required('Campo Obrigatório');
       }
@@ -18,9 +18,6 @@ const schema = Yup.lazy(obj =>
       if (key.includes('volume_transfusao')) {
         return Yup.number().positive();
       }
-      // if (key.includes('data_transfusao')) {
-      //   return Yup.date().required('Campo Obrigatório');
-      // }
       // Outras
       if (key.includes('descricao') && key.includes('outros')) {
         return Yup.string().required('Campo Obrigatório');
