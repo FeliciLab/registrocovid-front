@@ -131,22 +131,19 @@ const RelatedInfections = () => {
                   </Grid>
                 </div>
 
-                {/* TODO: colocar aqui um contentWraper englobando tudo */}
-                <SelectIRASType tipos={tiposIRAS} />
+                <Grid
+                  className={classes.content}
+                  container
+                  item
+                  spacing={2}
+                >
 
-                <IRASFormList />
+                  <SelectIRASType tipos={tiposIRAS} />
 
-                <IRASList irasList={iras} />
+                  <IRASFormList />
 
-                {/* {tiposIRAS &&
-                  tiposIRAS.length !== 0 &&
-                  tiposIRAS.map((tipo, index) => (
-                    <IRASList
-                      // descricao={tipo.descricao}
-                      irasList={getIRASPorTipo(iras)[tipo.descricao]}
-                      key={index}
-                    />
-                  ))} */}
+                  <IRASList irasList={iras} />
+                </Grid>
               </Form>
             )}
           </Formik>

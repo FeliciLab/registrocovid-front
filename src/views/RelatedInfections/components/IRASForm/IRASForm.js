@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { useFormikContext, Field } from 'formik';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-const IRASForm = ({ index, remove }) => {
+const IRASForm = ({ index, remove, children }) => {
   const classes = useStyles();
 
   const {
@@ -82,6 +82,8 @@ const IRASForm = ({ index, remove }) => {
             />
           </FormGroup>
         </Grid>
+
+        {children}
       </Grid>
     </Grid>
   );

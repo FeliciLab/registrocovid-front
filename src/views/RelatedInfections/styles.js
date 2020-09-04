@@ -25,6 +25,13 @@ const useStyles = makeStyles(theme => ({
     width: '200px',
     height: '48px',
   },
+  content: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  contentItem: {
+    maxWidth: '864px',
+  },
 }));
 
 export default useStyles;

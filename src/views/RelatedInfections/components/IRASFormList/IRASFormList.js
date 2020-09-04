@@ -18,7 +18,11 @@ function IRASFormList() {
                   key={index}
                   label={iras.labelForm}
                   remove={remove}
-                />
+                >
+                  { (iras.tipo_iras_descricao === '') && (
+                    <div />
+                  )}
+                </IRASForm>
               ))
               .reverse()}
         </div>
