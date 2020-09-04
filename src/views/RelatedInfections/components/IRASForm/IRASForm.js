@@ -43,8 +43,7 @@ const IRASForm = ({ index, remove, children }) => {
       </FormLabel>
 
       {/* descricao */}
-      {/* 5 é o id do tipo de IRAS 'Outros' */}
-      {values.newIRASs[index].tipo_iras_id === '5' && (
+      {values.newIRASs[index].tipo_iras_descricao === 'Outras' && (
         <Grid
           className={classes.fieldWraper}
           item

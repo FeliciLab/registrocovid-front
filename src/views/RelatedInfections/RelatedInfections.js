@@ -1,7 +1,11 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { usePatient } from 'context/PatientContext';
 import useStyles from './styles';
-import { CustonBreadcrumbs, FormikErroObserver } from 'components';
+import {
+  CustonBreadcrumbs,
+  // FormikErroObserver
+} from 'components';
+
 import {
   CircularProgress,
   Typography,
@@ -16,6 +20,8 @@ import api from 'services/api';
 import SelectIRASType from './components/SelectIRASType';
 import IRASList from './components/IRASList';
 import IRASFormList from './components/IRASFormList';
+import { useToast } from 'hooks/toast';
+import { useHistory } from 'react-router-dom';
 
 const initialValues = {
   newIRASs: [],
@@ -29,6 +35,10 @@ const RelatedInfections = () => {
   } = usePatient();
 
   const classes = useStyles();
+
+  const { addToast } = useToast();
+
+  const history = useHistory();
 
   const [loading, setLoading] = useState(false);
 
@@ -46,7 +56,7 @@ const RelatedInfections = () => {
       setTiposIRAS(old => [...old, ...responseTiposIRAS.data]);
 
       const responseIRAS = await api.get(`pacientes/${id}/iras`);
-      setIras(old => [...old, ...responseIRAS.data]);
+      setIras(old => [...old, ...responseIRAS.data.iras]);
     } catch (error) {
       console.log(error);
     } finally {
@@ -59,27 +69,39 @@ const RelatedInfections = () => {
       try {
         const { newIRASs } = values;
 
-        // TODO: remover isso
-        console.log(newIRASs);
-
         const newIRASsSanitized = newIRASs.map(iras => ({
           tipo_iras_id: iras.tipo_iras_id,
           data: iras.data,
           descricao: iras.descricao,
         }));
 
-        // TODO: apresentar um Toast no caso de não haver nada para enviar e depois retornar
-
-        // TODO: Remover isso
-        console.log(newIRASsSanitized);
+        // tentando salvar mas sem nada para enviar
+        if (newIRASsSanitized.length === 0) {
+          addToast({
+            type: 'warning',
+            message: 'Nada para salvar.',
+          });
+          return;
+        }
 
         await api.post(`/pacientes/${id}/iras/`, { iras: newIRASsSanitized });
+
+        addToast({
+          type: 'success',
+          message: 'Dados salvos com sucesso.',
+        });
+
+        window.location.reload();
       } catch (error) {
-        // TODO: melhorar o tratamento do erro aqui
-        console.log(error);
+        // caso aconteça algum erro, mostra a mensagem de erro e volta a página.
+        addToast({
+          type: 'error',
+          message: 'Erro ao tentar carregar as informações',
+        });
+        history.goBack();
       }
     },
-    [id],
+    [id, addToast, history],
   );
 
   useEffect(() => {
@@ -157,7 +179,7 @@ const RelatedInfections = () => {
                 </Grid>
 
                 {/* TODO: descomentar depois do primeiro MVP */}
-                <FormikErroObserver />
+                {/* <FormikErroObserver /> */}
               </Form>
             )}
           </Formik>

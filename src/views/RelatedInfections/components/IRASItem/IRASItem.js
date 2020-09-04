@@ -45,8 +45,7 @@ function IRASItem({ iras }) {
       </AccordionSummary>
       <AccordionDetails className={classes.accordionDetails}>
         {/* descricao */}
-        {/* 5 é o id do tipo de IRAS 'Outros' */}
-        {iras.tipo_iras_id === '5' && (
+        {iras.tipo_iras_descricao === 'Outras' && (
           <Grid
             className={classes.fieldWraper}
             item
