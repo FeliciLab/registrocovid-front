@@ -34,7 +34,7 @@ IRASList.propTypes = {
     PropTypes.exact({
       id: PropTypes.number.isRequired,
       data: PropTypes.string.isRequired,
-      descricao: PropTypes.string.isRequired,
+      descricao: PropTypes.string,
       tipo_iras_id: PropTypes.number.isRequired,
       tipo_iras_descricao: PropTypes.string.isRequired,
     }),
