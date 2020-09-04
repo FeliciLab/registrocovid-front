@@ -47,7 +47,7 @@ const SelectIRASType = props => {
     >
       <FormGroup>
         <FormLabel>
-          <Typography variant="h4">Tipo teste</Typography>
+          <Typography variant="h4">Escolher tipo de infecção:</Typography>
         </FormLabel>
         <Grid
           className={classes.actionWrapper}
