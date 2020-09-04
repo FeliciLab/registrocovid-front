@@ -18,12 +18,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 const IRASForm = ({ index, remove, children }) => {
   const classes = useStyles();
 
-  const {
-    values,
-    handleChange,
-    errors,
-    touched,
-  } = useFormikContext();
+  const { values, handleChange, errors, touched } = useFormikContext();
 
   return (
     <Grid
@@ -46,6 +41,34 @@ const IRASForm = ({ index, remove, children }) => {
           <DeleteIcon fontSize="small" />
         </IconButton>
       </FormLabel>
+
+      {/* descricao */}
+      {/* 5 é o id do tipo de IRAS 'Outros' */}
+      {values.newIRASs[index].tipo_iras_id === '5' && (
+        <Grid
+          className={classes.fieldWraper}
+          item
+          sm={12}
+        >
+          <FormGroup>
+            <FormLabel>
+              <Typography variant="h5">Descrição da infecção</Typography>
+            </FormLabel>
+            <Field
+              InputLabelProps={{
+                shrink: true,
+              }}
+              as={TextField}
+              className={classes.field}
+              name={`newIRASs.${index}.descricao`}
+              onChange={handleChange}
+              type="text"
+              value={values.newIRASs[index].descricao}
+              variant="outlined"
+            />
+          </FormGroup>
+        </Grid>
+      )}
 
       <Grid
         className={classes.formWraper}

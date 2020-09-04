@@ -44,6 +44,31 @@ function IRASItem({ iras }) {
         </div>
       </AccordionSummary>
       <AccordionDetails className={classes.accordionDetails}>
+        {/* descricao */}
+        {/* 5 é o id do tipo de IRAS 'Outros' */}
+        {iras.tipo_iras_id === '5' && (
+          <Grid
+            className={classes.fieldWraper}
+            item
+            sm={12}
+          >
+            <FormGroup>
+              <FormLabel>
+                <Typography variant="h5">Descrição da infecção</Typography>
+              </FormLabel>
+              <TextField
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                className={classes.field}
+                type="text"
+                value={iras.descricao}
+                variant="outlined"
+              />
+            </FormGroup>
+          </Grid>
+        )}
+
         {/* data */}
         <Grid
           item

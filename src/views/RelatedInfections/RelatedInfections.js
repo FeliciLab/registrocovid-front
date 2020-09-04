@@ -15,7 +15,6 @@ import PatientInfo from 'components/PatientInfo';
 import api from 'services/api';
 import SelectIRASType from './components/SelectIRASType';
 import IRASList from './components/IRASList';
-import apiFake from 'services/apiFake';
 import IRASFormList from './components/IRASFormList';
 
 const initialValues = {
@@ -46,10 +45,8 @@ const RelatedInfections = () => {
       const responseTiposIRAS = await api.get('/tipos-iras');
       setTiposIRAS(old => [...old, ...responseTiposIRAS.data]);
 
-      const responseIRAS = await apiFake.get('/iras');
+      const responseIRAS = await api.get(`pacientes/${id}/iras`);
       setIras(old => [...old, ...responseIRAS.data]);
-
-      console.log(id);
     } catch (error) {
       console.log(error);
     } finally {
@@ -57,26 +54,33 @@ const RelatedInfections = () => {
     }
   }, []);
 
-  const handleSubmit = useCallback(async values => {
-    try {
-      const { newIRASs } = values;
+  const handleSubmit = useCallback(
+    async values => {
+      try {
+        const { newIRASs } = values;
 
-      console.log(newIRASs);
+        // TODO: remover isso
+        console.log(newIRASs);
 
-      const newIRASsSanitized = newIRASs.map(iras => ({
-        tipo_iras_id: iras.tipo_iras_id,
-        data: iras.data,
-        descricao: iras.descricao,
-      }));
+        const newIRASsSanitized = newIRASs.map(iras => ({
+          tipo_iras_id: iras.tipo_iras_id,
+          data: iras.data,
+          descricao: iras.descricao,
+        }));
 
-      console.log(newIRASsSanitized);
+        // TODO: apresentar um Toast no caso de não haver nada para enviar e depois retornar
 
-      await api.post(`/pacientes/${id}/iras/`, { iras: newIRASsSanitized });
-    } catch (error) {
-      // TODO: melhorar o tratamento do erro aqui
-      console.log(error);
-    }
-  }, [id]);
+        // TODO: Remover isso
+        console.log(newIRASsSanitized);
+
+        await api.post(`/pacientes/${id}/iras/`, { iras: newIRASsSanitized });
+      } catch (error) {
+        // TODO: melhorar o tratamento do erro aqui
+        console.log(error);
+      }
+    },
+    [id],
+  );
 
   useEffect(() => {
     handleRelatedInfections(id);
