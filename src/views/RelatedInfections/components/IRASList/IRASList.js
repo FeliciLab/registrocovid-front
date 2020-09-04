@@ -9,6 +9,9 @@ import IRASItem from '../IRASItem/IRASItem';
 function IRASList({ irasList }) {
   const classes = useStyles();
 
+  // para o caso de não ter elementos a serem apresentados
+  if (irasList.length === 0) return null;
+
   return (
     <div className={classes.root}>
       <Grid

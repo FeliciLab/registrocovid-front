@@ -27,6 +27,7 @@ const IRASForm = ({ index, remove, children }) => {
     <Grid
       className={classes.root}
       component={Card}
+      container
       item
     >
       <FormLabel className={classes.formLabel}>

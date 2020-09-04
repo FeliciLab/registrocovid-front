@@ -23,15 +23,6 @@ const initialValues = {
   tipoIRASSelected: '',
 };
 
-function getIRASPorTipo(irasList) {
-  return irasList.reduce((acc, curr) => {
-    var key = curr.tipo_iras_descricao;
-    acc[key] = acc[key] || [];
-    acc[key].push(curr);
-    return acc;
-  }, []);
-}
-
 // Component da pgiande Infecções relacionadas à assistência à saúde (IRAS)
 const RelatedInfections = () => {
   const {
@@ -57,8 +48,6 @@ const RelatedInfections = () => {
 
       const responseIRAS = await apiFake.get('/iras');
       setIras(old => [...old, ...responseIRAS.data]);
-
-      console.log(getIRASPorTipo(responseIRAS.data));
 
       console.log(id);
     } catch (error) {
@@ -137,12 +126,19 @@ const RelatedInfections = () => {
                   item
                   spacing={2}
                 >
-
                   <SelectIRASType tipos={tiposIRAS} />
 
                   <IRASFormList />
 
-                  <IRASList irasList={iras} />
+                  {/* TODO: falta colocar o ordenação por data */}
+                  {tiposIRAS.map(tipo => (
+                    <IRASList
+                      irasList={iras.filter(
+                        elem => elem.tipo_iras_id === tipo.id,
+                      )}
+                      key={tipo.id}
+                    />
+                  ))}
                 </Grid>
               </Form>
             )}
