@@ -36,7 +36,7 @@ const SelectIRASType = props => {
         )[0].descricao,
       },
     ]);
-  }, [setFieldValue, values.newIRASs, values.tipoIRASSelected]);
+  }, [setFieldValue, values.newIRASs, values.tipoIRASSelected, tipos]);
 
   return (
     <Grid

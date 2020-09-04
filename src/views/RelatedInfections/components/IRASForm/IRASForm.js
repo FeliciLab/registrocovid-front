@@ -10,8 +10,10 @@ import {
 } from '@material-ui/core';
 import useStyles from './styles';
 import PropTypes from 'prop-types';
-import { useFormikContext, Field } from 'formik';
+import { useFormikContext, Field, ErrorMessage } from 'formik';
 import DeleteIcon from '@material-ui/icons/Delete';
+
+// import schema from '../../schema';
 
 const IRASForm = ({ index, remove, children }) => {
   const classes = useStyles();
@@ -19,8 +21,8 @@ const IRASForm = ({ index, remove, children }) => {
   const {
     values,
     handleChange,
-    // errors,
-    // touched,
+    errors,
+    touched,
   } = useFormikContext();
 
   return (
@@ -66,15 +68,12 @@ const IRASForm = ({ index, remove, children }) => {
               }}
               as={TextField}
               className={classes.field}
-              // error={
-              //   errors.data_inicio &&
-              //   touched.data_inicio
-              // }
-              // helperText={
-              //   errors.data_inicio &&
-              //   touched.data_inicio &&
-              //   errors.data_inicio
-              // }
+              error={
+                errors.newIRASs &&
+                touched.newIRASs &&
+                !!errors.newIRASs[index]?.data
+              }
+              helperText={<ErrorMessage name={`newIRASs.${index}.data`} />}
               label="Data"
               name={`newIRASs.${index}.data`}
               onChange={handleChange}

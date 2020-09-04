@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { usePatient } from 'context/PatientContext';
 import useStyles from './styles';
-import { CustonBreadcrumbs } from 'components';
+import { CustonBreadcrumbs, FormikErroObserver } from 'components';
 import {
   CircularProgress,
   Typography,
@@ -23,7 +23,7 @@ const initialValues = {
   tipoIRASSelected: '',
 };
 
-// Component da pgiande Infecções relacionadas à assistência à saúde (IRAS)
+// Component da página "Infecções relacionadas à assistência à saúde (IRAS)"
 const RelatedInfections = () => {
   const {
     patient: { id },
@@ -59,13 +59,24 @@ const RelatedInfections = () => {
 
   const handleSubmit = useCallback(async values => {
     try {
-      // TODO: mudar isso depois
-      console.log(values);
+      const { newIRASs } = values;
+
+      console.log(newIRASs);
+
+      const newIRASsSanitized = newIRASs.map(iras => ({
+        tipo_iras_id: iras.tipo_iras_id,
+        data: iras.data,
+        descricao: iras.descricao,
+      }));
+
+      console.log(newIRASsSanitized);
+
+      await api.post(`/pacientes/${id}/iras/`, { iras: newIRASsSanitized });
     } catch (error) {
       // TODO: melhorar o tratamento do erro aqui
       console.log(error);
     }
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     handleRelatedInfections(id);
@@ -140,6 +151,9 @@ const RelatedInfections = () => {
                     />
                   ))}
                 </Grid>
+
+                {/* TODO: descomentar depois do primeiro MVP */}
+                <FormikErroObserver />
               </Form>
             )}
           </Formik>
