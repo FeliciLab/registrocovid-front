@@ -47,7 +47,7 @@ function IRASItem({ iras }) {
         {/* descricao */}
         {iras.tipo_iras_descricao === 'Outras' && (
           <Grid
-            className={classes.fieldWraper}
+            className={classes.fieldDescricao}
             item
             sm={12}
           >
@@ -75,7 +75,7 @@ function IRASItem({ iras }) {
         >
           <FormGroup>
             <FormLabel>
-              <Typography variant="h4">Data</Typography>
+              <Typography variant="h5">Ocorrência</Typography>
             </FormLabel>
             <TextField
               InputLabelProps={{
