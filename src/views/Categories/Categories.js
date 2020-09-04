@@ -57,7 +57,11 @@ const Categories = () => {
         label: 'Exame físico (admissão e evolução diária)',
         url: 'categorias/lista-exame-fisico',
       },
-      { id: 2, label: 'Complicações relacionadas à ventilação mecânica' },
+      { 
+        id: 2, 
+        label: 'Complicações relacionadas à ventilação mecânica',
+        url: 'categorias/complicacoes-vm' 
+      },
       {
         id: 3,
         label: 'Exames laboratoriais específicos COVID 19',

@@ -7,6 +7,7 @@ export { default as GeneralInfo } from './GeneralInfo';
 export { default as SpecificsTests } from './SpecificsTests';
 export { default as PersonalHistory } from './PersonalHistory';
 export { default as PhysicalExam } from './PhysicalExam';
+export { default as ComplicationsVM } from './ComplicationsVM';
 export { default as InitialSymptoms } from './InitialSymptoms';
 export { default as Comorbidities } from './Comorbidities';
 export { default as PhysicalExamsList } from './PhysicalExamsList';
