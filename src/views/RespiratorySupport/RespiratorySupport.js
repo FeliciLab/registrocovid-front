@@ -41,11 +41,13 @@ const RespiratorySupport = () => {
   const { patient } = usePatient();
 
   const formRef = useRef(null);
-  const selectedComplication = useRef();
+  const selectedTratament = useRef();
 
   const [loading, setLoading] = useState(false);
   const [supportsTypes, setSupportsTypes] = useState([]);
   const [oldRecords, setOldRecords] = useState([]);
+  const [pronacao, setPronacao] = useState([]);
+  const [desmame, setDesmame] = useState([]);
   const [newsRecords, setNewsRecords] = useState([]);
   const [recordId, setRecordId] = useState(0);
 
@@ -54,12 +56,18 @@ const RespiratorySupport = () => {
       setLoading(true);
 
       const [supports, patientRecords] = await Promise.all([
-        api.get('/tipos-suporte-respiratorio'),
-        api.get(`pacientes/${patient.id}/suporte-respiratorio`)
+        api.get('/suportes-respiratorios'),
+        api.get(`pacientes/${patient.id}/suportes-respiratorios`)
       ]);
 
       setSupportsTypes(supports.data);
-      setOldRecords(patientRecords.data);
+
+      const tratamentoRecords = orderByDate(patientRecords.data.tratamento_suporte);
+      const pronacaoRecords = orderByDate(patientRecords.data.tratamento_pronacao);
+      const desmameRecords = orderByDate(patientRecords.data.tratamento_inclusao_desmame);
+      setOldRecords(tratamentoRecords);
+      setPronacao(pronacaoRecords);
+      setDesmame(desmameRecords);
     } catch {
       addToast({
         type: 'error',
@@ -73,22 +81,22 @@ const RespiratorySupport = () => {
   }, [addToast, history, patient.id]);
 
   useEffect(() => {
-    // handleInfos();
+    handleInfos();
   }, [handleInfos]);
 
   const handleSelect = (event) => {
-    selectedComplication.current = event.target.value;
+    selectedTratament.current = event.target.value;
   };
 
   const handleNewComplication = () => {
-    if (selectedComplication.current) {
-      const newComplication = {
+    if (selectedTratament.current) {
+      const newTratament = {
         id: recordId,
-        complication: selectedComplication.current
+        tratament: selectedTratament.current
       };
 
       setRecordId(oldState => oldState + 1);
-      setNewsRecords(oldState => [newComplication, ...oldState]);
+      setNewsRecords(oldState => [newTratament, ...oldState]);
     }
   };
 
@@ -104,24 +112,34 @@ const RespiratorySupport = () => {
   };
 
   const orderByDate = (array) => {
+    if (!array) {
+      return [];
+    }
+
     return array.sort((a, b) => {
-      if (a.data_complicacao > b.data_complicacao || a.data_transfusao > b.data_transfusao) return 1;
-      if (a.data_complicacao < b.data_complicacao || a.data_transfusao < b.data_transfusao) return -1;
+      if (
+        a.data_inicio > b.data_inicio ||
+        a.data_pronacao > b.data_pronacao ||
+        a.data_inclusao_desmame > b.data_inclusao_desmame
+      ) return 1;
+      if (
+        a.data_inicio < b.data_inicio ||
+        a.data_pronacao < b.data_pronacao ||
+        a.data_inclusao_desmame < b.data_inclusao_desmame
+      ) return -1;
       return 0;
     });
   }
 
   const groupedOldRecords = useMemo(() => {
-    const ordernedByDate = orderByDate(oldRecords);
+    return oldRecords.reduce((acc, object) => {
+      let key = object['tipo_suporte_id'];
 
-    return ordernedByDate.reduce((acc, object) => {
-      let key = object.tipo_complicacao['id'];
-      if (key !== 4) {
-        if (!acc[key]) {
-          acc[key] = [];
-        }
-        acc[key].push(object);
+      if (!acc[key]) {
+        acc[key] = [];
       }
+      acc[key].push(object);
+
       return acc;
     }, {});
   }, [oldRecords]);
@@ -179,7 +197,7 @@ const RespiratorySupport = () => {
                           className={classes.selectField}
                           name="complication"
                           onChange={handleSelect}
-                          value={selectedComplication.current}
+                          value={selectedTratament.current}
                         >
                           <MenuItem
                             disabled
@@ -187,24 +205,14 @@ const RespiratorySupport = () => {
                           >
                             Escolher
                           </MenuItem>
-                          {/* {supportsTypes.map((complication) => (
+                          {supportsTypes.map((support) => (
                             <MenuItem
-                              key={complication.id}
-                              value={complication.id}
+                              key={String(support.id)}
+                              value={support.id}
                             >
-                              {complication.descricao}
+                              {support.nome}
                             </MenuItem>
-                          )
-                          )} */}
-                          {new Array(8).fill('').map((_, index) => (
-                            <MenuItem
-                              key={String(Math.random())}
-                              value={1 + index}
-                            >
-                              {1 + index}
-                            </MenuItem>
-                          )
-                          )}
+                          ))}
                         </Select>
                       </FormControl>
                     </FormGroup>
@@ -237,7 +245,7 @@ const RespiratorySupport = () => {
                       id={item.id}
                       isNew
                       key={String(item.id)}
-                      newComplication={item.complication}
+                      newRecord={item.tratament}
                       visible
                     />
                   ))}
@@ -251,15 +259,50 @@ const RespiratorySupport = () => {
                             infos={item}
                             isNew={false}
                             key={String(item.id)}
-                            newComplication={item.tipo_complicacao.id}
+                            newRecord={item.tipo_suporte_id}
                             visible
                           />
                         )
                       }),
-                      <div className={classes.newExpPanel} />
+                      <div
+                        className={classes.newExpPanel}
+                        key={String(Math.random())}
+                      />
                     ]
                   }
                   )}
+
+                  {[pronacao.map((item) => (
+                    <Records
+                      id={item.id}
+                      infos={item}
+                      isNew={false}
+                      key={String(item.id)}
+                      newRecord={7}
+                      visible
+                    />
+                  )),
+                  <div
+                    className={classes.newExpPanel}
+                    key={String(Math.random())}
+                  />
+                  ]}
+
+                  {[desmame.map((item) => (
+                    <Records
+                      id={item.id}
+                      infos={item}
+                      isNew={false}
+                      key={String(item.id)}
+                      newRecord={8}
+                      visible
+                    />
+                  )),
+                  <div
+                    className={classes.newExpPanel}
+                    key={String(Math.random())}
+                  />
+                  ]}
                 </Form>
               </Paper>
             </Grid>

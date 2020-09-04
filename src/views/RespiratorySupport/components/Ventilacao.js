@@ -54,7 +54,7 @@ export const Ventilacao = (props) => {
                 lg={1}
               />
               <Grid item>
-                <Typography variant="body2">Data: {infos?.data_complicacao.split('-').reverse().join('/') ?? undefined} </Typography>
+                <Typography variant="body2">Data: {infos?.data_inicio.split('-').reverse().join('/') ?? undefined} </Typography>
               </Grid>
             </Grid>
           </AccordionSummary>
@@ -76,17 +76,17 @@ export const Ventilacao = (props) => {
                       shrink: true,
                     }}
                     className={classes.dateField}
-                    disabled={infos?.data_complicacao ? true : false}
-                    error={(fContext.errors[`data_complicacao#${id}`] && fContext.touched[`data_complicacao#${id}`])}
+                    disabled={!isNew}
+                    error={(fContext.errors[`data_inicio#${id}`] && fContext.touched[`data_inicio#${id}`])}
                     helperText={
-                      (fContext.errors[`data_complicacao#${id}`] && fContext.touched[`data_complicacao#${id}`]) ? fContext.errors[`data_complicacao#${id}`] : null
+                      (fContext.errors[`data_inicio#${id}`] && fContext.touched[`data_inicio#${id}`]) ? fContext.errors[`data_inicio#${id}`] : null
                     }
                     label="Data"
-                    name={`data_complicacao#${id}`}
+                    name={`data_inicio#${id}`}
                     onBlur={fContext.handleBlur}
                     onChange={fContext.handleChange}
                     type="date"
-                    value={infos?.data_complicacao ?? fContext.values[`data_complicacao#${id}`]}
+                    value={infos?.data_inicio ?? fContext.values[`data_inicio#${id}`]}
                   />
                 </FormGroup>
               </Grid>
@@ -104,17 +104,17 @@ export const Ventilacao = (props) => {
                       shrink: true,
                     }}
                     className={classes.dateField}
-                    disabled={infos?.data_complicacao ? true : false}
-                    error={(fContext.errors[`data_complicacao#${id}`] && fContext.touched[`data_complicacao#${id}`])}
+                    disabled={!isNew}
+                    error={(fContext.errors[`data_termino#${id}`] && fContext.touched[`data_termino#${id}`])}
                     helperText={
-                      (fContext.errors[`data_complicacao#${id}`] && fContext.touched[`data_complicacao#${id}`]) ? fContext.errors[`data_complicacao#${id}`] : null
+                      (fContext.errors[`data_termino#${id}`] && fContext.touched[`data_termino#${id}`]) ? fContext.errors[`data_termino#${id}`] : null
                     }
                     label="Data"
-                    name={`data_complicacao#${id}`}
+                    name={`data_termino#${id}`}
                     onBlur={fContext.handleBlur}
                     onChange={fContext.handleChange}
                     type="date"
-                    value={infos?.data_complicacao ?? fContext.values[`data_complicacao#${id}`]}
+                    value={infos?.data_termino ?? fContext.values[`data_termino#${id}`]}
                   />
                 </FormGroup>
               </Grid>
@@ -130,14 +130,17 @@ export const Ventilacao = (props) => {
                   <FormControlLabel
                     control={
                       <Switch
+                        checked={infos?.menos_24h_vmi || undefined}
                         color="primary"
+                        disabled={!isNew}
                         onChange={fContext.handleChange}
+                        value={fContext.values[`menos_24h_vmi#${id}`]}
                       />
                     }
                     label={
                       <Typography variant="h5">Sim</Typography>
                     }
-                    name="reinternacao"
+                    name={`menos_24h_vmi#${id}`}
                   />
                 </FormGroup>
               </Grid>

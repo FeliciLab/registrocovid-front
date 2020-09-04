@@ -52,7 +52,7 @@ export const Pronacao = (props) => {
                 lg={1}
               />
               <Grid item>
-                <Typography variant="body2">Data: {infos?.data_complicacao.split('-').reverse().join('/') ?? undefined} </Typography>
+                <Typography variant="body2">Data: {infos?.data_pronacao.split('-').reverse().join('/') ?? undefined} </Typography>
               </Grid>
             </Grid>
           </AccordionSummary>
@@ -74,17 +74,17 @@ export const Pronacao = (props) => {
                       shrink: true,
                     }}
                     className={classes.dateField}
-                    disabled={infos?.data_complicacao ? true : false}
-                    error={(fContext.errors[`data_complicacao#${id}`] && fContext.touched[`data_complicacao#${id}`])}
+                    disabled={!isNew}
+                    error={(fContext.errors[`data_pronacao#${id}`] && fContext.touched[`data_pronacao#${id}`])}
                     helperText={
-                      (fContext.errors[`data_complicacao#${id}`] && fContext.touched[`data_complicacao#${id}`]) ? fContext.errors[`data_complicacao#${id}`] : null
+                      (fContext.errors[`data_pronacao#${id}`] && fContext.touched[`data_pronacao#${id}`]) ? fContext.errors[`data_pronacao#${id}`] : null
                     }
                     label="Ocorrência"
-                    name={`data_complicacao#${id}`}
+                    name={`data_pronacao#${id}`}
                     onBlur={fContext.handleBlur}
                     onChange={fContext.handleChange}
                     type="date"
-                    value={infos?.data_complicacao ?? fContext.values[`data_complicacao#${id}`]}
+                    value={infos?.data_pronacao ?? fContext.values[`data_pronacao#${id}`]}
                   />
                 </FormGroup>
               </Grid>
@@ -99,17 +99,17 @@ export const Pronacao = (props) => {
                   </FormLabel>
                   <TextField
                     className={classes.dateField}
-                    disabled={infos?.data_complicacao ? true : false}
-                    error={(fContext.errors[`descricao#${id}`] && fContext.touched[`descricao#${id}`])}
+                    disabled={!isNew}
+                    error={(fContext.errors[`quantidade_horas#${id}`] && fContext.touched[`quantidade_horas#${id}`])}
                     helperText={
-                      (fContext.errors[`descricao#${id}`] && fContext.touched[`descricao#${id}`]) ? fContext.errors[`descricao#${id}`] : null
+                      (fContext.errors[`quantidade_horas#${id}`] && fContext.touched[`quantidade_horas#${id}`]) ? fContext.errors[`quantidade_horas#${id}`] : null
                     }
                     label="Quantidade de horas"
-                    name={`descricao#${id}`}
+                    name={`quantidade_horas#${id}`}
                     onBlur={fContext.handleBlur}
                     onChange={fContext.handleChange}
-                    type="text"
-                    value={infos?.descricao ?? fContext.values[`descricao#${id}`]}
+                    type="number"
+                    value={infos?.quantidade_horas ?? fContext.values[`quantidade_horas#${id}`]}
                     variant={'outlined'}
                   />
                 </FormGroup>

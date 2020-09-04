@@ -8,8 +8,11 @@ const schema = Yup.lazy(obj =>
       if (key.includes('data')) {
         return Yup.date().required('Campo Obrigatório');
       }
-      if (key.includes('data_termino')) {
-        return Yup.date().required('Campo Obrigatório');
+      if (key.includes('parametro')) {
+        return Yup.number().positive('Parâmetro deve ser maior do que 0');
+      }
+      if (key.includes('quantidade_horas')) {
+        return Yup.number().positive('Parâmetro deve ser maior do que 0');
       }
     })
   )

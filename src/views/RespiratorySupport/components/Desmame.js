@@ -52,7 +52,7 @@ export const Desmame = (props) => {
                 lg={1}
               />
               <Grid item>
-                <Typography variant="body2">Data: {infos?.data_complicacao.split('-').reverse().join('/') ?? undefined} </Typography>
+                <Typography variant="body2">Data: {infos?.data_inclusao_desmame.split('-').reverse().join('/') ?? undefined} </Typography>
               </Grid>
             </Grid>
           </AccordionSummary>
@@ -66,17 +66,17 @@ export const Desmame = (props) => {
                   shrink: true,
                 }}
                 className={classes.dateField}
-                disabled={infos?.data_complicacao ? true : false}
-                error={(fContext.errors[`data_complicacao#${id}`] && fContext.touched[`data_complicacao#${id}`])}
+                disabled={!isNew}
+                error={(fContext.errors[`data_inclusao_desmame#${id}`] && fContext.touched[`data_inclusao_desmame#${id}`])}
                 helperText={
-                  (fContext.errors[`data_complicacao#${id}`] && fContext.touched[`data_complicacao#${id}`]) ? fContext.errors[`data_complicacao#${id}`] : null
+                  (fContext.errors[`data_inclusao_desmame#${id}`] && fContext.touched[`data_inclusao_desmame#${id}`]) ? fContext.errors[`data_inclusao_desmame#${id}`] : null
                 }
                 label="Data"
-                name={`data_complicacao#${id}`}
+                name={`data_inclusao_desmame#${id}`}
                 onBlur={fContext.handleBlur}
                 onChange={fContext.handleChange}
                 type="date"
-                value={infos?.data_complicacao ?? fContext.values[`data_complicacao#${id}`]}
+                value={infos?.data_inclusao_desmame ?? fContext.values[`data_inclusao_desmame#${id}`]}
               />
             </FormGroup>
           </AccordionDetails>

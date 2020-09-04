@@ -12,14 +12,14 @@ import { Desmame } from './Desmame';
 const Records = (props) => {
   const {
     id,
-    newComplication,
+    newRecord,
     isNew,
     visible,
     handleDelete,
     infos,
   } = props;
 
-  switch (newComplication) {
+  switch (newRecord) {
     case 1:
       return (
         <Mascara
@@ -42,16 +42,6 @@ const Records = (props) => {
       );
     case 3:
       return (
-        <Canula
-          handleDelete={handleDelete}
-          id={id}
-          infos={infos}
-          isNew={isNew}
-          visible={visible}
-        />
-      );
-    case 4:
-      return (
         <Ventilacao
           handleDelete={handleDelete}
           id={id}
@@ -59,8 +49,9 @@ const Records = (props) => {
           isNew={isNew}
           visible={visible}
         />
+
       );
-    case 5:
+    case 4:
       return (
         <Tubo
           handleDelete={handleDelete}
@@ -70,9 +61,19 @@ const Records = (props) => {
           visible={visible}
         />
       );
-    case 6:
+    case 5:
       return (
         <Traqueostomia
+          handleDelete={handleDelete}
+          id={id}
+          infos={infos}
+          isNew={isNew}
+          visible={visible}
+        />
+      );
+    case 6:
+      return (
+        <Canula
           handleDelete={handleDelete}
           id={id}
           infos={infos}

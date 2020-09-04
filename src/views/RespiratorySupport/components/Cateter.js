@@ -52,7 +52,7 @@ export const Cateter = (props) => {
                 lg={1}
               />
               <Grid item>
-                <Typography variant="body2">Data: {infos?.data_complicacao.split('-').reverse().join('/') ?? undefined} </Typography>
+                <Typography variant="body2">Data: {infos?.data_inicio.split('-').reverse().join('/') ?? undefined} </Typography>
               </Grid>
             </Grid>
           </AccordionSummary>
@@ -74,17 +74,17 @@ export const Cateter = (props) => {
                       shrink: true,
                     }}
                     className={classes.dateField}
-                    disabled={infos?.data_complicacao ? true : false}
-                    error={(fContext.errors[`data_complicacao#${id}`] && fContext.touched[`data_complicacao#${id}`])}
+                    disabled={!isNew}
+                    error={(fContext.errors[`data_inicio#${id}`] && fContext.touched[`data_inicio#${id}`])}
                     helperText={
-                      (fContext.errors[`data_complicacao#${id}`] && fContext.touched[`data_complicacao#${id}`]) ? fContext.errors[`data_complicacao#${id}`] : null
+                      (fContext.errors[`data_inicio#${id}`] && fContext.touched[`data_inicio#${id}`]) ? fContext.errors[`data_inicio#${id}`] : null
                     }
                     label="Data"
-                    name={`data_complicacao#${id}`}
+                    name={`data_inicio#${id}`}
                     onBlur={fContext.handleBlur}
                     onChange={fContext.handleChange}
                     type="date"
-                    value={infos?.data_complicacao ?? fContext.values[`data_complicacao#${id}`]}
+                    value={infos?.data_inicio ?? fContext.values[`data_inicio#${id}`]}
                   />
                 </FormGroup>
               </Grid>
@@ -102,17 +102,17 @@ export const Cateter = (props) => {
                       shrink: true,
                     }}
                     className={classes.dateField}
-                    disabled={infos?.data_complicacao ? true : false}
-                    error={(fContext.errors[`data_complicacao#${id}`] && fContext.touched[`data_complicacao#${id}`])}
+                    disabled={!isNew}
+                    error={(fContext.errors[`data_termino#${id}`] && fContext.touched[`data_termino#${id}`])}
                     helperText={
-                      (fContext.errors[`data_complicacao#${id}`] && fContext.touched[`data_complicacao#${id}`]) ? fContext.errors[`data_complicacao#${id}`] : null
+                      (fContext.errors[`data_termino#${id}`] && fContext.touched[`data_termino#${id}`]) ? fContext.errors[`data_termino#${id}`] : null
                     }
                     label="Data"
-                    name={`data_complicacao#${id}`}
+                    name={`data_termino#${id}`}
                     onBlur={fContext.handleBlur}
                     onChange={fContext.handleChange}
                     type="date"
-                    value={infos?.data_complicacao ?? fContext.values[`data_complicacao#${id}`]}
+                    value={infos?.data_termino ?? fContext.values[`data_termino#${id}`]}
                   />
                 </FormGroup>
               </Grid>
@@ -125,24 +125,19 @@ export const Cateter = (props) => {
                   <FormLabel>
                     <Typography variant="h5">Parâmetro</Typography>
                   </FormLabel>
-                  <input
-                    name={`tipo_complicacao_id#${id}`}
-                    type="hidden"
-                    value={fContext.values[`tipo_complicacao_id#${id}`] || 3}
-                  />
                   <TextField
                     className={classes.dateField}
-                    disabled={infos?.data_complicacao ? true : false}
-                    error={(fContext.errors[`descricao#${id}`] && fContext.touched[`descricao#${id}`])}
+                    disabled={!isNew}
+                    error={(fContext.errors[`parametro#${id}`] && fContext.touched[`parametro#${id}`])}
                     helperText={
-                      (fContext.errors[`descricao#${id}`] && fContext.touched[`descricao#${id}`]) ? fContext.errors[`descricao#${id}`] : null
+                      (fContext.errors[`parametro#${id}`] && fContext.touched[`parametro#${id}`]) ? fContext.errors[`parametro#${id}`] : null
                     }
                     label="Em l/min"
-                    name={`descricao#${id}`}
+                    name={`parametro#${id}`}
                     onBlur={fContext.handleBlur}
                     onChange={fContext.handleChange}
-                    type="text"
-                    value={infos?.descricao ?? fContext.values[`descricao#${id}`]}
+                    type="number"
+                    value={infos?.parametro ?? fContext.values[`parametro#${id}`]}
                     variant={'outlined'}
                   />
                 </FormGroup>
