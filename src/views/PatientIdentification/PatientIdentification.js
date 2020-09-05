@@ -278,7 +278,6 @@ const PatientIdentification = () => {
           type: 'success',
           message: data.message,
         });
-        // TODO: quando enviar para a pg de categorias do paciente
         history.push('/categorias');
       }
     } catch (err) {
