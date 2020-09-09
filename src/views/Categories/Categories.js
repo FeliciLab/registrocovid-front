@@ -57,10 +57,10 @@ const Categories = () => {
         label: 'Exame físico (admissão e evolução diária)',
         url: 'categorias/lista-exame-fisico',
       },
-      { 
-        id: 2, 
+      {
+        id: 2,
         label: 'Complicações relacionadas à ventilação mecânica',
-        url: 'categorias/complicacoes-vm' 
+        url: 'categorias/complicacoes-vm',
       },
       {
         id: 3,
@@ -80,7 +80,7 @@ const Categories = () => {
       { id: 6, label: 'Complicações' },
       { id: 7, label: 'Suporte respiratório' },
       { id: 8, label: 'Infecções relacionadas à assistência à saúde (IRAS)' },
-      { id: 9, label: 'Desfecho' },
+      { id: 9, label: 'Desfecho', url: 'categorias/desfecho/' },
     ];
   }, []);
 

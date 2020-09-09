@@ -13,3 +13,4 @@ export { default as Comorbidities } from './Comorbidities';
 export { default as PhysicalExamsList } from './PhysicalExamsList';
 export { default as SupportTreatment } from './ SupportTreatment';
 export { default as ComplementaryTests } from './ComplementaryTests';
+export { default as Outcome } from './Outcome';
