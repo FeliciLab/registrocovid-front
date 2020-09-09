@@ -22,11 +22,11 @@ const ComplicationsList = ({ complicacoes }) => {
               {values.newsComplicacoes &&
                 values.newsComplicacoes.length > 0 &&
                 values.newsComplicacoes.map((complicacao, index) => {
-                  if (complicacao.tipo_complicacao_id == 1) {
+                  if (complicacao.tipo_complicacao_id === 1) {
                     return (
                       <UTIForm key={index} index={index} remove={remove} />
                     );
-                  } else if (complicacao.tipo_complicacao_id == 13) {
+                  } else if (complicacao.tipo_complicacao_id === 13) {
                     return (
                       <NeurologicItem
                         key={index}
@@ -44,9 +44,9 @@ const ComplicationsList = ({ complicacoes }) => {
           )}
         </FieldArray>
         {complicacoes.map((complicacao, index) => {
-          if (complicacao.tipo_complicacao.id == 1) {
+          if (complicacao.tipo_complicacao.id === 1) {
             return <UTIItem key={index} complicationData={complicacao} />;
-          } else if (complicacao.tipo_complicacao.id == 13) {
+          } else if (complicacao.tipo_complicacao.id === 13) {
             return (
               <NeurologicItem key={index} complicationData={complicacao} />
             );
@@ -59,4 +59,17 @@ const ComplicationsList = ({ complicacoes }) => {
   );
 };
 
-export default ComplicationsList;
+ComplicationsList.propTypes = {
+  className: PropTypes.string,
+  complicacoes: PropTypes.arrayOf(
+    PropTypes.shape({
+      tipo_complicacao_id: PropTypes.number,
+      data: PropTypes.string,
+      data_termino: PropTypes.string,
+      menos_24h_uti: PropTypes.bool,
+      glasglow_admissao_uti: PropTypes.number,
+    }),
+  ).isRequired,
+};
+
+export default memo(ComplicationsList);

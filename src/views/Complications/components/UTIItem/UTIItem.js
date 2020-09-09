@@ -1,11 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
-  Card,
   Grid,
   FormControl,
   Typography,
-  CardContent,
-  Divider,
   TextField,
   Switch,
   Accordion,

@@ -20,26 +20,7 @@ const UTIForm = ({ index, remove }) => {
   const classes = useStyles();
 
   const { values, handleChange, errors, touched } = useFormikContext();
-
-  console.log(values);
-  /**
-   * 
-   * [
-  {
-    "tipo_complicacao_id": 1,
-    "data": "",
-    "data_termino": "",
-    "descricao": "",
-    "menos_24h_uti": "",
-    "glasglow_admissao_uti": ""
-  },
-  {
-    "tipo_complicacao_id": 3,
-    "data": "",
-    "data_termino": ""
-  }
-]
-   */
+  const [isChecked, setiIsChecked] = useState(false);
   return (
     <Grid className={classes.root} component={Card} item>
       <FormLabel className={classes.formLabel}>
@@ -85,7 +66,6 @@ const UTIForm = ({ index, remove }) => {
             <FormLabel>
               <Typography variant="h4">Admissão em UTI</Typography>
             </FormLabel>
-
             <Field
               InputLabelProps={{
                 shrink: true,

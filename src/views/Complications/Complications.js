@@ -64,7 +64,7 @@ const Complications = () => {
         setLoading(false);
       }
     },
-    [addToast, history],
+    [addToast, history, patient],
   );
 
   useEffect(() => {
