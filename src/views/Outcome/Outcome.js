@@ -2,10 +2,17 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { usePatient } from 'context/PatientContext';
 import useStyles from './styles';
 import { CustonBreadcrumbs } from 'components';
-import { CircularProgress, Typography, FormControl, Button, Grid } from '@material-ui/core';
+import {
+  CircularProgress,
+  Typography,
+  FormControl,
+  Button,
+  Grid,
+} from '@material-ui/core';
 import { Formik, Form } from 'formik';
 import schema from './schema';
 import PatientInfo from 'components/PatientInfo';
+import useSeeds from 'hooks/seeds';
 
 // TODO: nada por enquanto
 const initialValues = {};
@@ -17,6 +24,10 @@ function Outcome() {
 
   const classes = useStyles();
 
+  const { getTiposDesfecho } = useSeeds();
+
+  const [tiposDesfecho, setTiposDesfecho] = useState([]);
+
   const [loading, setLoading] = useState(false);
 
   // Carrega as informações dos desfechos
@@ -24,6 +35,12 @@ function Outcome() {
     try {
       // TODO: implementar aqui o carregamento
       setLoading(true);
+
+      await getTiposDesfecho().then(response => {
+        console.log(response);
+        setTiposDesfecho(response.data);
+      });
+
       console.log(id);
     } catch (error) {
       console.log(error);
@@ -69,7 +86,7 @@ function Outcome() {
               validateOnMount
               validationSchema={schema}
             >
-              {({isSubmitting}) => (
+              {({ isSubmitting }) => (
                 <Form component={FormControl}>
                   <div className={classes.titleWrapper}>
                     <Typography variant="h2">Desfecho</Typography>
@@ -89,6 +106,11 @@ function Outcome() {
                       </Button>
                     </Grid>
                   </div>
+
+                  {/* TODO: testando */}
+                  {tiposDesfecho.map(tipo => (
+                    <span key={tipo.id}>{tipo.descricao}</span>
+                  ))}
                 </Form>
               )}
             </Formik>
