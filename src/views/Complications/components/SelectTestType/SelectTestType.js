@@ -22,14 +22,14 @@ const SelectTestType = ({ tiposComplicacoes }) => {
   const { values, handleChange, setFieldValue } = useFormikContext();
 
   const handleAddTesteType = () => {
-    if (values.tipo_new_complication == 1) {
+    if (values.tipo_new_complication === 1) {
       setFieldValue('newsComplicacoes', [
         ...values.newsComplicacoes,
         {
           tipo_complicacao: values.tipo_new_complication,
         },
       ]);
-    } else if (values.tipo_new_complication == 13) {
+    } else if (values.tipo_new_complication === 13) {
       setFieldValue('newsComplicacoes', [
         ...values.newsComplicacoes,
         {

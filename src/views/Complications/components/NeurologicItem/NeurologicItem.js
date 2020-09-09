@@ -1,37 +1,38 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
-  Card,
   Grid,
   FormControl,
   Typography,
-  IconButton,
-  CardContent,
-  Divider,
   TextField,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
 } from '@material-ui/core';
-import DeleteIcon from '@material-ui/icons/Delete';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
 import formatDate from '../../../../helpers/formatDate';
 import useStyles from './styles';
 
-export default props => {
-  const { complicationData, enableDelete, removeItself } = props;
-
+export default ({ complicationData }) => {
   const classes = useStyles();
 
   return (
-    <Grid className={classes.root} item xs={12}>
-      <Card>
-        <div className={classes.headerCard}>
-          <Typography variant="h4" className={classes.headerCardLabel}>
+    <Accordion>
+      <AccordionSummary
+        aria-controls="panel1a-content"
+        expandIcon={<ExpandMoreIcon />}
+        id="panel1a-header">
+        <div className={classes.heading}>
+          <Typography className={classes.headingLabel} variant="h4">
             Complicação Neurológica
           </Typography>
-          <Typography component="p" className={classes.headerCardDate}>
-            Data:
+          <Typography variant="caption">
             {complicationData ? formatDate(complicationData.created_at) : ''}
           </Typography>
         </div>
-        <Divider />
-        <CardContent>
+      </AccordionSummary>
+      <AccordionDetails className={classes.accordionDetails}>
+        <Grid className={classes.root} item xs={12}>
           <FormControl className={classes.formControl}>
             <Typography variant="h4" className={classes.formLabel}>
               Em caso afirmativo para complicação neurológica, qual?
@@ -62,8 +63,8 @@ export default props => {
               </Grid>
             </Grid>
           </FormControl>
-        </CardContent>
-      </Card>
-    </Grid>
+        </Grid>
+      </AccordionDetails>
+    </Accordion>
   );
 };

@@ -1,65 +1,61 @@
 import React from 'react';
 import {
-  Card,
   Grid,
-  FormControl,
   Typography,
-  CardContent,
-  Divider,
   TextField,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
 } from '@material-ui/core';
 import formatDate from '../../../../helpers/formatDate';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
 import useStyles from './styles';
 
-export default props => {
-  const { complicationData, enableDelete, removeItself } = props;
-
+export default ({ complicationData }) => {
   const classes = useStyles();
 
   return (
-    <Grid className={classes.root} item xs={12}>
-      <Card>
-        <div className={classes.headerCard}>
-          <Typography variant="h4" className={classes.headerCardLabel}>
+    <Accordion>
+      <AccordionSummary
+        aria-controls="panel1a-content"
+        expandIcon={<ExpandMoreIcon />}
+        id="panel1a-header">
+        <div className={classes.heading}>
+          <Typography className={classes.headingLabel} variant="h4">
             {complicationData && complicationData.tipo_complicacao.descricao
               ? complicationData.tipo_complicacao.descricao
               : ''}
           </Typography>
-          <Typography component="p" className={classes.headerCardDate}>
-            Data:
-            {complicationData && complicationData.created_at
-              ? formatDate(complicationData.created_at)
-              : ''}
+          <Typography variant="caption">
+            {complicationData ? formatDate(complicationData.created_at) : ''}
           </Typography>
         </div>
-        <Divider />
-        <CardContent>
-          <FormControl className={classes.formControl}>
-            <Grid className={classes.formControlContainer}>
-              <Grid item xs={12}>
-                <Typography variant="h4" className={classes.formSubtitle}>
-                  Data de Complicação
-                </Typography>
-                <TextField
-                  variant="outlined"
-                  className={classes.formInputDate}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  label="Data"
-                  name="data_complicacao"
-                  type="date"
-                  defaultValue={
-                    complicationData && complicationData.data
-                      ? complicationData.data
-                      : ''
-                  }
-                />
-              </Grid>
-            </Grid>
-          </FormControl>
-        </CardContent>
-      </Card>
-    </Grid>
+      </AccordionSummary>
+      <AccordionDetails className={classes.accordionDetails}>
+        <Grid className={classes.formControlContainer}>
+          <Grid item xs={12}>
+            <Typography variant="h4" className={classes.formSubtitle}>
+              Data de Complicação
+            </Typography>
+            <TextField
+              variant="outlined"
+              className={classes.formInputDate}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              label="Data"
+              name="data_complicacao"
+              type="date"
+              defaultValue={
+                complicationData && complicationData.data
+                  ? complicationData.data
+                  : ''
+              }
+            />
+          </Grid>
+        </Grid>
+      </AccordionDetails>
+    </Accordion>
   );
 };

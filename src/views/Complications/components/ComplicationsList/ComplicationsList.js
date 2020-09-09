@@ -3,6 +3,7 @@ import { Card, Grid } from '@material-ui/core';
 import useStyles from './styles';
 import PropTypes from 'prop-types';
 import UTIItem from '../UTIItem';
+import UTIForm from '../UTIForm';
 import NeurologicItem from '../NeurologicItem';
 import DefaultItem from '../DefaultItem';
 import { useFormikContext, FieldArray } from 'formik';
@@ -22,7 +23,7 @@ const ComplicationsList = ({ complicacoes }) => {
                 values.newsComplicacoes.length > 0 &&
                 values.newsComplicacoes.map((complicacao, index) => {
                   if (complicacao.tipo_complicacao == 1) {
-                    return <UTIItem key={index} remove={remove} />;
+                    return <UTIForm key={index} />;
                   } else if (complicacao.tipo_complicacao == 13) {
                     return <NeurologicItem key={index} remove={remove} />;
                   } else {

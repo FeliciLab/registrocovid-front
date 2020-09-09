@@ -9,7 +9,6 @@ const useStyles = makeStyles(theme => ({
   headerCard: {
     display: 'flex',
     width: '100%',
-    display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
@@ -50,6 +49,20 @@ const useStyles = makeStyles(theme => ({
   },
   formInputDate: {
     width: '90%',
+  },
+  heading: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  headingLabel: {
+    marginRight: theme.spacing(1),
+  },
+  accordionDetails: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  fieldData: {
+    marginTop: theme.spacing(1),
   },
 }));
 
