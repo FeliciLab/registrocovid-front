@@ -118,8 +118,8 @@ const Complications = () => {
             { label: 'Meus pacientes', route: '/meus-pacientes' },
             { label: 'Categorias', route: '/categorias' },
             {
-              label: 'Exames laboratoriais específicos COVID 19',
-              route: `/categorias/exames-especificos/${id}`,
+              label: 'Complicações',
+              route: `/categorias/complicacoes`,
             },
           ]}
         />
@@ -137,9 +137,7 @@ const Complications = () => {
               {({ isSubmitting }) => (
                 <Form component={FormControl}>
                   <div className={classes.titleWrapper}>
-                    <Typography variant="h2">
-                      Exames laboratoriais específicos COVID 19
-                    </Typography>
+                    <Typography variant="h2">Complicações</Typography>
                     <Grid className={classes.actionSection} item>
                       <PatientInfo />
                       <Button

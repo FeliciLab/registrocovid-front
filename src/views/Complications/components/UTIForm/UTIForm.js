@@ -95,6 +95,18 @@ const UTIForm = ({ index, remove }) => {
               name={`newsComplicacoes[${index}].data`}
               onChange={handleChange}
               type="date"
+              error={
+                errors.newsComplicacoes && touched.newsComplicacoes
+                  ? !!errors.newsComplicacoes[index]?.data
+                  : false
+              }
+              helperText={
+                errors.newsComplicacoes &&
+                touched.newsComplicacoes &&
+                errors.newsComplicacoes[index]?.data
+                  ? errors.newsComplicacoes[index]?.data
+                  : ''
+              }
             />
           </FormGroup>
         </Grid>
@@ -113,6 +125,18 @@ const UTIForm = ({ index, remove }) => {
               onChange={handleChange}
               value={values.newsComplicacoes[index].data_termino}
               type="date"
+              error={
+                errors.newsComplicacoes && touched.newsComplicacoes
+                  ? !!errors.newsComplicacoes[index]?.data_termino
+                  : false
+              }
+              helperText={
+                errors.newsComplicacoes &&
+                touched.newsComplicacoes &&
+                errors.newsComplicacoes[index]?.data_termino
+                  ? errors.newsComplicacoes[index]?.data_termino
+                  : ''
+              }
             />
           </FormGroup>
         </Grid>

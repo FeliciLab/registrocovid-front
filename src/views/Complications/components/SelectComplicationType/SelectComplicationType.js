@@ -61,13 +61,13 @@ const SelectComplicationType = ({ tiposComplicacoes }) => {
       <Grid item>
         <FormGroup>
           <FormLabel>
-            <Typography variant="h4">Tipo teste</Typography>
+            <Typography variant="h4">Escolher tipo de complicação</Typography>
           </FormLabel>
           <Grid className={classes.actionWrapper} item>
             <Field
               as={TextField}
               className={classes.textField}
-              label="Tipo teste"
+              label="Escolher"
               name="tipo_new_complication"
               onChange={handleChange}
               select
