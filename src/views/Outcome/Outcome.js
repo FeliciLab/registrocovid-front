@@ -13,9 +13,12 @@ import { Formik, Form } from 'formik';
 import schema from './schema';
 import PatientInfo from 'components/PatientInfo';
 import useSeeds from 'hooks/seeds';
+import SelectOutcomeType from './components/SelectOutcomeType/SelectOutcomeType';
 
-// TODO: nada por enquanto
-const initialValues = {};
+const initialValues = {
+  newDesfechos: [],
+  tipoNewDesfechoSelected: '',
+};
 
 function Outcome() {
   const {
@@ -37,7 +40,7 @@ function Outcome() {
       setLoading(true);
 
       await getTiposDesfecho().then(response => {
-        console.log(response);
+        console.log(response.data);
         setTiposDesfecho(response.data);
       });
 
@@ -47,7 +50,7 @@ function Outcome() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [getTiposDesfecho]);
 
   const handleSubmit = useCallback(async values => {
     try {
@@ -107,10 +110,7 @@ function Outcome() {
                     </Grid>
                   </div>
 
-                  {/* TODO: testando */}
-                  {tiposDesfecho.map(tipo => (
-                    <span key={tipo.id}>{tipo.descricao}</span>
-                  ))}
+                  <SelectOutcomeType tipos={tiposDesfecho} />
                 </Form>
               )}
             </Formik>
