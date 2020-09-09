@@ -13,7 +13,8 @@ import { Formik, Form } from 'formik';
 import schema from './schema';
 import PatientInfo from 'components/PatientInfo';
 import useSeeds from 'hooks/seeds';
-import SelectOutcomeType from './components/SelectOutcomeType/SelectOutcomeType';
+import SelectOutcomeType from './components/SelectOutcomeType';
+import OutcomObitoForm from './components/OutcomObitoForm';
 
 const initialValues = {
   newDesfechos: [],
@@ -111,6 +112,9 @@ function Outcome() {
                   </div>
 
                   <SelectOutcomeType tipos={tiposDesfecho} />
+
+                  {/* TODO: mostar os forms aqui */}
+                  <OutcomObitoForm />
                 </Form>
               )}
             </Formik>

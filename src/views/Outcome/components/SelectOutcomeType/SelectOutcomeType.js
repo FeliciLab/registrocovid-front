@@ -23,17 +23,22 @@ const SelectOutcomeType = props => {
 
   const { values, handleChange, setFieldValue } = useFormikContext();
 
+
+  //  e tipo_cuidado_paliativo_id
   const handleAddTesteType = () => {
     // TODO: definir o que vai aparecer aqui
     setFieldValue('newDesfechos', [
       ...values.newDesfechos,
       {
-        // tipo_exames_complementares_id: values.tipoNewTesteSelected.toString(),
-        // data: '',
-        // resultado: '',
-        descricao: tipos.filter(
-          tipo => tipo.id === Number(values.tipoNewDesfechoSelected),
-        )[0].descricao,
+        tipo_desfecho_id: values.tipoNewDesfechoSelected.toString(),
+        tipo_autocuidado_id: '',
+        instituicao_transferencia_id: '',
+        data: '',
+        causa_obito: '',
+        obito_menos_24h: false,
+        obito_em_vm: false,
+        obito_em_uti: false,
+        tipo_cuidado_paliativo_id: '',
       },
     ]);
   }
