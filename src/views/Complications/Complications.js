@@ -1,160 +1,166 @@
-import React, {
-  useState,
-  useCallback,
-  useEffect,
-  useRef,
-  useMemo,
-} from 'react';
-import { useHistory } from 'react-router-dom';
-
-import {
-  Typography,
-  Button,
-  CircularProgress,
-  Paper,
-  Grid,
-  FormGroup,
-  FormLabel,
-  FormControl,
-  Select,
-  MenuItem,
-} from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
-
-import CustonBreadcrumbs from 'components/CustonBreadcrumbs';
-import PatientInfo from 'components/PatientInfo';
-import Form from './components/Form';
-
-import { useToast } from 'hooks/toast';
-import { usePatient } from 'context/PatientContext';
-
-import ComplicationsTypes from './components';
-
-import api from 'services/api';
+import React, { useState, useCallback, useEffect } from 'react';
 
 import useStyles from './styles';
+import { CustonBreadcrumbs } from 'components';
+import { useParams, useHistory } from 'react-router-dom';
+import {
+  CircularProgress,
+  FormControl,
+  Typography,
+  Grid,
+  Button,
+} from '@material-ui/core';
+import { Formik, Form } from 'formik';
+import schema from './schema';
+import SelectTestType from './components/SelectTestType';
+import TestRTCPRList from './components/TestRTCPRList';
+import TestRapidoList from './components/TestRapidoList';
+import ComplicationsList from './components/ComplicationsList';
+import api from 'services/api';
+import { useToast } from 'hooks/toast';
+import PatientInfo from 'components/PatientInfo';
+import { usePatient } from 'context/PatientContext';
+
+// Valores iniciais
+const initialValues = {
+  newsTestsRTCPRs: [],
+  newsTestsRapidos: [],
+  newsComplicacoes: [],
+  tipo_new_teste: '',
+};
 
 const Complications = () => {
-  const classes = useStyles();
-  const history = useHistory();
-  const { addToast } = useToast();
+  let { id } = useParams();
+
   const { patient } = usePatient();
 
-  const formRef = useRef(null);
-  const selectedComplication = useRef();
+  id = id ? id : patient.id;
+
+  const classes = useStyles();
 
   const [loading, setLoading] = useState(false);
-  const [complicationsTypes, setComplicationsTypes] = useState([]);
-  const [oldComplications, setOldComplications] = useState([]);
-  const [oldComplicacoes, setOldComplicacoes] = useState([]);
 
-  const [transfusions, setTransfusions] = useState([]);
-  const [newsComplications, setNewsComplications] = useState([]);
-  const [complicationId, setComplicationId] = useState(0);
+  const [examesPCR, setexamesPCR] = useState([]);
 
-  const handleInfos = useCallback(async () => {
-    try {
-      setLoading(true);
+  const [complicacoes, setComplicacoes] = useState([]);
+  const [tipoComplicacoes, setTipoComplicacoes] = useState([]);
 
-      const [
-        complications,
-        complicationsPatient,
-        complicacoes,
-      ] = await Promise.all([
-        //api.get('tipos-complicacao-vm'),
+  const [examesTesteRapido, setExamesTesteRapido] = useState([]);
 
-        api.get('tipos-complicacoes'),
-        api.get(`pacientes/${patient.id}/ventilacao-mecanica`),
-        api.get(`pacientes/${patient.id}/complicacoes`),
-      ]);
+  const history = useHistory();
 
-      let ordenedByDate = await orderByDate(
-        complicationsPatient.data.transfussoes_ocorrencia,
-      );
+  const { addToast } = useToast();
 
-      setComplicationsTypes(complications.data);
-      setOldComplications(
-        complicationsPatient.data.complicacoes_ventilacao_mecanica,
-      );
-      setTransfusions(ordenedByDate);
-      setOldComplicacoes(complicacoes.data);
-      console.log(complicacoes.data);
-    } catch (e) {
-      console.log(e);
-      addToast({
-        type: 'error',
-        message: 'Erro ao tentar carregar informações, tente novamente',
-      });
+  // trata de carregar as informações
+  const handleComplications = useCallback(
+    async id => {
+      try {
+        setLoading(true);
 
-      history.goBack();
-    } finally {
-      setLoading(false);
-    }
-  }, [addToast, history, patient.id]);
+        const response = await api.get(`pacientes/${id}/exames-laboratoriais`);
+        const { exames_pcr, exames_teste_rapido } = response.data;
+
+        setexamesPCR(exames => [...exames, ...exames_pcr]);
+        setExamesTesteRapido(exames => [...exames, ...exames_teste_rapido]);
+      } catch (err) {
+        addToast({
+          type: 'error',
+          message: 'Algo inesperado aconteceu. Tente novamente.',
+        });
+        history.goBack();
+      } finally {
+        setLoading(false);
+      }
+    },
+    [addToast, history],
+  );
+
+  const handleComplicationsFull = useCallback(
+    async id => {
+      try {
+        setLoading(true);
+
+        const [complications, tipoComplications] = await Promise.all([
+          api.get(`pacientes/${patient.id}/complicacoes`),
+          api.get(`tipos-complicacoes`),
+        ]);
+
+        setComplicacoes(comp => [...comp, ...complications.data]);
+        setTipoComplicacoes(comp => [...comp, ...tipoComplications.data]);
+      } catch (err) {
+        addToast({
+          type: 'error',
+          message: 'Algo inesperado aconteceu. Tente novamente.',
+        });
+        history.goBack();
+      } finally {
+        setLoading(false);
+      }
+    },
+    [addToast, history],
+  );
 
   useEffect(() => {
-    handleInfos();
-  }, [handleInfos]);
+    handleComplications(id);
+  }, [handleComplications, id]);
 
-  const handleSelect = event => {
-    selectedComplication.current = event.target.value;
-  };
+  useEffect(() => {
+    handleComplicationsFull(id);
+  }, [handleComplicationsFull, id]);
 
-  const handleNewComplication = () => {
-    if (selectedComplication.current) {
-      const newComplication = {
-        id: complicationId,
-        complication: selectedComplication.current,
-      };
+  const handleSubmit = async ({ newsTestsRTCPRs, newsTestsRapidos }) => {
+    try {
+      // sanitizando os dasos de newsTestsRTCPRs para o envio dos testes novos
+      const newsTestsRTCPRsSanitized = newsTestsRTCPRs.map(test => ({
+        data_coleta: test.data_coleta,
+        sitio_tipo_id: test.sitio_tipo,
+        data_resultado: test.data_resultado,
+        rt_pcr_resultado_id: test.rt_pcr_resultado,
+      }));
 
-      setComplicationId(oldState => oldState + 1);
-      setNewsComplications(oldState => [newComplication, ...oldState]);
+      // sanitizando os dasos de newsTestsRapidos para o envio dos testes novos
+      const newsTestsRapidosSanitized = newsTestsRapidos.map(test => ({
+        data_realizacao: test.data_realizacao,
+        resultado: test.resultado === 'true' ? true : false,
+      }));
+
+      // criando as promises
+      const newsTestsRTCPRsPromises = newsTestsRTCPRsSanitized.map(test =>
+        api.post(`/pacientes/${id}/exames-laboratoriais`, test),
+      );
+
+      const newsTestsRapidosPromises = newsTestsRapidosSanitized.map(test =>
+        api.post(`/pacientes/${id}/exames-laboratoriais`, test),
+      );
+
+      // tentando salvar mas sem nada para enviar.
+      if (
+        newsTestsRapidosPromises.length === 0 &&
+        newsTestsRTCPRsPromises.length === 0
+      ) {
+        addToast({
+          type: 'warning',
+          message: 'Nada para salvar.',
+        });
+        return;
+      }
+
+      // enviando todas as requests juntas.
+      await Promise.all([
+        ...newsTestsRTCPRsPromises,
+        ...newsTestsRapidosPromises,
+      ]);
+
+      addToast({
+        type: 'success',
+        message: 'Dados salvos com sucesso.',
+      });
+
+      window.location.reload();
+    } catch (err) {
+      console.log(err);
     }
   };
-
-  const handleDelete = complicationId => {
-    const updatedComplications = newsComplications.filter(
-      ({ id }) => id !== complicationId,
-    );
-    setNewsComplications(updatedComplications);
-
-    formRef.current.setValues(complicationId);
-  };
-
-  const handleSubmit = () => {
-    formRef.current.submit();
-  };
-
-  const orderByDate = array => {
-    return array.sort((a, b) => {
-      if (
-        a.data_complicacao > b.data_complicacao ||
-        a.data_transfusao > b.data_transfusao
-      )
-        return 1;
-      if (
-        a.data_complicacao < b.data_complicacao ||
-        a.data_transfusao < b.data_transfusao
-      )
-        return -1;
-      return 0;
-    });
-  };
-
-  const groupedOldComplications = useMemo(() => {
-    const ordernedByDate = orderByDate(oldComplications);
-
-    return ordernedByDate.reduce((acc, object) => {
-      let key = object.tipo_complicacao['id'];
-      if (key !== 4) {
-        if (!acc[key]) {
-          acc[key] = [];
-        }
-        acc[key].push(object);
-      }
-      return acc;
-    }, {});
-  }, [oldComplications]);
 
   return (
     <div className={classes.root}>
@@ -164,134 +170,52 @@ const Complications = () => {
             { label: 'Meus pacientes', route: '/meus-pacientes' },
             { label: 'Categorias', route: '/categorias' },
             {
-              label: 'Complicações',
-              route: '/categorias/complicacoes',
+              label: 'Exames laboratoriais específicos COVID 19',
+              route: `/categorias/exames-especificos/${id}`,
             },
           ]}
         />
-      </div>
-
-      <div>
-        <div className={classes.titleWrapper}>
-          <Typography variant="h3">Complicações</Typography>
-
-          <div className={classes.rightContent}>
-            <PatientInfo />
-
-            <Button
-              className={classes.buttonSave}
-              color="secondary"
-              onClick={handleSubmit}
-              type="submit"
-              variant="contained">
-              Salvar
-            </Button>
-          </div>
-        </div>
 
         {loading ? (
           <CircularProgress />
         ) : (
-          <div className="container">
-            <Grid container justify={'center'}>
-              <Paper className={classes.centralPaper}>
-                <FormLabel>
-                  <Typography variant="h4">
-                    Escolher tipo de complicação:
-                  </Typography>
-                </FormLabel>
+          <div className={classes.formWrapper}>
+            <Formik
+              enableReinitialize
+              initialValues={initialValues}
+              onSubmit={handleSubmit}
+              validateOnMount
+              validationSchema={schema}>
+              {({ isSubmitting }) => (
+                <Form component={FormControl}>
+                  <div className={classes.titleWrapper}>
+                    <Typography variant="h2">
+                      Exames laboratoriais específicos COVID 19
+                    </Typography>
+                    <Grid className={classes.actionSection} item>
+                      <PatientInfo />
+                      <Button
+                        className={classes.buttonSave}
+                        color="secondary"
+                        disabled={isSubmitting}
+                        type="submit"
+                        variant="contained">
+                        Salvar
+                      </Button>
+                    </Grid>
+                  </div>
 
-                <div className={classes.headerForm}>
-                  <Grid item lg={8}>
-                    <FormGroup>
-                      <FormControl variant={'outlined'}>
-                        <Select
-                          className={classes.selectField}
-                          name="complication"
-                          onChange={handleSelect}
-                          value={selectedComplication.current}>
-                          <MenuItem disabled value={0}>
-                            Escolher tipo de complicação
-                          </MenuItem>
-                          {complicationsTypes.map(complication => (
-                            <MenuItem
-                              key={complication.id}
-                              value={complication.id}>
-                              {complication.descricao}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
-                    </FormGroup>
-                  </Grid>
+                  <SelectTestType tiposComplicacoes={tipoComplicacoes} />
 
-                  <Grid item lg={4}>
-                    <Button
-                      className={classes.buttonSave}
-                      color="secondary"
-                      onClick={handleNewComplication}
-                      startIcon={<AddIcon />}
-                      type="button"
-                      variant="contained">
-                      Adicionar Ocorrência
-                    </Button>
-                  </Grid>
-                </div>
+                  <TestRTCPRList testes={examesPCR} />
 
-                <Form className={classes.examsFormGroup} ref={formRef}>
-                  {newsComplications.map(item => (
-                    <ComplicationsTypes
-                      handleDelete={() => handleDelete(item.id)}
-                      id={item.id}
-                      isNew
-                      key={String(item.id)}
-                      newComplication={item.complication}
-                      visible
-                    />
-                  ))}
+                  <TestRapidoList testes={examesTesteRapido} />
 
-                  {Object.entries(groupedOldComplications).map(element => {
-                    return [
-                      element[1].map(item => {
-                        return (
-                          <ComplicationsTypes
-                            id={item.id}
-                            infos={item}
-                            isNew={false}
-                            key={String(item.id)}
-                            newComplication={item.tipo_complicacao.id}
-                            visible
-                          />
-                        );
-                      }),
-                      <div className={classes.newExpPanel} />,
-                    ];
-                  })}
-
-                  {transfusions?.map(item => (
-                    <ComplicationsTypes
-                      id={item.id}
-                      infos={item}
-                      isNew={false}
-                      key={String(item.id)}
-                      newComplication={4}
-                      visible
-                    />
-                  ))}
-
-                  {oldComplicacoes?.map(item => (
-                    <ComplicationsTypes
-                      id={item.id}
-                      infos={item}
-                      isNew={false}
-                      key={String(item.id)}
-                      newComplication={4}
-                      visible
-                    />
-                  ))}
+                  <ComplicationsList complicacoes={complicacoes} />
+                  {/* <FormikErroObserver /> */}
                 </Form>
-              </Paper>
-            </Grid>
+              )}
+            </Formik>
           </div>
         )}
       </div>

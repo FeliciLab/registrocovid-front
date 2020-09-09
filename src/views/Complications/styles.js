@@ -6,9 +6,10 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     padding: theme.spacing(4),
   },
-  header: {
+  formWrapper: {
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    alignItems: 'left',
   },
   titleWrapper: {
     display: 'flex',
@@ -17,103 +18,14 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  rightContent: {
+  actionSection: {
     display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
   },
   buttonSave: {
-    width: '258px',
+    width: '200px',
     height: '48px',
   },
-  formContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingBottom: theme.spacing(3),
-    paddingTop: theme.spacing(3),
-  },
-  form: {
-    backgroundColor: '#fff',
-    width: 864,
-    minHeight: 800,
-    marginTop: 40,
-    paddingLeft: 40,
-    paddingTop: 24
-  },
-  formGroup: {
-    marginBottom: 24,
-    width: '100%'
-  },
-  cardInfo: {
-    padding: 16,
-    width: 570,
-    marginBottom: 10,
-  },
-  title: {
-    fontWeight: 'bold',
-    letterSpacing: 1.25,
-    textTransform: 'uppercase',
-    fontSize: 16
-  },
-  label: {
-    fontWeight: 'bold',
-    fontSize: 14,
-    marginRight: 4
-  },
-  description: {
-    fontSize: 14
-  },
-  titleContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  },
-  panels: {
-    width: '50%',
-    marginBottom: 24,
-  },
-  dateField: {
-    marginTop: theme.spacing(1)
-  },
-  deleteIcon: {
-    transform: 'rotate(180deg)'
-  },
-  container: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  centralPaper: {
-    width: 864,
-    paddingLeft: 30,
-    paddingRight: 30,
-    paddingTop: 30,
-  },
-  headerForm: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: theme.spacing(1),
-  },
-  selectField: {
-    height: '48px',
-    marginRight: theme.spacing(1),
-  },
-  accordionDetails: {
-    flexDirection: 'column',
-    '& > *': {
-      marginBottom: theme.spacing(2),
-    }
-  },
-  fullWidth: {
-    width: '100%'
-  },
-  newExpPanel: {
-    marginBottom: theme.spacing(1)
-  }
 }));
 
 export default useStyles;
+
