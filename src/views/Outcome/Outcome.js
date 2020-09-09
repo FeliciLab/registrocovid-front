@@ -56,7 +56,7 @@ function Outcome() {
   const handleSubmit = useCallback(async values => {
     try {
       // TODO: implementar o submit aqui
-      console.log(values);
+      console.log(values.newDesfechos);
     } catch (error) {
       console.log(error);
     }

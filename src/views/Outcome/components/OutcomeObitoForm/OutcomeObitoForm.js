@@ -10,7 +10,7 @@ import {
   FormControlLabel,
   Switch,
 } from '@material-ui/core';
-import { useFormikContext, Field } from 'formik';
+import { useFormikContext, Field, FastField } from 'formik';
 import useStyles from './styles';
 import PropTypes from 'prop-types';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -27,7 +27,7 @@ const OutcomeObitoForm = props => {
   const classes = useStyles();
 
   const {
-    // values,
+    values,
     handleChange,
     // errors,
     // touched
@@ -54,7 +54,7 @@ const OutcomeObitoForm = props => {
         container
         spacing={1}
       >
-        {/* data_de_obito */}
+        {/* data */}
         <Grid
           className={classes.fieldWraper}
           item
@@ -77,15 +77,15 @@ const OutcomeObitoForm = props => {
               // }
               // helperText={<ErrorMessage name={`newIRASs.${index}.data`} />}
               label="Data"
-              // name={`newIRASs.${index}.data`}
+              name={`newDesfechos.${index}.data`}
               onChange={handleChange}
               type="date"
-              // value={values.newIRASs[index].data}
+              value={values.newDesfechos[index].data}
             />
           </FormGroup>
         </Grid>
 
-        {/* ??? */}
+        {/* obito_menos_24h */}
         <Grid
           className={classes.fieldWraper}
           item
@@ -99,15 +99,15 @@ const OutcomeObitoForm = props => {
               as={FormControlLabel}
               control={
                 <Switch
-                  // checked={values.suporte_respiratorio}
+                  checked={values.newDesfechos[index].obito_menos_24h}
                   color="primary"
-                  name="suporte_respiratorio"
+                  name={`newDesfechos.${index}.obito_menos_24h`}
                   onChange={handleChange}
                 />
               }
               label={
                 <Typography variant="h6">
-                  Paciente chegou com suporte respiratório?
+                  {values.newDesfechos[index].obito_menos_24h ? 'Sim' : 'Não'}
                 </Typography>
               }
               name="suporte_respiratorio"
@@ -115,7 +115,7 @@ const OutcomeObitoForm = props => {
           </FormLabel>
         </Grid>
 
-        {/* ??? */}
+        {/* obito_em_vm */}
         <Grid
           className={classes.fieldWraper}
           item
@@ -129,15 +129,15 @@ const OutcomeObitoForm = props => {
               as={FormControlLabel}
               control={
                 <Switch
-                  // checked={values.suporte_respiratorio}
+                  checked={values.newDesfechos[index].obito_em_vm}
                   color="primary"
-                  name="suporte_respiratorio"
+                  name={`newDesfechos.${index}.obito_em_vm`}
                   onChange={handleChange}
                 />
               }
               label={
                 <Typography variant="h6">
-                  Paciente chegou com suporte respiratório?
+                  {values.newDesfechos[index].obito_em_vm ? 'Sim' : 'Não'}
                 </Typography>
               }
               name="suporte_respiratorio"
@@ -145,7 +145,7 @@ const OutcomeObitoForm = props => {
           </FormLabel>
         </Grid>
 
-        {/* ??? */}
+        {/* obito_em_uti */}
         <Grid
           className={classes.fieldWraper}
           item
@@ -159,20 +159,47 @@ const OutcomeObitoForm = props => {
               as={FormControlLabel}
               control={
                 <Switch
-                  // checked={values.suporte_respiratorio}
+                  checked={values.newDesfechos[index].obito_em_uti}
                   color="primary"
-                  name="suporte_respiratorio"
+                  name={`newDesfechos.${index}.obito_em_uti`}
                   onChange={handleChange}
                 />
               }
               label={
                 <Typography variant="h6">
-                  Paciente chegou com suporte respiratório?
+                  {values.newDesfechos[index].obito_em_uti ? 'Sim' : 'Não'}
                 </Typography>
               }
               name="suporte_respiratorio"
             />
           </FormLabel>
+        </Grid>
+
+        {/* causa_obito */}
+        <Grid
+          className={classes.fieldWraper}
+          item
+          sm={12}
+        >
+          <FormGroup>
+            <FormLabel>
+              <Typography variant="h5">Causa do óbito</Typography>
+            </FormLabel>
+
+            <FastField
+              InputLabelProps={{
+                shrink: true,
+              }}
+              as={TextField}
+              className={classes.field}
+              label="Descreva sua causa"
+              name={`newDesfechos.${index}.causa_obito`}
+              onChange={handleChange}
+              type="text"
+              value={values.newDesfechos[index].causa_obito}
+              variant="outlined"
+            />
+          </FormGroup>
         </Grid>
       </Grid>
     </Grid>
