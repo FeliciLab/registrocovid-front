@@ -26,21 +26,31 @@ const SelectComplicationType = ({ tiposComplicacoes }) => {
       setFieldValue('newsComplicacoes', [
         ...values.newsComplicacoes,
         {
-          tipo_complicacao: values.tipo_new_complication,
+          tipo_complicacao_id: values.tipo_new_complication,
+          data: '',
+          data_termino: '',
+          descricao: '',
+          menos_24h_uti: '',
+          glasglow_admissao_uti: '',
         },
       ]);
     } else if (values.tipo_new_complication === 13) {
       setFieldValue('newsComplicacoes', [
         ...values.newsComplicacoes,
         {
-          tipo_complicacao: values.tipo_new_complication,
+          tipo_complicacao_id: values.tipo_new_complication,
+          data: '',
+          data_termino: '',
+          descricao: '',
         },
       ]);
     } else {
       setFieldValue('newsComplicacoes', [
         ...values.newsComplicacoes,
         {
-          tipo_complicacao: values.tipo_new_complication,
+          tipo_complicacao_id: values.tipo_new_complication,
+          data: '',
+          data_termino: '',
         },
       ]);
     }

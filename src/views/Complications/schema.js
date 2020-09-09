@@ -4,6 +4,7 @@ const schema = Yup.object().shape({
   newsComplicacoes: Yup.array().of(
     Yup.object().shape({
       tipo_complicacao_id: Yup.string().required('Campo obrigatório'),
+      glasglow_admissao_uti: Yup.string().required('Campo obrigatório'),
     }),
   ),
 });

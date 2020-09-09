@@ -21,6 +21,25 @@ const UTIForm = ({ index, remove }) => {
 
   const { values, handleChange, errors, touched } = useFormikContext();
 
+  console.log(values);
+  /**
+   * 
+   * [
+  {
+    "tipo_complicacao_id": 1,
+    "data": "",
+    "data_termino": "",
+    "descricao": "",
+    "menos_24h_uti": "",
+    "glasglow_admissao_uti": ""
+  },
+  {
+    "tipo_complicacao_id": 3,
+    "data": "",
+    "data_termino": ""
+  }
+]
+   */
   return (
     <Grid className={classes.root} component={Card} item>
       <FormLabel className={classes.formLabel}>
@@ -39,14 +58,15 @@ const UTIForm = ({ index, remove }) => {
           <ErrorMessage
             color="error"
             component={Typography}
-            name={`newsComplicacoes.${index}.uti_glasgow_value`}
+            name={`newsComplicacoes.${index}.glasglow_admissao_uti`}
             variant="caption"
           />
 
           <Field
             as={TextField}
             className={classes.textField}
-            name={`newsComplicacoes.${index}.uti_glasgow_value`}
+            name={`newsComplicacoes.${index}.glasglow_admissao_uti`}
+            value={values.newsComplicacoes[index].glasglow_admissao_uti}
             onChange={handleChange}
             select
             type="text"
@@ -91,6 +111,7 @@ const UTIForm = ({ index, remove }) => {
               className={classes.dateField}
               name={`newsComplicacoes[${index}].data_termino`}
               onChange={handleChange}
+              value={values.newsComplicacoes[index].data_termino}
               type="date"
             />
           </FormGroup>
@@ -108,6 +129,7 @@ const UTIForm = ({ index, remove }) => {
           <Field
             as={Switch}
             name={`newsComplicacoes.${index}.menos_24h_uti`}
+            value={values.newsComplicacoes[index].menos_24h_uti}
             onChange={handleChange}
             color="primary"
           />

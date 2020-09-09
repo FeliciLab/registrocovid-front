@@ -42,7 +42,7 @@ const Complications = () => {
 
   const { addToast } = useToast();
 
-  const handleComplicationsFull = useCallback(
+  const handleComplications = useCallback(
     async id => {
       try {
         setLoading(true);
@@ -68,21 +68,25 @@ const Complications = () => {
   );
 
   useEffect(() => {
-    handleComplicationsFull(id);
-  }, [handleComplicationsFull, id]);
+    handleComplications(id);
+  }, [handleComplications, id]);
 
   const handleSubmit = async ({ newsComplicacoes }) => {
     try {
-      // sanitizando os dasos de newsTestsRTCPRs para o envio dos testes novos
       const newsComplicacoesSanitized = newsComplicacoes.map(complicacao => ({
         tipo_complicacao_id: complicacao.tipo_complicacao_id,
+        data: complicacao.data,
+        data_termino: complicacao.data_termino,
+        descricao: 'Placeholder Descrição',
+        glasglow_admissao_uti: complicacao.glasglow_admissao_uti,
+        menos_24h_uti: complicacao.menos_24h_uti,
       }));
 
-      // criando as promises
-      const newsComplicacoesPromises = newsComplicacoesSanitized.map(data =>
-        api.post(`/pacientes/${id}/complicacoes`, data),
+      console.log(newsComplicacoes);
+      const newsComplicacoesPromises = api.post(
+        `/pacientes/${id}/complicacoes`,
+        newsComplicacoesSanitized,
       );
-
       // tentando salvar mas sem nada para enviar.
       if (newsComplicacoesPromises.length === 0) {
         addToast({

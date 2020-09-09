@@ -22,12 +22,22 @@ const ComplicationsList = ({ complicacoes }) => {
               {values.newsComplicacoes &&
                 values.newsComplicacoes.length > 0 &&
                 values.newsComplicacoes.map((complicacao, index) => {
-                  if (complicacao.tipo_complicacao == 1) {
-                    return <UTIForm key={index} remove={remove} />;
-                  } else if (complicacao.tipo_complicacao == 13) {
-                    return <NeurologicItem key={index} remove={remove} />;
+                  if (complicacao.tipo_complicacao_id == 1) {
+                    return (
+                      <UTIForm key={index} index={index} remove={remove} />
+                    );
+                  } else if (complicacao.tipo_complicacao_id == 13) {
+                    return (
+                      <NeurologicItem
+                        key={index}
+                        index={index}
+                        remove={remove}
+                      />
+                    );
                   } else {
-                    return <DefaultItem key={index} remove={remove} />;
+                    return (
+                      <DefaultItem key={index} index={index} remove={remove} />
+                    );
                   }
                 })}
             </div>
