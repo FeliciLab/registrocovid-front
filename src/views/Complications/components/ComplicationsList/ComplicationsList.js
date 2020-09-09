@@ -23,7 +23,7 @@ const ComplicationsList = ({ complicacoes }) => {
                 values.newsComplicacoes.length > 0 &&
                 values.newsComplicacoes.map((complicacao, index) => {
                   if (complicacao.tipo_complicacao == 1) {
-                    return <UTIForm key={index} />;
+                    return <UTIForm key={index} remove={remove} />;
                   } else if (complicacao.tipo_complicacao == 13) {
                     return <NeurologicItem key={index} remove={remove} />;
                   } else {

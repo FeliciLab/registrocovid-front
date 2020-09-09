@@ -1,25 +1,11 @@
 import * as Yup from 'yup';
 
 const schema = Yup.object().shape({
-  newsTestsRTCPRs: Yup.array().of(
+  newsComplicacoes: Yup.array().of(
     Yup.object().shape({
-      data_coleta: Yup.string().required('Campo obrigatório'),
-      sitio_tipo: Yup.number().required(
-        'Campo obrigatório. Você deve preenchê-lo para salvar os dados.',
-      ),
-      data_resultado: Yup.string(),
-      rt_pcr_resultado: Yup.number(),
+      tipo_complicacao_id: Yup.string().required('Campo obrigatório'),
     }),
   ),
-  newsTestsRapidos: Yup.array().of(
-    Yup.object().shape({
-      data_realizacao: Yup.string().required('Campo obrigatório'),
-      resultado: Yup.string().required(
-        'Campo obrigatório. Você deve preenchê-lo para salvar os dados.',
-      ),
-    }),
-  ),
-  tipo_new_complication: Yup.string(),
 });
 
 export default schema;

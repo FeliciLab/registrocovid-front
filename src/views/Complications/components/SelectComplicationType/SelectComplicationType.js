@@ -16,7 +16,7 @@ import AddIcon from '@material-ui/icons/Add';
 
 import { Field, useFormikContext } from 'formik';
 
-const SelectTestType = ({ tiposComplicacoes }) => {
+const SelectComplicationType = ({ tiposComplicacoes }) => {
   const classes = useStyles();
 
   const { values, handleChange, setFieldValue } = useFormikContext();
@@ -34,24 +34,6 @@ const SelectTestType = ({ tiposComplicacoes }) => {
         ...values.newsComplicacoes,
         {
           tipo_complicacao: values.tipo_new_complication,
-        },
-      ]);
-    } else if (values.tipo_new_complication === 'RTPCR') {
-      setFieldValue('newsTestsRTCPRs', [
-        ...values.newsTestsRTCPRs,
-        {
-          data_coleta: '',
-          data_resultado: '',
-          sitio_tipo: '',
-          rt_pcr_resultado: '',
-        },
-      ]);
-    } else if (values.tipo_new_complication === 'RAPIDO') {
-      setFieldValue('newsTestsRapidos', [
-        ...values.newsTestsRapidos,
-        {
-          data_realizacao: '',
-          resultado: '',
         },
       ]);
     } else {
@@ -82,8 +64,6 @@ const SelectTestType = ({ tiposComplicacoes }) => {
               type="text"
               value={values.tipo_new_complication}
               variant="outlined">
-              <MenuItem value="RTPCR">Teste RT-PCR</MenuItem>
-              <MenuItem value="RAPIDO">Teste rápido</MenuItem>
               {tiposComplicacoes.map((elemen, index) => {
                 return (
                   <MenuItem value={elemen.id} key={index}>
@@ -109,4 +89,4 @@ const SelectTestType = ({ tiposComplicacoes }) => {
   );
 };
 
-export default SelectTestType;
+export default SelectComplicationType;

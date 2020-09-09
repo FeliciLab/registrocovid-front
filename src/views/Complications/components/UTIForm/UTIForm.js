@@ -4,13 +4,9 @@ import {
   FormGroup,
   FormLabel,
   Typography,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
   TextField,
   Card,
   IconButton,
-  Select,
   MenuItem,
   Switch,
 } from '@material-ui/core';
@@ -40,6 +36,13 @@ const UTIForm = ({ index, remove }) => {
             <Typography variant="h4"> Escala de Glasgow</Typography>
           </FormLabel>
 
+          <ErrorMessage
+            color="error"
+            component={Typography}
+            name={`newsComplicacoes.${index}.uti_glasgow_value`}
+            variant="caption"
+          />
+
           <Field
             as={TextField}
             className={classes.textField}
@@ -62,6 +65,7 @@ const UTIForm = ({ index, remove }) => {
             <FormLabel>
               <Typography variant="h4">Admissão em UTI</Typography>
             </FormLabel>
+
             <Field
               InputLabelProps={{
                 shrink: true,
