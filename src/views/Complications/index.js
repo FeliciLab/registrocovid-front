@@ -1,1 +1,1 @@
-export { default } from './ComplicationsTypes';
+export { default } from './Complications';

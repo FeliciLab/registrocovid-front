@@ -96,19 +96,20 @@ const Routes = () => {
         layout={MainLayout}
         path="/categorias/exame-fisico/:examId"
       />
-      <RouteWithLayout
-        component={ComplicationsVMView}
-        exact
-        isPrivate
-        layout={MainLayout}
-        path="/categorias/complicacoes-vm"
-      />
+
       <RouteWithLayout
         component={ComplicationsView}
         exact
         isPrivate
         layout={MainLayout}
         path="/categorias/complicacoes"
+      />
+      <RouteWithLayout
+        component={ComplicationsVMView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/complicacoes-vm"
       />
       <RouteWithLayout
         component={InitialSymptomsView}

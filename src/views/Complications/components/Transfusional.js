@@ -16,7 +16,7 @@ import {
   RadioGroup,
   Radio,
   CircularProgress,
-  FormHelperText
+  FormHelperText,
 } from '@material-ui/core';
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -29,7 +29,7 @@ import { useToast } from 'hooks/toast';
 
 import useStyles from '../styles';
 
-export const Transfusional = (props) => {
+export const Transfusional = props => {
   const classes = useStyles();
   const { addToast } = useToast();
   const fContext = useContext(formContext);
@@ -46,7 +46,10 @@ export const Transfusional = (props) => {
 
       if (!transfusions) {
         const { data } = await api.get('/tipos-transfusao');
-        localStorage.setItem('@RegistroCovid:transfusions', JSON.stringify(data));
+        localStorage.setItem(
+          '@RegistroCovid:transfusions',
+          JSON.stringify(data),
+        );
         setTransfusionTypes(data);
         return;
       }
@@ -69,65 +72,60 @@ export const Transfusional = (props) => {
   return (
     <>
       {visible && !loading ? (
-        <Accordion
-          elevation={2}
-          expanded={isNew || undefined}
-        >
+        <Accordion elevation={2} expanded={isNew || undefined}>
           <AccordionSummary
             aria-controls="panel1a-content"
-            expandIcon={isNew ? <DeleteAction onClick={handleDelete} /> : <ExpandMoreIcon />}
-            id="panel1a-header"
-          >
-            <Grid
-              alignItems={'center'}
-              container
-            >
-              <Grid
-                item
-                lg={4}
-              >
+            expandIcon={
+              isNew ? (
+                <DeleteAction onClick={handleDelete} />
+              ) : (
+                <ExpandMoreIcon />
+              )
+            }
+            id="panel1a-header">
+            <Grid alignItems={'center'} container>
+              <Grid item lg={4}>
                 <Typography variant="h4">Necessidade transfusional</Typography>
               </Grid>
-              <Grid
-                item
-                lg={1}
-              />
-              <Grid item >
-                <Typography variant="body2">Data: {infos?.data_transfusao.split('-').reverse().join('/') ?? undefined} </Typography>
+              <Grid item lg={1} />
+              <Grid item>
+                <Typography variant="body2">
+                  Data:{' '}
+                  {/*infos?.data_transfusao.split('-').reverse().join('/') ?? undefined */}{' '}
+                </Typography>
               </Grid>
             </Grid>
           </AccordionSummary>
-          <AccordionDetails className={classes.accordionDetails} >
-            <FormControl
-              className={classes.formGroup}
-              component="fieldset"
-            >
+          <AccordionDetails className={classes.accordionDetails}>
+            <FormControl className={classes.formGroup} component="fieldset">
               <FormLabel>
-                <Typography variant="h5">Em caso afirmativo para necessidade transfusional, especificar o tipo
+                <Typography variant="h5">
+                  Em caso afirmativo para necessidade transfusional, especificar
+                  o tipo
                 </Typography>
               </FormLabel>
 
               <FormHelperText
-                error={(fContext.errors[`tipo_transfusao_id#${id}`] && fContext.touched[`tipo_transfusao_id#${id}`])}
-                id="component-helper-text"
-              >
-                {(fContext.errors[`tipo_transfusao_id#${id}`] && fContext.touched[`tipo_transfusao_id#${id}`]) ? fContext.errors[`tipo_transfusao_id#${id}`] : null}
+                error={
+                  fContext.errors[`tipo_transfusao_id#${id}`] &&
+                  fContext.touched[`tipo_transfusao_id#${id}`]
+                }
+                id="component-helper-text">
+                {fContext.errors[`tipo_transfusao_id#${id}`] &&
+                fContext.touched[`tipo_transfusao_id#${id}`]
+                  ? fContext.errors[`tipo_transfusao_id#${id}`]
+                  : null}
               </FormHelperText>
               <RadioGroup
                 name={`tipo_transfusao_id#${id}`}
                 row
-                value={infos?.tipos_transfusao?.id ?? parseInt(fContext.values[`tipo_transfusao_id#${id}`])}
-              >
-                <Grid
-                  container
-                  spacing={1}
-                >
+                value={
+                  infos?.tipos_transfusao?.id ??
+                  parseInt(fContext.values[`tipo_transfusao_id#${id}`])
+                }>
+                <Grid container spacing={1}>
                   {transfusionTypes.map(item => (
-                    <Grid
-                      item
-                      key={String(item.id)}
-                      lg={4}
-                    >
+                    <Grid item key={String(item.id)} lg={4}>
                       <FormControlLabel
                         control={
                           <Radio
@@ -144,39 +142,41 @@ export const Transfusional = (props) => {
               </RadioGroup>
             </FormControl>
 
-            <Grid
-              container
-              spacing={2}
-            >
-              <Grid
-                item
-                lg={6}
-              >
+            <Grid container spacing={2}>
+              <Grid item lg={6}>
                 <FormGroup className={classes.formGroup}>
                   <FormLabel>
-                    <Typography variant="h5">Volume da transfusão (em ml)</Typography>
+                    <Typography variant="h5">
+                      Volume da transfusão (em ml)
+                    </Typography>
                   </FormLabel>
                   <TextField
                     className={classes.dateField}
                     disabled={infos?.data_transfusao ? true : undefined}
-                    error={(fContext.errors[`volume_transfusao#${id}`] && fContext.touched[`volume_transfusao#${id}`])}
+                    error={
+                      fContext.errors[`volume_transfusao#${id}`] &&
+                      fContext.touched[`volume_transfusao#${id}`]
+                    }
                     helperText={
-                      (fContext.errors[`volume_transfusao#${id}`] && fContext.touched[`volume_transfusao#${id}`]) ? fContext.errors[`volume_transfusao#${id}`] : null
+                      fContext.errors[`volume_transfusao#${id}`] &&
+                      fContext.touched[`volume_transfusao#${id}`]
+                        ? fContext.errors[`volume_transfusao#${id}`]
+                        : null
                     }
                     label="Volume de transfusão"
                     name={`volume_transfusao#${id}`}
                     onBlur={fContext.handleBlur}
                     onChange={fContext.handleChange}
                     type="number"
-                    value={infos?.volume_transfusao ?? fContext.values[`volume_transfusao#${id}`]}
+                    value={
+                      infos?.volume_transfusao ??
+                      fContext.values[`volume_transfusao#${id}`]
+                    }
                     variant={'outlined'}
                   />
                 </FormGroup>
               </Grid>
-              <Grid
-                item
-                lg={6}
-              >
+              <Grid item lg={6}>
                 <FormGroup className={classes.formGroup}>
                   <FormLabel>
                     <Typography variant="h5">Data de hemorragia:</Typography>
@@ -187,16 +187,25 @@ export const Transfusional = (props) => {
                     }}
                     className={classes.dateField}
                     disabled={infos?.data_transfusao ? true : undefined}
-                    error={(fContext.errors[`data_complicacao#${id}`] && fContext.touched[`data_complicacao#${id}`])}
+                    error={
+                      fContext.errors[`data_complicacao#${id}`] &&
+                      fContext.touched[`data_complicacao#${id}`]
+                    }
                     helperText={
-                      (fContext.errors[`data_complicacao#${id}`] && fContext.touched[`data_complicacao#${id}`]) ? fContext.errors[`data_complicacao#${id}`] : null
+                      fContext.errors[`data_complicacao#${id}`] &&
+                      fContext.touched[`data_complicacao#${id}`]
+                        ? fContext.errors[`data_complicacao#${id}`]
+                        : null
                     }
                     label="Data"
                     name={`data_complicacao#${id}`}
                     onBlur={fContext.handleBlur}
                     onChange={fContext.handleChange}
                     type="date"
-                    value={infos?.data_transfusao ?? fContext.values[`data_complicacao#${id}`]}
+                    value={
+                      infos?.data_transfusao ??
+                      fContext.values[`data_complicacao#${id}`]
+                    }
                   />
                 </FormGroup>
               </Grid>
@@ -207,5 +216,5 @@ export const Transfusional = (props) => {
         <CircularProgress />
       )}
     </>
-  )
+  );
 };

@@ -46,6 +46,8 @@ const Complications = () => {
   const [loading, setLoading] = useState(false);
   const [complicationsTypes, setComplicationsTypes] = useState([]);
   const [oldComplications, setOldComplications] = useState([]);
+  const [oldComplicacoes, setOldComplicacoes] = useState([]);
+
   const [transfusions, setTransfusions] = useState([]);
   const [newsComplications, setNewsComplications] = useState([]);
   const [complicationId, setComplicationId] = useState(0);
@@ -54,8 +56,15 @@ const Complications = () => {
     try {
       setLoading(true);
 
-      const [complications, complicationsPatient] = await Promise.all([
-        api.get('/tipos-complicacao'),
+      const [
+        complications,
+        complicationsPatient,
+        complicacoes,
+      ] = await Promise.all([
+        //api.get('tipos-complicacao-vm'),
+
+        api.get('tipos-complicacoes'),
+        api.get(`pacientes/${patient.id}/ventilacao-mecanica`),
         api.get(`pacientes/${patient.id}/complicacoes`),
       ]);
 
@@ -68,7 +77,10 @@ const Complications = () => {
         complicationsPatient.data.complicacoes_ventilacao_mecanica,
       );
       setTransfusions(ordenedByDate);
-    } catch {
+      setOldComplicacoes(complicacoes.data);
+      console.log(complicacoes.data);
+    } catch (e) {
+      console.log(e);
       addToast({
         type: 'error',
         message: 'Erro ao tentar carregar informações, tente novamente',
@@ -152,8 +164,8 @@ const Complications = () => {
             { label: 'Meus pacientes', route: '/meus-pacientes' },
             { label: 'Categorias', route: '/categorias' },
             {
-              label: 'Complicações relacionadas à ventilação mecânica',
-              route: '/categorias/complicacoes-vm',
+              label: 'Complicações',
+              route: '/categorias/complicacoes',
             },
           ]}
         />
@@ -161,9 +173,7 @@ const Complications = () => {
 
       <div>
         <div className={classes.titleWrapper}>
-          <Typography variant="h3">
-            Complicações ( Ventilação Mecânica )
-          </Typography>
+          <Typography variant="h3">Complicações</Typography>
 
           <div className={classes.rightContent}>
             <PatientInfo />
@@ -187,7 +197,7 @@ const Complications = () => {
               <Paper className={classes.centralPaper}>
                 <FormLabel>
                   <Typography variant="h4">
-                    Escolher tipo de complicação (ventilação mecânica):
+                    Escolher tipo de complicação:
                   </Typography>
                 </FormLabel>
 
@@ -201,7 +211,7 @@ const Complications = () => {
                           onChange={handleSelect}
                           value={selectedComplication.current}>
                           <MenuItem disabled value={0}>
-                            Escolher tipo de complicação (ventilação mecânica)
+                            Escolher tipo de complicação
                           </MenuItem>
                           {complicationsTypes.map(complication => (
                             <MenuItem
@@ -259,6 +269,17 @@ const Complications = () => {
                   })}
 
                   {transfusions?.map(item => (
+                    <ComplicationsTypes
+                      id={item.id}
+                      infos={item}
+                      isNew={false}
+                      key={String(item.id)}
+                      newComplication={4}
+                      visible
+                    />
+                  ))}
+
+                  {oldComplicacoes?.map(item => (
                     <ComplicationsTypes
                       id={item.id}
                       infos={item}

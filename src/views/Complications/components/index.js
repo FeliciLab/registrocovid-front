@@ -6,15 +6,8 @@ import { Pneumotorax } from './Pneumotorax';
 import { Transfusional } from './Transfusional';
 import { Outras } from './Outras';
 
-const Complications = (props) => {
-  const {
-    id,
-    newComplication,
-    isNew,
-    visible,
-    handleDelete,
-    infos,
-  } = props;
+const Complications = props => {
+  const { id, newComplication, isNew, visible, handleDelete, infos } = props;
 
   switch (newComplication) {
     case 1:
