@@ -12,18 +12,16 @@ import {
   IconButton,
   Select,
   MenuItem,
+  Switch,
 } from '@material-ui/core';
 
 import DeleteIcon from '@material-ui/icons/Delete';
 
 import { Field, useFormikContext, ErrorMessage } from 'formik';
 import useStyles from './styles';
-import api from 'services/api';
 
-const UTIForm = props => {
+const UTIForm = ({ index, remove }) => {
   const classes = useStyles();
-
-  const { index, remove } = props;
 
   const { values, handleChange, errors, touched } = useFormikContext();
 
@@ -36,47 +34,79 @@ const UTIForm = props => {
         </IconButton>
       </FormLabel>
 
-      {/* data_coleta */}
-      <Grid className={classes.fieldTesteRTPCR} item sm={12}>
+      <Grid className={classes.fieldFormUTI} item sm={12}>
         <FormGroup>
           <FormLabel>
             <Typography variant="h4"> Escala de Glasgow</Typography>
           </FormLabel>
-          {/* <Field
-            InputLabelProps={{
-              shrink: true,
-            }}
-            as={TextField}
-            className={classes.dateField}
-            error={
-              errors.newsTestsRTCPRs && touched.newsTestsRTCPRs
-                ? !!errors.newsTestsRTCPRs[index]?.data_coleta
-                : false
-            }
-            helperText={
-              errors.newsTestsRTCPRs &&
-              touched.newsTestsRTCPRs &&
-              errors.newsTestsRTCPRs[index]?.data_coleta
-                ? errors.newsTestsRTCPRs[index]?.data_coleta
-                : ''
-            }
-            label="Data de coleta RT-PCR "
-            name={`newsTestsRTCPRs.${index}.data_coleta`}
-            onChange={handleChange}
-            type="date"
-            value={values.newsTestsRTCPRs[index].data_coleta}
-          /> */}
 
-          <Select onChange={handleChange} type="text">
-            <MenuItem value="" disabled>
-              Escolher
-            </MenuItem>
+          <Field
+            as={TextField}
+            className={classes.textField}
+            name={`newsComplicacoes.${index}.uti_glasgow_value`}
+            onChange={handleChange}
+            select
+            type="text"
+            variant="outlined">
             {new Array(13).fill('').map((_, index) => (
               <MenuItem key={String(Math.random())} value={3 + index}>
                 {3 + index}
               </MenuItem>
             ))}
-          </Select>
+          </Field>
+        </FormGroup>
+      </Grid>
+      <Grid className={classes.fieldFormUTIFlex} item sm={12}>
+        <Grid item sm={6}>
+          <FormGroup>
+            <FormLabel>
+              <Typography variant="h4">Admissão em UTI</Typography>
+            </FormLabel>
+            <Field
+              InputLabelProps={{
+                shrink: true,
+              }}
+              as={TextField}
+              className={classes.dateField}
+              name={`newsComplicacoes[${index}].data`}
+              onChange={handleChange}
+              type="date"
+            />
+          </FormGroup>
+        </Grid>
+        <Grid item sm={6}>
+          <FormGroup>
+            <FormLabel>
+              <Typography variant="h4">Saída de UTI</Typography>
+            </FormLabel>
+            <Field
+              InputLabelProps={{
+                shrink: true,
+              }}
+              as={TextField}
+              className={classes.dateField}
+              name={`newsComplicacoes[${index}].data_termino`}
+              onChange={handleChange}
+              type="date"
+            />
+          </FormGroup>
+        </Grid>
+      </Grid>
+
+      <Grid className={classes.fieldFormUTI} item sm={12}>
+        <FormGroup>
+          <FormLabel>
+            <Typography variant="h4">
+              Paciente permaneceu menos de 24h na UTI?
+            </Typography>
+          </FormLabel>
+
+          <Field
+            as={Switch}
+            name={`newsComplicacoes.${index}.menos_24h_uti`}
+            onChange={handleChange}
+            color="primary"
+          />
         </FormGroup>
       </Grid>
     </Grid>

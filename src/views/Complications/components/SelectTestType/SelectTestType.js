@@ -91,7 +91,6 @@ const SelectTestType = ({ tiposComplicacoes }) => {
                   </MenuItem>
                 );
               })}
-              <MenuItem value="RAPIDO">Teste rápido</MenuItem>
             </Field>
 
             <Button

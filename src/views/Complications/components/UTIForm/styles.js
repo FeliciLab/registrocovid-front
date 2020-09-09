@@ -9,10 +9,19 @@ const useStyles = makeStyles(theme => ({
   fieldFormUTI: {
     marginTop: theme.spacing(2),
   },
+  fieldFormUTIFlex: {
+    marginTop: theme.spacing(2),
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    display: 'flex',
+  },
   formLabel: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  dateField: {
+    width: '90%',
   },
 }));
 

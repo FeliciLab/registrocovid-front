@@ -23,12 +23,7 @@ const TesteRTPCRForm = props => {
 
   const { index, remove } = props;
 
-  const {
-    values,
-    handleChange,
-    errors,
-    touched,
-  } = useFormikContext();
+  const { values, handleChange, errors, touched } = useFormikContext();
 
   const [sitiosRTPCR, setSitiosRTPCR] = useState([]);
   const [tiposResultadosRTPCR, setTiposResultadosRTPCR] = useState([]);
@@ -59,27 +54,16 @@ const TesteRTPCRForm = props => {
   }, [handleSitiosRTPCR, handleTiposResultadosRTPCR]);
 
   return (
-    <Grid
-      className={classes.root}
-      component={Card}
-      item
-    >
+    <Grid className={classes.root} component={Card} item>
       <FormLabel className={classes.formLabel}>
         <Typography variant="h3">Formulário do Teste RT-PCR</Typography>
-        <IconButton
-          aria-label="delete"
-          onClick={() => remove(index)}
-        >
+        <IconButton aria-label="delete" onClick={() => remove(index)}>
           <DeleteIcon fontSize="small" />
         </IconButton>
       </FormLabel>
 
       {/* data_coleta */}
-      <Grid
-        className={classes.fieldTesteRTPCR}
-        item
-        sm={12}
-      >
+      <Grid className={classes.fieldTesteRTPCR} item sm={12}>
         <FormGroup>
           <FormLabel>
             <Typography variant="h4">Data de coleta RT-PCR*</Typography>
@@ -91,9 +75,9 @@ const TesteRTPCRForm = props => {
             as={TextField}
             className={classes.dateField}
             error={
-              errors.newsTestsRTCPRs &&
-              touched.newsTestsRTCPRs ?
-                !!errors.newsTestsRTCPRs[index]?.data_coleta : false
+              errors.newsTestsRTCPRs && touched.newsTestsRTCPRs
+                ? !!errors.newsTestsRTCPRs[index]?.data_coleta
+                : false
             }
             helperText={
               errors.newsTestsRTCPRs &&
@@ -112,11 +96,7 @@ const TesteRTPCRForm = props => {
       </Grid>
 
       {/* sitio_tipo */}
-      <Grid
-        className={classes.fieldTesteRTPCR}
-        item
-        sm={12}
-      >
+      <Grid className={classes.fieldTesteRTPCR} item sm={12}>
         <FormGroup>
           <FormLabel>
             <Typography variant="h4">Sítio da amostra RT-PCR*</Typography>
@@ -133,8 +113,7 @@ const TesteRTPCRForm = props => {
             name={`newsTestsRTCPRs.${index}.sitio_tipo`}
             onChange={handleChange}
             row
-            value={values.newsTestsRTCPRs[index].sitio_tipo}
-          >
+            value={values.newsTestsRTCPRs[index].sitio_tipo}>
             {sitiosRTPCR.map(({ id, descricao }) => (
               <FormControlLabel
                 control={<Radio />}
@@ -148,11 +127,7 @@ const TesteRTPCRForm = props => {
       </Grid>
 
       {/* data_resultado */}
-      <Grid
-        className={classes.fieldTesteRTPCR}
-        item
-        sm={12}
-      >
+      <Grid className={classes.fieldTesteRTPCR} item sm={12}>
         <FormGroup>
           <FormLabel>
             <Typography variant="h4">Data do resultado RT-PCR</Typography>
@@ -173,11 +148,7 @@ const TesteRTPCRForm = props => {
       </Grid>
 
       {/* rt_pcr_resultado */}
-      <Grid
-        className={classes.fieldTesteRTPCR}
-        item
-        sm={12}
-      >
+      <Grid className={classes.fieldTesteRTPCR} item sm={12}>
         <FormGroup>
           <FormLabel>
             <Typography variant="h4">Resultado RT-PCR </Typography>
@@ -188,8 +159,7 @@ const TesteRTPCRForm = props => {
             name={`newsTestsRTCPRs[${index}].rt_pcr_resultado`}
             onChange={handleChange}
             row
-            value={values.newsTestsRTCPRs[index].rt_pcr_resultado}
-          >
+            value={values.newsTestsRTCPRs[index].rt_pcr_resultado}>
             {tiposResultadosRTPCR.map(({ id, descricao }) => (
               <FormControlLabel
                 control={<Radio />}
