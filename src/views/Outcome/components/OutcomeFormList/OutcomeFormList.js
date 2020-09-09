@@ -1,6 +1,7 @@
 import React from 'react';
 import { useFormikContext, FieldArray } from 'formik';
-import OutcomeObitoForm from '../OutcomeObitoForm';
+// import OutcomeObitoForm from '../OutcomeObitoForm';
+import OutcomeCuiPaleForm from '../OutcomeCuiPaleForm';
 
 function OutcomeFormList() {
   const { values } = useFormikContext();
@@ -14,7 +15,12 @@ function OutcomeFormList() {
             values.newDesfechos
               .map((desfecho, index) => (
                 // TODO: colocar um swicth aqui
-                <OutcomeObitoForm
+                // <OutcomeObitoForm
+                //   index={index}
+                //   key={index}
+                //   remove={remove}
+                // />
+                <OutcomeCuiPaleForm
                   index={index}
                   key={index}
                   remove={remove}
