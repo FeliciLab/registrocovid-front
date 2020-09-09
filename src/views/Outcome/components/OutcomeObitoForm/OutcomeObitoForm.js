@@ -21,7 +21,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 //   tipoNewDesfechoSelected: '',
 // };
 
-const OutcomObitoForm = props => {
+const OutcomeObitoForm = props => {
   const { index, remove } = props;
 
   const classes = useStyles();
@@ -179,9 +179,9 @@ const OutcomObitoForm = props => {
   );
 };
 
-OutcomObitoForm.propTypes = {
+OutcomeObitoForm.propTypes = {
   index: PropTypes.number.isRequired,
   remove: PropTypes.func.isRequired,
 };
 
-export default OutcomObitoForm;
+export default OutcomeObitoForm;
