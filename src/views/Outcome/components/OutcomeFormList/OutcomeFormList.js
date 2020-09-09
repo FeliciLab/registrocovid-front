@@ -1,7 +1,8 @@
 import React from 'react';
 import { useFormikContext, FieldArray } from 'formik';
 // import OutcomeObitoForm from '../OutcomeObitoForm';
-import OutcomeCuiPaleForm from '../OutcomeCuiPaleForm';
+// import OutcomeCuiPaleForm from '../OutcomeCuiPaleForm';
+import OutcomeTransfForm from '../OutcomeTransfForm';
 
 function OutcomeFormList() {
   const { values } = useFormikContext();
@@ -20,7 +21,12 @@ function OutcomeFormList() {
                 //   key={index}
                 //   remove={remove}
                 // />
-                <OutcomeCuiPaleForm
+                // <OutcomeCuiPaleForm
+                //   index={index}
+                //   key={index}
+                //   remove={remove}
+                // />
+                <OutcomeTransfForm
                   index={index}
                   key={index}
                   remove={remove}

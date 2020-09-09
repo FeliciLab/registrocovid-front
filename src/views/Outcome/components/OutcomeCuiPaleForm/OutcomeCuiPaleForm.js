@@ -26,17 +26,17 @@ const OutcomeCuiPaleForm = props => {
 
   const [tiposCuiPale, setTiposCuiPale] = useState([]);
 
+  const classes = useStyles();
+
   const handleTiposCuiPale = useCallback(async () => {
     await getTiposCuidadoPaliativo().then(response => {
       setTiposCuiPale(response.data);
     });
-  }, []);
+  }, [getTiposCuidadoPaliativo]);
 
   useEffect(() => {
     handleTiposCuiPale();
-  }, []);
-
-  const classes = useStyles();
+  }, [handleTiposCuiPale]);
 
   const {
     values,
