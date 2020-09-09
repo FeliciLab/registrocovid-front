@@ -26,7 +26,7 @@ const initialValues = {
   newsTestsRTCPRs: [],
   newsTestsRapidos: [],
   newsComplicacoes: [],
-  tipo_new_teste: '',
+  tipo_new_complication: '',
 };
 
 const Complications = () => {

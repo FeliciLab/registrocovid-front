@@ -22,7 +22,25 @@ const SelectTestType = ({ tiposComplicacoes }) => {
   const { values, handleChange, setFieldValue } = useFormikContext();
 
   const handleAddTesteType = () => {
-    if (values.tipo_new_teste === 'RTPCR') {
+    if (values.tipo_new_complication == 1) {
+      setFieldValue('newsComplicacoes', [
+        ...values.newsComplicacoes,
+        {
+          data_coleta: '',
+          data_resultado: '',
+          sitio_tipo: '',
+          rt_pcr_resultado: '',
+        },
+      ]);
+    } else if (values.tipo_new_complication == 13) {
+      setFieldValue('newsComplicacoes', [
+        ...values.newsComplicacoes,
+        {
+          data_realizacao: '',
+          resultado: '',
+        },
+      ]);
+    } else if (values.tipo_new_complication === 'RTPCR') {
       setFieldValue('newsTestsRTCPRs', [
         ...values.newsTestsRTCPRs,
         {
@@ -32,9 +50,17 @@ const SelectTestType = ({ tiposComplicacoes }) => {
           rt_pcr_resultado: '',
         },
       ]);
-    } else {
+    } else if (values.tipo_new_complication === 'RAPIDO') {
       setFieldValue('newsTestsRapidos', [
         ...values.newsTestsRapidos,
+        {
+          data_realizacao: '',
+          resultado: '',
+        },
+      ]);
+    } else {
+      setFieldValue('newsComplicacoes', [
+        ...values.newsComplicacoes,
         {
           data_realizacao: '',
           resultado: '',
@@ -55,11 +81,11 @@ const SelectTestType = ({ tiposComplicacoes }) => {
               as={TextField}
               className={classes.textField}
               label="Tipo teste"
-              name="tipo_new_teste"
+              name="tipo_new_complication"
               onChange={handleChange}
               select
               type="text"
-              value={values.tipo_new_teste}
+              value={values.tipo_new_complication}
               variant="outlined">
               <MenuItem value="RTPCR">Teste RT-PCR</MenuItem>
               <MenuItem value="RAPIDO">Teste rápido</MenuItem>
@@ -76,7 +102,7 @@ const SelectTestType = ({ tiposComplicacoes }) => {
             <Button
               className={classes.buttonAddType}
               color="secondary"
-              disabled={values.tipo_new_teste === ''}
+              disabled={values.tipo_new_complication === ''}
               onClick={() => handleAddTesteType()}
               startIcon={<AddIcon />}
               variant="contained">

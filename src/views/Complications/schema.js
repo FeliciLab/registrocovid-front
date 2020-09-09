@@ -19,7 +19,7 @@ const schema = Yup.object().shape({
       ),
     }),
   ),
-  tipo_new_teste: Yup.string(),
+  tipo_new_complication: Yup.string(),
 });
 
 export default schema;
