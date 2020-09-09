@@ -26,18 +26,14 @@ const SelectTestType = ({ tiposComplicacoes }) => {
       setFieldValue('newsComplicacoes', [
         ...values.newsComplicacoes,
         {
-          data_coleta: '',
-          data_resultado: '',
-          sitio_tipo: '',
-          rt_pcr_resultado: '',
+          tipo_complicacao: values.tipo_new_complication,
         },
       ]);
     } else if (values.tipo_new_complication == 13) {
       setFieldValue('newsComplicacoes', [
         ...values.newsComplicacoes,
         {
-          data_realizacao: '',
-          resultado: '',
+          tipo_complicacao: values.tipo_new_complication,
         },
       ]);
     } else if (values.tipo_new_complication === 'RTPCR') {
@@ -62,8 +58,7 @@ const SelectTestType = ({ tiposComplicacoes }) => {
       setFieldValue('newsComplicacoes', [
         ...values.newsComplicacoes,
         {
-          data_realizacao: '',
-          resultado: '',
+          tipo_complicacao: values.tipo_new_complication,
         },
       ]);
     }

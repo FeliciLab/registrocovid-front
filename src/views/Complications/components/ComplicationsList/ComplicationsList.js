@@ -15,6 +15,23 @@ const ComplicationsList = ({ complicacoes }) => {
   return (
     <div className={classes.root}>
       <Grid component={Card} item xs={10}>
+        <FieldArray name="newsComplicacoes">
+          {({ remove }) => (
+            <div>
+              {values.newsComplicacoes &&
+                values.newsComplicacoes.length > 0 &&
+                values.newsComplicacoes.map((complicacao, index) => {
+                  if (complicacao.tipo_complicacao == 1) {
+                    return <UTIItem key={index} remove={remove} />;
+                  } else if (complicacao.tipo_complicacao == 13) {
+                    return <NeurologicItem key={index} remove={remove} />;
+                  } else {
+                    return <DefaultItem key={index} remove={remove} />;
+                  }
+                })}
+            </div>
+          )}
+        </FieldArray>
         {complicacoes.map((complicacao, index) => {
           if (complicacao.tipo_complicacao.id == 1) {
             return <UTIItem key={index} complicationData={complicacao} />;
@@ -26,24 +43,6 @@ const ComplicationsList = ({ complicacoes }) => {
             return <DefaultItem key={index} complicationData={complicacao} />;
           }
         })}
-        <FieldArray name="newsTestsRTCPRs">
-          {({ remove }) => (
-            <div>
-              {values.newsComplicacoes &&
-                values.newsComplicacoes.length > 0 &&
-                values.newsComplicacoes
-                  .map(
-                    (complicacao, index) => 4,
-                    // <TesteRTPCRForm
-                    //   index={index}
-                    //   key={index}
-                    //   remove={remove}
-                    // />
-                  )
-                  .reverse()}
-            </div>
-          )}
-        </FieldArray>
       </Grid>
     </div>
   );
