@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { usePatient } from 'context/PatientContext';
 import useStyles from './styles';
-import { CustonBreadcrumbs } from 'components';
+import { CustonBreadcrumbs, FormikErroObserver } from 'components';
 import {
   CircularProgress,
   Typography,
@@ -87,7 +87,7 @@ function Outcome() {
         message: 'Erro ao tentar carregar as informações',
       });
     }
-  }, [id]);
+  }, [id, addToast]);
 
   useEffect(() => {
     handleOutcomo(id);
@@ -141,6 +141,8 @@ function Outcome() {
                   <SelectOutcomeType tipos={tiposDesfecho} />
 
                   <OutcomeFormList />
+
+                  <FormikErroObserver />
                 </Form>
               )}
             </Formik>

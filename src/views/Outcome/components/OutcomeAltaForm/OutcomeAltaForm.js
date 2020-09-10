@@ -15,7 +15,7 @@ import {
 import useSeeds from 'hooks/seeds';
 import DeleteIcon from '@material-ui/icons/Delete';
 import useStyles from './styles';
-import { Field, useFormikContext } from 'formik';
+import { Field, useFormikContext, ErrorMessage } from 'formik';
 
 const OutcomeAltaForm = props => {
   const { index, remove } = props;
@@ -29,8 +29,8 @@ const OutcomeAltaForm = props => {
   const {
     values,
     handleChange,
-    // errors,
-    // touched
+    errors,
+    touched
   } = useFormikContext();
 
   const handleTiposCuiPale = useCallback(async () => {
@@ -79,12 +79,12 @@ const OutcomeAltaForm = props => {
               }}
               as={TextField}
               className={classes.field}
-              // error={
-              //   errors.newIRASs &&
-              //   touched.newIRASs &&
-              //   !!errors.newIRASs[index]?.data
-              // }
-              // helperText={<ErrorMessage name={`newIRASs.${index}.data`} />}
+              error={
+                errors.newDesfechos &&
+                touched.newDesfechos &&
+                !!errors.newDesfechos[index]?.data
+              }
+              helperText={<ErrorMessage name={`newDesfechos.${index}.data`} />}
               label="Data"
               name={`newDesfechos.${index}.data`}
               onChange={handleChange}

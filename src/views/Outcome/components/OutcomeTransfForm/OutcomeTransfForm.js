@@ -14,7 +14,7 @@ import {
   TextField,
   MenuItem,
 } from '@material-ui/core';
-import { Field, useFormikContext } from 'formik';
+import { Field, useFormikContext, ErrorMessage } from 'formik';
 
 // Form para Transferência para outro serviço
 const OutcomeTransfForm = props => {
@@ -39,8 +39,8 @@ const OutcomeTransfForm = props => {
   const {
     values,
     handleChange,
-    // errors,
-    // touched
+    errors,
+    touched
   } = useFormikContext();
 
   return (
@@ -108,12 +108,12 @@ const OutcomeTransfForm = props => {
             }}
             as={TextField}
             className={classes.field}
-            // error={
-            //   errors.newIRASs &&
-            //   touched.newIRASs &&
-            //   !!errors.newIRASs[index]?.data
-            // }
-            // helperText={<ErrorMessage name={`newIRASs.${index}.data`} />}
+            error={
+              errors.newDesfechos &&
+              touched.newDesfechos &&
+              !!errors.newDesfechos[index]?.data
+            }
+            helperText={<ErrorMessage name={`newDesfechos.${index}.data`} />}
             label="Data"
             name={`newDesfechos.${index}.data`}
             onChange={handleChange}

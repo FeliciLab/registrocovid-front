@@ -10,7 +10,7 @@ import {
   FormControlLabel,
   Switch,
 } from '@material-ui/core';
-import { useFormikContext, Field, FastField } from 'formik';
+import { useFormikContext, Field, FastField, ErrorMessage } from 'formik';
 import useStyles from './styles';
 import PropTypes from 'prop-types';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -29,8 +29,8 @@ const OutcomeObitoForm = props => {
   const {
     values,
     handleChange,
-    // errors,
-    // touched
+    errors,
+    touched
   } = useFormikContext();
 
   return (
@@ -70,12 +70,12 @@ const OutcomeObitoForm = props => {
               }}
               as={TextField}
               className={classes.field}
-              // error={
-              //   errors.newIRASs &&
-              //   touched.newIRASs &&
-              //   !!errors.newIRASs[index]?.data
-              // }
-              // helperText={<ErrorMessage name={`newIRASs.${index}.data`} />}
+              error={
+                errors.newDesfechos &&
+                touched.newDesfechos &&
+                !!errors.newDesfechos[index]?.data
+              }
+              helperText={<ErrorMessage name={`newDesfechos.${index}.data`} />}
               label="Data"
               name={`newDesfechos.${index}.data`}
               onChange={handleChange}
