@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   Grid,
-  FormControl,
   Typography,
   TextField,
   Accordion,
@@ -33,36 +32,31 @@ export default ({ complicationData }) => {
       </AccordionSummary>
       <AccordionDetails className={classes.accordionDetails}>
         <Grid className={classes.root} item xs={12}>
-          <FormControl className={classes.formControl}>
-            <Typography variant="h4" className={classes.formLabel}>
+          <Grid item xs={12} className={classes.gridContainer}>
+            <Typography variant="h4" className={classes.formSubtitle}>
               Em caso afirmativo para complicação neurológica, qual?
             </Typography>
             <TextField
-              variant="outlined"
+              className={classes.extField}
               placeholder="Local de Complicação"
               value={complicationData ? complicationData.descricao : ''}
             />
-          </FormControl>
-          <FormControl className={classes.formControl}>
-            <Grid className={classes.formControlContainer}>
-              <Grid item xs={12}>
-                <Typography variant="h4" className={classes.formSubtitle}>
-                  Data de Complicação
-                </Typography>
-                <TextField
-                  variant="outlined"
-                  className={classes.formInputDate}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  label="Data"
-                  name="data_complicacao"
-                  type="date"
-                  defaultValue={complicationData ? complicationData.data : ''}
-                />
-              </Grid>
-            </Grid>
-          </FormControl>
+          </Grid>
+          <Grid item xs={12} className={classes.gridContainer}>
+            <Typography variant="h4" className={classes.formSubtitle}>
+              Data de Complicação
+            </Typography>
+            <TextField
+              className={classes.textField}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              label="Data"
+              name="data_complicacao"
+              type="date"
+              defaultValue={complicationData ? complicationData.data : ''}
+            />
+          </Grid>
         </Grid>
       </AccordionDetails>
     </Accordion>

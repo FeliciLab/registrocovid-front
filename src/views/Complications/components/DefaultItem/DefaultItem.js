@@ -33,13 +33,12 @@ export default ({ complicationData }) => {
         </div>
       </AccordionSummary>
       <AccordionDetails className={classes.accordionDetails}>
-        <Grid className={classes.formControlContainer}>
+        <Grid className={classes.gridContainer}>
           <Grid item xs={12}>
             <Typography variant="h4" className={classes.formSubtitle}>
               Data de Complicação
             </Typography>
             <TextField
-              variant="outlined"
               className={classes.formInputDate}
               InputLabelProps={{
                 shrink: true,

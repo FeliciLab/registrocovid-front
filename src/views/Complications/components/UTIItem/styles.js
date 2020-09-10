@@ -22,24 +22,22 @@ const useStyles = makeStyles(theme => ({
     color: 'rgba(0, 0, 0, 0.54)',
     width: '30%',
   },
-  headerCardLabel: {
-    width: '40%',
+  heading: {
+    display: 'flex',
+    alignItems: 'center',
+    flexGrow: 1,
+  },
+  headingLabel: {
+    width: '30%',
+    marginRight: '15px',
   },
   headerCardDeleteButton: {
     width: '30%',
     display: 'flex',
     justifyContent: 'flex-end',
   },
-  formControl: {
-    width: '100%',
-    display: 'flex',
-    paddingBottom: theme.spacing(4),
-  },
   formControlContainer: {
     display: 'flex',
-  },
-  formLabel: {
-    width: '100%',
   },
   formText: {
     paddingBottom: '20px',
@@ -50,12 +48,17 @@ const useStyles = makeStyles(theme => ({
   formInputDate: {
     width: '90%',
   },
+  textField: {
+    width: '100%',
+  },
   heading: {
     display: 'flex',
     alignItems: 'center',
+    flexGrow: 1,
   },
   headingLabel: {
-    marginRight: theme.spacing(1),
+    width: '30%',
+    marginRight: '15px',
   },
   accordionDetails: {
     display: 'flex',
@@ -63,6 +66,12 @@ const useStyles = makeStyles(theme => ({
   },
   fieldData: {
     marginTop: theme.spacing(1),
+  },
+  gridContainer: {
+    display: 'flex',
+    width: '100%',
+    marginBottom: '10px',
+    flexDirection: 'column',
   },
 }));
 

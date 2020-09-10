@@ -3,13 +3,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import useStyles from './styles';
 import { CustonBreadcrumbs } from 'components';
 import { useParams, useHistory } from 'react-router-dom';
-import {
-  CircularProgress,
-  FormControl,
-  Typography,
-  Grid,
-  Button,
-} from '@material-ui/core';
+import { CircularProgress, Typography, Grid, Button } from '@material-ui/core';
 import { Formik, Form } from 'formik';
 import schema from './schema';
 import SelectComplicationType from './components/SelectComplicationType';

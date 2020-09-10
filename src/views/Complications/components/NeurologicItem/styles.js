@@ -4,7 +4,6 @@ const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    padding: theme.spacing(2),
   },
   headerCard: {
     display: 'flex',
@@ -22,21 +21,25 @@ const useStyles = makeStyles(theme => ({
     color: 'rgba(0, 0, 0, 0.54)',
     width: '30%',
   },
-  headerCardLabel: {
-    width: '40%',
+  heading: {
+    display: 'flex',
+    alignItems: 'center',
+    flexGrow: 1,
+  },
+  headingLabel: {
+    width: '30%',
+    marginRight: '15px',
   },
   headerCardDeleteButton: {
     width: '30%',
     display: 'flex',
     justifyContent: 'flex-end',
   },
-  formControl: {
+  gridContainer: {
+    display: 'flex',
     width: '100%',
-    display: 'flex',
-    paddingBottom: theme.spacing(4),
-  },
-  formControlContainer: {
-    display: 'flex',
+    marginBottom: '10px',
+    flexDirection: 'column',
   },
   formLabel: {
     paddingBottom: '20px',

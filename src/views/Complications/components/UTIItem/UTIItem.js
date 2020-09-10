@@ -35,12 +35,12 @@ export default props => {
         </div>
       </AccordionSummary>
       <AccordionDetails className={classes.accordionDetails}>
-        <FormControl variant="outlined" className={classes.formControl}>
-          <Typography variant="h4" className={classes.formLabel}>
+        <Grid item xs={12} className={classes.gridContainer}>
+          <Typography variant="h4" className={classes.headingLabel}>
             Escala de Glasgow
           </Typography>
           <TextField
-            className={classes.formInputDate}
+            className={classes.textField}
             InputLabelProps={{
               shrink: true,
             }}
@@ -49,15 +49,15 @@ export default props => {
               complicationData ? complicationData.glasglow_admissao_uti : ''
             }
           />
-        </FormControl>
-        <FormControl className={classes.formControl}>
+        </Grid>
+        <Grid item xs={12} className={classes.gridContainer}>
           <Grid className={classes.formControlContainer}>
             <Grid item xs={6}>
               <Typography variant="h4" className={classes.formSubtitle}>
                 Admissão Em UTI
               </Typography>
               <TextField
-                className={classes.formText}
+                className={classes.formInputDate}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -85,8 +85,8 @@ export default props => {
               />
             </Grid>
           </Grid>
-        </FormControl>
-        <FormControl className={classes.formControl}>
+        </Grid>
+        <Grid item xs={12} className={classes.gridContainer}>
           <Typography variant="h4" className={classes.formSubtitle}>
             Paciente permaneceu menos de 24h na UTI?
           </Typography>
@@ -95,7 +95,7 @@ export default props => {
             name="menos_24h_uti"
             checked={complicationData && complicationData.menos_24h_uti}
           />
-        </FormControl>
+        </Grid>
       </AccordionDetails>
     </Accordion>
   );
