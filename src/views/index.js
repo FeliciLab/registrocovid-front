@@ -14,3 +14,4 @@ export { default as PhysicalExamsList } from './PhysicalExamsList';
 export { default as SupportTreatment } from './ SupportTreatment';
 export { default as ComplementaryTests } from './ComplementaryTests';
 export { default as RelatedInfections } from './RelatedInfections';
+export { default as RespiratorySupport } from './RespiratorySupport';

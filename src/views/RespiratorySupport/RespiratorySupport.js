@@ -28,42 +28,46 @@ import Form from './components/Form';
 import { useToast } from 'hooks/toast';
 import { usePatient } from 'context/PatientContext';
 
-import Complications from './components';
+import Records from './components';
 
 import api from 'services/api';
 
 import useStyles from './styles';
 
-const ComplicationsVM = () => {
+const RespiratorySupport = () => {
   const classes = useStyles();
   const history = useHistory();
   const { addToast } = useToast();
   const { patient } = usePatient();
 
   const formRef = useRef(null);
-  const selectedComplication = useRef();
+  const selectedTratament = useRef();
 
   const [loading, setLoading] = useState(false);
-  const [complicationsTypes, setComplicationsTypes] = useState([]);
-  const [oldComplications, setOldComplications] = useState([]);
-  const [transfusions, setTransfusions] = useState([]);
-  const [newsComplications, setNewsComplications] = useState([]);
-  const [complicationId, setComplicationId] = useState(0);
+  const [supportsTypes, setSupportsTypes] = useState([]);
+  const [oldRecords, setOldRecords] = useState([]);
+  const [pronacao, setPronacao] = useState([]);
+  const [desmame, setDesmame] = useState([]);
+  const [newsRecords, setNewsRecords] = useState([]);
+  const [recordId, setRecordId] = useState(0);
 
   const handleInfos = useCallback(async () => {
     try {
       setLoading(true);
 
-      const [complications, complicationsPatient] = await Promise.all([
-        api.get('/tipos-complicacao-vm'),
-        api.get(`pacientes/${patient.id}/ventilacao-mecanica`)
+      const [supports, patientRecords] = await Promise.all([
+        api.get('/suportes-respiratorios'),
+        api.get(`pacientes/${patient.id}/suportes-respiratorios`)
       ]);
 
-      let ordenedByDate = await orderByDate(complicationsPatient.data.transfussoes_ocorrencia)
+      setSupportsTypes(supports.data);
 
-      setComplicationsTypes(complications.data);
-      setOldComplications(complicationsPatient.data.complicacoes_ventilacao_mecanica);
-      setTransfusions(ordenedByDate);
+      const tratamentoRecords = orderByDate(patientRecords.data.tratamento_suporte);
+      const pronacaoRecords = orderByDate(patientRecords.data.tratamento_pronacao);
+      const desmameRecords = orderByDate(patientRecords.data.tratamento_inclusao_desmame);
+      setOldRecords(tratamentoRecords);
+      setPronacao(pronacaoRecords);
+      setDesmame(desmameRecords);
     } catch {
       addToast({
         type: 'error',
@@ -81,26 +85,26 @@ const ComplicationsVM = () => {
   }, [handleInfos]);
 
   const handleSelect = (event) => {
-    selectedComplication.current = event.target.value;
+    selectedTratament.current = event.target.value;
   };
 
   const handleNewComplication = () => {
-    if (selectedComplication.current) {
-      const newComplication = {
-        id: complicationId,
-        complication: selectedComplication.current
+    if (selectedTratament.current) {
+      const newTratament = {
+        id: recordId,
+        tratament: selectedTratament.current
       };
 
-      setComplicationId(oldState => oldState + 1);
-      setNewsComplications(oldState => [newComplication, ...oldState]);
+      setRecordId(oldState => oldState + 1);
+      setNewsRecords(oldState => [newTratament, ...oldState]);
     }
   };
 
-  const handleDelete = (complicationId) => {
-    const updatedComplications = newsComplications.filter(({ id }) => id !== complicationId);
-    setNewsComplications(updatedComplications);
+  const handleDelete = (recordId) => {
+    const updatedComplications = newsRecords.filter(({ id }) => id !== recordId);
+    setNewsRecords(updatedComplications);
 
-    formRef.current.setValues(complicationId);
+    formRef.current.setValues(recordId);
   };
 
   const handleSubmit = () => {
@@ -108,27 +112,37 @@ const ComplicationsVM = () => {
   };
 
   const orderByDate = (array) => {
+    if (!array) {
+      return [];
+    }
+
     return array.sort((a, b) => {
-      if (a.data_complicacao > b.data_complicacao || a.data_transfusao > b.data_transfusao) return 1;
-      if (a.data_complicacao < b.data_complicacao || a.data_transfusao < b.data_transfusao) return -1;
+      if (
+        a.data_inicio > b.data_inicio ||
+        a.data_pronacao > b.data_pronacao ||
+        a.data_inclusao_desmame > b.data_inclusao_desmame
+      ) return 1;
+      if (
+        a.data_inicio < b.data_inicio ||
+        a.data_pronacao < b.data_pronacao ||
+        a.data_inclusao_desmame < b.data_inclusao_desmame
+      ) return -1;
       return 0;
     });
   }
 
-  const groupedOldComplications = useMemo(() => {
-    const ordernedByDate = orderByDate(oldComplications);
+  const groupedOldRecords = useMemo(() => {
+    return oldRecords.reduce((acc, object) => {
+      let key = object['tipo_suporte_id'];
 
-    return ordernedByDate.reduce((acc, object) => {
-      let key = object.tipo_complicacao['id'];
-      if (key !== 4) {
-        if (!acc[key]) {
-          acc[key] = [];
-        }
-        acc[key].push(object);
+      if (!acc[key]) {
+        acc[key] = [];
       }
+      acc[key].push(object);
+
       return acc;
     }, {});
-  }, [oldComplications]);
+  }, [oldRecords]);
 
   return (
     <div className={classes.root}>
@@ -137,14 +151,14 @@ const ComplicationsVM = () => {
           links={[
             { label: 'Meus pacientes', route: '/meus-pacientes' },
             { label: 'Categorias', route: '/categorias' },
-            { label: 'Complicações relacionadas à ventilação mecânica', route: '/categorias/complicacoes-vm' },
+            { label: 'Suporte respiratório', route: '/categorias/suporte-respiratorio' },
           ]}
         />
       </div>
 
       <div>
         <div className={classes.titleWrapper}>
-          <Typography variant="h3">Complicações (Ventilação Mecânica)</Typography>
+          <Typography variant="h2">Suporte respiratório</Typography>
 
           <div className={classes.rightContent}>
             <PatientInfo />
@@ -169,7 +183,7 @@ const ComplicationsVM = () => {
             >
               <Paper className={classes.centralPaper}>
                 <FormLabel>
-                  <Typography variant="h4">Escolher tipo de complicação (ventilação mecânica):</Typography>
+                  <Typography variant="h4">Escolher tipo de suporte ou procedimento:</Typography>
                 </FormLabel>
 
                 <div className={classes.headerForm}>
@@ -183,23 +197,22 @@ const ComplicationsVM = () => {
                           className={classes.selectField}
                           name="complication"
                           onChange={handleSelect}
-                          value={selectedComplication.current}
+                          value={selectedTratament.current}
                         >
                           <MenuItem
                             disabled
                             value={0}
                           >
-                            Escolher tipo de complicação (ventilação mecânica)
+                            Escolher
                           </MenuItem>
-                          {complicationsTypes.map((complication) => (
+                          {supportsTypes.map((support) => (
                             <MenuItem
-                              key={complication.id}
-                              value={complication.id}
+                              key={String(support.id)}
+                              value={support.id}
                             >
-                              {complication.descricao}
+                              {support.nome}
                             </MenuItem>
-                          )
-                          )}
+                          ))}
                         </Select>
                       </FormControl>
                     </FormGroup>
@@ -226,46 +239,70 @@ const ComplicationsVM = () => {
                   className={classes.examsFormGroup}
                   ref={formRef}
                 >
-                  {newsComplications.map((item) => (
-                    <Complications
+                  {newsRecords.map((item) => (
+                    <Records
                       handleDelete={() => handleDelete(item.id)}
                       id={item.id}
                       isNew
                       key={String(item.id)}
-                      newComplication={item.complication}
+                      newRecord={item.tratament}
                       visible
                     />
                   ))}
 
-                  {Object.entries(groupedOldComplications).map(element => {
+                  {Object.entries(groupedOldRecords).map(element => {
                     return [
                       element[1].map(item => {
                         return (
-                          <Complications
+                          <Records
                             id={item.id}
                             infos={item}
                             isNew={false}
                             key={String(item.id)}
-                            newComplication={item.tipo_complicacao.id}
+                            newRecord={item.tipo_suporte_id}
                             visible
                           />
                         )
                       }),
-                      <div className={classes.newExpPanel} />
+                      <div
+                        className={classes.newExpPanel}
+                        key={String(Math.random())}
+                      />
                     ]
                   }
                   )}
 
-                  {transfusions?.map((item) => (
-                    <Complications
+                  {[pronacao.map((item) => (
+                    <Records
                       id={item.id}
                       infos={item}
                       isNew={false}
                       key={String(item.id)}
-                      newComplication={4}
+                      newRecord={7}
                       visible
                     />
-                  ))}
+                  )),
+                  <div
+                    className={classes.newExpPanel}
+                    key={String(Math.random())}
+                  />
+                  ]}
+
+                  {[desmame.map((item) => (
+                    <Records
+                      id={item.id}
+                      infos={item}
+                      isNew={false}
+                      key={String(item.id)}
+                      newRecord={8}
+                      visible
+                    />
+                  )),
+                  <div
+                    className={classes.newExpPanel}
+                    key={String(Math.random())}
+                  />
+                  ]}
                 </Form>
               </Paper>
             </Grid>
@@ -276,4 +313,4 @@ const ComplicationsVM = () => {
   );
 }
 
-export default ComplicationsVM;
+export default RespiratorySupport;
