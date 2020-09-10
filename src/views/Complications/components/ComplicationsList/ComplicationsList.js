@@ -5,7 +5,9 @@ import PropTypes from 'prop-types';
 import UTIItem from '../UTIItem';
 import UTIForm from '../UTIForm';
 import NeurologicItem from '../NeurologicItem';
+import NeurologicForm from '../NeurologicForm';
 import DefaultItem from '../DefaultItem';
+import DefaultForm from '../DefaultForm';
 import { useFormikContext, FieldArray } from 'formik';
 
 const ComplicationsList = ({ complicacoes }) => {
@@ -27,8 +29,9 @@ const ComplicationsList = ({ complicacoes }) => {
                       <UTIForm key={index} index={index} remove={remove} />
                     );
                   } else if (complicacao.tipo_complicacao_id === 13) {
+                    console.log(55);
                     return (
-                      <NeurologicItem
+                      <NeurologicForm
                         key={index}
                         index={index}
                         remove={remove}
@@ -36,7 +39,12 @@ const ComplicationsList = ({ complicacoes }) => {
                     );
                   } else {
                     return (
-                      <DefaultItem key={index} index={index} remove={remove} />
+                      <DefaultForm
+                        key={index}
+                        index={index}
+                        remove={remove}
+                        complicationData={complicacao}
+                      />
                     );
                   }
                 })}

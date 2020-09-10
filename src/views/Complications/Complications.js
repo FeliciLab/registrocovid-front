@@ -19,7 +19,6 @@ import { useToast } from 'hooks/toast';
 import PatientInfo from 'components/PatientInfo';
 import { usePatient } from 'context/PatientContext';
 
-// Valores iniciais
 const initialValues = {
   newsComplicacoes: [],
   tipo_new_complication: '',
@@ -73,10 +72,17 @@ const Complications = () => {
       const newsComplicacoesSanitized = newsComplicacoes.map(complicacao => ({
         tipo_complicacao_id: complicacao.tipo_complicacao_id,
         data: complicacao.data,
-        data_termino: complicacao.data_termino,
+        data_termino: complicacao.data_termino
+          ? complicacao.data_termino
+          : '2020-09-16',
         descricao: 'Placeholder Descrição',
-        glasglow_admissao_uti: complicacao.glasglow_admissao_uti,
-        menos_24h_uti: complicacao.menos_24h_uti,
+        glasglow_admissao_uti: complicacao.glasglow_admissao_uti
+          ? complicacao.glasglow_admissao_uti
+          : 10,
+        menos_24h_uti:
+          typeof complicacao.menos_24h_uti === 'boolean'
+            ? complicacao.menos_24h_uti
+            : false,
       }));
 
       if (newsComplicacoesSanitized.length === 0) {
@@ -128,7 +134,9 @@ const Complications = () => {
               initialValues={initialValues}
               onSubmit={handleSubmit}
               validateOnMount
-              validationSchema={schema}>
+              validationSchema={schema}
+              validateOnChange={false}
+              validateOnBlur={false}>
               {({ isSubmitting }) => (
                 <Form component={FormControl}>
                   <div className={classes.titleWrapper}>

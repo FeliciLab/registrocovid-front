@@ -9,7 +9,10 @@ const schema = object().shape({
         then: number().required('Campo obrigatório'),
       }),
       data: string().required('Campo obrigatório'),
-      data_termino: string().required('Campo obrigatório'),
+      data_termino: string().when('tipo_complicacao_id', {
+        is: '1',
+        then: string().required('Campo obrigatório'),
+      }),
       descricao: string().when('tipo_complicacao_id', {
         is: '13',
         then: string().required('Campo obrigatório'),

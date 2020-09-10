@@ -22,11 +22,11 @@ const SelectComplicationType = ({ tiposComplicacoes }) => {
   const { values, handleChange, setFieldValue } = useFormikContext();
 
   const handleAddTesteType = () => {
-    if (values.tipo_new_complication === 1) {
+    if (values.tipo_new_complication.id === 1) {
       setFieldValue('newsComplicacoes', [
         ...values.newsComplicacoes,
         {
-          tipo_complicacao_id: values.tipo_new_complication,
+          tipo_complicacao_id: values.tipo_new_complication.id,
           data: '',
           data_termino: '',
           descricao: '',
@@ -34,11 +34,11 @@ const SelectComplicationType = ({ tiposComplicacoes }) => {
           glasglow_admissao_uti: '',
         },
       ]);
-    } else if (values.tipo_new_complication === 13) {
+    } else if (values.tipo_new_complication.id === 13) {
       setFieldValue('newsComplicacoes', [
         ...values.newsComplicacoes,
         {
-          tipo_complicacao_id: values.tipo_new_complication,
+          tipo_complicacao_id: values.tipo_new_complication.id,
           data: '',
           data_termino: '',
           descricao: '',
@@ -48,7 +48,8 @@ const SelectComplicationType = ({ tiposComplicacoes }) => {
       setFieldValue('newsComplicacoes', [
         ...values.newsComplicacoes,
         {
-          tipo_complicacao_id: values.tipo_new_complication,
+          tipo_complicacao_id: values.tipo_new_complication.id,
+          tipo_complicacao_descricao: values.tipo_new_complication.descricao,
           data: '',
           data_termino: '',
         },
@@ -76,7 +77,7 @@ const SelectComplicationType = ({ tiposComplicacoes }) => {
               variant="outlined">
               {tiposComplicacoes.map((elemen, index) => {
                 return (
-                  <MenuItem value={elemen.id} key={index}>
+                  <MenuItem value={elemen} key={index}>
                     {elemen.descricao}
                   </MenuItem>
                 );
