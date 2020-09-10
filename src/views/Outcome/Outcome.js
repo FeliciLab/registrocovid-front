@@ -41,10 +41,10 @@ function Outcome() {
       setLoading(true);
 
       await getTiposDesfecho().then(response => {
-        console.log(response.data);
         setTiposDesfecho(response.data);
       });
 
+      // TODO: remover no final.
       console.log(id);
     } catch (error) {
       console.log(error);
