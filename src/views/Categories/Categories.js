@@ -77,10 +77,7 @@ const Categories = () => {
         label: 'Tratamento de Suporte',
         url: 'categorias/tratamento-suporte/',
       },
-      {
-        id: 6,
-        label: 'Complicações'
-      },
+      { id: 6, label: 'Complicações' },
       {
         id: 7,
         label: 'Suporte respiratório',
@@ -88,12 +85,10 @@ const Categories = () => {
       },
       {
         id: 8,
-        label: 'Infecções relacionadas à assistência à saúde (IRAS)'
+        label: 'Infecções relacionadas à assistência à saúde (IRAS)',
+        url: '/categorias/iras/',
       },
-      {
-        id: 9,
-        label: 'Desfecho'
-      },
+      { id: 9, label: 'Desfecho' },
     ];
   }, []);
 
