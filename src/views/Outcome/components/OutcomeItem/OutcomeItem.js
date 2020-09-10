@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 import PropTypes from 'prop-types';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -218,13 +218,88 @@ const OutcomeItem = props => {
                   }}
                   className={classes.field}
                   type="text"
-                  value={desfecho.instituicao_transferencia.nome}
+                  value={desfecho.instituicao_transferencia?.nome}
                   variant="outlined"
                 />
               </FormGroup>
             </Grid>
           </>
         )}
+        {desfecho.tipo_desfecho === 'Alta hospitalar' && (
+          <>
+            {/* data */}
+            <Grid
+              className={classes.fieldDescricao}
+              item
+              sm={12}
+            >
+              <FormGroup>
+                <FormLabel>
+                  <Typography variant="h5">
+                    Data de transferência para outro serviço
+                  </Typography>
+                </FormLabel>
+                <TextField
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  className={classes.field}
+                  type="date"
+                  value={desfecho.data}
+                  variant="outlined"
+                />
+              </FormGroup>
+            </Grid>
+
+            {/* tipo_autocuidado.descricao */}
+            <Grid
+              className={classes.fieldDescricao}
+              item
+              sm={12}
+            >
+              <FormGroup>
+                <FormLabel>
+                  <Typography variant="h5">
+                    Habilidade de auto-cuidado no momento da alta comparado a
+                    antes da doença:
+                  </Typography>
+                </FormLabel>
+                <TextField
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  className={classes.field}
+                  type="text"
+                  value={desfecho.tipo_autocuidado?.descricao}
+                  variant="outlined"
+                />
+              </FormGroup>
+            </Grid>
+          </>
+        )}
+        {/* tipo_cuidado_paliativo.descricao */}
+        <Grid
+          className={classes.fieldDescricao}
+          item
+          sm={12}
+        >
+          <FormGroup>
+            <FormLabel>
+              <Typography variant="h5">
+                Paciente encontrava-se em cuidados paliativos?
+              </Typography>
+            </FormLabel>
+            <TextField
+              InputLabelProps={{
+                shrink: true,
+              }}
+              className={classes.field}
+              type="text"
+              value={desfecho.tipo_cuidado_paliativo?.descricao}
+              variant="outlined"
+            />
+          </FormGroup>
+        </Grid>
       </AccordionDetails>
     </Accordion>
   );
@@ -254,4 +329,4 @@ OutcomeItem.propTypes = {
   }),
 };
 
-export default OutcomeItem;
+export default memo(OutcomeItem);
