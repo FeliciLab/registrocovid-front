@@ -1,10 +1,9 @@
 import React, {
   useState,
-  useCallback,
   useEffect,
   useRef,
 } from 'react';
-import { useHistory, useRouteMatch } from 'react-router-dom';
+import { useRouteMatch } from 'react-router-dom';
 
 import {
   Typography,
@@ -12,6 +11,7 @@ import {
   CircularProgress,
 } from '@material-ui/core';
 
+import { getPhysicalExam } from '../../services/physicalExam';
 import CustonBreadcrumbs from 'components/CustonBreadcrumbs';
 import PatientInfo from 'components/PatientInfo';
 import Form from './components/Form';
@@ -19,56 +19,50 @@ import Form from './components/Form';
 import { useToast } from 'hooks/toast';
 import { usePatient } from 'context/PatientContext';
 
-import api from 'services/api';
-
 import useStyles from './styles';
 
 const PhysicalExam = () => {
   const classes = useStyles();
-  const history = useHistory();
   const { params } = useRouteMatch();
   const { addToast } = useToast();
   const { patient } = usePatient();
-
+  const [loading, setLoading] = useState(true);
   const formRef = useRef(null);
-  const buttonDisabled = useRef(false);
-
-  const [loading, setLoading] = useState(false);
   const [physicalExam, setPhysicalExam] = useState({});
+  const [disableButton, setDisableButton] = useState(true);
 
-  const handleInfos = useCallback(async () => {
-    try {
-      setLoading(true);
-
-      const response = await api.get(`/pacientes/${patient.id}/evolucoes-diarias/${params.examId}`);
-
-      if (response.status === 200) {
-        setPhysicalExam(response.data);
-        buttonDisabled.current = true;
-      }
-    } catch (err) {
-      if (err.response.status === 404) {
-        return null;
-      }
-
-      addToast({
-        type: 'error',
-        message: 'Erro ao tentar carregar informações, tente novamente',
-      });
-
-      history.goBack();
-    } finally {
+  useEffect( () => {
+    if(patient.id && params.examId){
+      getPhysicalExam(patient.id, params.examId)
+        .then( response => {
+          setPhysicalExam(response.data);
+        })
+        .catch( err => {
+          addToast({
+            type: 'error',
+            message: err.message,
+          });
+        })
+        .finally(() =>{
+          setLoading(false);
+        });
+    }else{
       setLoading(false);
     }
-  }, [addToast, history, patient.id, params.examId]);
-
-  useEffect(() => {
-    handleInfos();
-  }, [handleInfos]);
+  }, [addToast, params.examId, patient.id]);
 
   const handleSubmit = () => {
     formRef.current.submit();
   }
+
+  const hasExam = Object.entries(physicalExam).length !== 0; 
+  const shouldDisableButton = (disable) => {
+    setDisableButton(disable);
+  }
+
+  useEffect(() => {
+    setDisableButton(loading || hasExam);
+  }, [loading, hasExam]);
 
   return (
     <div className={classes.root}>
@@ -86,14 +80,12 @@ const PhysicalExam = () => {
       <div>
         <div className={classes.titleWrapper}>
           <Typography variant="h1">Exame Físico</Typography>
-
           <div className={classes.rightContent}>
             <PatientInfo />
-
             <Button
               className={classes.buttonSave}
               color="secondary"
-              disabled={buttonDisabled.current}
+              disabled={disableButton}
               onClick={handleSubmit}
               type="submit"
               variant="contained"
@@ -105,6 +97,7 @@ const PhysicalExam = () => {
 
         {loading ? <CircularProgress /> : (
           <Form
+            shouldDisableButton={shouldDisableButton}
             physicalExam={physicalExam}
             ref={formRef}
           />
