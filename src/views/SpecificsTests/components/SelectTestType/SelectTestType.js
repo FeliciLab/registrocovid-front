@@ -21,7 +21,6 @@ const SelectTestType = () => {
 
   const { values, handleChange, setFieldValue } = useFormikContext();
 
-  // TODO testando
   const handleAddTesteType = () => {
     if (values.tipo_new_teste === 'RTPCR') {
       setFieldValue('newsTestsRTCPRs', [

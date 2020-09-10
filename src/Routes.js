@@ -13,10 +13,14 @@ import {
   SpecificsTests as SpecificsTestsView,
   PersonalHistory as PersonalHistoryView,
   PhysicalExam as PhysicalExamView,
+  ComplicationsVM as ComplicationsVMView,
   InitialSymptoms as InitialSymptomsView,
   Comorbidities as ComorbiditiesView,
+  PhysicalExamsList as PhysicalExamsListView,
+  SupportTreatment as SupportTreatmentView,
   ComplementaryTests as ComplementaryTestsView,
-  PhysicalExamsList as PhysicalExamsListView,  
+  RelatedInfections as RelatedInfectionsView,
+  RespiratorySupport as RespiratorySupportView,
 } from './views';
 import PatientIdentification from 'views/PatientIdentification';
 
@@ -98,6 +102,13 @@ const Routes = () => {
         path="/categorias/exame-fisico/:examId"
       />
       <RouteWithLayout
+        component={ComplicationsVMView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/complicacoes-vm"
+      />
+      <RouteWithLayout
         component={InitialSymptomsView}
         exact
         isPrivate
@@ -126,11 +137,32 @@ const Routes = () => {
         path="/categorias/identificacao-paciente/:id"
       />
       <RouteWithLayout
+        component={SupportTreatmentView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/tratamento-suporte/"
+      />
+      <RouteWithLayout
         component={ComplementaryTestsView}
         exact
         isPrivate
         layout={MainLayout}
         path="/categorias/exames-complementares/"
+      />
+      <RouteWithLayout
+        component={RelatedInfectionsView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/iras/"
+      />
+      <RouteWithLayout
+        component={RespiratorySupportView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/suporte-respiratorio"
       />
       <RouteWithLayout
         component={NotFoundView}

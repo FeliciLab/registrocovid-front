@@ -57,7 +57,11 @@ const Categories = () => {
         label: 'Exame físico (admissão e evolução diária)',
         url: 'categorias/lista-exame-fisico',
       },
-      { id: 2, label: 'Complicações relacionadas à ventilação mecânica' },
+      {
+        id: 2,
+        label: 'Complicações relacionadas à ventilação mecânica',
+        url: 'categorias/complicacoes-vm'
+      },
       {
         id: 3,
         label: 'Exames laboratoriais específicos COVID 19',
@@ -68,10 +72,22 @@ const Categories = () => {
         label: 'Exames complementares',
         url: 'categorias/exames-complementares/',
       },
-      { id: 5, label: 'Tratamento de Suporte' },
+      {
+        id: 5,
+        label: 'Tratamento de Suporte',
+        url: 'categorias/tratamento-suporte/',
+      },
       { id: 6, label: 'Complicações' },
-      { id: 7, label: 'Suporte respiratório' },
-      { id: 8, label: 'Infecções relacionadas à assistência à saúde (IRAS)' },
+      {
+        id: 7,
+        label: 'Suporte respiratório',
+        url: 'categorias/suporte-respiratorio'
+      },
+      {
+        id: 8,
+        label: 'Infecções relacionadas à assistência à saúde (IRAS)',
+        url: '/categorias/iras/',
+      },
       { id: 9, label: 'Desfecho' },
     ];
   }, []);
