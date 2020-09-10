@@ -7,6 +7,12 @@ import {
   AccordionSummary,
   Typography,
   AccordionDetails,
+  Grid,
+  FormGroup,
+  TextField,
+  FormLabel,
+  Switch,
+  FormControlLabel,
 } from '@material-ui/core';
 import useStyles from './styles';
 
@@ -39,7 +45,134 @@ const OutcomeItem = props => {
         </div>
       </AccordionSummary>
       <AccordionDetails className={classes.accordionDetails}>
-        Teste
+        {desfecho.tipo_desfecho === 'Óbito' && (
+          <>
+            {/* data */}
+            <Grid
+              className={classes.fieldDescricao}
+              item
+              sm={12}
+            >
+              <FormGroup>
+                <FormLabel>
+                  <Typography variant="h5">Data de óbito</Typography>
+                </FormLabel>
+                <TextField
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  className={classes.field}
+                  type="date"
+                  value={desfecho.data}
+                  variant="outlined"
+                />
+              </FormGroup>
+            </Grid>
+
+            {/* obito_menos_24h */}
+            <Grid
+              className={classes.fieldWraper}
+              item
+              sm={12}
+            >
+              <FormLabel>
+                <Typography variant="h5">
+                  O óbito ocorreu em menos de 24h após a data da internação?
+                </Typography>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={desfecho.obito_menos_24h}
+                      color="primary"
+                    />
+                  }
+                  label={
+                    <Typography variant="h6">
+                      {desfecho.obito_menos_24h ? 'Sim' : 'Não'}
+                    </Typography>
+                  }
+                  name="suporte_respiratorio"
+                />
+              </FormLabel>
+            </Grid>
+
+            {/* obito_em_vm */}
+            <Grid
+              className={classes.fieldWraper}
+              item
+              sm={12}
+            >
+              <FormLabel>
+                <Typography variant="h5">
+                  O paciente estava em ventilação mecânica na ocasião do óbito?
+                </Typography>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={desfecho.obito_em_vm}
+                      color="primary"
+                    />
+                  }
+                  label={
+                    <Typography variant="h6">
+                      {desfecho.obito_em_vm ? 'Sim' : 'Não'}
+                    </Typography>
+                  }
+                  name="suporte_respiratorio"
+                />
+              </FormLabel>
+            </Grid>
+
+            {/* obito_em_uti */}
+            <Grid
+              className={classes.fieldWraper}
+              item
+              sm={12}
+            >
+              <FormLabel>
+                <Typography variant="h5">
+                  O paciente estava na UTI na ocasião do óbito?
+                </Typography>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={desfecho.obito_em_uti}
+                      color="primary"
+                    />
+                  }
+                  label={
+                    <Typography variant="h6">
+                      {desfecho.obito_em_uti ? 'Sim' : 'Não'}
+                    </Typography>
+                  }
+                  name="suporte_respiratorio"
+                />
+              </FormLabel>
+            </Grid>
+
+            {/* causa_obito */}
+            <Grid
+              className={classes.fieldDescricao}
+              item
+              sm={12}
+            >
+              <FormGroup>
+                <FormLabel>
+                  <Typography variant="h5">Data de óbito</Typography>
+                </FormLabel>
+                <TextField
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  className={classes.field}
+                  type="text"
+                  value={desfecho.causa_obito}
+                  variant="outlined"
+                />
+              </FormGroup>
+            </Grid>
+          </>
+        )}
       </AccordionDetails>
     </Accordion>
   );
