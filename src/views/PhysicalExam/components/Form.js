@@ -30,8 +30,10 @@ const schema = Yup.object().shape({
   pressao_sistolica: Yup.number().integer('Valor deve ser inteiro'),
   pressao_diastolica: Yup.number().integer('Valor deve ser inteiro'),
   frequencia_cardiaca: Yup.number().integer('Valor deve ser inteiro'),
-  altura: Yup.number().integer('Altura deve ser dada em centimetros').positive('Altura deve ser positiva'),
-  ascultura_pulmonar: Yup.string().max(191, 'Tamanho máximo é 120')
+  altura: Yup.number()
+    .integer('Altura deve ser dada em centimetros')
+    .positive('Altura deve ser positiva'),
+  ascultura_pulmonar: Yup.string().max(191, 'Tamanho máximo é 120'),
 });
 
 const Form = forwardRef((props, ref) => {
@@ -41,8 +43,7 @@ const Form = forwardRef((props, ref) => {
   const { addToast } = useToast();
   const { patient } = usePatient();
 
-  const handleSubmit = async (values) => {
-    
+  const handleSubmit = async values => {
     try {
       const jsonToSend = {
         data_evolucao: values.data_evolucao,
@@ -57,17 +58,15 @@ const Form = forwardRef((props, ref) => {
         oximetria: values.oximetria || undefined,
         escala_glasgow: values.escala_glasgow || undefined,
       };
-      
+
       shouldDisableButton(true);
       await api.post(`/pacientes/${patient.id}/evolucoes-diarias`, jsonToSend);
       addToast({
         type: 'success',
-        message: 'Dados salvos com sucesso'
+        message: 'Dados salvos com sucesso',
       });
-      setTimeout( () => { 
-        history.push( '/categorias/lista-exame-fisico');
-      }, 5000);
-      
+
+      history.push('/categorias/lista-exame-fisico');
     } catch {
       addToast({
         type: 'error',
@@ -90,7 +89,7 @@ const Form = forwardRef((props, ref) => {
       frequencia_cardiaca: physicalExam.frequencia_cardiaca || '',
       ascultura_pulmonar: physicalExam.ascultura_pulmonar || '',
       oximetria: physicalExam.oximetria || '',
-      escala_glasgow: physicalExam.escala_glasgow || 0
+      escala_glasgow: physicalExam.escala_glasgow || 0,
     },
     onSubmit: handleSubmit,
     validationSchema: schema,
@@ -98,24 +97,22 @@ const Form = forwardRef((props, ref) => {
     abortEarly: false,
   });
 
-  useImperativeHandle(ref, () => {
-    return {
-      submit: formik.handleSubmit,
-    }
-  }, [formik.handleSubmit]);
+  useImperativeHandle(
+    ref,
+    () => {
+      return {
+        submit: formik.handleSubmit,
+      };
+    },
+    [formik.handleSubmit],
+  );
 
   return (
     <form onSubmit={formik.handleSubmit}>
       <div className={classes.formContainer}>
         <Grid container>
-          <Grid
-            item
-            lg={2}
-          />
-          <Grid
-            item
-            lg={8}
-          >
+          <Grid item lg={2} />
+          <Grid item lg={8}>
             <Card>
               <CardContent>
                 <FormGroup className={classes.formGroup}>
@@ -127,9 +124,15 @@ const Form = forwardRef((props, ref) => {
                       shrink: true,
                     }}
                     className={classes.dateField}
-                    error={(formik.errors.data_evolucao && formik.touched.data_evolucao)}
+                    error={
+                      formik.errors.data_evolucao &&
+                      formik.touched.data_evolucao
+                    }
                     helperText={
-                      (formik.errors.data_evolucao && formik.touched.data_evolucao) ? formik.errors.data_evolucao : null
+                      formik.errors.data_evolucao &&
+                      formik.touched.data_evolucao
+                        ? formik.errors.data_evolucao
+                        : null
                     }
                     label="Data de evolução"
                     name="data_evolucao"
@@ -140,23 +143,25 @@ const Form = forwardRef((props, ref) => {
                   />
                 </FormGroup>
 
-                <Grid
-                  container
-                  spacing={2}
-                >
-                  <Grid
-                    item
-                    lg={6}
-                  >
+                <Grid container spacing={2}>
+                  <Grid item lg={6}>
                     <FormGroup className={classes.formGroup}>
                       <FormLabel>
-                        <Typography variant="h5">Temperatura (em graus)</Typography>
+                        <Typography variant="h5">
+                          Temperatura (em graus)
+                        </Typography>
                       </FormLabel>
                       <TextField
                         className={classes.dateField}
-                        error={(formik.errors.temperatura && formik.touched.temperatura)}
+                        error={
+                          formik.errors.temperatura &&
+                          formik.touched.temperatura
+                        }
                         helperText={
-                          (formik.errors.temperatura && formik.touched.temperatura) ? formik.errors.temperatura : null
+                          formik.errors.temperatura &&
+                          formik.touched.temperatura
+                            ? formik.errors.temperatura
+                            : null
                         }
                         label="Temperatura"
                         name="temperatura"
@@ -169,20 +174,24 @@ const Form = forwardRef((props, ref) => {
                     </FormGroup>
                   </Grid>
 
-                  <Grid
-                    item
-                    lg={6}
-                  >
+                  <Grid item lg={6}>
                     <FormGroup className={classes.formGroup}>
                       <FormLabel>
-                        <Typography variant="h5">Frequência respiratória (irpm)</Typography>
+                        <Typography variant="h5">
+                          Frequência respiratória (irpm)
+                        </Typography>
                       </FormLabel>
                       <TextField
                         className={classes.dateField}
-                        error={(formik.errors.frequencia_respiratoria && formik.touched.frequencia_respiratoria)}
+                        error={
+                          formik.errors.frequencia_respiratoria &&
+                          formik.touched.frequencia_respiratoria
+                        }
                         helperText={
-                          (formik.errors.frequencia_respiratoria && formik.touched.frequencia_respiratoria) ?
-                            formik.errors.frequencia_respiratoria : null
+                          formik.errors.frequencia_respiratoria &&
+                          formik.touched.frequencia_respiratoria
+                            ? formik.errors.frequencia_respiratoria
+                            : null
                         }
                         label="Frequência respiratória"
                         name="frequencia_respiratoria"
@@ -195,20 +204,18 @@ const Form = forwardRef((props, ref) => {
                     </FormGroup>
                   </Grid>
 
-                  <Grid
-                    item
-                    lg={6}
-                  >
+                  <Grid item lg={6}>
                     <FormGroup className={classes.formGroup}>
                       <FormLabel>
                         <Typography variant="h5">Peso (em kg)</Typography>
                       </FormLabel>
                       <TextField
                         className={classes.dateField}
-                        error={(formik.errors.peso && formik.touched.peso)}
+                        error={formik.errors.peso && formik.touched.peso}
                         helperText={
-                          (formik.errors.peso && formik.touched.peso) ?
-                            formik.errors.peso : null
+                          formik.errors.peso && formik.touched.peso
+                            ? formik.errors.peso
+                            : null
                         }
                         label="Peso"
                         name="peso"
@@ -221,20 +228,18 @@ const Form = forwardRef((props, ref) => {
                     </FormGroup>
                   </Grid>
 
-                  <Grid
-                    item
-                    lg={6}
-                  >
+                  <Grid item lg={6}>
                     <FormGroup className={classes.formGroup}>
                       <FormLabel>
                         <Typography variant="h5">Altura (em cm)</Typography>
                       </FormLabel>
                       <TextField
                         className={classes.dateField}
-                        error={(formik.errors.altura && formik.touched.altura)}
+                        error={formik.errors.altura && formik.touched.altura}
                         helperText={
-                          (formik.errors.altura && formik.touched.altura) ?
-                            formik.errors.altura : null
+                          formik.errors.altura && formik.touched.altura
+                            ? formik.errors.altura
+                            : null
                         }
                         label="Altura"
                         name="altura"
@@ -247,20 +252,24 @@ const Form = forwardRef((props, ref) => {
                     </FormGroup>
                   </Grid>
 
-                  <Grid
-                    item
-                    lg={6}
-                  >
+                  <Grid item lg={6}>
                     <FormGroup className={classes.formGroup}>
                       <FormLabel>
-                        <Typography variant="h5">Pressão arterial sistólica (mmHg)</Typography>
+                        <Typography variant="h5">
+                          Pressão arterial sistólica (mmHg)
+                        </Typography>
                       </FormLabel>
                       <TextField
                         className={classes.dateField}
-                        error={(formik.errors.pressao_sistolica && formik.touched.pressao_sistolica)}
+                        error={
+                          formik.errors.pressao_sistolica &&
+                          formik.touched.pressao_sistolica
+                        }
                         helperText={
-                          (formik.errors.pressao_sistolica && formik.touched.pressao_sistolica) ?
-                            formik.errors.pressao_sistolica : null
+                          formik.errors.pressao_sistolica &&
+                          formik.touched.pressao_sistolica
+                            ? formik.errors.pressao_sistolica
+                            : null
                         }
                         label="Pressão arterial sistólica"
                         name="pressao_sistolica"
@@ -273,20 +282,24 @@ const Form = forwardRef((props, ref) => {
                     </FormGroup>
                   </Grid>
 
-                  <Grid
-                    item
-                    lg={6}
-                  >
+                  <Grid item lg={6}>
                     <FormGroup className={classes.formGroup}>
                       <FormLabel>
-                        <Typography variant="h5">Pressão arterial diastólica (mmHg)</Typography>
+                        <Typography variant="h5">
+                          Pressão arterial diastólica (mmHg)
+                        </Typography>
                       </FormLabel>
                       <TextField
                         className={classes.dateField}
-                        error={(formik.errors.pressao_diastolica && formik.touched.pressao_diastolica)}
+                        error={
+                          formik.errors.pressao_diastolica &&
+                          formik.touched.pressao_diastolica
+                        }
                         helperText={
-                          (formik.errors.pressao_diastolica && formik.touched.pressao_diastolica) ?
-                            formik.errors.pressao_diastolica : null
+                          formik.errors.pressao_diastolica &&
+                          formik.touched.pressao_diastolica
+                            ? formik.errors.pressao_diastolica
+                            : null
                         }
                         label="Pressão arterial diastólica"
                         name="pressao_diastolica"
@@ -299,20 +312,24 @@ const Form = forwardRef((props, ref) => {
                     </FormGroup>
                   </Grid>
 
-                  <Grid
-                    item
-                    lg={6}
-                  >
+                  <Grid item lg={6}>
                     <FormGroup className={classes.formGroup}>
                       <FormLabel>
-                        <Typography variant="h5">Frequência cardíaca</Typography>
+                        <Typography variant="h5">
+                          Frequência cardíaca
+                        </Typography>
                       </FormLabel>
                       <TextField
                         className={classes.dateField}
-                        error={(formik.errors.frequencia_cardiaca && formik.touched.frequencia_cardiaca)}
+                        error={
+                          formik.errors.frequencia_cardiaca &&
+                          formik.touched.frequencia_cardiaca
+                        }
                         helperText={
-                          (formik.errors.frequencia_cardiaca && formik.touched.frequencia_cardiaca) ?
-                            formik.errors.frequencia_cardiaca : null
+                          formik.errors.frequencia_cardiaca &&
+                          formik.touched.frequencia_cardiaca
+                            ? formik.errors.frequencia_cardiaca
+                            : null
                         }
                         label="Frequência cardíaca"
                         name="frequencia_cardiaca"
@@ -325,20 +342,22 @@ const Form = forwardRef((props, ref) => {
                     </FormGroup>
                   </Grid>
 
-                  <Grid
-                    item
-                    lg={6}
-                  >
+                  <Grid item lg={6}>
                     <FormGroup className={classes.formGroup}>
                       <FormLabel>
                         <Typography variant="h5">Ausculta pulmonar</Typography>
                       </FormLabel>
                       <TextField
                         className={classes.dateField}
-                        error={(formik.errors.ascultura_pulmonar && formik.touched.ascultura_pulmonar)}
+                        error={
+                          formik.errors.ascultura_pulmonar &&
+                          formik.touched.ascultura_pulmonar
+                        }
                         helperText={
-                          (formik.errors.ascultura_pulmonar && formik.touched.ascultura_pulmonar) ?
-                            formik.errors.ascultura_pulmonar : null
+                          formik.errors.ascultura_pulmonar &&
+                          formik.touched.ascultura_pulmonar
+                            ? formik.errors.ascultura_pulmonar
+                            : null
                         }
                         label="Ausculta pulmonar"
                         name="ascultura_pulmonar"
@@ -351,20 +370,22 @@ const Form = forwardRef((props, ref) => {
                     </FormGroup>
                   </Grid>
 
-                  <Grid
-                    item
-                    lg={6}
-                  >
+                  <Grid item lg={6}>
                     <FormGroup className={classes.formGroup}>
                       <FormLabel>
-                        <Typography variant="h5">Oximetria de pulso (%)</Typography>
+                        <Typography variant="h5">
+                          Oximetria de pulso (%)
+                        </Typography>
                       </FormLabel>
                       <TextField
                         className={classes.dateField}
-                        error={(formik.errors.oximetria && formik.touched.oximetria)}
+                        error={
+                          formik.errors.oximetria && formik.touched.oximetria
+                        }
                         helperText={
-                          (formik.errors.oximetria && formik.touched.oximetria) ?
-                            formik.errors.oximetria : null
+                          formik.errors.oximetria && formik.touched.oximetria
+                            ? formik.errors.oximetria
+                            : null
                         }
                         label="Oximetria"
                         name="oximetria"
@@ -377,10 +398,7 @@ const Form = forwardRef((props, ref) => {
                     </FormGroup>
                   </Grid>
 
-                  <Grid
-                    item
-                    lg={6}
-                  >
+                  <Grid item lg={6}>
                     <FormGroup className={classes.formGroup}>
                       <FormLabel>
                         <Typography variant="h5">Escala de Glasgow</Typography>
@@ -388,39 +406,40 @@ const Form = forwardRef((props, ref) => {
                       <FormControl variant={'outlined'}>
                         <Select
                           className={classes.dateField}
-                          error={(formik.errors.escala_glasgow && formik.touched.escala_glasgow)}
+                          error={
+                            formik.errors.escala_glasgow &&
+                            formik.touched.escala_glasgow
+                          }
                           helperText={
-                            (formik.errors.escala_glasgow && formik.touched.escala_glasgow) ?
-                              formik.errors.escala_glasgow : null
+                            formik.errors.escala_glasgow &&
+                            formik.touched.escala_glasgow
+                              ? formik.errors.escala_glasgow
+                              : null
                           }
                           name="escala_glasgow"
                           onBlur={formik.handleBlur}
                           onChange={formik.handleChange}
-                          value={formik.values.escala_glasgow}
-                        >
-                          <MenuItem
-                            disabled
-                            value={0}
-                          >Escolher</MenuItem>
+                          value={formik.values.escala_glasgow}>
+                          <MenuItem disabled value={0}>
+                            Escolher
+                          </MenuItem>
                           {new Array(13).fill('').map((_, index) => (
                             <MenuItem
                               key={String(Math.random())}
-                              value={3 + index}
-                            >
+                              value={3 + index}>
                               {3 + index}
                             </MenuItem>
-                          )
-                          )}
+                          ))}
                         </Select>
-                        <FormHelperText error>{
-                          (formik.errors.escala_glasgow && formik.touched.escala_glasgow) ?
-                            formik.errors.escala_glasgow : null
-                        }
+                        <FormHelperText error>
+                          {formik.errors.escala_glasgow &&
+                          formik.touched.escala_glasgow
+                            ? formik.errors.escala_glasgow
+                            : null}
                         </FormHelperText>
                       </FormControl>
                     </FormGroup>
                   </Grid>
-
                 </Grid>
               </CardContent>
             </Card>
@@ -428,7 +447,7 @@ const Form = forwardRef((props, ref) => {
         </Grid>
       </div>
     </form>
-  )
+  );
 });
 
 export default Form;
