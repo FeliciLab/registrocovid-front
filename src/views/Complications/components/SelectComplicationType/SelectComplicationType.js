@@ -30,7 +30,7 @@ const SelectComplicationType = ({ tiposComplicacoes }) => {
           data: '',
           data_termino: '',
           descricao: '',
-          menos_24h_uti: '',
+          menos_24h_uti: false,
           glasglow_admissao_uti: '',
         },
       ]);

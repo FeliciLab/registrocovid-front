@@ -42,30 +42,27 @@ const Complications = () => {
 
   const { addToast } = useToast();
 
-  const handleComplications = useCallback(
-    async id => {
-      try {
-        setLoading(true);
+  const handleComplications = useCallback(async () => {
+    try {
+      setLoading(true);
 
-        const [complications, tipoComplications] = await Promise.all([
-          api.get(`pacientes/${patient.id}/complicacoes`),
-          api.get(`tipos-complicacoes`),
-        ]);
+      const [complications, tipoComplications] = await Promise.all([
+        api.get(`pacientes/${patient.id}/complicacoes`),
+        api.get(`tipos-complicacoes`),
+      ]);
 
-        setComplicacoes(comp => [...comp, ...complications.data]);
-        setTipoComplicacoes(comp => [...comp, ...tipoComplications.data]);
-      } catch (err) {
-        addToast({
-          type: 'error',
-          message: 'Algo inesperado aconteceu. Tente novamente.',
-        });
-        history.goBack();
-      } finally {
-        setLoading(false);
-      }
-    },
-    [addToast, history, patient],
-  );
+      setComplicacoes(comp => [...comp, ...complications.data]);
+      setTipoComplicacoes(comp => [...comp, ...tipoComplications.data]);
+    } catch (err) {
+      addToast({
+        type: 'error',
+        message: 'Algo inesperado aconteceu. Tente novamente.',
+      });
+      history.goBack();
+    } finally {
+      setLoading(false);
+    }
+  }, [addToast, history, patient]);
 
   useEffect(() => {
     handleComplications(id);
@@ -82,31 +79,29 @@ const Complications = () => {
         menos_24h_uti: complicacao.menos_24h_uti,
       }));
 
-      console.log(newsComplicacoes);
-      const newsComplicacoesPromises = api.post(
-        `/pacientes/${id}/complicacoes`,
-        newsComplicacoesSanitized,
-      );
-      // tentando salvar mas sem nada para enviar.
-      if (newsComplicacoesPromises.length === 0) {
+      if (newsComplicacoesSanitized.length === 0) {
         addToast({
           type: 'warning',
           message: 'Nada para salvar.',
         });
         return;
       }
-
-      // enviando todas as requests juntas.
-      await Promise.all([...newsComplicacoesPromises]);
-
+      await api.post(
+        `/pacientes/${id}/complicacoes`,
+        newsComplicacoesSanitized,
+      );
       addToast({
         type: 'success',
         message: 'Dados salvos com sucesso.',
       });
-
       window.location.reload();
-    } catch (err) {
-      console.log(err);
+    } catch (e) {
+      console.log(e);
+      addToast({
+        type: 'warning',
+        message: 'Um erro ocorreu. Tente novamente.',
+      });
+      return;
     }
   };
 

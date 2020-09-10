@@ -92,7 +92,7 @@ export default props => {
           </Typography>
           <Switch
             color="primary"
-            name="horas_uti"
+            name="menos_24h_uti"
             checked={complicationData && complicationData.menos_24h_uti}
           />
         </FormControl>

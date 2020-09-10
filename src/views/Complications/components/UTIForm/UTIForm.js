@@ -20,7 +20,12 @@ const UTIForm = ({ index, remove }) => {
   const classes = useStyles();
 
   const { values, handleChange, errors, touched } = useFormikContext();
-  const [isChecked, setiIsChecked] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
+  const handleChangeSwitch = e => {
+    setIsChecked(!isChecked);
+    handleChange(e);
+  };
+
   return (
     <Grid className={classes.root} component={Card} item>
       <FormLabel className={classes.formLabel}>
@@ -134,7 +139,8 @@ const UTIForm = ({ index, remove }) => {
             as={Switch}
             name={`newsComplicacoes.${index}.menos_24h_uti`}
             value={values.newsComplicacoes[index].menos_24h_uti}
-            onChange={handleChange}
+            onChange={e => handleChangeSwitch(e)}
+            checked={isChecked}
             color="primary"
           />
         </FormGroup>
