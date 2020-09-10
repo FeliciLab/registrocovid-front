@@ -10,7 +10,6 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(2),
   },
   fieldFormDefaultFlex: {
-    marginTop: theme.spacing(2),
     flexDirection: 'row',
     justifyContent: 'space-between',
     display: 'flex',
@@ -20,8 +19,15 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  dateField: {
-    width: '90%',
+  defaultFormGroup: {
+    width: '100%',
+    paddingTop: '15px',
+    paddingBottom: '15px',
+  },
+  defaultFormLabelSubtitle: {
+    marginTop: '13px',
+    marginBottom: '5px',
+    display: 'block',
   },
 }));
 

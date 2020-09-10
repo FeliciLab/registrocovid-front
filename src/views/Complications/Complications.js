@@ -128,41 +128,41 @@ const Complications = () => {
         {loading ? (
           <CircularProgress />
         ) : (
-          <div className={classes.formWrapper}>
-            <Formik
-              enableReinitialize
-              initialValues={initialValues}
-              onSubmit={handleSubmit}
-              validateOnMount
-              validationSchema={schema}
-              validateOnChange={false}
-              validateOnBlur={false}>
-              {({ isSubmitting }) => (
-                <Form component={FormControl}>
-                  <div className={classes.titleWrapper}>
-                    <Typography variant="h2">Complicações</Typography>
-                    <Grid className={classes.actionSection} item>
-                      <PatientInfo />
-                      <Button
-                        className={classes.buttonSave}
-                        color="secondary"
-                        disabled={isSubmitting}
-                        type="submit"
-                        variant="contained">
-                        Salvar
-                      </Button>
-                    </Grid>
-                  </div>
+          <Formik
+            enableReinitialize
+            initialValues={initialValues}
+            onSubmit={handleSubmit}
+            validateOnMount
+            validationSchema={schema}
+            validateOnChange={false}
+            validateOnBlur={false}>
+            {({ isSubmitting }) => (
+              <Form>
+                <div className={classes.titleWrapper}>
+                  <Typography variant="h2">Complicações</Typography>
+                  <Grid className={classes.actionSection} item>
+                    <PatientInfo />
+                    <Button
+                      className={classes.buttonSave}
+                      color="secondary"
+                      disabled={isSubmitting}
+                      type="submit"
+                      variant="contained">
+                      Salvar
+                    </Button>
+                  </Grid>
+                </div>
 
+                <Grid className={classes.formWrapper}>
                   <SelectComplicationType
                     tiposComplicacoes={tipoComplicacoes}
                   />
 
                   <ComplicationsList complicacoes={complicacoes} />
-                </Form>
-              )}
-            </Formik>
-          </div>
+                </Grid>
+              </Form>
+            )}
+          </Formik>
         )}
       </div>
     </div>

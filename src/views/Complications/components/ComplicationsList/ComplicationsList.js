@@ -16,8 +16,13 @@ const ComplicationsList = ({ complicacoes }) => {
   const { values } = useFormikContext();
 
   return (
-    <div className={classes.root}>
-      <Grid component={Card} item xs={10}>
+    <Grid className={classes.root} xs={8}>
+      <Grid
+        component={Card}
+        className={classes.complicationsContainer}
+        item
+        alignContent={'center'}
+        xs={12}>
         <FieldArray name="newsComplicacoes">
           {({ remove }) => (
             <div>
@@ -51,6 +56,8 @@ const ComplicationsList = ({ complicacoes }) => {
             </div>
           )}
         </FieldArray>
+      </Grid>
+      <Grid component={Card} item alignContent={'center'} xs={12}>
         {complicacoes.map((complicacao, index) => {
           if (complicacao.tipo_complicacao.id === 1) {
             return <UTIItem key={index} complicationData={complicacao} />;
@@ -63,7 +70,7 @@ const ComplicationsList = ({ complicacoes }) => {
           }
         })}
       </Grid>
-    </div>
+    </Grid>
   );
 };
 

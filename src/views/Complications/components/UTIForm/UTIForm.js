@@ -37,7 +37,7 @@ const UTIForm = ({ index, remove }) => {
 
       <Grid className={classes.fieldFormUTI} item sm={12}>
         <FormGroup>
-          <FormLabel>
+          <FormLabel className={classes.selectFieldLabel}>
             <Typography variant="h4"> Escala de Glasgow</Typography>
           </FormLabel>
 
@@ -70,6 +70,10 @@ const UTIForm = ({ index, remove }) => {
           <FormGroup>
             <FormLabel>
               <Typography variant="h4">Admissão em UTI</Typography>
+
+              <Typography variant="p" className={classes.UTIFormLabelSubtitle}>
+                Data
+              </Typography>
             </FormLabel>
             <Field
               InputLabelProps={{
@@ -99,6 +103,10 @@ const UTIForm = ({ index, remove }) => {
           <FormGroup>
             <FormLabel>
               <Typography variant="h4">Saída de UTI</Typography>
+
+              <Typography variant="p" className={classes.UTIFormLabelSubtitle}>
+                Data
+              </Typography>
             </FormLabel>
             <Field
               InputLabelProps={{

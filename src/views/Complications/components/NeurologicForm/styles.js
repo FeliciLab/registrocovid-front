@@ -5,12 +5,12 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     padding: theme.spacing(2),
+    width: '100%',
   },
   fieldFormNeurologic: {
     marginTop: theme.spacing(2),
   },
   fieldFormNeurologicFlex: {
-    marginTop: theme.spacing(2),
     flexDirection: 'row',
     justifyContent: 'space-between',
     display: 'flex',
@@ -20,8 +20,14 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  dateField: {
-    width: '90%',
+  textField: {
+    width: '100%',
+    marginTop: '15px',
+  },
+  neurologicFormGroup: {
+    width: '100%',
+    paddingTop: '15px',
+    paddingBottom: '15px',
   },
 }));
 

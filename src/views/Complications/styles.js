@@ -9,7 +9,7 @@ const useStyles = makeStyles(theme => ({
   formWrapper: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'left',
+    alignItems: 'center',
   },
   titleWrapper: {
     display: 'flex',
@@ -28,4 +28,3 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default useStyles;
-

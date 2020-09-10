@@ -27,8 +27,8 @@ const NeurologicForm = ({ index, remove }) => {
           <DeleteIcon fontSize="small" />
         </IconButton>
       </FormLabel>
-      <Grid className={classes.fieldFormNeurologicFlex} item sm={12}>
-        <FormGroup>
+      <Grid className={classes.fieldFormNeurologicFlex} item xs={12}>
+        <FormGroup className={classes.neurologicFormGroup}>
           <FormLabel>
             <Typography variant="h4">
               Em caso afirmativo para complicação neurológica, qual
@@ -39,11 +39,13 @@ const NeurologicForm = ({ index, remove }) => {
               shrink: true,
             }}
             as={TextField}
-            className={classes.dateField}
+            className={classes.textField}
             name={`newsComplicacoes[${index}].descricao`}
             onChange={handleChange}
             value={values.newsComplicacoes[index].descricao}
             type="text"
+            variant="outlined"
+            placeholder="Local de complicação"
             error={
               errors.newsComplicacoes && touched.newsComplicacoes
                 ? !!errors.newsComplicacoes[index]?.descricao
@@ -59,8 +61,8 @@ const NeurologicForm = ({ index, remove }) => {
           />
         </FormGroup>
       </Grid>
-      <Grid className={classes.fieldFormNeurologicFlex} item sm={12}>
-        <FormGroup>
+      <Grid className={classes.fieldFormNeurologicFlex} item xs={12}>
+        <FormGroup className={classes.neurologicFormGroup}>
           <FormLabel>
             <Typography variant="h4">Ocorrência</Typography>
           </FormLabel>

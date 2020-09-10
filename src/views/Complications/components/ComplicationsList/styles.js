@@ -1,8 +1,13 @@
 import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+  },
   complicationsContainer: {
-    marginTop: '30px',
+    marginBottom: '30px',
   },
 }));
 

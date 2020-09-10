@@ -32,9 +32,14 @@ const DefaultForm = ({ index, remove, complicationData }) => {
         </IconButton>
       </FormLabel>
       <Grid className={classes.fieldFormDefaultFlex} item sm={12}>
-        <FormGroup>
+        <FormGroup className={classes.defaultFormGroup}>
           <FormLabel>
             <Typography variant="h4">Ocorrência</Typography>
+            <Typography
+              variant="p"
+              className={classes.defaultFormLabelSubtitle}>
+              Data
+            </Typography>
           </FormLabel>
           <Field
             InputLabelProps={{

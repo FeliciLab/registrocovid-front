@@ -6,6 +6,11 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     padding: theme.spacing(2),
   },
+  wrapper: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+  },
   actionWrapper: {
     display: 'flex',
     alignItems: 'center',

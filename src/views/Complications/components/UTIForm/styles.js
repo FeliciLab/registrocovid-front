@@ -14,6 +14,8 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'row',
     justifyContent: 'space-between',
     display: 'flex',
+    marginTop: '20px',
+    marginBottom: '20px',
   },
   formLabel: {
     display: 'flex',
@@ -21,7 +23,15 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
   },
   dateField: {
-    width: '90%',
+    width: '95%',
+  },
+  UTIFormLabelSubtitle: {
+    marginTop: '13px',
+    marginBottom: '5px',
+    display: 'block',
+  },
+  selectFieldLabel: {
+    marginBottom: '10px',
   },
 }));
 
