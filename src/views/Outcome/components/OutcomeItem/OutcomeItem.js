@@ -173,6 +173,58 @@ const OutcomeItem = props => {
             </Grid>
           </>
         )}
+        {desfecho.tipo_desfecho === 'Transferência para outro serviço' && (
+          <>
+            {/* data */}
+            <Grid
+              className={classes.fieldDescricao}
+              item
+              sm={12}
+            >
+              <FormGroup>
+                <FormLabel>
+                  <Typography variant="h5">
+                    Data de transferência para outro serviço
+                  </Typography>
+                </FormLabel>
+                <TextField
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  className={classes.field}
+                  type="date"
+                  value={desfecho.data}
+                  variant="outlined"
+                />
+              </FormGroup>
+            </Grid>
+
+            {/* instituicao_transferencia.nome */}
+            <Grid
+              className={classes.fieldDescricao}
+              item
+              sm={12}
+            >
+              <FormGroup>
+                <FormLabel>
+                  <Typography variant="h5">
+                    Em caso afirmativo para transferência para outro serviço,
+                    para onde?
+                  </Typography>
+                </FormLabel>
+                <TextField
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  className={classes.field}
+                  type="text"
+                  value={desfecho.instituicao_transferencia.nome}
+                  variant="outlined"
+                />
+              </FormGroup>
+            </Grid>
+          </>
+        )}
       </AccordionDetails>
     </Accordion>
   );

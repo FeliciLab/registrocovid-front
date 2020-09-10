@@ -36,12 +36,7 @@ const OutcomeTransfForm = props => {
     handleInstituicoes();
   }, [handleInstituicoes]);
 
-  const {
-    values,
-    handleChange,
-    errors,
-    touched
-  } = useFormikContext();
+  const { values, handleChange, errors, touched } = useFormikContext();
 
   return (
     <Grid
@@ -58,39 +53,6 @@ const OutcomeTransfForm = props => {
           <DeleteIcon fontSize="small" />
         </IconButton>
       </FormLabel>
-
-      {/* instituicao_transferencia_id */}
-      <Grid
-        className={classes.fieldWraper}
-        item
-        sm={12}
-      >
-        <FormGroup>
-          <FormLabel>
-            <Typography variant="h5">
-              Em caso afirmativo para transferência para outro serviço, para onde?
-            </Typography>
-          </FormLabel>
-          <Field
-            as={TextField}
-            className={classes.field}
-            name={`newDesfechos.${index}.instituicao_transferencia_id`}
-            onChange={handleChange}
-            select
-            value={values.newDesfechos[index].instituicao_transferencia_id}
-            variant="outlined"
-          >
-            {instituicoes.map(({ id, nome }) => (
-              <MenuItem
-                key={id}
-                value={id}
-              >
-                {nome}
-              </MenuItem>
-            ))}
-          </Field>
-        </FormGroup>
-      </Grid>
 
       {/* data */}
       <Grid
@@ -120,6 +82,40 @@ const OutcomeTransfForm = props => {
             type="date"
             value={values.newDesfechos[index].data}
           />
+        </FormGroup>
+      </Grid>
+
+      {/* instituicao_transferencia_id */}
+      <Grid
+        className={classes.fieldWraper}
+        item
+        sm={12}
+      >
+        <FormGroup>
+          <FormLabel>
+            <Typography variant="h5">
+              Em caso afirmativo para transferência para outro serviço, para
+              onde?
+            </Typography>
+          </FormLabel>
+          <Field
+            as={TextField}
+            className={classes.field}
+            name={`newDesfechos.${index}.instituicao_transferencia_id`}
+            onChange={handleChange}
+            select
+            value={values.newDesfechos[index].instituicao_transferencia_id}
+            variant="outlined"
+          >
+            {instituicoes.map(({ id, nome }) => (
+              <MenuItem
+                key={id}
+                value={id}
+              >
+                {nome}
+              </MenuItem>
+            ))}
+          </Field>
         </FormGroup>
       </Grid>
     </Grid>
