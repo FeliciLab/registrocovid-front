@@ -15,6 +15,7 @@ import useStyles from './styles';
 export default ({ complicationData }) => {
   const classes = useStyles();
 
+  console.log(complicationData);
   return (
     <Accordion>
       <AccordionSummary
@@ -26,7 +27,7 @@ export default ({ complicationData }) => {
             Complicação Neurológica
           </Typography>
           <Typography variant="caption">
-            {complicationData ? formatDate(complicationData.created_at) : ''}
+            {complicationData ? formatDate(complicationData.data) : ''}
           </Typography>
         </div>
       </AccordionSummary>

@@ -30,7 +30,7 @@ export default props => {
             UTI
           </Typography>
           <Typography variant="caption">
-            {complicationData ? formatDate(complicationData.created_at) : ''}
+            {complicationData ? formatDate(complicationData.data) : ''}
           </Typography>
         </div>
       </AccordionSummary>

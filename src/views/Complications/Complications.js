@@ -68,15 +68,15 @@ const Complications = () => {
         data: complicacao.data,
         data_termino: complicacao.data_termino
           ? complicacao.data_termino
-          : '2020-09-16',
-        descricao: 'Placeholder Descrição',
+          : null,
+        descricao: complicacao.descricao ? complicacao.descricao : null,
         glasglow_admissao_uti: complicacao.glasglow_admissao_uti
           ? complicacao.glasglow_admissao_uti
-          : 10,
+          : null,
         menos_24h_uti:
           typeof complicacao.menos_24h_uti === 'boolean'
             ? complicacao.menos_24h_uti
-            : false,
+            : null,
       }));
 
       if (newsComplicacoesSanitized.length === 0) {

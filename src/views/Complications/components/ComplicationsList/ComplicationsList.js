@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { Card, Grid } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import useStyles from './styles';
 import PropTypes from 'prop-types';
 import UTIItem from '../UTIItem';
@@ -12,17 +12,32 @@ import { useFormikContext, FieldArray } from 'formik';
 
 const ComplicationsList = ({ complicacoes }) => {
   const classes = useStyles();
-
   const { values } = useFormikContext();
 
+  complicacoes.sort((a, b) => {
+    if (a.tipo_complicacao.id > b.tipo_complicacao.id) {
+      return 1;
+    }
+    if (a.tipo_complicacao.id < b.tipo_complicacao.id) {
+      return -1;
+    }
+    return 0;
+  });
+
+  complicacoes.sort((a, b) => {
+    if (new Date(a.data) > new Date(b.data)) {
+      console.log(1);
+      return 1;
+    }
+    if (new Date(a.data) < new Date(b.data)) {
+      return -1;
+    }
+    return 0;
+  });
+
   return (
-    <Grid className={classes.root} xs={8}>
-      <Grid
-        component={Card}
-        className={classes.complicationsContainer}
-        item
-        alignContent={'center'}
-        xs={12}>
+    <Grid className={classes.root} item xs={8}>
+      <div className={classes.complicationsContainer}>
         <FieldArray name="newsComplicacoes">
           {({ remove }) => (
             <div>
@@ -34,7 +49,6 @@ const ComplicationsList = ({ complicacoes }) => {
                       <UTIForm key={index} index={index} remove={remove} />
                     );
                   } else if (complicacao.tipo_complicacao_id === 13) {
-                    console.log(55);
                     return (
                       <NeurologicForm
                         key={index}
@@ -56,8 +70,8 @@ const ComplicationsList = ({ complicacoes }) => {
             </div>
           )}
         </FieldArray>
-      </Grid>
-      <Grid component={Card} item alignContent={'center'} xs={12}>
+      </div>
+      <Grid item xs={12}>
         {complicacoes.map((complicacao, index) => {
           if (complicacao.tipo_complicacao.id === 1) {
             return <UTIItem key={index} complicationData={complicacao} />;

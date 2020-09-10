@@ -5,6 +5,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     padding: theme.spacing(2),
+    marginBottom: theme.spacing(2),
   },
   fieldFormUTI: {
     marginTop: theme.spacing(2),

@@ -6,6 +6,7 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     padding: theme.spacing(2),
     width: '100%',
+    marginBottom: theme.spacing(2),
   },
   fieldFormNeurologic: {
     marginTop: theme.spacing(2),
