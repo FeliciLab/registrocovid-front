@@ -15,6 +15,8 @@ import PatientInfo from 'components/PatientInfo';
 import useSeeds from 'hooks/seeds';
 import SelectOutcomeType from './components/SelectOutcomeType';
 import OutcomeFormList from './components/OutcomeFormList';
+import api from 'services/api';
+import { useToast } from 'hooks/toast';
 
 const initialValues = {
   newDesfechos: [],
@@ -27,6 +29,8 @@ function Outcome() {
   } = usePatient();
 
   const classes = useStyles();
+
+  const { addToast } = useToast();
 
   const { getTiposDesfecho } = useSeeds();
 
@@ -55,12 +59,35 @@ function Outcome() {
 
   const handleSubmit = useCallback(async values => {
     try {
-      // TODO: implementar o submit aqui
-      console.log(values.newDesfechos);
+      const { newDesfechos } = values;
+
+      console.log('newDesfechos:', newDesfechos);
+
+      // tentando salvar mas sem nada para enviar
+      if (newDesfechos.length === 0) {
+        addToast({
+          type: 'warning',
+          message: 'Nada para salvar.',
+        });
+        return;
+      }
+
+      // TODO: testando
+      await api.post(`/pacientes/${id}/desfecho/`, newDesfechos);
+
+      addToast({
+        type: 'success',
+        message: 'Dados salvos com sucesso.',
+      });
+
+      window.location.reload();
     } catch (error) {
-      console.log(error);
+      addToast({
+        type: 'error',
+        message: 'Erro ao tentar carregar as informações',
+      });
     }
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     handleOutcomo(id);

@@ -23,7 +23,6 @@ const SelectOutcomeType = props => {
 
   const { values, handleChange, setFieldValue } = useFormikContext();
 
-
   //  e tipo_cuidado_paliativo_id
   const handleAddTesteType = () => {
     // TODO: definir o que vai aparecer aqui
