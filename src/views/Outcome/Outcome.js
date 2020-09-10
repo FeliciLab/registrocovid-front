@@ -17,6 +17,7 @@ import SelectOutcomeType from './components/SelectOutcomeType';
 import OutcomeFormList from './components/OutcomeFormList';
 import api from 'services/api';
 import { useToast } from 'hooks/toast';
+import OutcomeItem from './components/OutcomeItem';
 
 const initialValues = {
   newDesfechos: [],
@@ -34,6 +35,8 @@ function Outcome() {
 
   const { getTiposDesfecho } = useSeeds();
 
+  const [desfechos, setDesfechos] = useState([]);
+
   const [tiposDesfecho, setTiposDesfecho] = useState([]);
 
   const [loading, setLoading] = useState(false);
@@ -47,6 +50,11 @@ function Outcome() {
       await getTiposDesfecho().then(response => {
         setTiposDesfecho(response.data);
       });
+
+      const response = await api.get(`/pacientes/${id}/desfecho`);
+      setDesfechos(response.data.data);
+
+      console.log('response.data.data', response.data.data);
 
       // TODO: remover no final.
       console.log(id);
@@ -141,6 +149,14 @@ function Outcome() {
                   <SelectOutcomeType tipos={tiposDesfecho} />
 
                   <OutcomeFormList />
+
+                  {/* TODO: colocar aqui a lista de desfechos */}
+                  {desfechos.map(desfecho => (
+                    <OutcomeItem
+                      desfecho={desfecho}
+                      key={desfecho.id}
+                    />
+                  ))}
 
                   <FormikErroObserver />
                 </Form>
