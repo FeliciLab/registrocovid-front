@@ -15,7 +15,7 @@ import PropTypes from 'prop-types';
 import useStyles from './styles';
 import useSeeds from 'hooks/seeds';
 
-import { Field, useFormikContext } from 'formik';
+import { Field, useFormikContext, ErrorMessage } from 'formik';
 import { useCallback } from 'react';
 
 // Form para Cuidados Paleativos
@@ -77,6 +77,12 @@ const OutcomeCuiPaleForm = props => {
                 Paciente encontrava-se em cuidados paliativos?
               </Typography>
             </FormLabel>
+            <ErrorMessage
+              color="error"
+              component={Typography}
+              name={`newDesfechos.${index}.tipo_cuidado_paliativo_id`}
+              variant="caption"
+            />
             <Field
               as={RadioGroup}
               className={classes.radioGroup}

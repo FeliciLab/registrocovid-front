@@ -84,7 +84,7 @@ function Outcome() {
     } catch (error) {
       addToast({
         type: 'error',
-        message: 'Erro ao tentar carregar as informações',
+        message: 'Erro ao tentar salvar as informações',
       });
     }
   }, [id, addToast]);
