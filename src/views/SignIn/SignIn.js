@@ -29,8 +29,9 @@ const schema = Yup.object().shape({
     .required('Campo obrigatório')
 });
 
-const SignIn = () => {
+const SignIn = (props) => {
   // const { history } = props;
+  const {isModal} = props;
 
   const classes = useStyles();
 
@@ -51,6 +52,7 @@ const SignIn = () => {
     // sanitizando o cpf
     user.cpf = user.cpf.split('.').join('');
     user.cpf = user.cpf.split('-').join('');
+    if(isModal) user.isModal = true;
     handleLogin(user);
   };
 

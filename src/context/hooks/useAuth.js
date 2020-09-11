@@ -18,7 +18,7 @@ export default function useAuth() {
     setLoading(false);
   }, []);
 
-  async function handleLogin({ cpf, password }) {
+  async function handleLogin({ cpf, password, isModal = false }) {
     await api
       .post('/auth/login', { cpf, password })
       .then(response => {
@@ -28,7 +28,9 @@ export default function useAuth() {
         api.defaults.headers.Authorization = `Bearer ${access_token}`;
 
         setAuthenticated(true);
-        history.push('/meus-pacientes');
+        if (!isModal) {
+          history.push('/meus-pacientes');
+        }
       })
       .catch(error => {
         // TODO: Melhorar esse tratamento de erro.
