@@ -18,12 +18,6 @@ import PropTypes from 'prop-types';
 import DeleteIcon from '@material-ui/icons/Delete';
 import useSeeds from 'hooks/seeds';
 
-// TODO: remover depois
-// const initialValues = {
-//   newDesfechos: [],
-//   tipoNewDesfechoSelected: '',
-// };
-
 const OutcomeObitoForm = props => {
   const { index, remove } = props;
 
