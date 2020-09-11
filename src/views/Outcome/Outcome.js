@@ -39,13 +39,14 @@ function Outcome() {
 
   const [tiposDesfecho, setTiposDesfecho] = useState([]);
 
+  const [isDead, setIsDead] = useState(false);
+
   const [loading, setLoading] = useState(false);
 
   // Carrega as informações dos desfechos
   const handleOutcomo = useCallback(
     async id => {
       try {
-        // TODO: implementar aqui o carregamento
         setLoading(true);
 
         await getTiposDesfecho().then(response => {
@@ -54,6 +55,15 @@ function Outcome() {
 
         const response = await api.get(`/pacientes/${id}/desfecho`);
         setDesfechos(old => [...old, ...response.data.desfechos]);
+
+        // verifica se o paciente já tem um desfecho do tipo Óbito cadastrado.
+        setIsDead(
+          response.data.desfechos.reduce(
+            (acc, curr) =>
+              acc ? acc : curr.tipo_desfecho.descricao === 'Óbito',
+            false,
+          ),
+        );
 
         console.log('response.data.desfechos', response.data.desfechos);
 
@@ -92,7 +102,7 @@ function Outcome() {
           message: 'Dados salvos com sucesso.',
         });
 
-        window.location.reload();
+        // window.location.reload();
       } catch (error) {
         addToast({
           type: 'error',
@@ -152,7 +162,10 @@ function Outcome() {
                     </Grid>
                   </div>
 
-                  <SelectOutcomeType tipos={tiposDesfecho} />
+                  <SelectOutcomeType
+                    isDead={isDead}
+                    tipos={tiposDesfecho}
+                  />
 
                   <OutcomeFormList />
 

@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useMemo } from 'react';
 
 import PropTypes from 'prop-types';
 import useStyles from './styles';
@@ -15,16 +15,41 @@ import {
 import { Field, useFormikContext } from 'formik';
 
 import AddIcon from '@material-ui/icons/Add';
+import { useToast } from 'hooks/toast';
 
 const SelectOutcomeType = props => {
-  const { tipos } = props;
+  const { isDead, tipos } = props;
 
   const classes = useStyles();
 
+  const { addToast } = useToast();
+
   const { values, handleChange, setFieldValue } = useFormikContext();
 
-  //  e tipo_cuidado_paliativo_id
+  /**
+   * Para o caso do paciente ter um Óbito já cadastrado ou
+   * usuário estar cadastrando um desfecho do tipo Óbito.
+   */
+  const getTiposPossiveis = useMemo(() => {
+    return isDead ? tipos.filter(tipo => tipo.descricao !== 'Óbito') : tipos;
+  }, [tipos, isDead]);
+
   const handleAddTesteType = () => {
+    // TODO: colocar quando tentar cadastrar mais deum óbito
+
+    if (
+      values.newDesfechos.reduce(
+        (acc, curr) => (acc ? acc : curr.tipo_desfecho_id === '3'),
+        false,
+      )
+    ) {
+      addToast({
+        type: 'error',
+        message: 'Não pode cadastrar mais de um Óbito',
+      });
+      return;
+    }
+
     setFieldValue('newDesfechos', [
       ...values.newDesfechos,
       {
@@ -39,7 +64,7 @@ const SelectOutcomeType = props => {
         tipo_cuidado_paliativo_id: '',
       },
     ]);
-  }
+  };
 
   return (
     <Grid
@@ -58,7 +83,7 @@ const SelectOutcomeType = props => {
           <Field
             as={TextField}
             className={classes.textField}
-            label="Tipo teste"
+            label="Escolher"
             name="tipoNewDesfechoSelected"
             onChange={handleChange}
             select
@@ -66,7 +91,7 @@ const SelectOutcomeType = props => {
             value={values.tipoNewDesfechoSelected}
             variant="outlined"
           >
-            {tipos.map(tipo => (
+            {getTiposPossiveis.map(tipo => (
               <MenuItem
                 key={tipo.id}
                 value={tipo.id.toString()}
@@ -93,6 +118,7 @@ const SelectOutcomeType = props => {
 };
 
 SelectOutcomeType.propTypes = {
+  isDead: PropTypes.bool.isRequired,
   tipos: PropTypes.arrayOf(
     PropTypes.exact({
       id: PropTypes.number,
