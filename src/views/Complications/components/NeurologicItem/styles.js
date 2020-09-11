@@ -50,6 +50,9 @@ const useStyles = makeStyles(theme => ({
   formInputDate: {
     width: '100%',
   },
+  typeSeparator: {
+    marginTop: '30px',
+  },
 }));
 
 export default useStyles;

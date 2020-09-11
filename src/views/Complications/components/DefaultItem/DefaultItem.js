@@ -9,14 +9,13 @@ import {
 } from '@material-ui/core';
 import formatDate from '../../../../helpers/formatDate';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
 import useStyles from './styles';
 
-export default ({ complicationData }) => {
+export default ({ complicationData, separator }) => {
   const classes = useStyles();
 
   return (
-    <Accordion>
+    <Accordion className={separator ? classes.typeSeparator : ''}>
       <AccordionSummary
         aria-controls="panel1a-content"
         expandIcon={<ExpandMoreIcon />}

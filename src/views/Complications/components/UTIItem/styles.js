@@ -64,6 +64,9 @@ const useStyles = makeStyles(theme => ({
     marginBottom: '10px',
     flexDirection: 'column',
   },
+  typeSeparator: {
+    marginTop: '30px',
+  },
 }));
 
 export default useStyles;

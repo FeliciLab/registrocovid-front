@@ -17,7 +17,6 @@ const ComplicationsList = ({ complicacoes }) => {
   const sortDate = comp => {
     comp.sort((a, b) => {
       if (new Date(a.data) > new Date(b.data)) {
-        console.log(1);
         return 1;
       }
       if (new Date(a.data) < new Date(b.data)) {
@@ -79,14 +78,45 @@ const ComplicationsList = ({ complicacoes }) => {
       </div>
       <Grid item xs={12}>
         {complicacoes.map((complicacao, index) => {
+          let separator = false;
+          if (index !== 0) {
+            const lastItem = complicacoes[index - 1];
+            separator =
+              lastItem.tipo_complicacao.id !== complicacao.tipo_complicacao.id
+                ? true
+                : false;
+
+            if (
+              lastItem.tipo_complicacao.id !== complicacao.tipo_complicacao.id
+            ) {
+              separator = true;
+            }
+          }
+
           if (complicacao.tipo_complicacao.id === 1) {
-            return <UTIItem key={index} complicationData={complicacao} />;
+            return (
+              <UTIItem
+                key={index}
+                separator={separator}
+                complicationData={complicacao}
+              />
+            );
           } else if (complicacao.tipo_complicacao.id === 13) {
             return (
-              <NeurologicItem key={index} complicationData={complicacao} />
+              <NeurologicItem
+                key={index}
+                separator={separator}
+                complicationData={complicacao}
+              />
             );
           } else {
-            return <DefaultItem key={index} complicationData={complicacao} />;
+            return (
+              <DefaultItem
+                key={index}
+                separator={separator}
+                complicationData={complicacao}
+              />
+            );
           }
         })}
       </Grid>
