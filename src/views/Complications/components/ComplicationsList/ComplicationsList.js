@@ -14,27 +14,33 @@ const ComplicationsList = ({ complicacoes }) => {
   const classes = useStyles();
   const { values } = useFormikContext();
 
-  complicacoes.sort((a, b) => {
-    if (a.tipo_complicacao.id > b.tipo_complicacao.id) {
-      return 1;
-    }
-    if (a.tipo_complicacao.id < b.tipo_complicacao.id) {
-      return -1;
-    }
-    return 0;
-  });
+  const sortDate = comp => {
+    comp.sort((a, b) => {
+      if (new Date(a.data) > new Date(b.data)) {
+        console.log(1);
+        return 1;
+      }
+      if (new Date(a.data) < new Date(b.data)) {
+        return -1;
+      }
+      return 0;
+    });
+  };
 
-  complicacoes.sort((a, b) => {
-    if (new Date(a.data) > new Date(b.data)) {
-      console.log(1);
-      return 1;
-    }
-    if (new Date(a.data) < new Date(b.data)) {
-      return -1;
-    }
-    return 0;
-  });
+  const sortType = comp => {
+    comp.sort((a, b) => {
+      if (a.tipo_complicacao.id > b.tipo_complicacao.id) {
+        return 1;
+      }
+      if (a.tipo_complicacao.id < b.tipo_complicacao.id) {
+        return -1;
+      }
+      return 0;
+    });
+  };
 
+  sortDate(complicacoes);
+  sortType(complicacoes);
   return (
     <Grid className={classes.root} item xs={8}>
       <div className={classes.complicationsContainer}>

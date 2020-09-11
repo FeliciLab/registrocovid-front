@@ -51,15 +51,6 @@ const useStyles = makeStyles(theme => ({
   textField: {
     width: '100%',
   },
-  heading: {
-    display: 'flex',
-    alignItems: 'center',
-    flexGrow: 1,
-  },
-  headingLabel: {
-    width: '30%',
-    marginRight: '15px',
-  },
   accordionDetails: {
     display: 'flex',
     flexDirection: 'column',

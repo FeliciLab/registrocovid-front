@@ -11,7 +11,6 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(2),
   },
   fieldFormUTIFlex: {
-    marginTop: theme.spacing(2),
     flexDirection: 'row',
     justifyContent: 'space-between',
     display: 'flex',
