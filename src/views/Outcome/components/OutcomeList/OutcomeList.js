@@ -10,6 +10,9 @@ const OutcomeList = props => {
 
   const { desfechosList } = props;
 
+  // para o caso de não ter elementos a serem apresentados
+  if (desfechosList.length === 0) return null;
+
   return (
     <div className={classes.root}>
       <Grid

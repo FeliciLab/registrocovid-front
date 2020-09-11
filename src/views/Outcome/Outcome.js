@@ -17,7 +17,7 @@ import SelectOutcomeType from './components/SelectOutcomeType';
 import OutcomeFormList from './components/OutcomeFormList';
 import api from 'services/api';
 import { useToast } from 'hooks/toast';
-import OutcomeItem from './components/OutcomeItem';
+import OutcomeList from './components/OutcomeList';
 
 const initialValues = {
   newDesfechos: [],
@@ -42,60 +42,66 @@ function Outcome() {
   const [loading, setLoading] = useState(false);
 
   // Carrega as informações dos desfechos
-  const handleOutcomo = useCallback(async id => {
-    try {
-      // TODO: implementar aqui o carregamento
-      setLoading(true);
+  const handleOutcomo = useCallback(
+    async id => {
+      try {
+        // TODO: implementar aqui o carregamento
+        setLoading(true);
 
-      await getTiposDesfecho().then(response => {
-        setTiposDesfecho(response.data);
-      });
-
-      const response = await api.get(`/pacientes/${id}/desfecho`);
-      setDesfechos(old => [...old, ...response.data.desfechos]);
-
-      console.log('response.data.desfechos', response.data.desfechos);
-
-      // TODO: remover no final.
-      console.log(id);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  }, [getTiposDesfecho]);
-
-  const handleSubmit = useCallback(async values => {
-    try {
-      const { newDesfechos } = values;
-
-      console.log('newDesfechos:', newDesfechos);
-
-      // tentando salvar mas sem nada para enviar
-      if (newDesfechos.length === 0) {
-        addToast({
-          type: 'warning',
-          message: 'Nada para salvar.',
+        await getTiposDesfecho().then(response => {
+          setTiposDesfecho(response.data);
         });
-        return;
+
+        const response = await api.get(`/pacientes/${id}/desfecho`);
+        setDesfechos(old => [...old, ...response.data.desfechos]);
+
+        console.log('response.data.desfechos', response.data.desfechos);
+
+        // TODO: remover no final.
+        console.log(id);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
       }
+    },
+    [getTiposDesfecho],
+  );
 
-      // TODO: testando
-      await api.post(`/pacientes/${id}/desfecho/`, newDesfechos);
+  const handleSubmit = useCallback(
+    async values => {
+      try {
+        const { newDesfechos } = values;
 
-      addToast({
-        type: 'success',
-        message: 'Dados salvos com sucesso.',
-      });
+        console.log('newDesfechos:', newDesfechos);
 
-      window.location.reload();
-    } catch (error) {
-      addToast({
-        type: 'error',
-        message: 'Erro ao tentar salvar as informações',
-      });
-    }
-  }, [id, addToast]);
+        // tentando salvar mas sem nada para enviar
+        if (newDesfechos.length === 0) {
+          addToast({
+            type: 'warning',
+            message: 'Nada para salvar.',
+          });
+          return;
+        }
+
+        // TODO: testando
+        await api.post(`/pacientes/${id}/desfecho/`, newDesfechos);
+
+        addToast({
+          type: 'success',
+          message: 'Dados salvos com sucesso.',
+        });
+
+        window.location.reload();
+      } catch (error) {
+        addToast({
+          type: 'error',
+          message: 'Erro ao tentar salvar as informações',
+        });
+      }
+    },
+    [id, addToast],
+  );
 
   useEffect(() => {
     handleOutcomo(id);
@@ -150,11 +156,16 @@ function Outcome() {
 
                   <OutcomeFormList />
 
-                  {/* TODO: colocar aqui a lista de desfechos */}
-                  {desfechos.map(desfecho => (
-                    <OutcomeItem
-                      desfecho={desfecho}
-                      key={desfecho.id}
+                  {tiposDesfecho.map(tipo => (
+                    <OutcomeList
+                      desfechosList={desfechos
+                        .filter(elem => elem.tipo_desfecho.id === tipo.id)
+                        .sort((a, b) => {
+                          var dateA = new Date(a.data),
+                            dateB = new Date(b.data);
+                          return dateA - dateB;
+                        })}
+                      key={tipo.id}
                     />
                   ))}
 
