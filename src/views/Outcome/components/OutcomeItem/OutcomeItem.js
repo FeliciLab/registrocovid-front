@@ -33,7 +33,7 @@ const OutcomeItem = props => {
             className={classes.headingLabel}
             variant="h4"
           >
-            {desfecho.tipo_desfecho}
+            {desfecho.tipo_desfecho.descricao}
           </Typography>
           <Typography variant="caption">
             Data da coleta:{' '}
@@ -45,7 +45,8 @@ const OutcomeItem = props => {
         </div>
       </AccordionSummary>
       <AccordionDetails className={classes.accordionDetails}>
-        {desfecho.tipo_desfecho === 'Óbito' && (
+        {/* Óbito */}
+        {desfecho.tipo_desfecho.id === 3 && (
           <>
             {/* data */}
             <Grid
@@ -173,7 +174,8 @@ const OutcomeItem = props => {
             </Grid>
           </>
         )}
-        {desfecho.tipo_desfecho === 'Transferência para outro serviço' && (
+        {/* Transferência para outro serviço */}
+        {desfecho.tipo_desfecho.id === 2 && (
           <>
             {/* data */}
             <Grid
@@ -225,7 +227,8 @@ const OutcomeItem = props => {
             </Grid>
           </>
         )}
-        {desfecho.tipo_desfecho === 'Alta hospitalar' && (
+        {/* Alta hospitalar */}
+        {desfecho.tipo_desfecho.id === 1 && (
           <>
             {/* data */}
             <Grid
@@ -308,7 +311,10 @@ const OutcomeItem = props => {
 OutcomeItem.propTypes = {
   desfecho: PropTypes.exact({
     id: PropTypes.number,
-    tipo_desfecho: PropTypes.string,
+    tipo_desfecho: PropTypes.exact({
+      id: PropTypes.number,
+      descricao: PropTypes.string,
+    }),
     tipo_autocuidado: PropTypes.exact({
       id: PropTypes.number,
       descricao: PropTypes.string,

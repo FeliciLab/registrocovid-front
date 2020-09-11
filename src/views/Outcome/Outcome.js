@@ -52,9 +52,9 @@ function Outcome() {
       });
 
       const response = await api.get(`/pacientes/${id}/desfecho`);
-      setDesfechos(response.data.data);
+      setDesfechos(old => [...old, ...response.data.desfechos]);
 
-      console.log('response.data.data', response.data.data);
+      console.log('response.data.desfechos', response.data.desfechos);
 
       // TODO: remover no final.
       console.log(id);

@@ -1,7 +1,6 @@
 import React from 'react';
 import { useFormikContext, FieldArray } from 'formik';
 import OutcomeObitoForm from '../OutcomeObitoForm';
-import OutcomeCuiPaleForm from '../OutcomeCuiPaleForm';
 import OutcomeTransfForm from '../OutcomeTransfForm';
 import OutcomeAltaForm from '../OutcomeAltaForm';
 
@@ -34,14 +33,6 @@ function OutcomeFormList() {
                       />
                     );
                   case '3':
-                    return (
-                      <OutcomeCuiPaleForm
-                        index={index}
-                        key={index}
-                        remove={remove}
-                      />
-                    );
-                  case '4':
                     return (
                       <OutcomeObitoForm
                         index={index}
