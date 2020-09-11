@@ -159,7 +159,7 @@ const OutcomeItem = props => {
             >
               <FormGroup>
                 <FormLabel>
-                  <Typography variant="h5">Data de óbito</Typography>
+                  <Typography variant="h5">Causa do óbito</Typography>
                 </FormLabel>
                 <TextField
                   InputLabelProps={{

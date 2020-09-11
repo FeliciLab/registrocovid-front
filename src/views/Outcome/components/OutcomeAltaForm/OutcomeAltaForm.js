@@ -22,9 +22,11 @@ const OutcomeAltaForm = props => {
 
   const classes = useStyles();
 
-  const { getTiposAutoCuidados } = useSeeds();
+  const { getTiposAutoCuidados, getTiposCuidadoPaliativo } = useSeeds();
 
   const [tiposAutoCuidados, setTiposAutoCuidados] = useState([]);
+
+  const [tiposCuiPale, setTiposCuiPale] = useState([]);
 
   const {
     values,
@@ -34,6 +36,12 @@ const OutcomeAltaForm = props => {
   } = useFormikContext();
 
   const handleTiposCuiPale = useCallback(async () => {
+    await getTiposCuidadoPaliativo().then(response => {
+      setTiposCuiPale(response.data);
+    });
+  }, [getTiposCuidadoPaliativo]);
+
+  const handleTiposAutoCuidados = useCallback(async () => {
     await getTiposAutoCuidados().then(response => {
       setTiposAutoCuidados(response.data);
     });
@@ -41,7 +49,8 @@ const OutcomeAltaForm = props => {
 
   useEffect(() => {
     handleTiposCuiPale();
-  }, [handleTiposCuiPale]);
+    handleTiposAutoCuidados();
+  }, [handleTiposCuiPale, handleTiposAutoCuidados]);
 
   return (
     <Grid
@@ -116,6 +125,44 @@ const OutcomeAltaForm = props => {
               value={values.newDesfechos[index].tipo_autocuidado_id}
             >
               {tiposAutoCuidados.map(tipo => (
+                <FormControlLabel
+                  control={<Radio />}
+                  key={tipo.id}
+                  label={tipo.descricao}
+                  value={tipo.id.toString()}
+                />
+              ))}
+            </Field>
+          </FormGroup>
+        </Grid>
+
+        {/* tipo_cuidado_paliativo_id */}
+        <Grid
+          className={classes.fieldWraper}
+          item
+          sm={12}
+        >
+          <FormGroup>
+            <FormLabel>
+              <Typography variant="h5">
+                Paciente encontrava-se em cuidados paliativos?
+              </Typography>
+            </FormLabel>
+            <ErrorMessage
+              color="error"
+              component={Typography}
+              name={`newDesfechos.${index}.tipo_cuidado_paliativo_id`}
+              variant="caption"
+            />
+            <Field
+              as={RadioGroup}
+              className={classes.radioGroup}
+              name={`newDesfechos.${index}.tipo_cuidado_paliativo_id`}
+              onChange={handleChange}
+              row
+              value={values.newDesfechos[index].tipo_cuidado_paliativo_id}
+            >
+              {tiposCuiPale.map(tipo => (
                 <FormControlLabel
                   control={<Radio />}
                   key={tipo.id}
