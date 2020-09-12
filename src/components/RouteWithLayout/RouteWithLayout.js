@@ -3,14 +3,19 @@ import { Route, Redirect, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Context } from '../../context/AuthContext';
 
+import useStyles from './styles';
+
 import api from '../../services/api';
-import Dialog from '@material-ui/core/Dialog';
+import {
+  Dialog,
+  DialogTitle,
+} from '@material-ui/core'
 import SignIn from '../../views/SignIn';
 
 const RouteWithLayout = props => {
-  const { authenticated, loading } = useContext(Context);
-  const [isUnauthorized, setIsUnauthorized] = useState(false);
+  const { authenticated, loading, setErroLogin, erroLogin } = useContext(Context);
   const history = useHistory();
+  const classes = useStyles();
 
   const {
     layout: Layout,
@@ -24,25 +29,37 @@ const RouteWithLayout = props => {
       console.log(authenticated);
     }
   }, [authenticated]);
-
-  setInterval(async () => {
-
-    if (!isUnauthorized) {
-      try {
-        const user = await api.get('/profile');
-        const logged = localStorage.getItem('@RegistroCovid:profile');
-        if(user.email != logged.email) history.go('/');
-        setIsUnauthorized(false);
-
-        // Close modal
-      } catch (error) {
-        if(error.status == 401){
-          setIsUnauthorized(true);
-          // Open modal
+  
+  /** TODO 
+   * - Adicionar interceptors, para erros de autenticação no momento de salvar
+   * - Fazer Verificação do usuário, se é o mesmo ou não
+   * - Validar Layout
+   */
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      if (!erroLogin && (history.location.pathname !== '/sign-in') ) {
+        try {
+          const user = await api.get('/profile');
+          //const logged = localStorage.getItem('@RegistroCovid:profile');
+          //if(user.email != logged.email) history.go('/');
+          // setIsUnauthorized(false);
+          // setAuthenticated(true);
+          
+          
+        } catch (error) {
+          console.log(error)
+          if(error.response?.status == 401){
+            console.log('43 --- ', history.location.pathname);
+            // setIsUnauthorized(true);
+            setErroLogin(true);
+            // setAuthenticated(false);
+            
+          }
         }
       }
-    }
-  }, 10 * 1000)
+    }, 10 * 1000)
+    return () => clearInterval(interval);
+  }, [erroLogin]);
 
   if (isPrivate && !authenticated && !loading) {
     return <Redirect to="/sign-in" />;
@@ -56,9 +73,13 @@ const RouteWithLayout = props => {
           <Layout>
             <Component {...matchProps} />
             <Dialog
+              classes={{paper: classes.paper}}
               fullScreen
-              open={isUnauthorized}
+              open={erroLogin}
             >
+              <DialogTitle>
+                Sua sessão expirou. Por favor, faça o login para continuar.
+              </DialogTitle>
               <SignIn isModal/>
             </Dialog>
           </Layout>

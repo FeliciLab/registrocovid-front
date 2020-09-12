@@ -28,6 +28,7 @@ export default function useAuth() {
         api.defaults.headers.Authorization = `Bearer ${access_token}`;
 
         setAuthenticated(true);
+        setErroLogin(false);
         if (!isModal) {
           history.push('/meus-pacientes');
         }
@@ -58,6 +59,7 @@ export default function useAuth() {
     erroLogin,
     authenticated,
     setAuthenticated,
+    setErroLogin,
     handleLogin,
     handleLogout,
   };
