@@ -17,7 +17,7 @@ import {
   Paper,
 } from '@material-ui/core';
 
-import CustonBreadcrumbs from 'components/CustonBreadcrumbs';
+import CustomBreadcrumbs from 'components/CustomBreadcrumbs';
 import PatientInfo from 'components/PatientInfo';
 
 const Categories = () => {
@@ -60,7 +60,7 @@ const Categories = () => {
       {
         id: 2,
         label: 'Complicações relacionadas à ventilação mecânica',
-        url: 'categorias/complicacoes-vm'
+        url: 'categorias/complicacoes-vm',
       },
       {
         id: 3,
@@ -81,7 +81,7 @@ const Categories = () => {
       {
         id: 7,
         label: 'Suporte respiratório',
-        url: 'categorias/suporte-respiratorio'
+        url: 'categorias/suporte-respiratorio',
       },
       {
         id: 8,
@@ -99,7 +99,7 @@ const Categories = () => {
   return (
     <div className={classes.root}>
       <div className={classes.header}>
-        <CustonBreadcrumbs
+        <CustomBreadcrumbs
           links={[
             { label: 'Meus pacientes', route: '/meus-pacientes' },
             { label: 'Categorias', route: '/categorias' },
@@ -118,19 +118,14 @@ const Categories = () => {
         <TableContainer
           component={Paper}
           elevation={2}
-          style={{ marginTop: 10 }}
-        >
+          style={{ marginTop: 10 }}>
           <Table size="small">
             <TableBody>
               {initialForm.map(form => (
                 <TableRow
                   key={form.id}
-                  onClick={() => handleNavigate(form.url)}
-                >
-                  <TableCell
-                    component="th"
-                    scope="row"
-                  >
+                  onClick={() => handleNavigate(form.url)}>
+                  <TableCell component="th" scope="row">
                     {form.label}
                   </TableCell>
                   <TableCell align="right">
@@ -146,29 +141,21 @@ const Categories = () => {
       </div>
 
       <div>
-        <Typography
-          style={{ marginTop: 24 }}
-          variant="h4"
-        >
+        <Typography style={{ marginTop: 24 }} variant="h4">
           Ficha de Prontuário
         </Typography>
 
         <TableContainer
           component={Paper}
           elevation={2}
-          style={{ marginTop: 10 }}
-        >
+          style={{ marginTop: 10 }}>
           <Table size="small">
             <TableBody>
               {secondaryForm.map(form => (
                 <TableRow
                   key={form.id}
-                  onClick={() => handleNavigate(form.url)}
-                >
-                  <TableCell
-                    component="th"
-                    scope="row"
-                  >
+                  onClick={() => handleNavigate(form.url)}>
+                  <TableCell component="th" scope="row">
                     {form.label}
                   </TableCell>
                   <TableCell align="right">
