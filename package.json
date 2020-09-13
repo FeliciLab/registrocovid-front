@@ -7,7 +7,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "NODE_ICU_DATA=node_modules/full-icu react-scripts test",
+    "test": "NODE_ICU_DATA=node_modules/full-icu react-scripts test  --env jest-environment-jsdom-fourteen",
+    "test:nowatch": "NODE_ICU_DATA=node_modules/full-icu react-scripts test --watchAll=false  --env jest-environment-jsdom-fourteen",
     "eject": "react-scripts eject",
     "server": "json-server -p 4000 -d 500 dbfake.json"
   },
@@ -31,6 +32,8 @@
     "@material-ui/icons": "^4.2.1",
     "@material-ui/lab": "^4.0.0-alpha.56",
     "@material-ui/styles": "^4.2.1",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.0.2",
     "axios": "^0.19.2",
     "chart.js": "^2.8.0",
     "clsx": "^1.0.4",
