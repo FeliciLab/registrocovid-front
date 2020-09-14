@@ -31,9 +31,9 @@ const RouteWithLayout = props => {
   }, [authenticated]);
   
   /** TODO 
-   * - Adicionar interceptors, para erros de autenticação no momento de salvar
    * - Fazer Verificação do usuário, se é o mesmo ou não
    * - Validar Layout
+   * - Verificar Tempo para abrir o Modal
    */
   useEffect(() => {
     const interval = setInterval(async () => {
@@ -42,17 +42,11 @@ const RouteWithLayout = props => {
           const user = await api.get('/profile');
           //const logged = localStorage.getItem('@RegistroCovid:profile');
           //if(user.email != logged.email) history.go('/');
-          // setIsUnauthorized(false);
-          // setAuthenticated(true);
           
           
         } catch (error) {
-          console.log(error)
           if(error.response?.status == 401){
-            console.log('43 --- ', history.location.pathname);
-            // setIsUnauthorized(true);
             setErroLogin(true);
-            // setAuthenticated(false);
             
           }
         }
