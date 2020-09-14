@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Route, Redirect, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Context } from '../../context/AuthContext';
@@ -6,14 +6,13 @@ import { Context } from '../../context/AuthContext';
 import useStyles from './styles';
 
 import api from '../../services/api';
-import {
-  Dialog,
-  DialogTitle,
-} from '@material-ui/core'
+import { Dialog, DialogTitle } from '@material-ui/core';
 import SignIn from '../../views/SignIn';
 
 const RouteWithLayout = props => {
-  const { authenticated, loading, setErroLogin, erroLogin } = useContext(Context);
+  const { authenticated, loading, setErroLogin, erroLogin } = useContext(
+    Context,
+  );
   const history = useHistory();
   const classes = useStyles();
 
@@ -29,29 +28,26 @@ const RouteWithLayout = props => {
       console.log(authenticated);
     }
   }, [authenticated]);
-  
-  /** TODO 
-   * - Fazer Verificação do usuário, se é o mesmo ou não
+
+  /** TODO
    * - Validar Layout
-   * - Verificar Tempo para abrir o Modal
+   * - Verificar Tempo para abrir o Modal - Felipe, creio que essa demora seja devido
+   * estarmos rodando localmente.
    */
   useEffect(() => {
     const interval = setInterval(async () => {
-      if (!erroLogin && (history.location.pathname !== '/sign-in') ) {
+      if (!erroLogin && history.location.pathname !== '/sign-in') {
         try {
           const user = await api.get('/profile');
           //const logged = localStorage.getItem('@RegistroCovid:profile');
           //if(user.email != logged.email) history.go('/');
-          
-          
         } catch (error) {
-          if(error.response?.status == 401){
+          if (error.response?.status == 401) {
             setErroLogin(true);
-            
           }
         }
       }
-    }, 10 * 1000)
+    }, 10 * 1000);
     return () => clearInterval(interval);
   }, [erroLogin]);
 
@@ -67,14 +63,13 @@ const RouteWithLayout = props => {
           <Layout>
             <Component {...matchProps} />
             <Dialog
-              classes={{paper: classes.paper}}
+              classes={{ paper: classes.paper }}
               fullScreen
-              open={erroLogin}
-            >
+              open={erroLogin}>
               <DialogTitle>
                 Sua sessão expirou. Por favor, faça o login para continuar.
               </DialogTitle>
-              <SignIn isModal/>
+              <SignIn isModal />
             </Dialog>
           </Layout>
         );

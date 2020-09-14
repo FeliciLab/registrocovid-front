@@ -11,7 +11,7 @@ import history from './history';
 
 import { AuthProvider } from './context/AuthContext';
 import { PatientProvider } from './context/PatientContext';
-
+import { UserProvider } from './context/UserContext';
 import { ComorbidadeProvider } from './context/ComorbidadesContext';
 
 export default class App extends Component {
@@ -19,15 +19,17 @@ export default class App extends Component {
     return (
       <ThemeProvider theme={theme}>
         <AuthProvider>
-          <ToastProvider>
-            <PatientProvider>
-              <ComorbidadeProvider>
-                <Router history={history}>
-                  <Routes />
-                </Router>
-              </ComorbidadeProvider>
-            </PatientProvider>
-          </ToastProvider>
+          <UserProvider>
+            <ToastProvider>
+              <PatientProvider>
+                <ComorbidadeProvider>
+                  <Router history={history}>
+                    <Routes />
+                  </Router>
+                </ComorbidadeProvider>
+              </PatientProvider>
+            </ToastProvider>
+          </UserProvider>
         </AuthProvider>
       </ThemeProvider>
     );

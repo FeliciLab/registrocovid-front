@@ -13,6 +13,8 @@ export default function useAuth() {
     if (token) {
       api.defaults.headers.Authorization = `Bearer ${token}`;
       setAuthenticated(true);
+    } else {
+      setAuthenticated(false);
     }
 
     setLoading(false);
