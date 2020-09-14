@@ -4,6 +4,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
+    maxWidth: '864px',
     padding: theme.spacing(2),
   },
   heading: {

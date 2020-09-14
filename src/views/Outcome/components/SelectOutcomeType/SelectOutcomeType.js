@@ -35,13 +35,11 @@ const SelectOutcomeType = props => {
   }, [tipos, isDead]);
 
   const handleAddTesteType = () => {
-    // TODO: colocar quando tentar cadastrar mais deum óbito
-
     if (
       values.newDesfechos.reduce(
         (acc, curr) => (acc ? acc : curr.tipo_desfecho_id === '3'),
         false,
-      )
+      ) && values.tipoNewDesfechoSelected === '3'
     ) {
       addToast({
         type: 'error',
@@ -70,7 +68,10 @@ const SelectOutcomeType = props => {
     <Grid
       className={classes.root}
       component={Card}
+      container
       item
+      md={10}
+      sm={12}
     >
       <FormGroup>
         <FormLabel>

@@ -49,6 +49,8 @@ const OutcomeObitoForm = props => {
       className={classes.root}
       component={Card}
       item
+      md={10}
+      sm={12}
     >
       <FormLabel className={classes.formLabel}>
         <Typography variant="h4">Óbito</Typography>

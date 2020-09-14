@@ -162,25 +162,33 @@ function Outcome() {
                     </Grid>
                   </div>
 
-                  <SelectOutcomeType
-                    isDead={isDead}
-                    tipos={tiposDesfecho}
-                  />
-
-                  <OutcomeFormList />
-
-                  {tiposDesfecho.map(tipo => (
-                    <OutcomeList
-                      desfechosList={desfechos
-                        .filter(elem => elem.tipo_desfecho.id === tipo.id)
-                        .sort((a, b) => {
-                          var dateA = new Date(a.data),
-                            dateB = new Date(b.data);
-                          return dateA - dateB;
-                        })}
-                      key={tipo.id}
+                  <Grid
+                    alignContent="center"
+                    container
+                    direction="column"
+                    item
+                  >
+                    <SelectOutcomeType
+                      isDead={isDead}
+                      tipos={tiposDesfecho}
                     />
-                  ))}
+                    <OutcomeFormList />
+                    {tiposDesfecho.map(tipo => (
+                      <OutcomeList
+                        desfechosList={desfechos
+                          .filter(elem => elem.tipo_desfecho.id === tipo.id)
+                          .sort((a, b) => {
+                            var dateA = new Date(a.data),
+                              dateB = new Date(b.data);
+                            return dateA - dateB;
+                          })}
+                        key={tipo.id}
+                      />
+                    ))}
+                  </Grid>
+
+
+
 
                   <FormikErroObserver />
                 </Form>
