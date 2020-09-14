@@ -80,7 +80,7 @@ const OutcomeAltaForm = props => {
         >
           <FormGroup>
             <FormLabel>
-              <Typography variant="h5">Data de óbito</Typography>
+              <Typography variant="h5">Data da alta hospitalar</Typography>
             </FormLabel>
             <Field
               InputLabelProps={{

@@ -102,7 +102,7 @@ function Outcome() {
           message: 'Dados salvos com sucesso.',
         });
 
-        // window.location.reload();
+        window.location.reload();
       } catch (error) {
         addToast({
           type: 'error',

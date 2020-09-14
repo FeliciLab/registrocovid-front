@@ -198,12 +198,9 @@ const OutcomeObitoForm = props => {
             </FormLabel>
 
             <FastField
-              InputLabelProps={{
-                shrink: true,
-              }}
               as={TextField}
               className={classes.field}
-              label="Descreva sua causa"
+              label="Descreva a causa"
               name={`newDesfechos.${index}.causa_obito`}
               onChange={handleChange}
               type="text"

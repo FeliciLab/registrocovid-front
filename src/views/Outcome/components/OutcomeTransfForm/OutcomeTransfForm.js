@@ -74,7 +74,9 @@ const OutcomeTransfForm = props => {
       >
         <FormGroup>
           <FormLabel>
-            <Typography variant="h5">Data de óbito</Typography>
+            <Typography variant="h5">
+              Data de transferência para outro serviço
+            </Typography>
           </FormLabel>
           <Field
             InputLabelProps={{
@@ -140,7 +142,7 @@ const OutcomeTransfForm = props => {
         <FormGroup>
           <FormLabel>
             <Typography variant="h5">
-                Paciente encontrava-se em cuidados paliativos?
+              Paciente encontrava-se em cuidados paliativos?
             </Typography>
           </FormLabel>
           <ErrorMessage
