@@ -31,6 +31,8 @@ const useStyles = makeStyles(theme => ({
   },
   logoImg: {
     marginRight: theme.spacing(1),
+    height: 50,
+    paddingLeft: 50,
   },
 }));
 
@@ -47,7 +49,11 @@ const Topbar = props => {
     <AppBar {...rest} className={clsx(classes.root, className)}>
       <Toolbar>
         <RouterLink className={classes.logoLink} to="/">
-          <img alt="Logo" className={classes.logoImg} src="/images/logo.svg" />
+          <img
+            alt="Logo"
+            className={classes.logoImg}
+            src="/images/logo-white.svg"
+          />
           <Typography color="initial" variant="h3">
             Registro Covid
           </Typography>
