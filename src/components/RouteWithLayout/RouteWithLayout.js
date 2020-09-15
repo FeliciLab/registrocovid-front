@@ -45,7 +45,7 @@ const RouteWithLayout = props => {
           }
         }
       }
-    }, 10 * 1000);
+    }, 60 * 1000);
     return () => clearInterval(interval);
   }, [erroLogin]);
 
