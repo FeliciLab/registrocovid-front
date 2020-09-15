@@ -14,8 +14,6 @@ import AddIcon from '@material-ui/icons/Add';
 // Material-UI Components
 import {
   Typography,
-  Breadcrumbs,
-  Link as MuiLink,
   Button,
   TableContainer,
   Table,
@@ -56,7 +54,10 @@ const PhysicalExamsList = () => {
           links={[
             { label: 'Meus pacientes', route: '/meus-pacientes' },
             { label: 'Categorias', route: '/categorias' },
-            { label: 'Lista de evoluções', route: '/categorias/lista-exame-fisico' }
+            {
+              label: 'Lista de evoluções',
+              route: '/categorias/lista-exame-fisico',
+            },
           ]}
         />
       </div>

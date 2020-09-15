@@ -77,9 +77,17 @@ const Categories = () => {
         label: 'Tratamento de Suporte',
         url: 'categorias/tratamento-suporte/',
       },
-      { id: 6, label: 'Complicações' },
-      { id: 7, label: 'Suporte respiratório' },
-      { id: 8, label: 'Infecções relacionadas à assistência à saúde (IRAS)' },
+      { id: 6, label: 'Complicações', url: 'categorias/complicacoes/' },
+      {
+        id: 7,
+        label: 'Suporte respiratório',
+        url: 'categorias/suporte-respiratorio',
+      },
+      {
+        id: 8,
+        label: 'Infecções relacionadas à assistência à saúde (IRAS)',
+        url: '/categorias/iras/',
+      },
       { id: 9, label: 'Desfecho', url: 'categorias/desfecho/' },
     ];
   }, []);
@@ -110,19 +118,14 @@ const Categories = () => {
         <TableContainer
           component={Paper}
           elevation={2}
-          style={{ marginTop: 10 }}
-        >
+          style={{ marginTop: 10 }}>
           <Table size="small">
             <TableBody>
               {initialForm.map(form => (
                 <TableRow
                   key={form.id}
-                  onClick={() => handleNavigate(form.url)}
-                >
-                  <TableCell
-                    component="th"
-                    scope="row"
-                  >
+                  onClick={() => handleNavigate(form.url)}>
+                  <TableCell component="th" scope="row">
                     {form.label}
                   </TableCell>
                   <TableCell align="right">
@@ -138,29 +141,21 @@ const Categories = () => {
       </div>
 
       <div>
-        <Typography
-          style={{ marginTop: 24 }}
-          variant="h4"
-        >
+        <Typography style={{ marginTop: 24 }} variant="h4">
           Ficha de Prontuário
         </Typography>
 
         <TableContainer
           component={Paper}
           elevation={2}
-          style={{ marginTop: 10 }}
-        >
+          style={{ marginTop: 10 }}>
           <Table size="small">
             <TableBody>
               {secondaryForm.map(form => (
                 <TableRow
                   key={form.id}
-                  onClick={() => handleNavigate(form.url)}
-                >
-                  <TableCell
-                    component="th"
-                    scope="row"
-                  >
+                  onClick={() => handleNavigate(form.url)}>
+                  <TableCell component="th" scope="row">
                     {form.label}
                   </TableCell>
                   <TableCell align="right">
