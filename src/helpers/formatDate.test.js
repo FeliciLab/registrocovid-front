@@ -1,7 +1,7 @@
 import formatDate from './formatDate';
 
 describe('testa os outputs gerados pela função de formatação de datas', () => {
-  it('deve retornar data formatada com barras lateraisx', () => {
+  it('deve retornar data formatada com barras laterais', () => {
     const inputDate = '2020-09-18';
     const formatedDate = formatDate(inputDate);
     expect(formatedDate).toBe('18/09/2020');
