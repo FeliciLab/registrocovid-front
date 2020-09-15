@@ -9,7 +9,6 @@ import InfoIcon from '@material-ui/icons/Info';
 import { Formik, Form, Field } from 'formik';
 import { useUser } from '../../context/UserContext';
 import { Context } from '../../context/AuthContext';
-import history from '../../history';
 import {
   Grid,
   Button,
@@ -39,7 +38,7 @@ const SignIn = props => {
 
   // Contexto de autenticação.
   const { handleLogin, erroLogin } = useContext(Context);
-  const { profile, setProfile } = useUser();
+  const useProfile = useUser();
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -57,14 +56,10 @@ const SignIn = props => {
     user.cpf = user.cpf.split('.').join('');
     user.cpf = user.cpf.split('-').join('');
 
-    if (user.cpf !== profile.cpf) {
-      setProfile(user);
-
-      history.push('/meus-pacientes');
-    }
-
     if (isModal) user.isModal = true;
-    handleLogin(user);
+    handleLogin(user).then(() => {
+      useProfile.mountProfile();
+    });
   };
 
   return (

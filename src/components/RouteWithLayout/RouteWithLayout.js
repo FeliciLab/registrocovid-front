@@ -38,9 +38,7 @@ const RouteWithLayout = props => {
     const interval = setInterval(async () => {
       if (!erroLogin && history.location.pathname !== '/sign-in') {
         try {
-          const user = await api.get('/profile');
-          //const logged = localStorage.getItem('@RegistroCovid:profile');
-          //if(user.email != logged.email) history.go('/');
+          await api.get('/profile');
         } catch (error) {
           if (error.response?.status == 401) {
             setErroLogin(true);
