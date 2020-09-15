@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { usePatient } from 'context/PatientContext';
 import useStyles from './styles';
-import { CustonBreadcrumbs, FormikErroObserver } from 'components';
+import {
+  CustonBreadcrumbs,
+  // FormikErroObserver
+} from 'components';
 import {
   CircularProgress,
   Typography,
@@ -64,13 +67,11 @@ function Outcome() {
             false,
           ),
         );
-
-        console.log('response.data.desfechos', response.data.desfechos);
-
-        // TODO: remover no final.
-        console.log(id);
       } catch (error) {
-        console.log(error);
+        addToast({
+          type: 'error',
+          message: 'Erro ao tentar carregar as informações do paciente.',
+        });
       } finally {
         setLoading(false);
       }
@@ -83,8 +84,6 @@ function Outcome() {
       try {
         const { newDesfechos } = values;
 
-        console.log('newDesfechos:', newDesfechos);
-
         // tentando salvar mas sem nada para enviar
         if (newDesfechos.length === 0) {
           addToast({
@@ -93,10 +92,7 @@ function Outcome() {
           });
           return;
         }
-
-        // TODO: testando
         await api.post(`/pacientes/${id}/desfecho/`, newDesfechos);
-
         addToast({
           type: 'success',
           message: 'Dados salvos com sucesso.',
@@ -187,10 +183,8 @@ function Outcome() {
                     ))}
                   </Grid>
 
-
-
-
-                  <FormikErroObserver />
+                  {/* TODO: colocar depois doi primeiro MVP */}
+                  {/* <FormikErroObserver /> */}
                 </Form>
               )}
             </Formik>

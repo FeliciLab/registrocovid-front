@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useCallback, useEffect, useState } from 'react';
 
 import PropTypes from 'prop-types';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -13,11 +13,47 @@ import {
   FormLabel,
   Switch,
   FormControlLabel,
+  RadioGroup,
+  Radio,
 } from '@material-ui/core';
 import useStyles from './styles';
+import useSeeds from 'hooks/seeds';
+import { useToast } from 'hooks/toast';
 
 const OutcomeItem = props => {
   const { desfecho } = props;
+
+  const { getTiposCuidadoPaliativo, getTiposAutoCuidados } = useSeeds();
+
+  const [tiposCuiPale, setTiposCuiPale] = useState([]);
+
+  const [tiposAutoCuidados, setTiposAutoCuidados] = useState([]);
+
+  const { addToast } = useToast();
+
+  const handleTiposCuiPale = useCallback(async () => {
+    await getTiposCuidadoPaliativo().then(response => {
+      setTiposCuiPale(response.data);
+    });
+  }, [getTiposCuidadoPaliativo]);
+
+  const handleTiposAutoCuidados = useCallback(async () => {
+    await getTiposAutoCuidados().then(response => {
+      setTiposAutoCuidados(response.data);
+    });
+  }, [getTiposAutoCuidados]);
+
+  useEffect(() => {
+    try {
+      handleTiposCuiPale();
+      handleTiposAutoCuidados();
+    } catch (error) {
+      addToast({
+        type: 'error',
+        message: error.message,
+      });
+    }
+  }, [handleTiposCuiPale, handleTiposAutoCuidados, addToast]);
 
   const classes = useStyles();
 
@@ -267,15 +303,20 @@ const OutcomeItem = props => {
                     antes da doença:
                   </Typography>
                 </FormLabel>
-                <TextField
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
+                <RadioGroup
                   className={classes.field}
-                  type="text"
-                  value={desfecho.tipo_autocuidado?.descricao}
-                  variant="outlined"
-                />
+                  row
+                  value={desfecho.tipo_autocuidado.id.toString()}
+                >
+                  {tiposAutoCuidados.map(tipo => (
+                    <FormControlLabel
+                      control={<Radio />}
+                      key={tipo.id}
+                      label={tipo.descricao}
+                      value={tipo.id.toString()}
+                    />
+                  ))}
+                </RadioGroup>
               </FormGroup>
             </Grid>
           </>
@@ -292,15 +333,20 @@ const OutcomeItem = props => {
                 Paciente encontrava-se em cuidados paliativos?
               </Typography>
             </FormLabel>
-            <TextField
-              InputLabelProps={{
-                shrink: true,
-              }}
+            <RadioGroup
               className={classes.field}
-              type="text"
-              value={desfecho.tipo_cuidado_paliativo?.descricao}
-              variant="outlined"
-            />
+              row
+              value={desfecho.tipo_cuidado_paliativo.id.toString()}
+            >
+              {tiposCuiPale.map(tipo => (
+                <FormControlLabel
+                  control={<Radio />}
+                  key={tipo.id}
+                  label={tipo.descricao}
+                  value={tipo.id.toString()}
+                />
+              ))}
+            </RadioGroup>
           </FormGroup>
         </Grid>
       </AccordionDetails>
