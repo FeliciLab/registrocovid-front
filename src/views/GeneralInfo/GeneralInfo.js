@@ -42,7 +42,7 @@ const schema = Yup.object().shape({
 
 const GeneralInfo = () => {
   const { addToast } = useToast();
-  const { addPatient } = usePatient();
+  const { patient, addPatient } = usePatient();
   const history = useHistory();
   const classes = useStyles();
 
@@ -134,6 +134,19 @@ const GeneralInfo = () => {
     }
   };
 
+  const loadInitialValues = () => {
+    return {
+      prontuario: patient && patient.prontuario ? patient.prontuario : '',
+      data_internacao: patient && patient.data_internacao ? patient.data_internacao : '',
+      unidade_primeiro_atendimento: patient && patient.instituicao_primeiro_atendimento ? patient.instituicao_primeiro_atendimento.id : '',
+      unidade_de_saude: patient && patient.instituicao_referencia ? patient.instituicao_referencia.id : '',
+      data_atendimento: patient && patient.data_atendimento_referencia ? patient.data_atendimento_referencia : '',
+      suporte_respiratorio: patient && patient.suporte_respiratorio ? patient.suporte_respiratorio : false,
+      tipo_suport_respiratorio: patient && patient.tipo_suporte_respiratorios ? patient.tipo_suporte_respiratorios[0].id : '',
+      reinternacao: patient && patient.reinternacao ? patient.reinternacao : false,
+    }
+  }
+
   return (
     <div className={classes.root}>
       <div className={classes.header}>
@@ -151,16 +164,7 @@ const GeneralInfo = () => {
 
       <div className={classes.formWrapper}>
         <Formik
-          initialValues={{
-            prontuario: '',
-            data_internacao: '',
-            unidade_primeiro_atendimento: '',
-            unidade_de_saude: '',
-            data_atendimento: '',
-            suporte_respiratorio: false,
-            tipo_suport_respiratorio: '',
-            reinternacao: false,
-          }}
+          initialValues={loadInitialValues()}
           onSubmit={handleSubmit}
           validateOnMount
           validationSchema={schema}
@@ -173,7 +177,7 @@ const GeneralInfo = () => {
                 <Button
                   className={classes.buttonSave}
                   color="secondary"
-                  disable={isSubmitting}
+                  disabled={!!patient.prontuario || isSubmitting}
                   type="submit"
                   variant="contained"
                 >

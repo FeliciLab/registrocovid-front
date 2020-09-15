@@ -16,18 +16,20 @@ import {
   CircularProgress,
 } from '@material-ui/core';
 
+import { usePatient } from 'context/PatientContext';
 import formatDate from '../../helpers/formatDate';
 
 import { useAxios } from 'hooks/axios'
 import { CustonBreadcrumbs } from 'components';
 
 const ListPatients = () => {
+  const { addPatient } = usePatient();
   const history = useHistory();
   const classes = useStyles();
 
   const [filter, setFilter] = useState('');
 
-  const { data } = useAxios('/pacientes?fields=id,prontuario,data_internacao,created_at,data_inicio_sintomas,caso_confirmado', {
+  const { data } = useAxios('/pacientes', {
     transformResponse: [
       data => {
         const patienteRow = JSON.parse(data);
@@ -35,7 +37,7 @@ const ListPatients = () => {
         return patienteRow.map(paciente => {
           paciente = {
             ...paciente,
-            data_internacao: paciente.data_internacao.split('-').reverse().join('/'),
+            data_internacao: paciente.data_internacao,
             created_at: formatDate(paciente.created_at)
           }
 
@@ -47,6 +49,7 @@ const ListPatients = () => {
 
   const handleNavigation = () => {
     history.push('/categorias/informacoes-gerais');
+    addPatient({});
   };
 
   return (
