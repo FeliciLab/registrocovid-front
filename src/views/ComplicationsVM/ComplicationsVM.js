@@ -3,7 +3,7 @@ import React, {
   useCallback,
   useEffect,
   useRef,
-  useMemo
+  useMemo,
 } from 'react';
 import { useHistory } from 'react-router-dom';
 
@@ -17,7 +17,7 @@ import {
   FormLabel,
   FormControl,
   Select,
-  MenuItem
+  MenuItem,
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 
@@ -56,13 +56,17 @@ const ComplicationsVM = () => {
 
       const [complications, complicationsPatient] = await Promise.all([
         api.get('/tipos-complicacao-vm'),
-        api.get(`pacientes/${patient.id}/ventilacao-mecanica`)
+        api.get(`pacientes/${patient.id}/ventilacao-mecanica`),
       ]);
-
-      let ordenedByDate = await orderByDate(complicationsPatient.data.transfussoes_ocorrencia)
+      console.log(complicationsPatient);
+      let ordenedByDate = await orderByDate(
+        complicationsPatient.data.transfussoes_ocorrencia,
+      );
 
       setComplicationsTypes(complications.data);
-      setOldComplications(complicationsPatient.data.complicacoes_ventilacao_mecanica);
+      setOldComplications(
+        complicationsPatient.data.complicacoes_ventilacao_mecanica,
+      );
       setTransfusions(ordenedByDate);
     } catch {
       addToast({
@@ -80,7 +84,7 @@ const ComplicationsVM = () => {
     handleInfos();
   }, [handleInfos]);
 
-  const handleSelect = (event) => {
+  const handleSelect = event => {
     selectedComplication.current = event.target.value;
   };
 
@@ -88,7 +92,7 @@ const ComplicationsVM = () => {
     if (selectedComplication.current) {
       const newComplication = {
         id: complicationId,
-        complication: selectedComplication.current
+        complication: selectedComplication.current,
       };
 
       setComplicationId(oldState => oldState + 1);
@@ -96,8 +100,10 @@ const ComplicationsVM = () => {
     }
   };
 
-  const handleDelete = (complicationId) => {
-    const updatedComplications = newsComplications.filter(({ id }) => id !== complicationId);
+  const handleDelete = complicationId => {
+    const updatedComplications = newsComplications.filter(
+      ({ id }) => id !== complicationId,
+    );
     setNewsComplications(updatedComplications);
 
     formRef.current.setValues(complicationId);
@@ -107,13 +113,21 @@ const ComplicationsVM = () => {
     formRef.current.submit();
   };
 
-  const orderByDate = (array) => {
+  const orderByDate = array => {
     return array.sort((a, b) => {
-      if (a.data_complicacao > b.data_complicacao || a.data_transfusao > b.data_transfusao) return 1;
-      if (a.data_complicacao < b.data_complicacao || a.data_transfusao < b.data_transfusao) return -1;
+      if (
+        a.data_complicacao > b.data_complicacao ||
+        a.data_transfusao > b.data_transfusao
+      )
+        return 1;
+      if (
+        a.data_complicacao < b.data_complicacao ||
+        a.data_transfusao < b.data_transfusao
+      )
+        return -1;
       return 0;
     });
-  }
+  };
 
   const groupedOldComplications = useMemo(() => {
     const ordernedByDate = orderByDate(oldComplications);
@@ -137,14 +151,19 @@ const ComplicationsVM = () => {
           links={[
             { label: 'Meus pacientes', route: '/meus-pacientes' },
             { label: 'Categorias', route: '/categorias' },
-            { label: 'Complicações relacionadas à ventilação mecânica', route: '/categorias/complicacoes-vm' },
+            {
+              label: 'Complicações relacionadas à ventilação mecânica',
+              route: '/categorias/complicacoes-vm',
+            },
           ]}
         />
       </div>
 
       <div>
         <div className={classes.titleWrapper}>
-          <Typography variant="h3">Complicações (Ventilação Mecânica)</Typography>
+          <Typography variant="h3">
+            Complicações (Ventilação Mecânica)
+          </Typography>
 
           <div className={classes.rightContent}>
             <PatientInfo />
@@ -154,79 +173,63 @@ const ComplicationsVM = () => {
               color="secondary"
               onClick={handleSubmit}
               type="submit"
-              variant="contained"
-            >
+              variant="contained">
               Salvar
             </Button>
           </div>
         </div>
 
-        {loading ? <CircularProgress /> : (
+        {loading ? (
+          <CircularProgress />
+        ) : (
           <div className="container">
-            <Grid
-              container
-              justify={'center'}
-            >
+            <Grid container justify={'center'}>
               <Paper className={classes.centralPaper}>
                 <FormLabel>
-                  <Typography variant="h4">Escolher tipo de complicação (ventilação mecânica):</Typography>
+                  <Typography variant="h4">
+                    Escolher tipo de complicação (ventilação mecânica):
+                  </Typography>
                 </FormLabel>
 
                 <div className={classes.headerForm}>
-                  <Grid
-                    item
-                    lg={8}
-                  >
+                  <Grid item lg={8}>
                     <FormGroup>
                       <FormControl variant={'outlined'}>
                         <Select
                           className={classes.selectField}
                           name="complication"
                           onChange={handleSelect}
-                          value={selectedComplication.current}
-                        >
-                          <MenuItem
-                            disabled
-                            value={0}
-                          >
+                          value={selectedComplication.current}>
+                          <MenuItem disabled value={0}>
                             Escolher tipo de complicação (ventilação mecânica)
                           </MenuItem>
-                          {complicationsTypes.map((complication) => (
+                          {complicationsTypes.map(complication => (
                             <MenuItem
                               key={complication.id}
-                              value={complication.id}
-                            >
+                              value={complication.id}>
                               {complication.descricao}
                             </MenuItem>
-                          )
-                          )}
+                          ))}
                         </Select>
                       </FormControl>
                     </FormGroup>
                   </Grid>
 
-                  <Grid
-                    item
-                    lg={4}
-                  >
+                  <Grid item lg={4}>
                     <Button
                       className={classes.buttonSave}
                       color="secondary"
                       onClick={handleNewComplication}
                       startIcon={<AddIcon />}
                       type="button"
-                      variant="contained"
-                    >
+                      variant="contained">
                       Adicionar Ocorrência
                     </Button>
                   </Grid>
                 </div>
 
-                <Form
-                  className={classes.examsFormGroup}
-                  ref={formRef}
-                >
-                  {newsComplications.map((item) => (
+                <Form className={classes.examsFormGroup} ref={formRef}>
+                  {newsComplications.map(item => (
                     <Complications
                       handleDelete={() => handleDelete(item.id)}
                       id={item.id}
@@ -249,14 +252,13 @@ const ComplicationsVM = () => {
                             newComplication={item.tipo_complicacao.id}
                             visible
                           />
-                        )
+                        );
                       }),
-                      <div className={classes.newExpPanel} />
-                    ]
-                  }
-                  )}
+                      <div className={classes.newExpPanel} />,
+                    ];
+                  })}
 
-                  {transfusions?.map((item) => (
+                  {transfusions?.map(item => (
                     <Complications
                       id={item.id}
                       infos={item}
@@ -274,6 +276,6 @@ const ComplicationsVM = () => {
       </div>
     </div>
   );
-}
+};
 
 export default ComplicationsVM;
