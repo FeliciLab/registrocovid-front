@@ -47,11 +47,7 @@ const Topbar = props => {
     <AppBar {...rest} className={clsx(classes.root, className)}>
       <Toolbar>
         <RouterLink className={classes.logoLink} to="/">
-          <img
-            alt="Logo"
-            className={classes.logoImg}
-            src="/images/logos/logo-registro-covid.svg"
-          />
+          <img alt="Logo" className={classes.logoImg} src="/images/logo.svg" />
           <Typography color="initial" variant="h3">
             Registro Covid
           </Typography>

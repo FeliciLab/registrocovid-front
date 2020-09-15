@@ -56,102 +56,106 @@ const SignIn = () => {
 
   return (
     <div className={classes.root}>
-      <Grid className={classes.grid} container>
-        <Grid className={classes.content} item lg={6} xs={12}>
-          <div className={classes.content}>
-            <div className={classes.contentBody}>
-              <Formik
-                initialValues={{
-                  cpf: '',
-                  password: '',
-                }}
-                onSubmit={handleSignIn}
-                validateOnMount
-                validationSchema={schema}>
-                {({ values, touched, handleChange, isValid, errors }) => (
-                  <Form className={classes.form}>
-                    <Typography className={classes.title} variant="h2">
-                      Entrar no sistema
-                    </Typography>
-                    <Field
-                      as={TextField}
-                      className={classes.textField}
-                      error={errors.cpf && touched.cpf}
-                      fullWidth
-                      helperText={errors.cpf && touched.cpf ? errors.cpf : null}
-                      InputProps={{
-                        inputComponent: TextMaskCPF,
-                      }}
-                      label="cpf"
-                      name="cpf"
-                      onChange={handleChange}
-                      type="text"
-                      value={values.cpf}
-                      variant="outlined"
-                    />
-                    <Field
-                      as={TextField}
-                      className={classes.textField}
-                      error={errors.password && touched.password}
-                      fullWidth
-                      helperText={
-                        errors.password && touched.password
-                          ? errors.password
-                          : null
-                      }
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <IconButton
-                              aria-label="Mudar a visibilidade da senha"
-                              edge="end"
-                              onClick={handleClickShowPassword}>
-                              {showPassword ? (
-                                <VisibilityIcon />
-                              ) : (
-                                <VisibilityOffIcon />
-                              )}
-                            </IconButton>
-                          </InputAdornment>
-                        ),
-                      }}
-                      label="Password"
-                      name="password"
-                      onChange={handleChange}
-                      type={showPassword ? 'text' : 'password'}
-                      value={values.password}
-                      variant="outlined"
-                    />
-                    <div className={classes.signInButtonWrapper}>
-                      <Button
-                        className={classes.signInButton}
-                        color="primary"
-                        disabled={!(isValid && touched.cpf && touched.password)}
-                        fullWidth
-                        size="large"
-                        type="submit"
-                        variant="contained">
-                        Entrar
-                      </Button>
+      <Formik
+        initialValues={{
+          cpf: '',
+          password: '',
+        }}
+        onSubmit={handleSignIn}
+        validateOnMount
+        validationSchema={schema}>
+        {({ values, touched, handleChange, isValid, errors }) => (
+          <Form className={classes.form}>
+            <div className={classes.contentForm}>
 
-                      {erroLogin && (
-                        <div className={classes.errorLoginMessage}>
-                          <InfoIcon />
-                          <Typography
-                            className={classes.errorLoginMessageLabel}
-                            variant="caption">
-                            Usuário ou senha incorretos, tente novamente.
-                          </Typography>
-                        </div>
-                      )}
+              <div className={classes.divImage}>
+                <img
+                  alt="Under development"
+                  // style={{ height: 500 }}
+                  className={classes.image}
+                  src="/images/logo.svg"
+                />
+              </div>
+
+              <div className={classes.viewForm}>
+                <Typography className={classes.title} variant="h2">
+                  Entrar no sistema
+                </Typography>
+                <Field
+                  as={TextField}
+                  className={classes.textField}
+                  error={errors.cpf && touched.cpf}
+                  fullWidth
+                  helperText={errors.cpf && touched.cpf ? errors.cpf : null}
+                  InputProps={{
+                    inputComponent: TextMaskCPF,
+                  }}
+                  label="cpf"
+                  name="cpf"
+                  onChange={handleChange}
+                  type="text"
+                  value={values.cpf}
+                  variant="outlined"
+                />
+                <Field
+                  as={TextField}
+                  className={classes.textField}
+                  error={errors.password && touched.password}
+                  fullWidth
+                  helperText={
+                    errors.password && touched.password ? errors.password : null
+                  }
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="Mudar a visibilidade da senha"
+                          edge="end"
+                          onClick={handleClickShowPassword}>
+                          {showPassword ? (
+                            <VisibilityIcon />
+                          ) : (
+                            <VisibilityOffIcon />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                  label="Password"
+                  name="password"
+                  onChange={handleChange}
+                  type={showPassword ? 'text' : 'password'}
+                  value={values.password}
+                  variant="outlined"
+                />
+                <div className={classes.signInButtonWrapper}>
+                  <Button
+                    className={classes.signInButton}
+                    color="primary"
+                    disabled={!(isValid && touched.cpf && touched.password)}
+                    fullWidth
+                    size="large"
+                    type="submit"
+                    variant="contained">
+                    Entrar
+                  </Button>
+
+                  {erroLogin && (
+                    <div className={classes.errorLoginMessage}>
+                      <InfoIcon />
+                      <Typography
+                        className={classes.errorLoginMessageLabel}
+                        variant="caption">
+                        Usuário ou senha incorretos, tente novamente.
+                      </Typography>
                     </div>
-                  </Form>
-                )}
-              </Formik>
+                  )}
+                </div>
+              </div>
             </div>
-          </div>
-        </Grid>
-      </Grid>
+          </Form>
+        )}
+      </Formik>
     </div>
   );
 };
