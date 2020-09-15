@@ -58,7 +58,6 @@ const ComplicationsVM = () => {
         api.get('/tipos-complicacao-vm'),
         api.get(`pacientes/${patient.id}/ventilacao-mecanica`),
       ]);
-
       let ordenedByDate = await orderByDate(
         complicationsPatient.data.transfussoes_ocorrencia,
       );

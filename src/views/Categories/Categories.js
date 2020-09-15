@@ -77,7 +77,7 @@ const Categories = () => {
         label: 'Tratamento de Suporte',
         url: 'categorias/tratamento-suporte/',
       },
-      { id: 6, label: 'Complicações' },
+      { id: 6, label: 'Complicações', url: 'categorias/complicacoes/' },
       {
         id: 7,
         label: 'Suporte respiratório',

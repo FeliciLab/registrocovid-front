@@ -19,32 +19,35 @@ export default function useAuth() {
   }, []);
 
   async function handleLogin({ cpf, password }) {
-    await api.post('/auth/login', { cpf, password }).then(response => {
+    await api
+      .post('/auth/login', { cpf, password })
+      .then(response => {
+        const { access_token } = response.data;
 
-      const { access_token } = response.data;
+        localStorage.setItem('@RegistroCovid:token', access_token);
+        api.defaults.headers.Authorization = `Bearer ${access_token}`;
 
-      localStorage.setItem('@RegistroCovid:token', access_token);
-      api.defaults.headers.Authorization = `Bearer ${access_token}`;
-
-      setAuthenticated(true);
-      history.push('/meus-pacientes');
-    }).catch(error => {
-      // TODO: Melhorar esse tratamento de erro.
-      if (error.response) {
-        console.log(error.response.data);
-        console.log(error.response.status);
-      } else if (error.request) {
-        console.log(error.request);
-      } else {
-        console.log('Error', error.message);
-      }
-      setErroLogin(true);
-    });
+        setAuthenticated(true);
+        history.push('/meus-pacientes');
+      })
+      .catch(error => {
+        // TODO: Melhorar esse tratamento de erro.
+        if (error.response) {
+          console.log(error.response.data);
+          console.log(error.response.status);
+        } else if (error.request) {
+          console.log(error.request);
+        } else {
+          console.log('Error', error.message);
+        }
+        setErroLogin(true);
+      });
   }
 
   function handleLogout() {
     setAuthenticated(false);
     localStorage.removeItem('@RegistroCovid:token');
+    localStorage.removeItem('@RegistroCovid:paciente');
     api.defaults.headers.Authorization = undefined;
     history.push('/sign-in');
   }
@@ -54,6 +57,6 @@ export default function useAuth() {
     erroLogin,
     authenticated,
     handleLogin,
-    handleLogout
+    handleLogout,
   };
 }
