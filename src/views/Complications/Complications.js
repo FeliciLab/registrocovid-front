@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 
 import useStyles from './styles';
-import { CustonBreadcrumbs } from 'components';
+import { CustomBreadcrumbs } from 'components';
 import { useParams, useHistory } from 'react-router-dom';
 import { CircularProgress, Typography, Grid, Button } from '@material-ui/core';
 import { Formik, Form } from 'formik';
@@ -108,7 +108,7 @@ const Complications = () => {
   return (
     <div className={classes.root}>
       <div className={classes.header}>
-        <CustonBreadcrumbs
+        <CustomBreadcrumbs
           links={[
             { label: 'Meus pacientes', route: '/meus-pacientes' },
             { label: 'Categorias', route: '/categorias' },

@@ -21,7 +21,7 @@ import {
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 
-import CustonBreadcrumbs from 'components/CustonBreadcrumbs';
+import CustomBreadcrumbs from 'components/CustomBreadcrumbs';
 import PatientInfo from 'components/PatientInfo';
 import Form from './components/Form';
 
@@ -58,7 +58,6 @@ const ComplicationsVM = () => {
         api.get('/tipos-complicacao-vm'),
         api.get(`pacientes/${patient.id}/ventilacao-mecanica`),
       ]);
-      console.log(complicationsPatient);
       let ordenedByDate = await orderByDate(
         complicationsPatient.data.transfussoes_ocorrencia,
       );
@@ -147,7 +146,7 @@ const ComplicationsVM = () => {
   return (
     <div className={classes.root}>
       <div className={classes.header}>
-        <CustonBreadcrumbs
+        <CustomBreadcrumbs
           links={[
             { label: 'Meus pacientes', route: '/meus-pacientes' },
             { label: 'Categorias', route: '/categorias' },
