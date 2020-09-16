@@ -2,7 +2,7 @@ import React, { useCallback, useState, useEffect } from 'react';
 import useStyles from './styles';
 import { usePatient } from 'context/PatientContext';
 import {
-  CustonBreadcrumbs,
+  CustomBreadcrumbs,
   // FormikErroObserver
 } from 'components';
 
@@ -101,7 +101,7 @@ function SupportTreatment() {
   return (
     <div className={classes.root}>
       <div className={classes.header}>
-        <CustonBreadcrumbs
+        <CustomBreadcrumbs
           links={[
             { label: 'Meus pacientes', route: '/meus-pacientes' },
             { label: 'Categorias', route: '/categorias' },
