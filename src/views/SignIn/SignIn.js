@@ -67,7 +67,6 @@ const SignIn = () => {
         {({ values, touched, handleChange, isValid, errors }) => (
           <Form className={classes.form}>
             <div className={classes.contentForm}>
-
               <div className={classes.divImage}>
                 <img
                   alt="Under development"
@@ -132,7 +131,7 @@ const SignIn = () => {
                   <Button
                     className={classes.signInButton}
                     color="primary"
-                    disabled={!(isValid && touched.cpf && touched.password)}
+                    disabled={!touched.cpf}
                     fullWidth
                     size="large"
                     type="submit"

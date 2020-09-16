@@ -54,9 +54,6 @@ const Topbar = props => {
             className={classes.logoImg}
             src="/images/logo-white.svg"
           />
-          <Typography color="initial" variant="h3">
-            Registro Covid
-          </Typography>
         </RouterLink>
         <div className={classes.flexGrow} />
         <Hidden mdDown>
