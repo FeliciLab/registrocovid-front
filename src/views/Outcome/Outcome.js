@@ -47,7 +47,7 @@ function Outcome() {
   const [loading, setLoading] = useState(false);
 
   // Carrega as informações dos desfechos
-  const handleOutcomo = useCallback(
+  const handleOutcome = useCallback(
     async id => {
       try {
         setLoading(true);
@@ -76,7 +76,7 @@ function Outcome() {
         setLoading(false);
       }
     },
-    [getTiposDesfecho],
+    [addToast, getTiposDesfecho],
   );
 
   const handleSubmit = useCallback(
@@ -110,8 +110,8 @@ function Outcome() {
   );
 
   useEffect(() => {
-    handleOutcomo(id);
-  }, [id, handleOutcomo]);
+    handleOutcome(id);
+  }, [id, handleOutcome]);
 
   return (
     <div className={classes.root}>
