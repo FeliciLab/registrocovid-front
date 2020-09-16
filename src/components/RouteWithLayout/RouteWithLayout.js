@@ -24,17 +24,6 @@ const RouteWithLayout = props => {
   } = props;
 
   useEffect(() => {
-    if (!authenticated && isPrivate && !loading) {
-      console.log(authenticated);
-    }
-  }, [authenticated]);
-
-  /** TODO
-   * - Validar Layout
-   * - Verificar Tempo para abrir o Modal - Felipe, creio que essa demora seja devido
-   * estarmos rodando localmente.
-   */
-  useEffect(() => {
     const interval = setInterval(async () => {
       if (!erroLogin && history.location.pathname !== '/sign-in') {
         try {
