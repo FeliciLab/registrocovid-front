@@ -52,6 +52,7 @@ export default function useAuth() {
   function handleLogout() {
     setAuthenticated(false);
     localStorage.removeItem('@RegistroCovid:token');
+    localStorage.removeItem('@RegistroCovid:paciente');
     api.defaults.headers.Authorization = undefined;
     history.push('/sign-in');
   }

@@ -14,22 +14,22 @@ import {
   PersonalHistory as PersonalHistoryView,
   PhysicalExam as PhysicalExamView,
   ComplicationsVM as ComplicationsVMView,
+  Complications as ComplicationsView,
   InitialSymptoms as InitialSymptomsView,
   Comorbidities as ComorbiditiesView,
   PhysicalExamsList as PhysicalExamsListView,
   SupportTreatment as SupportTreatmentView,
   ComplementaryTests as ComplementaryTestsView,
+  Outcome as OutcomeView,
+  RelatedInfections as RelatedInfectionsView,
+  RespiratorySupport as RespiratorySupportView,
 } from './views';
 import PatientIdentification from 'views/PatientIdentification';
 
 const Routes = () => {
   return (
     <Switch>
-      <Redirect
-        exact
-        from="/"
-        to="/meus-pacientes"
-      />
+      <Redirect exact from="/" to="/meus-pacientes" />
       <RouteWithLayout
         component={SignInView}
         exact
@@ -99,6 +99,14 @@ const Routes = () => {
         layout={MainLayout}
         path="/categorias/exame-fisico/:examId"
       />
+
+      <RouteWithLayout
+        component={ComplicationsView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/complicacoes"
+      />
       <RouteWithLayout
         component={ComplicationsVMView}
         exact
@@ -147,6 +155,27 @@ const Routes = () => {
         isPrivate
         layout={MainLayout}
         path="/categorias/exames-complementares/"
+      />
+      <RouteWithLayout
+        component={OutcomeView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/desfecho/"
+      />
+      <RouteWithLayout
+        component={RelatedInfectionsView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/iras/"
+      />
+      <RouteWithLayout
+        component={RespiratorySupportView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/suporte-respiratorio"
       />
       <RouteWithLayout
         component={NotFoundView}

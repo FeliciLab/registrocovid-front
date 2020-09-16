@@ -17,7 +17,7 @@ import {
   Paper,
 } from '@material-ui/core';
 
-import CustonBreadcrumbs from 'components/CustonBreadcrumbs';
+import CustomBreadcrumbs from 'components/CustomBreadcrumbs';
 import PatientInfo from 'components/PatientInfo';
 
 const Categories = () => {
@@ -57,10 +57,10 @@ const Categories = () => {
         label: 'Exame físico (admissão e evolução diária)',
         url: 'categorias/lista-exame-fisico',
       },
-      { 
-        id: 2, 
+      {
+        id: 2,
         label: 'Complicações relacionadas à ventilação mecânica',
-        url: 'categorias/complicacoes-vm' 
+        url: 'categorias/complicacoes-vm',
       },
       {
         id: 3,
@@ -77,10 +77,18 @@ const Categories = () => {
         label: 'Tratamento de Suporte',
         url: 'categorias/tratamento-suporte/',
       },
-      { id: 6, label: 'Complicações' },
-      { id: 7, label: 'Suporte respiratório' },
-      { id: 8, label: 'Infecções relacionadas à assistência à saúde (IRAS)' },
-      { id: 9, label: 'Desfecho' },
+      { id: 6, label: 'Complicações', url: 'categorias/complicacoes/' },
+      {
+        id: 7,
+        label: 'Suporte respiratório',
+        url: 'categorias/suporte-respiratorio',
+      },
+      {
+        id: 8,
+        label: 'Infecções relacionadas à assistência à saúde (IRAS)',
+        url: '/categorias/iras/',
+      },
+      { id: 9, label: 'Desfecho', url: 'categorias/desfecho/' },
     ];
   }, []);
 
@@ -91,7 +99,7 @@ const Categories = () => {
   return (
     <div className={classes.root}>
       <div className={classes.header}>
-        <CustonBreadcrumbs
+        <CustomBreadcrumbs
           links={[
             { label: 'Meus pacientes', route: '/meus-pacientes' },
             { label: 'Categorias', route: '/categorias' },
@@ -110,19 +118,14 @@ const Categories = () => {
         <TableContainer
           component={Paper}
           elevation={2}
-          style={{ marginTop: 10 }}
-        >
+          style={{ marginTop: 10 }}>
           <Table size="small">
             <TableBody>
               {initialForm.map(form => (
                 <TableRow
                   key={form.id}
-                  onClick={() => handleNavigate(form.url)}
-                >
-                  <TableCell
-                    component="th"
-                    scope="row"
-                  >
+                  onClick={() => handleNavigate(form.url)}>
+                  <TableCell component="th" scope="row">
                     {form.label}
                   </TableCell>
                   <TableCell align="right">
@@ -138,29 +141,21 @@ const Categories = () => {
       </div>
 
       <div>
-        <Typography
-          style={{ marginTop: 24 }}
-          variant="h4"
-        >
+        <Typography style={{ marginTop: 24 }} variant="h4">
           Ficha de Prontuário
         </Typography>
 
         <TableContainer
           component={Paper}
           elevation={2}
-          style={{ marginTop: 10 }}
-        >
+          style={{ marginTop: 10 }}>
           <Table size="small">
             <TableBody>
               {secondaryForm.map(form => (
                 <TableRow
                   key={form.id}
-                  onClick={() => handleNavigate(form.url)}
-                >
-                  <TableCell
-                    component="th"
-                    scope="row"
-                  >
+                  onClick={() => handleNavigate(form.url)}>
+                  <TableCell component="th" scope="row">
                     {form.label}
                   </TableCell>
                   <TableCell align="right">

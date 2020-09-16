@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { useAxios } from 'hooks/axios';
 import { usePatient } from 'context/PatientContext';
 import PatientInfo from 'components/PatientInfo';
-import CustonBreadcrumbs from 'components/CustonBreadcrumbs';
+import CustomBreadcrumbs from 'components/CustomBreadcrumbs';
 import formatDate from '../../helpers/formatDate';
 
 // Icons
@@ -14,8 +14,6 @@ import AddIcon from '@material-ui/icons/Add';
 // Material-UI Components
 import {
   Typography,
-  Breadcrumbs,
-  Link as MuiLink,
   Button,
   TableContainer,
   Table,
@@ -52,11 +50,14 @@ const PhysicalExamsList = () => {
   return (
     <div className={classes.root}>
       <div className={classes.header}>
-        <CustonBreadcrumbs
+        <CustomBreadcrumbs
           links={[
             { label: 'Meus pacientes', route: '/meus-pacientes' },
             { label: 'Categorias', route: '/categorias' },
-            { label: 'Lista de evoluções', route: '/categorias/lista-exame-fisico' }
+            {
+              label: 'Lista de evoluções',
+              route: '/categorias/lista-exame-fisico',
+            },
           ]}
         />
       </div>

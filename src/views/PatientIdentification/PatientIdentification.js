@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import CustonBreadcrumbs from 'components/CustonBreadcrumbs';
+import CustomBreadcrumbs from 'components/CustomBreadcrumbs';
 import useStyles from './styles';
 import { Formik, Form, Field } from 'formik';
 import schema from './schema';
@@ -26,7 +26,6 @@ import { usePatient } from 'context/PatientContext';
 import { useToast } from 'hooks/toast';
 
 const PatientIdentification = () => {
-
   const history = useHistory();
 
   const classes = useStyles();
@@ -291,7 +290,7 @@ const PatientIdentification = () => {
   return (
     <div className={classes.root}>
       <div className={classes.header}>
-        <CustonBreadcrumbs
+        <CustomBreadcrumbs
           links={[
             { label: 'Meus pacientes', route: '/meus-pacientes' },
             { label: 'Categorias', route: '/categorias' },
@@ -309,8 +308,7 @@ const PatientIdentification = () => {
           initialValues={initialValues}
           onSubmit={handleSubmit}
           validateOnMount
-          validationSchema={schema}
-        >
+          validationSchema={schema}>
           {({
             values,
             touched,
@@ -323,10 +321,7 @@ const PatientIdentification = () => {
               <div className={classes.titleWrapper}>
                 <Typography variant="h1">Identificação do paciente</Typography>
 
-                <Grid
-                  className={classes.actionSection}
-                  item
-                >
+                <Grid className={classes.actionSection} item>
                   {/* patient info */}
                   <section className={classes.patienteInfo}>
                     <PatientInfo />
@@ -336,26 +331,15 @@ const PatientIdentification = () => {
                     color="secondary"
                     disabled={isSubmitting || values.isPrevSaved}
                     type="submit"
-                    variant="contained"
-                  >
+                    variant="contained">
                     Salvar
                   </Button>
                 </Grid>
               </div>
 
-              <Grid
-                component={Card}
-                container
-                item
-                lg={10}
-                spacing={2}
-              >
+              <Grid component={Card} container item lg={10} spacing={2}>
                 {/* estado_id */}
-                <Grid
-                  item
-                  md={12}
-                  sm={12}
-                >
+                <Grid item md={12} sm={12}>
                   <FormGroup>
                     <FormLabel>
                       <Typography variant="h4">Estado de residência</Typography>
@@ -381,19 +365,12 @@ const PatientIdentification = () => {
                       select
                       type="text"
                       value={values.estado_id}
-                      variant="outlined"
-                    >
-                      <MenuItem
-                        disabled
-                        value={'0'}
-                      >
+                      variant="outlined">
+                      <MenuItem disabled value={'0'}>
                         Selecione um estado...
                       </MenuItem>
                       {estados.map(({ id, nome }) => (
-                        <MenuItem
-                          key={id}
-                          value={id}
-                        >
+                        <MenuItem key={id} value={id}>
                           {nome}
                         </MenuItem>
                       ))}
@@ -402,11 +379,7 @@ const PatientIdentification = () => {
                 </Grid>
 
                 {/* municipio_id */}
-                <Grid
-                  item
-                  md={12}
-                  sm={12}
-                >
+                <Grid item md={12} sm={12}>
                   <FormGroup>
                     <FormLabel>
                       <Typography variant="h4">
@@ -429,21 +402,14 @@ const PatientIdentification = () => {
                       select
                       type="text"
                       value={values.municipio_id}
-                      variant="outlined"
-                    >
-                      <MenuItem
-                        disabled
-                        value="0"
-                      >
+                      variant="outlined">
+                      <MenuItem disabled value="0">
                         Selecione um município...
                       </MenuItem>
 
                       {values.municipios &&
                         values.municipios.map(({ id, nome }) => (
-                          <MenuItem
-                            key={id}
-                            value={id}
-                          >
+                          <MenuItem key={id} value={id}>
                             {nome}
                           </MenuItem>
                         ))}
@@ -452,11 +418,7 @@ const PatientIdentification = () => {
                 </Grid>
 
                 {/* bairro_id */}
-                <Grid
-                  item
-                  md={12}
-                  sm={12}
-                >
+                <Grid item md={12} sm={12}>
                   <FormGroup>
                     <FormLabel>
                       <Typography variant="h4">Bairro de residência</Typography>
@@ -478,19 +440,12 @@ const PatientIdentification = () => {
                       select
                       type="text"
                       value={values.bairro_id}
-                      variant="filled"
-                    >
-                      <MenuItem
-                        disabled
-                        value="0"
-                      >
+                      variant="filled">
+                      <MenuItem disabled value="0">
                         Selecione um bairro...
                       </MenuItem>
                       {bairros.map(({ id, nome }) => (
-                        <MenuItem
-                          key={id}
-                          value={id}
-                        >
+                        <MenuItem key={id} value={id}>
                           {nome}
                         </MenuItem>
                       ))}
@@ -499,11 +454,7 @@ const PatientIdentification = () => {
                 </Grid>
 
                 {/* telefone_de_casa */}
-                <Grid
-                  item
-                  md={6}
-                  sm={12}
-                >
+                <Grid item md={6} sm={12}>
                   <FormGroup>
                     <FormLabel>
                       <Typography variant="h4">Telefone de casa</Typography>
@@ -533,11 +484,7 @@ const PatientIdentification = () => {
                 </Grid>
 
                 {/* telefone_celular */}
-                <Grid
-                  item
-                  md={6}
-                  sm={12}
-                >
+                <Grid item md={6} sm={12}>
                   <FormGroup>
                     <FormLabel>
                       <Typography variant="h4">Telefone celular</Typography>
@@ -567,11 +514,7 @@ const PatientIdentification = () => {
                 </Grid>
 
                 {/* telefone_do_trabalho */}
-                <Grid
-                  item
-                  md={6}
-                  sm={12}
-                >
+                <Grid item md={6} sm={12}>
                   <FormGroup>
                     <FormLabel>
                       <Typography variant="h4">Telefone do trabalho</Typography>
@@ -603,11 +546,7 @@ const PatientIdentification = () => {
                 </Grid>
 
                 {/* telefone_de_vizinho */}
-                <Grid
-                  item
-                  md={6}
-                  sm={12}
-                >
+                <Grid item md={6} sm={12}>
                   <FormGroup>
                     <FormLabel>
                       <Typography variant="h4">Telefone do vizinho</Typography>
@@ -639,11 +578,7 @@ const PatientIdentification = () => {
                 </Grid>
 
                 {/* sexo */}
-                <Grid
-                  item
-                  md={12}
-                  sm={12}
-                >
+                <Grid item md={12} sm={12}>
                   <FormGroup>
                     <FormLabel>
                       <Typography variant="h4">Sexo</Typography>
@@ -661,12 +596,8 @@ const PatientIdentification = () => {
                       select
                       type="text"
                       value={values.sexo}
-                      variant="outlined"
-                    >
-                      <MenuItem
-                        disabled
-                        value={'0'}
-                      >
+                      variant="outlined">
+                      <MenuItem disabled value={'0'}>
                         Selecione um sexo...
                       </MenuItem>
                       <MenuItem value={'F'}>Feminino</MenuItem>
@@ -676,11 +607,7 @@ const PatientIdentification = () => {
                 </Grid>
 
                 {/* data_nascimento */}
-                <Grid
-                  item
-                  md={6}
-                  sm={12}
-                >
+                <Grid item md={6} sm={12}>
                   <FormGroup>
                     <FormLabel>
                       <Typography variant="h4">Data de nascimento</Typography>
@@ -707,11 +634,7 @@ const PatientIdentification = () => {
                 </Grid>
 
                 {/* estado_nascimento_id */}
-                <Grid
-                  item
-                  md={6}
-                  sm={12}
-                >
+                <Grid item md={6} sm={12}>
                   <FormGroup>
                     <FormLabel>
                       <Typography variant="h4">Estado onde nasceu</Typography>
@@ -735,19 +658,12 @@ const PatientIdentification = () => {
                       select
                       type="text"
                       value={values.estado_nascimento_id}
-                      variant="outlined"
-                    >
-                      <MenuItem
-                        disabled
-                        value="0"
-                      >
+                      variant="outlined">
+                      <MenuItem disabled value="0">
                         Selecione um estado...
                       </MenuItem>
                       {estados.map(({ id, nome }) => (
-                        <MenuItem
-                          key={id}
-                          value={id}
-                        >
+                        <MenuItem key={id} value={id}>
                           {nome}
                         </MenuItem>
                       ))}
@@ -756,11 +672,7 @@ const PatientIdentification = () => {
                 </Grid>
 
                 {/* cor_id */}
-                <Grid
-                  item
-                  md={6}
-                  sm={12}
-                >
+                <Grid item md={6} sm={12}>
                   <FormGroup>
                     <FormLabel>
                       <Typography variant="h4">Cor (autoreferida)</Typography>
@@ -770,8 +682,7 @@ const PatientIdentification = () => {
                       className={classes.radioGroup}
                       name="cor_id"
                       onChange={handleChange}
-                      value={values.cor_id}
-                    >
+                      value={values.cor_id}>
                       {cores.map(({ id, nome }) => (
                         <FormControlLabel
                           control={<Radio />}
@@ -785,11 +696,7 @@ const PatientIdentification = () => {
                 </Grid>
 
                 {/* estado_civil_id */}
-                <Grid
-                  item
-                  md={6}
-                  sm={12}
-                >
+                <Grid item md={6} sm={12}>
                   <FormGroup>
                     <FormLabel>
                       <Typography variant="h4">Estado civil</Typography>
@@ -799,8 +706,7 @@ const PatientIdentification = () => {
                       className={classes.radioGroup}
                       name="estado_civil_id"
                       onChange={handleChange}
-                      value={values.estado_civil_id}
-                    >
+                      value={values.estado_civil_id}>
                       {estadosCivis.map(({ id, nome }) => (
                         <FormControlLabel
                           control={<Radio />}
@@ -814,11 +720,7 @@ const PatientIdentification = () => {
                 </Grid>
 
                 {/* escolaridade_id */}
-                <Grid
-                  item
-                  md={6}
-                  sm={12}
-                >
+                <Grid item md={6} sm={12}>
                   <FormGroup>
                     <FormLabel>
                       <Typography variant="h4">Escolaridade</Typography>
@@ -828,8 +730,7 @@ const PatientIdentification = () => {
                       className={classes.radioGroup}
                       name="escolaridade_id"
                       onChange={handleChange}
-                      value={values.escolaridade_id}
-                    >
+                      value={values.escolaridade_id}>
                       {escolaridades.map(({ id, nome }) => (
                         <FormControlLabel
                           control={<Radio />}
@@ -843,11 +744,7 @@ const PatientIdentification = () => {
                 </Grid>
 
                 {/* atividade_profissional_id */}
-                <Grid
-                  item
-                  md={6}
-                  sm={12}
-                >
+                <Grid item md={6} sm={12}>
                   <FormGroup>
                     <FormLabel>
                       <Typography variant="h4">
@@ -860,8 +757,7 @@ const PatientIdentification = () => {
                       className={classes.radioGroup}
                       name="atividade_profissional_id"
                       onChange={handleChange}
-                      value={values.atividade_profissional_id}
-                    >
+                      value={values.atividade_profissional_id}>
                       {atividadesProfissionais.map(({ id, nome }) => (
                         <FormControlLabel
                           control={<Radio />}
@@ -875,11 +771,7 @@ const PatientIdentification = () => {
                 </Grid>
 
                 {/* qtd_pessoas_domicilio */}
-                <Grid
-                  item
-                  md={12}
-                  sm={12}
-                >
+                <Grid item md={12} sm={12}>
                   <FormGroup>
                     <FormLabel>
                       <Typography variant="h4">
@@ -892,8 +784,7 @@ const PatientIdentification = () => {
                       name="qtd_pessoas_domicilio"
                       onChange={handleChange}
                       row
-                      value={values.qtd_pessoas_domicilio}
-                    >
+                      value={values.qtd_pessoas_domicilio}>
                       <FormControlLabel
                         control={<Radio />}
                         label="1"

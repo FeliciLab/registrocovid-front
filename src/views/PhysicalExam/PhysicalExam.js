@@ -1,83 +1,72 @@
-import React, {
-  useState,
-  useCallback,
-  useEffect,
-  useRef,
-} from 'react';
-import { useHistory, useRouteMatch } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { useRouteMatch } from 'react-router-dom';
 
-import {
-  Typography,
-  Button,
-  CircularProgress,
-} from '@material-ui/core';
+import { Typography, Button, CircularProgress } from '@material-ui/core';
 
-import CustonBreadcrumbs from 'components/CustonBreadcrumbs';
+import { getPhysicalExam } from '../../services/physicalExam';
+import CustomBreadcrumbs from 'components/CustomBreadcrumbs';
 import PatientInfo from 'components/PatientInfo';
 import Form from './components/Form';
 
 import { useToast } from 'hooks/toast';
 import { usePatient } from 'context/PatientContext';
 
-import api from 'services/api';
-
 import useStyles from './styles';
 
 const PhysicalExam = () => {
   const classes = useStyles();
-  const history = useHistory();
   const { params } = useRouteMatch();
   const { addToast } = useToast();
   const { patient } = usePatient();
-
+  const [loading, setLoading] = useState(true);
   const formRef = useRef(null);
-  const buttonDisabled = useRef(false);
-
-  const [loading, setLoading] = useState(false);
   const [physicalExam, setPhysicalExam] = useState({});
-
-  const handleInfos = useCallback(async () => {
-    try {
-      setLoading(true);
-
-      const response = await api.get(`/pacientes/${patient.id}/evolucoes-diarias/${params.examId}`);
-
-      if (response.status === 200) {
-        setPhysicalExam(response.data);
-        buttonDisabled.current = true;
-      }
-    } catch (err) {
-      if (err.response.status === 404) {
-        return null;
-      }
-
-      addToast({
-        type: 'error',
-        message: 'Erro ao tentar carregar informações, tente novamente',
-      });
-
-      history.goBack();
-    } finally {
-      setLoading(false);
-    }
-  }, [addToast, history, patient.id, params.examId]);
+  const [disableButton, setDisableButton] = useState(true);
 
   useEffect(() => {
-    handleInfos();
-  }, [handleInfos]);
+    if (patient.id && params.examId) {
+      getPhysicalExam(patient.id, params.examId)
+        .then(response => {
+          setPhysicalExam(response.data);
+        })
+        .catch(err => {
+          addToast({
+            type: 'error',
+            message: err.message,
+          });
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    } else {
+      setLoading(false);
+    }
+  }, [addToast, params.examId, patient.id]);
 
   const handleSubmit = () => {
     formRef.current.submit();
-  }
+  };
+
+  const hasExam = Object.entries(physicalExam).length !== 0;
+  const shouldDisableButton = disable => {
+    setDisableButton(disable);
+  };
+
+  useEffect(() => {
+    setDisableButton(loading || hasExam);
+  }, [loading, hasExam]);
 
   return (
     <div className={classes.root}>
       <div className={classes.header}>
-        <CustonBreadcrumbs
+        <CustomBreadcrumbs
           links={[
             { label: 'Meus pacientes', route: '/meus-pacientes' },
             { label: 'Categorias', route: '/categorias' },
-            { label: 'Lista de evoluções', route: '/categorias/lista-exame-fisico' },
+            {
+              label: 'Lista de evoluções',
+              route: '/categorias/lista-exame-fisico',
+            },
             { label: 'Exame Físico', route: '/categorias/exame-fisico' },
           ]}
         />
@@ -86,25 +75,25 @@ const PhysicalExam = () => {
       <div>
         <div className={classes.titleWrapper}>
           <Typography variant="h1">Exame Físico</Typography>
-
           <div className={classes.rightContent}>
             <PatientInfo />
-
             <Button
               className={classes.buttonSave}
               color="secondary"
-              disabled={buttonDisabled.current}
+              disabled={disableButton}
               onClick={handleSubmit}
               type="submit"
-              variant="contained"
-            >
+              variant="contained">
               Salvar
             </Button>
           </div>
         </div>
 
-        {loading ? <CircularProgress /> : (
+        {loading ? (
+          <CircularProgress />
+        ) : (
           <Form
+            shouldDisableButton={shouldDisableButton}
             physicalExam={physicalExam}
             ref={formRef}
           />
@@ -112,6 +101,6 @@ const PhysicalExam = () => {
       </div>
     </div>
   );
-}
+};
 
 export default PhysicalExam;

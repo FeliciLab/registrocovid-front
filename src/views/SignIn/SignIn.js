@@ -51,7 +51,7 @@ const SignIn = props => {
       cpf: values.cpf,
       password: values.password,
     };
-
+    
     // sanitizando o cpf
     user.cpf = user.cpf.split('.').join('');
     user.cpf = user.cpf.split('-').join('');

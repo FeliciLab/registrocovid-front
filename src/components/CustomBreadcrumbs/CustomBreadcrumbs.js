@@ -2,15 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import {
-  Link as MuiLink,
-  Breadcrumbs,
-} from '@material-ui/core';
+import { Link as MuiLink, Breadcrumbs } from '@material-ui/core';
 
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 
-const CustonBreadcrumbs = props => {
-
+const CustomBreadcrumbs = props => {
   const { links } = props;
 
   return (
@@ -28,17 +24,17 @@ const CustonBreadcrumbs = props => {
           {link.label}
         </MuiLink>
       ))}
-    </Breadcrumbs >
+    </Breadcrumbs>
   );
-}
+};
 
-CustonBreadcrumbs.propTypes = {
+CustomBreadcrumbs.propTypes = {
   links: PropTypes.arrayOf(
     PropTypes.exact({
       label: PropTypes.string.isRequired,
-      route: PropTypes.string.isRequired
-    })
-  ).isRequired
+      route: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
 };
 
-export default CustonBreadcrumbs;
+export default CustomBreadcrumbs;

@@ -1,20 +1,25 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import { AppBar, Toolbar, Badge, Hidden, IconButton, Typography } from '@material-ui/core';
+import {
+  AppBar,
+  Toolbar,
+  Hidden,
+  IconButton,
+  Typography,
+} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
-import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
 import InputIcon from '@material-ui/icons/Input';
 import useAuth from 'context/hooks/useAuth';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    boxShadow: 'none'
+    boxShadow: 'none',
   },
   flexGrow: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   signOutButton: {
     marginLeft: theme.spacing(1),
@@ -24,8 +29,8 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
   },
   logoImg: {
-    marginRight: theme.spacing(1)
-  }
+    marginRight: theme.spacing(1),
+  },
 }));
 
 const Topbar = props => {
@@ -34,8 +39,6 @@ const Topbar = props => {
   const classes = useStyles();
 
   const { handleLogout } = useAuth();
-
-  const [notifications] = useState([]);
 
   return (
     <AppBar
@@ -61,15 +64,6 @@ const Topbar = props => {
         </RouterLink>
         <div className={classes.flexGrow} />
         <Hidden mdDown>
-          <IconButton color="inherit">
-            <Badge
-              badgeContent={notifications.length}
-              color="primary"
-              variant="dot"
-            >
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
           <IconButton
             className={classes.signOutButton}
             color="inherit"
@@ -87,13 +81,13 @@ const Topbar = props => {
           </IconButton>
         </Hidden>
       </Toolbar>
-    </AppBar >
+    </AppBar>
   );
 };
 
 Topbar.propTypes = {
   className: PropTypes.string,
-  onSidebarOpen: PropTypes.func
+  onSidebarOpen: PropTypes.func,
 };
 
 export default Topbar;
