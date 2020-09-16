@@ -12,13 +12,15 @@ const CustomBreadcrumbs = props => {
   return (
     <Breadcrumbs
       aria-label="breadcrumb"
-      separator={<NavigateNextIcon fontSize="small" />}>
+      separator={<NavigateNextIcon fontSize="small" />}
+    >
       {links.map((link, index) => (
         <MuiLink
           color={links.length === index + 1 ? 'textPrimary' : 'inherit'}
           component={Link}
           key={index}
-          to={link.route}>
+          to={link.route}
+        >
           {link.label}
         </MuiLink>
       ))}

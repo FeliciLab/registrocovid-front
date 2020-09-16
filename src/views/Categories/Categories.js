@@ -88,7 +88,7 @@ const Categories = () => {
         label: 'Infecções relacionadas à assistência à saúde (IRAS)',
         url: '/categorias/iras/',
       },
-      { id: 9, label: 'Desfecho' },
+      { id: 9, label: 'Desfecho', url: 'categorias/desfecho/' },
     ];
   }, []);
 
