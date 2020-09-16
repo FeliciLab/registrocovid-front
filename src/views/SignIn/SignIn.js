@@ -7,6 +7,7 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import InfoIcon from '@material-ui/icons/Info';
 import { Formik, Form, Field } from 'formik';
+import { useUser } from '../../context/UserContext';
 import { Context } from '../../context/AuthContext';
 import {
   Grid,
@@ -29,13 +30,15 @@ const schema = Yup.object().shape({
     .required('Campo obrigatório'),
 });
 
-const SignIn = () => {
+const SignIn = props => {
   // const { history } = props;
+  const { isModal } = props;
 
   const classes = useStyles();
 
   // Contexto de autenticação.
   const { handleLogin, erroLogin } = useContext(Context);
+  const useProfile = useUser();
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -48,10 +51,15 @@ const SignIn = () => {
       cpf: values.cpf,
       password: values.password,
     };
+    
     // sanitizando o cpf
     user.cpf = user.cpf.split('.').join('');
     user.cpf = user.cpf.split('-').join('');
-    handleLogin(user);
+
+    if (isModal) user.isModal = true;
+    handleLogin(user).then(() => {
+      useProfile.mountProfile();
+    });
   };
 
   return (

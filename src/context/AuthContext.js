@@ -11,12 +11,13 @@ function AuthProvider({ children }) {
     authenticated,
     handleLogin,
     handleLogout,
+    setErroLogin,
     erroLogin,
   } = useAuth();
 
   return (
     <Context.Provider
-      value={{ loading, authenticated, handleLogin, handleLogout, erroLogin }}
+      value={{ loading, authenticated, handleLogin, handleLogout, erroLogin, setErroLogin }}
     >
       {children}
     </Context.Provider>
