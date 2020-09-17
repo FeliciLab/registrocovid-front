@@ -17,10 +17,10 @@ import {
 } from '@material-ui/core';
 
 import { usePatient } from 'context/PatientContext';
-import formatDate from '../../helpers/formatDate';
 
 import { useAxios } from 'hooks/axios';
 import { CustomBreadcrumbs } from 'components';
+import { Patient } from 'model/Patient';
 
 const ListPatients = () => {
   const { addPatient } = usePatient();
@@ -31,17 +31,11 @@ const ListPatients = () => {
 
   const { data } = useAxios('/pacientes', {
     transformResponse: [
-      data => {
-        const patienteRow = JSON.parse(data);
+      response => {
+        const patientsAPI = JSON.parse(response);
 
-        return patienteRow.map(paciente => {
-          paciente = {
-            ...paciente,
-            data_internacao: paciente.data_internacao,
-            created_at: formatDate(paciente.created_at)
-          }
-
-          return paciente;
+        return patientsAPI.map(paciente => {
+          return Patient.fromAPI(paciente);
         });
       }
     ],

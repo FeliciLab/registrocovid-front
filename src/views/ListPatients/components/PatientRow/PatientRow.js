@@ -42,7 +42,7 @@ const PatientRow = props => {
 
 PatientRow.propTypes = {
   className: PropTypes.string,
-  patient: PropTypes.exact({
+    patient: PropTypes.shape({
     id: PropTypes.number,
     prontuario: PropTypes.string,
     data_internacao: PropTypes.string,
