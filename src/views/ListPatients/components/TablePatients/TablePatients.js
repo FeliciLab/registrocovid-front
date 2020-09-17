@@ -55,7 +55,7 @@ const TablePatients = props => {
 TablePatients.propTypes = {
   className: PropTypes.string,
   patients: PropTypes.arrayOf(
-    PropTypes.exact({
+    PropTypes.shape({
       id: PropTypes.number,
       prontuario: PropTypes.string,
       data_internacao: PropTypes.string,
