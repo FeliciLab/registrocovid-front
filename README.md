@@ -15,6 +15,7 @@ Interface para gerenciamento dos dados do registroCOVID.
 - [JSON Server](https://github.com/typicode/json-server): Get a full fake REST API with zero coding in less than 30 seconds (seriously). **Usamos essa api para testes**.
 - [Jest](https://jestjs.io/en/): Framework para testes em Javascript.
 - [Testing Library](https://testing-library.com/): Biblioteca de utilitários para teste que encorajam boas práticas.
+- [cypress](https://www.cypress.io/): ferramenta para testes e2e.
 - **TODO:** Continuar colocando aqui as outras libs usadas.
 
 ## Servidor de desenvolvimento 🚀🚀
@@ -59,4 +60,22 @@ Para rodar os testes uma única vez
 
 ```BASH
 npm test:nowatch
+```
+
+## Rodando testes e2e localmente
+
+### Prerequisito
+
+É preciso subir toda a stack da aplicação como explicado acima para desenvolvimento. Ou seja, daqui em diante é preciso que o frontend esteja rodando na porta 3000 e o backend esteja rodando com docker na porta 7000. Não é preciso cadastrar usuária.
+
+### Para executar os testes vendo os passos no browser
+
+```BASH
+npm run cypress:open
+```
+
+### Para executar os testes direto do terminal
+
+```BASH
+npm run cypress:run
 ```
