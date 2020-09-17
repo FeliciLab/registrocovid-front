@@ -221,7 +221,7 @@ const Comorbidities = () => {
             'Ocorreu um erro ao carregar suas informações, por favor tente novamente.',
         });
       });
-  }, []);
+  }, [addToast, allDoencas, fetchDoencasAPI, patient, tiposDoenca]);
 
   const handleSubmit = async () => {
     if (visualization) {

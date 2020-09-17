@@ -71,7 +71,7 @@ function SupportTreatment() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [addToast, history]);
 
   const handleSubmit = useCallback(
     async values => {
