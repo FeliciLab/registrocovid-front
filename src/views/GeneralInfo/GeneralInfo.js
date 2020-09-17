@@ -42,7 +42,7 @@ const schema = Yup.object().shape({
 
 const GeneralInfo = () => {
   const { addToast } = useToast();
-  const { addPatient } = usePatient();
+  const { patient, addPatient } = usePatient();
   const history = useHistory();
   const classes = useStyles();
 
@@ -112,12 +112,26 @@ const GeneralInfo = () => {
         created_at: formatDate(response.data.paciente.created_at),
       };
 
+      const complementaryResponsePatient = {
+        ...responsePatient,
+
+        data_internacao: values.data_internacao,
+        suporte_respiratorio: values.suporte_respiratorio,
+        reinternacao: values.reinternacao,
+
+        instituicao_primeiro_atendimento: { id: values.unidade_primeiro_atendimento },
+        instituicao_referencia: { id: values.unidade_de_saude },
+        data_atendimento_referencia: values.data_atendimento,
+        tipo_suporte_respiratorios: [{ id: values.tipo_suport_respiratorio }],
+      }
+
       addToast({
         type: 'success',
         message: 'Dados salvos com sucesso',
       });
 
-      addPatient(responsePatient);
+      addPatient(complementaryResponsePatient);
+
       history.push('/categorias');
     } catch (err) {
       if (err.response.data.message === 'The given data was invalid.') {
@@ -133,6 +147,35 @@ const GeneralInfo = () => {
       }
     }
   };
+
+  const loadInitialValues = () => {
+    let initialValues = {
+      prontuario: '',
+      data_internacao: '',
+      unidade_primeiro_atendimento: '',
+      unidade_de_saude: '',
+      data_atendimento: '',
+      suporte_respiratorio: false,
+      tipo_suport_respiratorio: '',
+      reinternacao: false,
+    };
+
+    if (patient && patient.prontuario) {
+        initialValues = {
+          prontuario: patient.prontuario,
+          data_internacao: patient.data_internacao,
+          suporte_respiratorio: patient.suporte_respiratorio,
+          reinternacao: patient.reinternacao,
+
+          unidade_primeiro_atendimento: patient.instituicao_primeiro_atendimento.id,
+          unidade_de_saude: patient.instituicao_referencia.id,
+          data_atendimento: patient.data_atendimento_referencia,
+          tipo_suport_respiratorio: patient.tipo_suporte_respiratorios[0].id,
+        }
+    }
+
+    return initialValues;
+  }
 
   return (
     <div className={classes.root}>
@@ -151,16 +194,7 @@ const GeneralInfo = () => {
 
       <div className={classes.formWrapper}>
         <Formik
-          initialValues={{
-            prontuario: '',
-            data_internacao: '',
-            unidade_primeiro_atendimento: '',
-            unidade_de_saude: '',
-            data_atendimento: '',
-            suporte_respiratorio: false,
-            tipo_suport_respiratorio: '',
-            reinternacao: false,
-          }}
+          initialValues={loadInitialValues()}
           onSubmit={handleSubmit}
           validateOnMount
           validationSchema={schema}>
@@ -172,7 +206,7 @@ const GeneralInfo = () => {
                 <Button
                   className={classes.buttonSave}
                   color="secondary"
-                  disable={isSubmitting}
+                  disabled={!!patient.prontuario || isSubmitting}
                   type="submit"
                   variant="contained">
                   Salvar
