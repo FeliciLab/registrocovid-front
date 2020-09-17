@@ -36,6 +36,7 @@ import { usePatient } from 'context/PatientContext';
 import api from 'services/api';
 
 import useStyles from './styles';
+import { UnfoldLess } from '@material-ui/icons';
 
 const PersonalHistory = () => {
   const classes = useStyles();
@@ -153,12 +154,26 @@ const Form = forwardRef((props, ref) => {
 
   const handleSubmit = async values => {
     try {
-      const historico = {
-        situacao_uso_drogas_id: Number(values.situacao_uso_drogas_id),
-        drogas: values.drogas,
-        tabagismo: values.tabagismo === 'true' ? true : false,
-        etilismo: values.etilismo === 'true' ? true : false,
-      };
+      console.log(values);
+      const historico = {};
+      values.situacao_uso_drogas_id
+        ? (historico.situacao_uso_drogas_id = Number(
+            values.situacao_uso_drogas_id,
+          ))
+        : (historico.situacao_uso_drogas_id = undefined);
+      values.drogas
+        ? (historico.drogas = values.drogas)
+        : (historico.drogas = undefined);
+      values.tabagismo
+        ? values.tabagismo === 'true'
+          ? (historico.tabagismo = true)
+          : (historico.tabagismo = false)
+        : (historico.tabagismo = undefined);
+      values.etilismo
+        ? values.etilismo === 'true'
+          ? (historico.vetilismo = true)
+          : (historico.etilismo = false)
+        : (historico.etilismo = undefined);
 
       await api.post(`/pacientes/${patient.id}/historico`, historico);
 
@@ -167,7 +182,8 @@ const Form = forwardRef((props, ref) => {
         message: 'Dados salvos com sucesso',
       });
       history.push('/categorias');
-    } catch {
+    } catch (err) {
+      console.log(err);
       addToast({
         type: 'error',
         message: 'Erro ao tentar registrar história pessoal, tente novamente',
@@ -177,10 +193,10 @@ const Form = forwardRef((props, ref) => {
 
   const formik = useFormik({
     initialValues: {
-      tabagismo: String(patientHistory.tabagismo) ?? undefined,
-      situacao_uso_drogas_id: String(patientHistory.situacao_uso_drogas_id),
+      tabagismo: patientHistory.tabagismo ?? '',
+      situacao_uso_drogas_id: patientHistory.situacao_uso_drogas_id,
       drogas: patientHistory.drogas?.map(droga => droga.id),
-      etilismo: String(patientHistory.etilismo) ?? undefined,
+      etilismo: patientHistory.etilismo ?? '',
     },
     onSubmit: handleSubmit,
   });
@@ -198,146 +214,159 @@ const Form = forwardRef((props, ref) => {
   return (
     <form onSubmit={formik.handleSubmit}>
       <div className={classes.formContainer}>
-        <Grid container item lg={8} spacing={2}>
-          <Card className={classes.form}>
-            <CardInfo
-              items={[
-                {
-                  label: 'Fumante Diário:',
-                  description: '1 cigarro ao dia por no mínimo 1 mês',
-                },
-                {
-                  label: 'Fumante ocasional:',
-                  description: 'menos de 1 cigarro por dia por no mínimo 1 mês',
-                },
-                {
-                  label: 'Ex-fumante:',
-                  description: 'parou de fumar há pelo menos 1 mês',
-                },
-                {
-                  label: 'Não fumante:',
-                  description: 'nunca fumaram ou fumam há menos de 1 mês',
-                },
-              ]}
-              title="Classificação do tabagismo segundo OMS:"
-            />
+        <Card className={classes.form}>
+          <Grid container spacing={2}>
+            <Grid item md={12}>
+              <CardInfo
+                items={[
+                  {
+                    label: 'Fumante Diário:',
+                    description: '1 cigarro ao dia por no mínimo 1 mês',
+                  },
+                  {
+                    label: 'Fumante ocasional:',
+                    description:
+                      'menos de 1 cigarro por dia por no mínimo 1 mês',
+                  },
+                  {
+                    label: 'Ex-fumante:',
+                    description: 'parou de fumar há pelo menos 1 mês',
+                  },
+                  {
+                    label: 'Não fumante:',
+                    description: 'nunca fumaram ou fumam há menos de 1 mês',
+                  },
+                ]}
+                title="Classificação do tabagismo segundo OMS:"
+              />
+            </Grid>
+            <Grid item md={12}>
+              <FormControl className={classes.formGroup} component="fieldset">
+                <FormLabel>
+                  <Typography variant="h4">Tabagismo</Typography>
+                </FormLabel>
 
-            <FormControl className={classes.formGroup} component="fieldset">
-              <FormLabel>
-                <Typography variant="h4">Tabagismo</Typography>
-              </FormLabel>
-
-              <RadioGroup name="tabagismo" value={formik.values.tabagismo}>
-                <FormControlLabel
-                  control={
-                    <Radio onChange={formik.handleChange} value="true" />
-                  }
-                  label="Sim"
-                />
-                <FormControlLabel
-                  control={
-                    <Radio onChange={formik.handleChange} value="false" />
-                  }
-                  label="Não"
-                />
-              </RadioGroup>
-            </FormControl>
-
-            <FormControl className={classes.formGroup} component="fieldset">
-              <FormLabel>
-                <Typography variant="h4">
-                  Em relação ao uso de drogas ilícitas, em que opção você se
-                  enquadra?
-                </Typography>
-              </FormLabel>
-
-              <RadioGroup
-                name="situacao_uso_drogas_id"
-                value={formik.values.situacao_uso_drogas_id}>
-                {usoDrogas.map(item => (
+                <RadioGroup name="tabagismo" value={formik.values.tabagismo}>
                   <FormControlLabel
                     control={
-                      <Radio
-                        onChange={formik.handleChange}
-                        value={String(item.id)}
-                      />
+                      <Radio onChange={formik.handleChange} value="true" />
                     }
-                    key={String(item.id)}
-                    label={item.descricao}
+                    label="Sim"
                   />
-                ))}
-              </RadioGroup>
-            </FormControl>
-
-            <FormControl className={classes.formGroup} component="fieldset">
-              <FormLabel>
-                <Typography variant="h4">
-                  Em caso de uso de drogas (atual ou ex-usuário), descrever
-                  quais drogas
-                </Typography>
-              </FormLabel>
-
-              <FormGroup name="drogas" value={formik.values.drogas}>
-                {drogas.map(item => (
                   <FormControlLabel
                     control={
-                      <Checkbox
-                        checked={formik.initialValues.drogas?.includes(item.id)}
-                        onChange={formik.handleChange}
-                        value={item.id}
-                      />
+                      <Radio onChange={formik.handleChange} value="false" />
                     }
-                    key={String(item.id)}
-                    label={item.descricao}
-                    name="drogas"
+                    label="Não"
                   />
-                ))}
-              </FormGroup>
-            </FormControl>
+                </RadioGroup>
+              </FormControl>
+            </Grid>
 
-            <CardInfo
-              items={[
-                {
-                  label: 'Etilista:',
-                  description:
-                    'consumo de pelo menos 1 unidade (ver abaixo) de qualquer bebida alcoólica por dia no último ano',
-                },
-                {
-                  label: 'Ex-etilista:',
-                  description:
-                    'já consumiu bebida alcoólica, mas parou de consumir no último ano',
-                },
-                {
-                  label: 'Não etilista:',
-                  description:
-                    'nunca consumiu bebida alcoólica na frequência de etilista',
-                },
-              ]}
-              title="Classificação do etilismo segundo OMS:"
-            />
+            <Grid item md={12}>
+              <FormControl className={classes.formGroup} component="fieldset">
+                <FormLabel>
+                  <Typography variant="h4">
+                    Em relação ao uso de drogas ilícitas, em que opção você se
+                    enquadra?
+                  </Typography>
+                </FormLabel>
 
-            <FormControl className={classes.formGroup} component="fieldset">
-              <FormLabel>
-                <Typography variant="h4">Etilismo</Typography>
-              </FormLabel>
+                <RadioGroup
+                  name="situacao_uso_drogas_id"
+                  value={formik.values.situacao_uso_drogas_id}>
+                  {usoDrogas.map(item => (
+                    <FormControlLabel
+                      control={
+                        <Radio
+                          onChange={formik.handleChange}
+                          value={String(item.id)}
+                        />
+                      }
+                      key={String(item.id)}
+                      label={item.descricao}
+                    />
+                  ))}
+                </RadioGroup>
+              </FormControl>
+            </Grid>
 
-              <RadioGroup name="etilismo" value={formik.values.etilismo}>
-                <FormControlLabel
-                  control={
-                    <Radio onChange={formik.handleChange} value="true" />
-                  }
-                  label="Etilista / Ex- etilista"
-                />
-                <FormControlLabel
-                  control={
-                    <Radio onChange={formik.handleChange} value="false" />
-                  }
-                  label="Não etilista"
-                />
-              </RadioGroup>
-            </FormControl>
-          </Card>
-        </Grid>
+            <Grid item md={12}>
+              <FormControl className={classes.formGroup} component="fieldset">
+                <FormLabel>
+                  <Typography variant="h4">
+                    Em caso de uso de drogas (atual ou ex-usuário), descrever
+                    quais drogas
+                  </Typography>
+                </FormLabel>
+
+                <FormGroup name="drogas" value={formik.values.drogas}>
+                  {drogas.map(item => (
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={formik.initialValues.drogas?.includes(
+                            item.id,
+                          )}
+                          onChange={formik.handleChange}
+                          value={item.id}
+                        />
+                      }
+                      key={String(item.id)}
+                      label={item.descricao}
+                      name="drogas"
+                    />
+                  ))}
+                </FormGroup>
+              </FormControl>
+            </Grid>
+
+            <Grid item md={12}>
+              <CardInfo
+                items={[
+                  {
+                    label: 'Etilista:',
+                    description:
+                      'consumo de pelo menos 1 unidade (ver abaixo) de qualquer bebida alcoólica por dia no último ano',
+                  },
+                  {
+                    label: 'Ex-etilista:',
+                    description:
+                      'já consumiu bebida alcoólica, mas parou de consumir no último ano',
+                  },
+                  {
+                    label: 'Não etilista:',
+                    description:
+                      'nunca consumiu bebida alcoólica na frequência de etilista',
+                  },
+                ]}
+                title="Classificação do etilismo segundo OMS:"
+              />
+            </Grid>
+            <Grid item md={12}>
+              <FormControl className={classes.formGroup} component="fieldset">
+                <FormLabel>
+                  <Typography variant="h4">Etilismo</Typography>
+                </FormLabel>
+
+                <RadioGroup name="etilismo" value={formik.values.etilismo}>
+                  <FormControlLabel
+                    control={
+                      <Radio onChange={formik.handleChange} value="true" />
+                    }
+                    label="Etilista / Ex- etilista"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Radio onChange={formik.handleChange} value="false" />
+                    }
+                    label="Não etilista"
+                  />
+                </RadioGroup>
+              </FormControl>
+            </Grid>
+          </Grid>
+        </Card>
       </div>
     </form>
   );
