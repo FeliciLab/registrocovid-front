@@ -106,18 +106,19 @@ const Comorbidities = () => {
         });
       });
 
-    api
-      .get('/corticosteroides')
-      .then(response => {
-        setAllCorticosteroides(response.data);
-      })
-      .catch(() => {
-        addToast({
-          type: 'error',
-          message:
-            'Ocorreu um erro ao carregar os corticosteroides, por favor tente novamente.',
-        });
-      });
+    // TODO: remover esse código que está duplicado
+    // api
+    //   .get('/corticosteroides')
+    //   .then(response => {
+    //     setAllCorticosteroides(response.data);
+    //   })
+    //   .catch(() => {
+    //     addToast({
+    //       type: 'error',
+    //       message:
+    //         'Ocorreu um erro ao carregar os corticosteroides, por favor tente novamente.',
+    //     });
+    //   });
 
     api
       .get('/corticosteroides')
@@ -452,12 +453,14 @@ const Comorbidities = () => {
                     </MenuItem>
                   ))}
                 </TextField>
+                {/* Campo de adicionar só pode estar habilitado quando o
+                    coletador selecionar uma doença. */}
                 <Button
                   className={classes.buttonAdd}
                   color="secondary"
-                  disabled={visualization}
+                  disabled={visualization || !selectedField.id}
                   onClick={() => {
-                    if (visualization) {
+                    if (visualization || !selectedField.id) {
                       return;
                     }
 
@@ -723,7 +726,7 @@ const Comorbidities = () => {
                 color="secondary"
                 disabled={visualization}
                 onClick={() => {
-                  if (visualization) {
+                  if (visualization || outraCondicao === '') {
                     return;
                   }
 
@@ -784,7 +787,7 @@ const Comorbidities = () => {
                 color="secondary"
                 disabled={visualization}
                 onClick={() => {
-                  if (visualization) {
+                  if (visualization || medicacao === '') {
                     return;
                   }
 
