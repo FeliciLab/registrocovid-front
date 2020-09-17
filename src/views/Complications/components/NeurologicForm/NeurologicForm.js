@@ -20,14 +20,25 @@ const NeurologicForm = ({ index, remove }) => {
   const { values, handleChange, errors, touched } = useFormikContext();
 
   return (
-    <Grid className={classes.root} component={Card} item>
+    <Grid
+      className={classes.root}
+      component={Card}
+      item
+    >
       <FormLabel className={classes.formLabel}>
         <Typography variant="h3">Complicação neurológica</Typography>
-        <IconButton aria-label="delete" onClick={() => remove(index)}>
+        <IconButton
+          aria-label="delete"
+          onClick={() => remove(index)}
+        >
           <DeleteIcon fontSize="small" />
         </IconButton>
       </FormLabel>
-      <Grid className={classes.fieldFormNeurologicFlex} item xs={12}>
+      <Grid
+        className={classes.fieldFormNeurologicFlex}
+        item
+        xs={12}
+      >
         <FormGroup className={classes.neurologicFormGroup}>
           <FormLabel>
             <Typography variant="h4">
@@ -40,12 +51,6 @@ const NeurologicForm = ({ index, remove }) => {
             }}
             as={TextField}
             className={classes.textField}
-            name={`newsComplicacoes[${index}].descricao`}
-            onChange={handleChange}
-            value={values.newsComplicacoes[index].descricao}
-            type="text"
-            variant="outlined"
-            placeholder="Local de complicação"
             error={
               errors.newsComplicacoes && touched.newsComplicacoes
                 ? !!errors.newsComplicacoes[index]?.descricao
@@ -58,10 +63,20 @@ const NeurologicForm = ({ index, remove }) => {
                 ? errors.newsComplicacoes[index]?.descricao
                 : ''
             }
+            name={`newsComplicacoes[${index}].descricao`}
+            onChange={handleChange}
+            placeholder="Local de complicação"
+            type="text"
+            value={values.newsComplicacoes[index].descricao}
+            variant="outlined"
           />
         </FormGroup>
       </Grid>
-      <Grid className={classes.fieldFormNeurologicFlex} item xs={12}>
+      <Grid
+        className={classes.fieldFormNeurologicFlex}
+        item
+        xs={12}
+      >
         <FormGroup className={classes.neurologicFormGroup}>
           <FormLabel>
             <Typography variant="h4">Ocorrência</Typography>
@@ -72,10 +87,6 @@ const NeurologicForm = ({ index, remove }) => {
             }}
             as={TextField}
             className={classes.dateField}
-            name={`newsComplicacoes[${index}].data`}
-            onChange={handleChange}
-            value={values.newsComplicacoes[index].data}
-            type="date"
             error={
               errors.newsComplicacoes && touched.newsComplicacoes
                 ? !!errors.newsComplicacoes[index]?.data
@@ -88,6 +99,10 @@ const NeurologicForm = ({ index, remove }) => {
                 ? errors.newsComplicacoes[index]?.data
                 : ''
             }
+            name={`newsComplicacoes[${index}].data`}
+            onChange={handleChange}
+            type="date"
+            value={values.newsComplicacoes[index].data}
           />
         </FormGroup>
       </Grid>
