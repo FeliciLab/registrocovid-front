@@ -29,13 +29,14 @@ const RouteWithLayout = props => {
         try {
           await api.get('/profile');
         } catch (error) {
-          if (error.response?.status == 401) {
+          if (error.response?.status === 401) {
             setErroLogin(true);
           }
         }
       }
     }, 60 * 1000);
     return () => clearInterval(interval);
+    // eslint-disable-next-line
   }, [erroLogin]);
 
   if (isPrivate && !authenticated && !loading) {
@@ -68,9 +69,9 @@ const RouteWithLayout = props => {
 
 RouteWithLayout.propTypes = {
   component: PropTypes.any.isRequired,
+  isPrivate: PropTypes.bool,
   layout: PropTypes.any.isRequired,
   path: PropTypes.string,
-  isPrivate: PropTypes.bool,
 };
 
 export default RouteWithLayout;
