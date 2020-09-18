@@ -55,6 +55,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
+    justifyContent: 'center',
   },
   image: {
     display: 'flex',
@@ -65,6 +66,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center',
     marginRight: 100,
+    marginLeft: 100,
   },
   viewForm: {
     display: 'flex',
