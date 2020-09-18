@@ -17,8 +17,6 @@ const OutrasDoencasItem = props => {
     return null;
   }
 
-  console.log(doencas);
-
   return (
     <Paper style={{ padding: 10, marginBottom: 20 }}>
       <div
