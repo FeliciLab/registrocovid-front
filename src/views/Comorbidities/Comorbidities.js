@@ -29,6 +29,7 @@ import { usePatient } from 'context/PatientContext';
 import { useToast } from 'hooks/toast';
 
 import CheckBoxCard from './CheckBoxCard';
+import OutrasDoencasItem from './OutrasDoencasItem';
 
 const Comorbidities = () => {
   const classes = useStyles();
@@ -476,6 +477,16 @@ const Comorbidities = () => {
               </div>
             </div>
           )}
+
+          {/* TODO: mexendo aqui */}
+
+          {doencasFromUser.map(doenca => (
+            <OutrasDoencasItem
+              doenca={doenca}
+              key={doenca.id}
+            />
+          ))}
+
 
           {cards.map(card => (
             <CardComorbirdades
