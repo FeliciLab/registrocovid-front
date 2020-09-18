@@ -478,23 +478,28 @@ const Comorbidities = () => {
             </div>
           )}
 
-          {/* TODO: mexendo aqui */}
+          {tiposDoenca.map(tipo => {
+            const doencasList = doencasFromUser.filter(
+              doenca => doenca.tipo_doenca_id === tipo.id,
+            );
+            return (
+              <OutrasDoencasItem
+                // filtra aqui todas as doencas de um tipo
+                allDoencas={allDoencas.filter(doenca => doenca.tipo_doenca_id === tipo.id)}
+                doencas={doencasList}
+                key={tipo.id}
+                tipoDoenca={tipo}
+              />
+            );
+          })}
 
-          {doencasFromUser.map(doenca => (
-            <OutrasDoencasItem
-              doenca={doenca}
-              key={doenca.id}
-            />
-          ))}
-
-
-          {cards.map(card => (
+          {!(doencasFromUser.length > 0) ? cards.map(card => (
             <CardComorbirdades
               card={card}
               doencasFromUser={doencasFromUser}
               key={card.id}
             />
-          ))}
+          )) : null}
 
           <FormGroup
             className={classes.control}
