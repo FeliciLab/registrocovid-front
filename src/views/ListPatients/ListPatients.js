@@ -83,7 +83,8 @@ const ListPatients = () => {
               color="secondary"
               onClick={handleNavigation}
               startIcon={<AddIcon />}
-              variant="contained">
+              variant="contained"
+            >
               Cadastrar Paciente
             </Button>
           </div>

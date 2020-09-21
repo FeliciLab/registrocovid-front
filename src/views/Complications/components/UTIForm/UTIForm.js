@@ -27,15 +27,26 @@ const UTIForm = ({ index, remove }) => {
   };
 
   return (
-    <Grid className={classes.root} component={Card} item>
+    <Grid
+      className={classes.root}
+      component={Card}
+      item
+    >
       <FormLabel className={classes.formLabel}>
         <Typography variant="h3">UTI</Typography>
-        <IconButton aria-label="delete" onClick={() => remove(index)}>
+        <IconButton
+          aria-label="delete"
+          onClick={() => remove(index)}
+        >
           <DeleteIcon fontSize="small" />
         </IconButton>
       </FormLabel>
 
-      <Grid className={classes.fieldFormUTI} item sm={12}>
+      <Grid
+        className={classes.fieldFormUTI}
+        item
+        sm={12}
+      >
         <FormGroup>
           <FormLabel className={classes.selectFieldLabel}>
             <Typography variant="h4"> Escala de Glasgow</Typography>
@@ -52,26 +63,40 @@ const UTIForm = ({ index, remove }) => {
             as={TextField}
             className={classes.textField}
             name={`newsComplicacoes.${index}.glasglow_admissao_uti`}
-            value={values.newsComplicacoes[index].glasglow_admissao_uti}
             onChange={handleChange}
             select
             type="text"
-            variant="outlined">
+            value={values.newsComplicacoes[index].glasglow_admissao_uti}
+            variant="outlined"
+          >
             {new Array(13).fill('').map((_, index) => (
-              <MenuItem key={String(Math.random())} value={3 + index}>
+              <MenuItem
+                key={String(Math.random())}
+                value={3 + index}
+              >
                 {3 + index}
               </MenuItem>
             ))}
           </Field>
         </FormGroup>
       </Grid>
-      <Grid className={classes.fieldFormUTIFlex} item sm={12}>
-        <Grid item sm={6}>
+      <Grid
+        className={classes.fieldFormUTIFlex}
+        item
+        sm={12}
+      >
+        <Grid
+          item
+          sm={6}
+        >
           <FormGroup>
             <FormLabel>
               <Typography variant="h4">Admissão em UTI</Typography>
 
-              <Typography variant="p" className={classes.UTIFormLabelSubtitle}>
+              <Typography
+                className={classes.UTIFormLabelSubtitle}
+                variant="p"
+              >
                 Data
               </Typography>
             </FormLabel>
@@ -81,9 +106,6 @@ const UTIForm = ({ index, remove }) => {
               }}
               as={TextField}
               className={classes.dateField}
-              name={`newsComplicacoes[${index}].data`}
-              onChange={handleChange}
-              type="date"
               error={
                 errors.newsComplicacoes && touched.newsComplicacoes
                   ? !!errors.newsComplicacoes[index]?.data
@@ -96,15 +118,24 @@ const UTIForm = ({ index, remove }) => {
                   ? errors.newsComplicacoes[index]?.data
                   : ''
               }
+              name={`newsComplicacoes[${index}].data`}
+              onChange={handleChange}
+              type="date"
             />
           </FormGroup>
         </Grid>
-        <Grid item sm={6}>
+        <Grid
+          item
+          sm={6}
+        >
           <FormGroup>
             <FormLabel>
               <Typography variant="h4">Saída de UTI</Typography>
 
-              <Typography variant="p" className={classes.UTIFormLabelSubtitle}>
+              <Typography
+                className={classes.UTIFormLabelSubtitle}
+                variant="p"
+              >
                 Data
               </Typography>
             </FormLabel>
@@ -114,10 +145,6 @@ const UTIForm = ({ index, remove }) => {
               }}
               as={TextField}
               className={classes.dateField}
-              name={`newsComplicacoes[${index}].data_termino`}
-              onChange={handleChange}
-              value={values.newsComplicacoes[index].data_termino}
-              type="date"
               error={
                 errors.newsComplicacoes && touched.newsComplicacoes
                   ? !!errors.newsComplicacoes[index]?.data_termino
@@ -130,12 +157,20 @@ const UTIForm = ({ index, remove }) => {
                   ? errors.newsComplicacoes[index]?.data_termino
                   : ''
               }
+              name={`newsComplicacoes[${index}].data_termino`}
+              onChange={handleChange}
+              type="date"
+              value={values.newsComplicacoes[index].data_termino}
             />
           </FormGroup>
         </Grid>
       </Grid>
 
-      <Grid className={classes.fieldFormUTI} item sm={12}>
+      <Grid
+        className={classes.fieldFormUTI}
+        item
+        sm={12}
+      >
         <FormGroup>
           <FormLabel>
             <Typography variant="h4">
@@ -145,11 +180,11 @@ const UTIForm = ({ index, remove }) => {
 
           <Field
             as={Switch}
-            name={`newsComplicacoes.${index}.menos_24h_uti`}
-            value={values.newsComplicacoes[index].menos_24h_uti}
-            onChange={e => handleChangeSwitch(e)}
             checked={isChecked}
             color="primary"
+            name={`newsComplicacoes.${index}.menos_24h_uti`}
+            onChange={e => handleChangeSwitch(e)}
+            value={values.newsComplicacoes[index].menos_24h_uti}
           />
         </FormGroup>
       </Grid>

@@ -10,7 +10,8 @@
     "test": "NODE_ICU_DATA=node_modules/full-icu react-scripts test  --env jest-environment-jsdom-fourteen",
     "test:nowatch": "NODE_ICU_DATA=node_modules/full-icu react-scripts test --watchAll=false  --env jest-environment-jsdom-fourteen",
     "eject": "react-scripts eject",
-    "server": "json-server -p 4000 -d 500 dbfake.json"
+    "server": "json-server -p 4000 -d 500 dbfake.json",
+    "lint": "yarn run eslint src --ext js --fix"
   },
   "eslintConfig": {
     "extends": "react-app"

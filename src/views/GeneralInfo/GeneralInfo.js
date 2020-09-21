@@ -197,7 +197,8 @@ const GeneralInfo = () => {
           initialValues={loadInitialValues()}
           onSubmit={handleSubmit}
           validateOnMount
-          validationSchema={schema}>
+          validationSchema={schema}
+        >
           {({ values, touched, handleChange, errors, isSubmitting }) => (
             <Form component={FormControl}>
               <div className={classes.titleWrapper}>
@@ -208,7 +209,8 @@ const GeneralInfo = () => {
                   color="secondary"
                   disabled={!!patient.prontuario || isSubmitting}
                   type="submit"
-                  variant="contained">
+                  variant="contained"
+                >
                   Salvar
                 </Button>
               </div>
@@ -216,9 +218,19 @@ const GeneralInfo = () => {
               {loading ? (
                 <CircularProgress />
               ) : (
-                <Grid component={Card} container item lg={8} spacing={2}>
+                <Grid
+                  component={Card}
+                  container
+                  item
+                  lg={8}
+                  spacing={2}
+                >
                   {/* prontuario */}
-                  <Grid item md={6} sm={12}>
+                  <Grid
+                    item
+                    md={6}
+                    sm={12}
+                  >
                     <FormGroup>
                       <FormLabel>
                         <Typography variant="h4">
@@ -245,7 +257,11 @@ const GeneralInfo = () => {
                   </Grid>
 
                   {/* data_internacao */}
-                  <Grid item md={6} sm={12}>
+                  <Grid
+                    item
+                    md={6}
+                    sm={12}
+                  >
                     <FormGroup>
                       <FormLabel>
                         <Typography variant="h4">Data de internação</Typography>
@@ -274,7 +290,10 @@ const GeneralInfo = () => {
                   </Grid>
 
                   {/* unidade_primeiro_atendimento */}
-                  <Grid item xs={12}>
+                  <Grid
+                    item
+                    xs={12}
+                  >
                     <FormGroup>
                       <FormLabel>
                         <Typography variant="h4">
@@ -290,9 +309,13 @@ const GeneralInfo = () => {
                         onChange={handleChange}
                         select
                         value={values.unidade_primeiro_atendimento}
-                        variant="filled">
+                        variant="filled"
+                      >
                         {instituicoes.map(({ id, nome }) => (
-                          <MenuItem key={id} value={id}>
+                          <MenuItem
+                            key={id}
+                            value={id}
+                          >
                             {nome}
                           </MenuItem>
                         ))}
@@ -301,7 +324,10 @@ const GeneralInfo = () => {
                   </Grid>
 
                   {/* unidade_de_saude */}
-                  <Grid item xs={12}>
+                  <Grid
+                    item
+                    xs={12}
+                  >
                     <FormGroup>
                       <FormLabel>
                         <Typography variant="h4">
@@ -317,9 +343,13 @@ const GeneralInfo = () => {
                         onChange={handleChange}
                         select
                         value={values.unidade_de_saude}
-                        variant="filled">
+                        variant="filled"
+                      >
                         {instituicoes.map(({ id, nome }) => (
-                          <MenuItem key={id} value={id}>
+                          <MenuItem
+                            key={id}
+                            value={id}
+                          >
                             {nome}
                           </MenuItem>
                         ))}
@@ -328,7 +358,10 @@ const GeneralInfo = () => {
                   </Grid>
 
                   {/* data_atendimento */}
-                  <Grid item xs={12}>
+                  <Grid
+                    item
+                    xs={12}
+                  >
                     <FormGroup>
                       <FormLabel>
                         <Typography variant="h4">
@@ -352,7 +385,10 @@ const GeneralInfo = () => {
                   </Grid>
 
                   {/* suporte_respiratorio */}
-                  <Grid item xs={12}>
+                  <Grid
+                    item
+                    xs={12}
+                  >
                     <FormGroup>
                       <Field
                         as={FormControlLabel}
@@ -385,9 +421,13 @@ const GeneralInfo = () => {
                           onChange={handleChange}
                           select
                           value={values.tipo_suport_respiratorio}
-                          variant="filled">
+                          variant="filled"
+                        >
                           {tiposSuporteRespiratorio.map(({ id, nome }) => (
-                            <MenuItem key={id} value={id}>
+                            <MenuItem
+                              key={id}
+                              value={id}
+                            >
                               {nome}
                             </MenuItem>
                           ))}
@@ -397,7 +437,10 @@ const GeneralInfo = () => {
                   </Grid>
 
                   {/* reinternacao */}
-                  <Grid item xs={12}>
+                  <Grid
+                    item
+                    xs={12}
+                  >
                     <FormGroup>
                       <Field
                         as={FormControlLabel}

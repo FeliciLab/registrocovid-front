@@ -174,7 +174,8 @@ const InitialSymptoms = () => {
               : '',
           data_inicio_sintomas: patient.data_inicio_sintomas,
         }}
-        onSubmit={handleSubmit}>
+        onSubmit={handleSubmit}
+      >
         {({ values, handleChange, dirty }) => (
           <Form component={FormControl}>
             <div className={classes.titleWrapper}>
@@ -187,17 +188,31 @@ const InitialSymptoms = () => {
                   color="secondary"
                   disabled={(!dirty && !selectedSintomasHasChanged) || isSaving}
                   type="submit"
-                  variant="contained">
+                  variant="contained"
+                >
                   {isSaving ? 'Salvando...' : 'Salvar'}
                 </Button>
               </div>
             </div>
             <Grid container>
-              <Grid item lg={2} md={6} />
-              <Grid item lg={8}>
+              <Grid
+                item
+                lg={2}
+                md={6}
+              />
+              <Grid
+                item
+                lg={8}
+              >
                 <Paper className={classes.paper}>
-                  <FormGroup className={classes.control} component="fieldset">
-                    <FormLabel className={classes.label} component="legend">
+                  <FormGroup
+                    className={classes.control}
+                    component="fieldset"
+                  >
+                    <FormLabel
+                      className={classes.label}
+                      component="legend"
+                    >
                       Tipo caso à admissão:
                     </FormLabel>
 
@@ -205,7 +220,8 @@ const InitialSymptoms = () => {
                       as={RadioGroup}
                       name="caso_confirmado"
                       onChange={handleChange}
-                      value={values.caso_confirmado}>
+                      value={values.caso_confirmado}
+                    >
                       <FormControlLabel
                         control={<Radio />}
                         label="Caso suspeito"
@@ -219,8 +235,14 @@ const InitialSymptoms = () => {
                     </Field>
                   </FormGroup>
 
-                  <FormGroup className={classes.control} component="fieldset">
-                    <FormLabel className={classes.label} component="legend">
+                  <FormGroup
+                    className={classes.control}
+                    component="fieldset"
+                  >
+                    <FormLabel
+                      className={classes.label}
+                      component="legend"
+                    >
                       Selecione os sintomas que o paciente apresentou
                     </FormLabel>
                     <div className={classes.chipWrapper}>
@@ -258,8 +280,12 @@ const InitialSymptoms = () => {
 
                   <FormGroup
                     className={classes.fixWidthSize}
-                    component="fieldset">
-                    <FormLabel className={classes.label} component="legend">
+                    component="fieldset"
+                  >
+                    <FormLabel
+                      className={classes.label}
+                      component="legend"
+                    >
                       Data do início dos sintomas
                     </FormLabel>
                     <Field

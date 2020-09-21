@@ -121,7 +121,8 @@ const PersonalHistory = () => {
               disabled={buttonDisabled.current}
               onClick={handleSubmit}
               type="submit"
-              variant="contained">
+              variant="contained"
+            >
               Salvar
             </Button>
           </div>
@@ -198,7 +199,12 @@ const Form = forwardRef((props, ref) => {
   return (
     <form onSubmit={formik.handleSubmit}>
       <div className={classes.formContainer}>
-        <Grid container item lg={8} spacing={2}>
+        <Grid
+          container
+          item
+          lg={8}
+          spacing={2}
+        >
           <Card className={classes.form}>
             <CardInfo
               items={[
@@ -222,28 +228,43 @@ const Form = forwardRef((props, ref) => {
               title="Classificação do tabagismo segundo OMS:"
             />
 
-            <FormControl className={classes.formGroup} component="fieldset">
+            <FormControl
+              className={classes.formGroup}
+              component="fieldset"
+            >
               <FormLabel>
                 <Typography variant="h4">Tabagismo</Typography>
               </FormLabel>
 
-              <RadioGroup name="tabagismo" value={formik.values.tabagismo}>
+              <RadioGroup
+                name="tabagismo"
+                value={formik.values.tabagismo}
+              >
                 <FormControlLabel
                   control={
-                    <Radio onChange={formik.handleChange} value="true" />
+                    <Radio
+                      onChange={formik.handleChange}
+                      value="true"
+                    />
                   }
                   label="Sim"
                 />
                 <FormControlLabel
                   control={
-                    <Radio onChange={formik.handleChange} value="false" />
+                    <Radio
+                      onChange={formik.handleChange}
+                      value="false"
+                    />
                   }
                   label="Não"
                 />
               </RadioGroup>
             </FormControl>
 
-            <FormControl className={classes.formGroup} component="fieldset">
+            <FormControl
+              className={classes.formGroup}
+              component="fieldset"
+            >
               <FormLabel>
                 <Typography variant="h4">
                   Em relação ao uso de drogas ilícitas, em que opção você se
@@ -253,7 +274,8 @@ const Form = forwardRef((props, ref) => {
 
               <RadioGroup
                 name="situacao_uso_drogas_id"
-                value={formik.values.situacao_uso_drogas_id}>
+                value={formik.values.situacao_uso_drogas_id}
+              >
                 {usoDrogas.map(item => (
                   <FormControlLabel
                     control={
@@ -269,7 +291,10 @@ const Form = forwardRef((props, ref) => {
               </RadioGroup>
             </FormControl>
 
-            <FormControl className={classes.formGroup} component="fieldset">
+            <FormControl
+              className={classes.formGroup}
+              component="fieldset"
+            >
               <FormLabel>
                 <Typography variant="h4">
                   Em caso de uso de drogas (atual ou ex-usuário), descrever
@@ -277,7 +302,10 @@ const Form = forwardRef((props, ref) => {
                 </Typography>
               </FormLabel>
 
-              <FormGroup name="drogas" value={formik.values.drogas}>
+              <FormGroup
+                name="drogas"
+                value={formik.values.drogas}
+              >
                 {drogas.map(item => (
                   <FormControlLabel
                     control={
@@ -316,21 +344,33 @@ const Form = forwardRef((props, ref) => {
               title="Classificação do etilismo segundo OMS:"
             />
 
-            <FormControl className={classes.formGroup} component="fieldset">
+            <FormControl
+              className={classes.formGroup}
+              component="fieldset"
+            >
               <FormLabel>
                 <Typography variant="h4">Etilismo</Typography>
               </FormLabel>
 
-              <RadioGroup name="etilismo" value={formik.values.etilismo}>
+              <RadioGroup
+                name="etilismo"
+                value={formik.values.etilismo}
+              >
                 <FormControlLabel
                   control={
-                    <Radio onChange={formik.handleChange} value="true" />
+                    <Radio
+                      onChange={formik.handleChange}
+                      value="true"
+                    />
                   }
                   label="Etilista / Ex- etilista"
                 />
                 <FormControlLabel
                   control={
-                    <Radio onChange={formik.handleChange} value="false" />
+                    <Radio
+                      onChange={formik.handleChange}
+                      value="false"
+                    />
                   }
                   label="Não etilista"
                 />
@@ -355,13 +395,17 @@ function CardInfo({ title, items }) {
   return (
     <Card className={classes.cardInfo}>
       <div className={classes.titleContainer}>
-        <Typography className={classes.title} variant="subtitle1">
+        <Typography
+          className={classes.title}
+          variant="subtitle1"
+        >
           {title}
         </Typography>
 
         <IconButton
           aria-label="delete"
-          onClick={() => setShowCard(state => !state)}>
+          onClick={() => setShowCard(state => !state)}
+        >
           <CloseIcon fontSize="small" />
         </IconButton>
       </div>
@@ -369,11 +413,18 @@ function CardInfo({ title, items }) {
       {items.map(item => (
         <div
           key={String(Math.random())}
-          style={{ display: 'flex', flexDirection: 'row' }}>
-          <Typography className={classes.label} variant="subtitle1">
+          style={{ display: 'flex', flexDirection: 'row' }}
+        >
+          <Typography
+            className={classes.label}
+            variant="subtitle1"
+          >
             {item.label}
           </Typography>
-          <Typography className={classes.description} variant="subtitle1">
+          <Typography
+            className={classes.description}
+            variant="subtitle1"
+          >
             {item.description}
           </Typography>
         </div>

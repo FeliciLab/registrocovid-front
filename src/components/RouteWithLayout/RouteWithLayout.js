@@ -52,7 +52,8 @@ const RouteWithLayout = props => {
             <Dialog
               classes={{ paper: classes.paper }}
               fullScreen
-              open={erroLogin}>
+              open={erroLogin}
+            >
               <DialogTitle>
                 Sua sessão expirou. Por favor, faça o login para continuar.
               </DialogTitle>
