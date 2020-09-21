@@ -48,7 +48,6 @@ const SelectTestType = () => {
       className={classes.root}
       component={Card}
       item
-      xs={10}
     >
       <Grid item>
         <FormGroup>

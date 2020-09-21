@@ -6,9 +6,14 @@ import useStyles from './styles';
 import { Card, Grid } from '@material-ui/core';
 import TesteRTCPRItem from '../TesteRTCPRItem';
 
-const TestRTCPRList = ({ testes }) => {
+const TestRTCPRList = props => {
   const classes = useStyles();
 
+  const { testes } = props;
+
+  if (testes.length === 0) {
+    return null;
+  }
 
   return (
     <div className={classes.root}>

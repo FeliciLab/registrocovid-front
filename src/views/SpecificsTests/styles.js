@@ -21,6 +21,9 @@ const useStyles = makeStyles(theme => ({
   actionSection: {
     display: 'flex',
   },
+  content: {
+    padding: theme.spacing(2),
+  },
   buttonSave: {
     width: '200px',
     height: '48px',

@@ -9,6 +9,7 @@ import {
   Typography,
   Grid,
   Button,
+  Card,
 } from '@material-ui/core';
 import { Formik, Form } from 'formik';
 import schema from './schema';
@@ -167,13 +168,20 @@ const SpecificsTests = () => {
                     </Grid>
                   </div>
 
-                  <SelectTestType />
+                  <Grid
+                    className={classes.content}
+                    component={Card}
+                    item
+                    spacing={2}
+                  >
+                    <SelectTestType />
 
-                  <TesteFormList />
+                    <TesteFormList />
 
-                  <TestRTCPRList testes={examesPCR} />
+                    <TestRTCPRList testes={examesPCR} />
 
-                  <TestRapidoList testes={examesTesteRapido} />
+                    <TestRapidoList testes={examesTesteRapido} />
+                  </Grid>
 
                   {/* <FormikErroObserver /> */}
                 </Form>

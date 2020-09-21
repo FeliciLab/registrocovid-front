@@ -6,15 +6,20 @@ import PropTypes from 'prop-types';
 import { Card, Grid } from '@material-ui/core';
 import TesteRapidoItem from '../TesteRapidoItem';
 
-const TestRapidoList = ({ testes }) => {
+const TestRapidoList = props => {
   const classes = useStyles();
+
+  const { testes } = props;
+
+  if (testes.length === 0) {
+    return null;
+  }
 
   return (
     <div className={classes.root}>
       <Grid
         component={Card}
         item
-        xs={10}
       >
         {testes.map((teste, index) => (
           <TesteRapidoItem
