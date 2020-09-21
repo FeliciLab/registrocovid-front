@@ -175,10 +175,9 @@ const Form = forwardRef((props, ref) => {
         : (historico.tabagismo = undefined);
       values.etilismo
         ? values.etilismo === 'true'
-          ? (historico.vetilismo = true)
+          ? (historico.etilismo = true)
           : (historico.etilismo = false)
         : (historico.etilismo = undefined);
-
       await api.post(`/pacientes/${patient.id}/historico`, historico);
 
       addToast({
@@ -199,10 +198,10 @@ const Form = forwardRef((props, ref) => {
 
   const formik = useFormik({
     initialValues: {
-      tabagismo: patientHistory.tabagismo || '',
-      situacao_uso_drogas_id: patientHistory.situacao_uso_drogas_id || '',
+      tabagismo: patientHistory.tabagismo != null? patientHistory.tabagismo.toString() : '',
+      situacao_uso_drogas_id: patientHistory.situacao_uso_drogas_id != null? patientHistory.situacao_uso_drogas_id.toString() : '',
       drogas: patientHistory.drogas?.map(droga => droga.id),
-      etilismo: patientHistory.etilismo || '',
+      etilismo: patientHistory.etilismo != null? patientHistory.etilismo.toString() : '',
     },
     onSubmit: handleSubmit,
   });
