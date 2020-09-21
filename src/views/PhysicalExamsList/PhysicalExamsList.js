@@ -6,6 +6,7 @@ import { usePatient } from 'context/PatientContext';
 import PatientInfo from 'components/PatientInfo';
 import CustomBreadcrumbs from 'components/CustomBreadcrumbs';
 import formatDate from '../../helpers/formatDate';
+import Placeholder from './components/index.js';
 
 // Icons
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
@@ -23,6 +24,7 @@ import {
   TableRow,
   Paper,
   CircularProgress,
+  Grid,
 } from '@material-ui/core';
 
 const PhysicalExamsList = () => {
@@ -70,10 +72,10 @@ const PhysicalExamsList = () => {
           <PatientInfo />
           <Button
             className={classes.buttonSave}
-            type="submit"
-            variant="contained"
             color="secondary"
-            onClick={() => handleNavigate(`/categorias/exame-fisico`)}>
+            onClick={() => handleNavigate('/categorias/exame-fisico')}
+            type="submit"
+            variant="contained">
             <AddIcon fontSize="small" />
             INSERIR NOVA OCORRÊNCIA
           </Button>
@@ -83,7 +85,18 @@ const PhysicalExamsList = () => {
         {!data ? (
           <CircularProgress />
         ) : data.length === 0 ? (
-          <Typography variant="h4">Nenhum Exame Encontrado</Typography>
+          <>
+            <Typography variant="h4">Lista de Evoluções</Typography>
+            <Grid
+              alignItems="center"
+              className={classes.mainGrid}
+              container
+              justify="center">
+              <Grid item>
+                <Placeholder />
+              </Grid>
+            </Grid>
+          </>
         ) : (
           <>
             <Typography variant="h4">Ficha Inicial</Typography>
@@ -94,7 +107,7 @@ const PhysicalExamsList = () => {
               <Table size="small">
                 <TableHead>
                   <TableRow>
-                    <TableCell colSpan={2} className={classes.tableCellHead}>
+                    <TableCell className={classes.tableCellHead} colSpan={2}>
                       Data de Evolução
                     </TableCell>
                   </TableRow>

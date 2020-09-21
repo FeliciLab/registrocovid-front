@@ -93,9 +93,9 @@ const PhysicalExam = () => {
           <CircularProgress />
         ) : (
           <Form
-            shouldDisableButton={shouldDisableButton}
             physicalExam={physicalExam}
             ref={formRef}
+            shouldDisableButton={shouldDisableButton}
           />
         )}
       </div>
