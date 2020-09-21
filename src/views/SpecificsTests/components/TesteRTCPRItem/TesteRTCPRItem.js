@@ -174,7 +174,7 @@ const TesteRTPCRItem = ({ teste }) => {
 };
 
 TesteRTPCRItem.propTypes = {
-  teste: PropTypes.exact({
+  teste: PropTypes.shape({
     id: PropTypes.number,
     data_coleta: PropTypes.string,
     data_resultado: PropTypes.string,

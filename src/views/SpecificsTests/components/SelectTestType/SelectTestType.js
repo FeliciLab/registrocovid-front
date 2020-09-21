@@ -16,31 +16,31 @@ import AddIcon from '@material-ui/icons/Add';
 
 import { Field, useFormikContext } from 'formik';
 
+
+// Valores iniciais
+// const initialValues = {
+//   newsTestes: [],
+//   tipo_new_teste: '',
+// };
+
 const SelectTestType = () => {
   const classes = useStyles();
 
   const { values, handleChange, setFieldValue } = useFormikContext();
 
   const handleAddTesteType = () => {
-    if (values.tipo_new_teste === 'RTPCR') {
-      setFieldValue('newsTestsRTCPRs', [
-        ...values.newsTestsRTCPRs,
-        {
-          data_coleta: '',
-          data_resultado: '',
-          sitio_tipo: '',
-          rt_pcr_resultado: '',
-        },
-      ]);
-    } else {
-      setFieldValue('newsTestsRapidos', [
-        ...values.newsTestsRapidos,
-        {
-          data_realizacao: '',
-          resultado: '',
-        },
-      ]);
-    }
+    setFieldValue('newsTestes', [
+      ...values.newsTestes,
+      {
+        data_coleta: '',
+        data_resultado: '',
+        sitio_tipo: '',
+        rt_pcr_resultado: '',
+        resultado: '',
+        data_realizacao: '',
+        tipo_teste: values.tipo_new_teste
+      },
+    ]);
   };
 
   return (

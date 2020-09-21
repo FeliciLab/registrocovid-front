@@ -19,11 +19,11 @@ import api from 'services/api';
 import { useToast } from 'hooks/toast';
 import PatientInfo from 'components/PatientInfo';
 import { usePatient } from 'context/PatientContext';
+import TesteFormList from './components/TesteFormList';
 
 // Valores iniciais
 const initialValues = {
-  newsTestsRTCPRs: [],
-  newsTestsRapidos: [],
+  newsTestes: [],
   tipo_new_teste: '',
 };
 
@@ -74,36 +74,30 @@ const SpecificsTests = () => {
     handleSpecificsTests(id);
   }, [handleSpecificsTests, id]);
 
-  const handleSubmit = async ({ newsTestsRTCPRs, newsTestsRapidos }) => {
+  const handleSubmit = async ({ newsTestes }) => {
     try {
-      // sanitizando os dasos de newsTestsRTCPRs para o envio dos testes novos
-      const newsTestsRTCPRsSanitized = newsTestsRTCPRs.map(test => ({
-        data_coleta: test.data_coleta,
-        sitio_tipo_id: test.sitio_tipo,
-        data_resultado: test.data_resultado,
-        rt_pcr_resultado_id: test.rt_pcr_resultado,
-      }));
-
-      // sanitizando os dasos de newsTestsRapidos para o envio dos testes novos
-      const newsTestsRapidosSanitized = newsTestsRapidos.map(test => ({
-        data_realizacao: test.data_realizacao,
-        resultado: test.resultado === 'true' ? true : false,
-      }));
-
-      // criando as promises
-      const newsTestsRTCPRsPromises = newsTestsRTCPRsSanitized.map(test =>
-        api.post(`/pacientes/${id}/exames-laboratoriais`, test),
+      // sanitizando os dasos de novos testes para o envio
+      const newsTestesSanitized = newsTestes.map(test =>
+        test.tipo_teste === 'RTPCR'
+          ? {
+            data_coleta: test.data_coleta,
+            sitio_tipo_id: test.sitio_tipo,
+            data_resultado: test.data_resultado,
+            rt_pcr_resultado_id: test.rt_pcr_resultado,
+          }
+          : {
+            data_realizacao: test.data_realizacao,
+            resultado: test.resultado === 'true' ? true : false,
+          },
       );
 
-      const newsTestsRapidosPromises = newsTestsRapidosSanitized.map(test =>
+      // criando as promises
+      const newsTestesPromises = newsTestesSanitized.map(test =>
         api.post(`/pacientes/${id}/exames-laboratoriais`, test),
       );
 
       // tentando salvar mas sem nada para enviar.
-      if (
-        newsTestsRapidosPromises.length === 0 &&
-        newsTestsRTCPRsPromises.length === 0
-      ) {
+      if (newsTestesPromises.length === 0) {
         addToast({
           type: 'warning',
           message: 'Nada para salvar.',
@@ -112,10 +106,7 @@ const SpecificsTests = () => {
       }
 
       // enviando todas as requests juntas.
-      await Promise.all([
-        ...newsTestsRTCPRsPromises,
-        ...newsTestsRapidosPromises,
-      ]);
+      await Promise.all(newsTestesPromises);
 
       addToast({
         type: 'success',
@@ -177,6 +168,8 @@ const SpecificsTests = () => {
                   </div>
 
                   <SelectTestType />
+
+                  <TesteFormList />
 
                   <TestRTCPRList testes={examesPCR} />
 

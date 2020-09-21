@@ -91,22 +91,22 @@ const TesteRTPCRForm = props => {
             as={TextField}
             className={classes.dateField}
             error={
-              errors.newsTestsRTCPRs &&
-              touched.newsTestsRTCPRs ?
-                !!errors.newsTestsRTCPRs[index]?.data_coleta : false
+              errors.newsTestes &&
+              touched.newsTestes ?
+                !!errors.newsTestes[index]?.data_coleta : false
             }
             helperText={
-              errors.newsTestsRTCPRs &&
-              touched.newsTestsRTCPRs &&
-              errors.newsTestsRTCPRs[index]?.data_coleta
-                ? errors.newsTestsRTCPRs[index]?.data_coleta
+              errors.newsTestes &&
+              touched.newsTestes &&
+              errors.newsTestes[index]?.data_coleta
+                ? errors.newsTestes[index]?.data_coleta
                 : ''
             }
             label="Data de coleta RT-PCR "
-            name={`newsTestsRTCPRs.${index}.data_coleta`}
+            name={`newsTestes.${index}.data_coleta`}
             onChange={handleChange}
             type="date"
-            value={values.newsTestsRTCPRs[index].data_coleta}
+            value={values.newsTestes[index].data_coleta}
           />
         </FormGroup>
       </Grid>
@@ -124,16 +124,16 @@ const TesteRTPCRForm = props => {
           <ErrorMessage
             color="error"
             component={Typography}
-            name={`newsTestsRTCPRs.${index}.sitio_tipo`}
+            name={`newsTestes.${index}.sitio_tipo`}
             variant="caption"
           />
           <Field
             as={RadioGroup}
             className={classes.radioGroup}
-            name={`newsTestsRTCPRs.${index}.sitio_tipo`}
+            name={`newsTestes.${index}.sitio_tipo`}
             onChange={handleChange}
             row
-            value={values.newsTestsRTCPRs[index].sitio_tipo}
+            value={values.newsTestes[index].sitio_tipo}
           >
             {sitiosRTPCR.map(({ id, descricao }) => (
               <FormControlLabel
@@ -164,10 +164,10 @@ const TesteRTPCRForm = props => {
             as={TextField}
             className={classes.dateField}
             label="Data do resultado RT-PCR"
-            name={`newsTestsRTCPRs[${index}].data_resultado`}
+            name={`newsTestes[${index}].data_resultado`}
             onChange={handleChange}
             type="date"
-            value={values.newsTestsRTCPRs[index].data_resultado}
+            value={values.newsTestes[index].data_resultado}
           />
         </FormGroup>
       </Grid>
@@ -185,10 +185,10 @@ const TesteRTPCRForm = props => {
           <Field
             as={RadioGroup}
             className={classes.radioGroup}
-            name={`newsTestsRTCPRs[${index}].rt_pcr_resultado`}
+            name={`newsTestes[${index}].rt_pcr_resultado`}
             onChange={handleChange}
             row
-            value={values.newsTestsRTCPRs[index].rt_pcr_resultado}
+            value={values.newsTestes[index].rt_pcr_resultado}
           >
             {tiposResultadosRTPCR.map(({ id, descricao }) => (
               <FormControlLabel

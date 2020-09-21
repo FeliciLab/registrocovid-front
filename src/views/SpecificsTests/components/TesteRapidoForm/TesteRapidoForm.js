@@ -20,17 +20,9 @@ import useStyles from './styles';
 const TesteRapidoForm = props => {
   const classes = useStyles();
 
-  // function para remover um form
-  const { remove } = props;
+  const { index, remove } = props;
 
-  const { index } = props;
-
-  const {
-    values,
-    handleChange,
-    errors,
-    touched,
-  } = useFormikContext();
+  const { values, handleChange, errors, touched } = useFormikContext();
 
   return (
     <Grid
@@ -39,7 +31,7 @@ const TesteRapidoForm = props => {
       item
     >
       <FormLabel className={classes.formLabel}>
-        <Typography variant="h3">Formulário do Teste RT-PCR</Typography>
+        <Typography variant="h3">Formulário do Teste Rápido</Typography>
         <IconButton
           aria-label="delete"
           onClick={() => remove(index)}
@@ -60,16 +52,16 @@ const TesteRapidoForm = props => {
           <ErrorMessage
             color="error"
             component={Typography}
-            name={`newsTestsRapidos.${index}.resultado`}
+            name={`newsTestes.${index}.resultado`}
             variant="caption"
           />
           <Field
             as={RadioGroup}
             className={classes.radioGroup}
-            name={`newsTestsRapidos.${index}.resultado`}
+            name={`newsTestes.${index}.resultado`}
             onChange={handleChange}
             row
-            value={values.newsTestsRapidos[index].resultado}
+            value={values.newsTestes[index].resultado}
           >
             <FormControlLabel
               control={<Radio />}
@@ -82,7 +74,6 @@ const TesteRapidoForm = props => {
               value="false"
             />
           </Field>
-
         </FormGroup>
       </Grid>
 
@@ -103,21 +94,22 @@ const TesteRapidoForm = props => {
             as={TextField}
             className={classes.dateField}
             error={
-              errors.newsTestsRapidos &&
-              touched.newsTestsRapidos &&
-              !!errors.newsTestsRapidos[index]?.data_realizacao
+              errors.newsTestes &&
+              touched.newsTestes &&
+              !!errors.newsTestes[index]?.data_realizacao
             }
             helperText={
-              (errors.newsTestsRapidos &&
-              touched.newsTestsRapidos &&
-              errors.newsTestsRapidos[index]?.data_realizacao) ?
-                errors.newsTestsRapidos[index]?.data_realizacao : null
+              errors.newsTestes &&
+              touched.newsTestes &&
+              errors.newsTestes[index]?.data_realizacao
+                ? errors.newsTestes[index]?.data_realizacao
+                : null
             }
             label="Data da coleta do teste rápido"
-            name={`newsTestsRapidos.${index}.data_realizacao`}
+            name={`newsTestes.${index}.data_realizacao`}
             onChange={handleChange}
             type="date"
-            value={values.newsTestsRapidos[index].data_realizacao}
+            value={values.newsTestes[index].data_realizacao}
           />
         </FormGroup>
       </Grid>
