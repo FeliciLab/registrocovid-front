@@ -30,7 +30,7 @@ const TesteRapidoForm = props => {
       component={Card}
       item
     >
-      <FormLabel className={classes.formLabel}>
+      <div className={classes.formLabel}>
         <Typography variant="h3">Formulário do Teste Rápido</Typography>
         <IconButton
           aria-label="delete"
@@ -38,7 +38,7 @@ const TesteRapidoForm = props => {
         >
           <DeleteIcon fontSize="small" />
         </IconButton>
-      </FormLabel>
+      </div>
 
       {/* resultado */}
       <Grid

@@ -23,6 +23,7 @@ const useStyles = makeStyles(theme => ({
   },
   content: {
     padding: theme.spacing(2),
+    maxWidth: '864px',
   },
   buttonSave: {
     width: '200px',

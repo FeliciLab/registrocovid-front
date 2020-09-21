@@ -20,7 +20,6 @@ const TestRTCPRList = props => {
       <Grid
         component={Card}
         item
-        xs={10}
       >
         {testes.map((teste, index) => (
           <TesteRTCPRItem

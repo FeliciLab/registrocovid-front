@@ -171,7 +171,8 @@ const SpecificsTests = () => {
                   <Grid
                     className={classes.content}
                     component={Card}
-                    item
+                    container
+                    direction="column"
                     spacing={2}
                   >
                     <SelectTestType />

@@ -23,12 +23,7 @@ const TesteRTPCRForm = props => {
 
   const { index, remove } = props;
 
-  const {
-    values,
-    handleChange,
-    errors,
-    touched,
-  } = useFormikContext();
+  const { values, handleChange, errors, touched } = useFormikContext();
 
   const [sitiosRTPCR, setSitiosRTPCR] = useState([]);
   const [tiposResultadosRTPCR, setTiposResultadosRTPCR] = useState([]);
@@ -64,15 +59,16 @@ const TesteRTPCRForm = props => {
       component={Card}
       item
     >
-      <FormLabel className={classes.formLabel}>
+      <div className={classes.formLabel}>
         <Typography variant="h3">Formulário do Teste RT-PCR</Typography>
         <IconButton
           aria-label="delete"
+          disableRipple
           onClick={() => remove(index)}
         >
           <DeleteIcon fontSize="small" />
         </IconButton>
-      </FormLabel>
+      </div>
 
       {/* data_coleta */}
       <Grid
@@ -82,7 +78,7 @@ const TesteRTPCRForm = props => {
       >
         <FormGroup>
           <FormLabel>
-            <Typography variant="h4">Data de coleta RT-PCR*</Typography>
+            <Typography variant="h4">Data de coleta RT-PCR</Typography>
           </FormLabel>
           <Field
             InputLabelProps={{
@@ -91,9 +87,9 @@ const TesteRTPCRForm = props => {
             as={TextField}
             className={classes.dateField}
             error={
-              errors.newsTestes &&
-              touched.newsTestes ?
-                !!errors.newsTestes[index]?.data_coleta : false
+              errors.newsTestes && touched.newsTestes
+                ? !!errors.newsTestes[index]?.data_coleta
+                : false
             }
             helperText={
               errors.newsTestes &&
@@ -105,6 +101,7 @@ const TesteRTPCRForm = props => {
             label="Data de coleta RT-PCR "
             name={`newsTestes.${index}.data_coleta`}
             onChange={handleChange}
+            required
             type="date"
             value={values.newsTestes[index].data_coleta}
           />
