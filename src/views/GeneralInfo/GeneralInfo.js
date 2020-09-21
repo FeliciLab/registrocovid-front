@@ -164,13 +164,13 @@ const GeneralInfo = () => {
       initialValues = {
         prontuario: patient.prontuario,
         data_internacao: patient.data_internacao,
-        suporte_respiratorio: patient.suporte_respiratorio,
-        reinternacao: patient.reinternacao,
+        suporte_respiratorio: patient.suporte_respiratorio || false,
+        reinternacao: patient.reinternacao || false,
+        unidade_primeiro_atendimento: patient.instituicao_primeiro_atendimento ? patient.instituicao_primeiro_atendimento.id : '',
+        unidade_de_saude: patient.instituicao_referencia ? patient.instituicao_referencia.id : '',
+        data_atendimento: patient.data_atendimento_referencia || '',
+        tipo_suport_respiratorio: patient.tipo_suporte_respiratorios.length > 0 ? patient.tipo_suporte_respiratorios[0].id : '',
 
-        unidade_primeiro_atendimento: patient.instituicao_primeiro_atendimento.id,
-        unidade_de_saude: patient.instituicao_referencia.id,
-        data_atendimento: patient.data_atendimento_referencia,
-        tipo_suport_respiratorio: patient.tipo_suporte_respiratorios[0].id,
       }
     }
 
