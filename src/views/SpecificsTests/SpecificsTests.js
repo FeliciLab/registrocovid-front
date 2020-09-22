@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 
 import useStyles from './styles';
-import { CustomBreadcrumbs } from 'components';
+import { CustomBreadcrumbs, NotToShowImg } from 'components';
 import { useParams, useHistory } from 'react-router-dom';
 import {
   CircularProgress,
@@ -175,6 +175,8 @@ const SpecificsTests = () => {
                     direction="column"
                     spacing={2}
                   >
+                    <NotToShowImg label="Nenhum exame foi adicionado" />
+
                     <SelectTestType />
 
                     <TesteFormList />
