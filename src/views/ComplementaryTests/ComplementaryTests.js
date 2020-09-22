@@ -13,6 +13,7 @@ import {
   Typography,
   Grid,
   Button,
+  Card,
 } from '@material-ui/core';
 
 import { Formik, Form } from 'formik';
@@ -189,24 +190,32 @@ function ComplementaryTests() {
                     </Grid>
                   </div>
 
-                  <SelectComplementaryTestType types={types} />
+                  <Grid
+                    className={classes.content}
+                    component={Card}
+                    container
+                    direction="column"
+                    spacing={2}
+                  >
+                    <SelectComplementaryTestType types={types} />
 
-                  {/* TODO: colocar depois do primeiro MVP */}
-                  {/* <FormikErroObserver /> */}
+                    {/* TODO: colocar depois do primeiro MVP */}
+                    {/* <FormikErroObserver /> */}
 
-                  <TestComplementaryFormList />
+                    <TestComplementaryFormList />
 
-                  {types &&
-                    types.length !== 0 &&
-                    types.map((tipo, index) => (
-                      <TestComplementaryList
-                        descricao={tipo.descricao}
-                        key={index}
-                        testes={examesComplementares.filter(
-                          exame => exame.descricao === tipo.descricao,
-                        )}
-                      />
-                    ))}
+                    {types &&
+                      types.length !== 0 &&
+                      types.map((tipo, index) => (
+                        <TestComplementaryList
+                          descricao={tipo.descricao}
+                          key={index}
+                          testes={examesComplementares.filter(
+                            exame => exame.descricao === tipo.descricao,
+                          )}
+                        />
+                      ))}
+                  </Grid>
                 </Form>
               )}
             </Formik>

@@ -20,8 +20,6 @@ const TestComplementaryList = props => {
       <Grid
         component={Card}
         item
-        md={10}
-        xs={12}
       >
         {testes &&
           testes.map((teste, index) => (
