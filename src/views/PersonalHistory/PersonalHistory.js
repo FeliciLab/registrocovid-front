@@ -481,9 +481,9 @@ function CardInfo({ title, items }) {
         </IconButton>
       </div>
 
-      {items.map(item => (
+      {items.map((item, index) => (
         <div
-          key={String(Math.random())}
+          key={index}
           style={{ display: 'flex', flexDirection: 'row' }}
         >
           <Typography
