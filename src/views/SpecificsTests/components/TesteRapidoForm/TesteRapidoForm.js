@@ -37,6 +37,23 @@ const TesteRapidoForm = props => {
         </IconButton>
       </div>
 
+      {/* data_realizacao */}
+      <Grid
+        className={classes.fieldTesteRapido}
+        item
+      >
+        <FormGroup>
+          <FormLabel>
+            <Typography variant="h4">Data de coleta de teste rápido</Typography>
+          </FormLabel>
+          <Field
+            component={TextField}
+            name={`newsTestes.${index}.data_realizacao`}
+            type="date"
+          />
+        </FormGroup>
+      </Grid>
+
       {/* resultado */}
       <Grid
         className={classes.fieldTesteRapido}
@@ -68,23 +85,6 @@ const TesteRapidoForm = props => {
               value="false"
             />
           </Field>
-        </FormGroup>
-      </Grid>
-
-      {/* data_realizacao */}
-      <Grid
-        className={classes.fieldTesteRapido}
-        item
-      >
-        <FormGroup>
-          <FormLabel>
-            <Typography variant="h4">Data de coleta de teste rápido</Typography>
-          </FormLabel>
-          <Field
-            component={TextField}
-            name={`newsTestes.${index}.data_realizacao`}
-            type="date"
-          />
         </FormGroup>
       </Grid>
     </Grid>
