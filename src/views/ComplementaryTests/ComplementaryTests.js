@@ -4,6 +4,7 @@ import useStyles from './styles';
 
 import {
   CustomBreadcrumbs,
+  NotToShowImg,
   // FormikErroObserver,
 } from 'components';
 
@@ -25,6 +26,11 @@ import api from 'services/api';
 import { useToast } from 'hooks/toast';
 import { useHistory } from 'react-router-dom';
 import TestComplementaryFormList from './components/TestComplementaryFormList';
+
+const initialValues = {
+  newComplementaryTests: [],
+  tipoNewTesteSelected: '',
+};
 
 function ComplementaryTests() {
   const { patient } = usePatient();
@@ -151,15 +157,12 @@ function ComplementaryTests() {
           <div className={classes.formWrapper}>
             <Formik
               enableReinitialize
-              initialValues={{
-                newComplementaryTests: [],
-                tipoNewTesteSelected: '',
-              }}
+              initialValues={initialValues}
               onSubmit={handleSubmit}
               validateOnMount
               validationSchema={schema}
             >
-              {({ isSubmitting }) => (
+              {({ isSubmitting, values }) => (
                 <Form component={FormControl}>
                   <div className={classes.titleWrapper}>
                     <Typography variant="h2">Exames complementares</Typography>
@@ -205,6 +208,13 @@ function ComplementaryTests() {
                           )}
                         />
                       ))}
+
+                    {examesComplementares.length === 0 &&
+                      values.newComplementaryTests.length === 0 && (
+                      <Grid item>
+                        <NotToShowImg label="Nenhum exame foi adicionado" />
+                      </Grid>
+                    )}
                   </Grid>
                 </Form>
               )}
