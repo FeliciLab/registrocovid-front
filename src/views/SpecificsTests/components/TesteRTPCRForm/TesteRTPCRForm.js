@@ -4,28 +4,29 @@ import {
   FormGroup,
   FormLabel,
   Typography,
-  RadioGroup,
   FormControlLabel,
   Radio,
-  TextField,
   Card,
   IconButton,
 } from '@material-ui/core';
 
 import DeleteIcon from '@material-ui/icons/Delete';
 
-import { Field, useFormikContext, ErrorMessage } from 'formik';
+import {
+  Field,
+  ErrorMessage
+} from 'formik';
 import useStyles from './styles';
 import api from 'services/api';
+import { RadioGroup, TextField } from 'formik-material-ui';
 
 const TesteRTPCRForm = props => {
   const classes = useStyles();
 
   const { index, remove } = props;
 
-  const { values, handleChange, errors, touched } = useFormikContext();
-
   const [sitiosRTPCR, setSitiosRTPCR] = useState([]);
+
   const [tiposResultadosRTPCR, setTiposResultadosRTPCR] = useState([]);
 
   // busca os tipos de sitios do form.
@@ -63,7 +64,6 @@ const TesteRTPCRForm = props => {
         <Typography variant="h3">Formulário do Teste RT-PCR</Typography>
         <IconButton
           aria-label="delete"
-          disableRipple
           onClick={() => remove(index)}
         >
           <DeleteIcon fontSize="small" />
@@ -84,25 +84,11 @@ const TesteRTPCRForm = props => {
             InputLabelProps={{
               shrink: true,
             }}
-            as={TextField}
             className={classes.dateField}
-            error={
-              errors.newsTestes && touched.newsTestes
-                ? !!errors.newsTestes[index]?.data_coleta
-                : false
-            }
-            helperText={
-              errors.newsTestes &&
-              touched.newsTestes &&
-              errors.newsTestes[index]?.data_coleta
-                ? errors.newsTestes[index]?.data_coleta
-                : ''
-            }
+            component={TextField}
             label="Data de coleta RT-PCR "
             name={`newsTestes.${index}.data_coleta`}
-            onChange={handleChange}
             type="date"
-            value={values.newsTestes[index].data_coleta}
           />
         </FormGroup>
       </Grid>
@@ -124,12 +110,10 @@ const TesteRTPCRForm = props => {
             variant="caption"
           />
           <Field
-            as={RadioGroup}
             className={classes.radioGroup}
+            component={RadioGroup}
             name={`newsTestes.${index}.sitio_tipo`}
-            onChange={handleChange}
             row
-            value={values.newsTestes[index].sitio_tipo}
           >
             {sitiosRTPCR.map(({ id, descricao }) => (
               <FormControlLabel
@@ -157,13 +141,11 @@ const TesteRTPCRForm = props => {
             InputLabelProps={{
               shrink: true,
             }}
-            as={TextField}
             className={classes.dateField}
+            component={TextField}
             label="Data do resultado RT-PCR"
             name={`newsTestes[${index}].data_resultado`}
-            onChange={handleChange}
             type="date"
-            value={values.newsTestes[index].data_resultado}
           />
         </FormGroup>
       </Grid>
@@ -176,15 +158,13 @@ const TesteRTPCRForm = props => {
       >
         <FormGroup>
           <FormLabel>
-            <Typography variant="h4">Resultado RT-PCR </Typography>
+            <Typography variant="h4">Resultado RT-PCR</Typography>
           </FormLabel>
           <Field
-            as={RadioGroup}
             className={classes.radioGroup}
+            component={RadioGroup}
             name={`newsTestes[${index}].rt_pcr_resultado`}
-            onChange={handleChange}
             row
-            value={values.newsTestes[index].rt_pcr_resultado}
           >
             {tiposResultadosRTPCR.map(({ id, descricao }) => (
               <FormControlLabel

@@ -12,7 +12,7 @@ import {
 
 import DeleteIcon from '@material-ui/icons/Delete';
 
-import { Field, useFormikContext, ErrorMessage } from 'formik';
+import { Field, ErrorMessage } from 'formik';
 import useStyles from './styles';
 import { TextField, RadioGroup } from 'formik-material-ui';
 
@@ -20,8 +20,6 @@ const TesteRapidoForm = props => {
   const classes = useStyles();
 
   const { index, remove } = props;
-
-  const { values, handleChange } = useFormikContext();
 
   return (
     <Grid
@@ -57,9 +55,7 @@ const TesteRapidoForm = props => {
           <Field
             component={RadioGroup}
             name={`newsTestes.${index}.resultado`}
-            onChange={handleChange}
             row
-            value={values.newsTestes[index].resultado}
           >
             <FormControlLabel
               control={<Radio />}

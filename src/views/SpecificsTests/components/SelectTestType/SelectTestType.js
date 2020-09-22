@@ -5,7 +5,6 @@ import {
   Grid,
   FormGroup,
   FormLabel,
-  TextField,
   MenuItem,
   Button,
 } from '@material-ui/core';
@@ -15,18 +14,12 @@ import useStyles from './styles';
 import AddIcon from '@material-ui/icons/Add';
 
 import { Field, useFormikContext } from 'formik';
-
-
-// Valores iniciais
-// const initialValues = {
-//   newsTestes: [],
-//   tipo_new_teste: '',
-// };
+import { TextField } from 'formik-material-ui';
 
 const SelectTestType = () => {
   const classes = useStyles();
 
-  const { values, handleChange, setFieldValue } = useFormikContext();
+  const { values, setFieldValue } = useFormikContext();
 
   const handleAddTesteType = () => {
     setFieldValue('newsTestes', [
@@ -59,14 +52,12 @@ const SelectTestType = () => {
             item
           >
             <Field
-              as={TextField}
               className={classes.textField}
+              component={TextField}
               label="Tipo teste"
               name="tipo_new_teste"
-              onChange={handleChange}
               select
               type="text"
-              value={values.tipo_new_teste}
               variant="outlined"
             >
               <MenuItem value="RTPCR">Teste RT-PCR</MenuItem>
