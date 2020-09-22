@@ -15,6 +15,8 @@ const useStyles = makeStyles(theme => ({
   },
   image: {
     marginBottom: theme.spacing(4),
+    maxWidth: '100%',
+    maxHeight: '100%',
   },
 }));
 
@@ -35,7 +37,7 @@ const NotToShowImg = props => {
       />
       <Typography
         className={classes.label}
-        variant="h2"
+        variant="h3"
       >
         {label}
       </Typography>

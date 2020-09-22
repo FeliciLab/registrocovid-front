@@ -145,7 +145,7 @@ const SpecificsTests = () => {
               validateOnMount
               validationSchema={schema}
             >
-              {({ isSubmitting }) => (
+              {({ isSubmitting, values }) => (
                 <Form component={FormControl}>
                   <div className={classes.titleWrapper}>
                     <Typography variant="h2">
@@ -175,8 +175,6 @@ const SpecificsTests = () => {
                     direction="column"
                     spacing={2}
                   >
-                    <NotToShowImg label="Nenhum exame foi adicionado" />
-
                     <SelectTestType />
 
                     <TesteFormList />
@@ -184,8 +182,17 @@ const SpecificsTests = () => {
                     <TestRTCPRList testes={examesPCR} />
 
                     <TestRapidoList testes={examesTesteRapido} />
+
+                    {examesPCR.length === 0 &&
+                      examesTesteRapido.length === 0 &&
+                      values.newsTestes.length === 0 && (
+                      <Grid item>
+                        <NotToShowImg label="Nenhum exame foi adicionado" />
+                      </Grid>
+                    )}
                   </Grid>
 
+                  {/* TODO: Colocar depois do primeiro MVP */}
                   {/* <FormikErroObserver /> */}
                 </Form>
               )}
