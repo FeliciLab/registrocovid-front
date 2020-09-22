@@ -111,8 +111,14 @@ const Form = forwardRef((props, ref) => {
     <form onSubmit={formik.handleSubmit}>
       <div className={classes.formContainer}>
         <Grid container>
-          <Grid item lg={2} />
-          <Grid item lg={8}>
+          <Grid
+            item
+            lg={2}
+          />
+          <Grid
+            item
+            lg={8}
+          >
             <Card>
               <CardContent>
                 <FormGroup className={classes.formGroup}>
@@ -143,8 +149,14 @@ const Form = forwardRef((props, ref) => {
                   />
                 </FormGroup>
 
-                <Grid container spacing={2}>
-                  <Grid item lg={6}>
+                <Grid
+                  container
+                  spacing={2}
+                >
+                  <Grid
+                    item
+                    lg={6}
+                  >
                     <FormGroup className={classes.formGroup}>
                       <FormLabel>
                         <Typography variant="h5">
@@ -174,7 +186,10 @@ const Form = forwardRef((props, ref) => {
                     </FormGroup>
                   </Grid>
 
-                  <Grid item lg={6}>
+                  <Grid
+                    item
+                    lg={6}
+                  >
                     <FormGroup className={classes.formGroup}>
                       <FormLabel>
                         <Typography variant="h5">
@@ -204,7 +219,10 @@ const Form = forwardRef((props, ref) => {
                     </FormGroup>
                   </Grid>
 
-                  <Grid item lg={6}>
+                  <Grid
+                    item
+                    lg={6}
+                  >
                     <FormGroup className={classes.formGroup}>
                       <FormLabel>
                         <Typography variant="h5">Peso (em kg)</Typography>
@@ -228,7 +246,10 @@ const Form = forwardRef((props, ref) => {
                     </FormGroup>
                   </Grid>
 
-                  <Grid item lg={6}>
+                  <Grid
+                    item
+                    lg={6}
+                  >
                     <FormGroup className={classes.formGroup}>
                       <FormLabel>
                         <Typography variant="h5">Altura (em cm)</Typography>
@@ -252,7 +273,10 @@ const Form = forwardRef((props, ref) => {
                     </FormGroup>
                   </Grid>
 
-                  <Grid item lg={6}>
+                  <Grid
+                    item
+                    lg={6}
+                  >
                     <FormGroup className={classes.formGroup}>
                       <FormLabel>
                         <Typography variant="h5">
@@ -282,7 +306,10 @@ const Form = forwardRef((props, ref) => {
                     </FormGroup>
                   </Grid>
 
-                  <Grid item lg={6}>
+                  <Grid
+                    item
+                    lg={6}
+                  >
                     <FormGroup className={classes.formGroup}>
                       <FormLabel>
                         <Typography variant="h5">
@@ -312,7 +339,10 @@ const Form = forwardRef((props, ref) => {
                     </FormGroup>
                   </Grid>
 
-                  <Grid item lg={6}>
+                  <Grid
+                    item
+                    lg={6}
+                  >
                     <FormGroup className={classes.formGroup}>
                       <FormLabel>
                         <Typography variant="h5">
@@ -342,7 +372,10 @@ const Form = forwardRef((props, ref) => {
                     </FormGroup>
                   </Grid>
 
-                  <Grid item lg={6}>
+                  <Grid
+                    item
+                    lg={6}
+                  >
                     <FormGroup className={classes.formGroup}>
                       <FormLabel>
                         <Typography variant="h5">Ausculta pulmonar</Typography>
@@ -370,7 +403,10 @@ const Form = forwardRef((props, ref) => {
                     </FormGroup>
                   </Grid>
 
-                  <Grid item lg={6}>
+                  <Grid
+                    item
+                    lg={6}
+                  >
                     <FormGroup className={classes.formGroup}>
                       <FormLabel>
                         <Typography variant="h5">
@@ -398,7 +434,10 @@ const Form = forwardRef((props, ref) => {
                     </FormGroup>
                   </Grid>
 
-                  <Grid item lg={6}>
+                  <Grid
+                    item
+                    lg={6}
+                  >
                     <FormGroup className={classes.formGroup}>
                       <FormLabel>
                         <Typography variant="h5">Escala de Glasgow</Typography>
@@ -419,14 +458,19 @@ const Form = forwardRef((props, ref) => {
                           name="escala_glasgow"
                           onBlur={formik.handleBlur}
                           onChange={formik.handleChange}
-                          value={formik.values.escala_glasgow}>
-                          <MenuItem disabled value={0}>
+                          value={formik.values.escala_glasgow}
+                        >
+                          <MenuItem
+                            disabled
+                            value={0}
+                          >
                             Escolher
                           </MenuItem>
                           {new Array(13).fill('').map((_, index) => (
                             <MenuItem
                               key={String(Math.random())}
-                              value={3 + index}>
+                              value={3 + index}
+                            >
                               {3 + index}
                             </MenuItem>
                           ))}

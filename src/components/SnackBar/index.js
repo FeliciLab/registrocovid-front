@@ -7,7 +7,11 @@ import MuiAlert from '@material-ui/lab/Alert';
 import { useToast } from 'hooks/toast';
 
 function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
+  return <MuiAlert
+    elevation={6}
+    variant="filled"
+    {...props}
+         />;
 }
 
 const Toast = ({ toast }) => {
@@ -18,8 +22,12 @@ const Toast = ({ toast }) => {
       anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       autoHideDuration={5000}
       onClose={handleClose}
-      open={open}>
-      <Alert onClose={handleClose} severity={toast?.type}>
+      open={open}
+    >
+      <Alert
+        onClose={handleClose}
+        severity={toast?.type}
+      >
         {toast?.message}
       </Alert>
     </Snackbar>

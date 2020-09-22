@@ -29,7 +29,11 @@ import PatientIdentification from 'views/PatientIdentification';
 const Routes = () => {
   return (
     <Switch>
-      <Redirect exact from="/" to="/meus-pacientes" />
+      <Redirect
+        exact
+        from="/"
+        to="/meus-pacientes"
+      />
       <RouteWithLayout
         component={SignInView}
         exact
