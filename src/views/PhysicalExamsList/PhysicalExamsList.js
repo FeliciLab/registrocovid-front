@@ -64,7 +64,7 @@ const PhysicalExamsList = () => {
         />
       </div>
       <div className={classes.titleWrapper}>
-        <Typography variant="h1">
+        <Typography variant="h3">
           Exame físico (admissão e evolução diária)
         </Typography>
 
