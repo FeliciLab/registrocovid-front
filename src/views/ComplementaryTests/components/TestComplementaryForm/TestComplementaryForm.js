@@ -30,7 +30,7 @@ const TestComplementaryForm = props => {
       component={Card}
       item
     >
-      <FormLabel className={classes.formLabel}>
+      <div className={classes.formLabel}>
         <Typography variant="h4">{descricao}</Typography>
         <IconButton
           aria-label="delete"
@@ -38,7 +38,7 @@ const TestComplementaryForm = props => {
         >
           <DeleteIcon fontSize="small" />
         </IconButton>
-      </FormLabel>
+      </div>
 
       <Grid
         className={classes.formWraper}

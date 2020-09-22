@@ -51,7 +51,7 @@ const SelectComplementaryTestType = props => {
       <Grid item>
         <FormGroup>
           <FormLabel>
-            <Typography variant="h4">Tipo teste</Typography>
+            <Typography variant="h4">Escolher tipo de exame:</Typography>
           </FormLabel>
           <Grid
             className={classes.actionWrapper}
@@ -60,7 +60,7 @@ const SelectComplementaryTestType = props => {
             <Field
               as={TextField}
               className={classes.textField}
-              label="Tipo teste"
+              label="Escolher"
               name="tipoNewTesteSelected"
               onChange={handleChange}
               select
