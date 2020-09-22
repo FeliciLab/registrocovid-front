@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 import PropTypes from 'prop-types';
 
@@ -62,6 +62,7 @@ const TestComplementaryForm = props => {
               className={classes.field}
               component={TextField}
               name={`newComplementaryTests.${index}.resultado`}
+              type="text"
               variant="outlined"
             />
           </FormGroup>
@@ -82,6 +83,7 @@ const TestComplementaryForm = props => {
               component={TextField}
               name={`newComplementaryTests.${index}.data`}
               type="date"
+              variant="outlined"
             />
           </FormGroup>
         </Grid>
@@ -92,9 +94,8 @@ const TestComplementaryForm = props => {
 
 TestComplementaryForm.propTypes = {
   className: PropTypes.string,
-  // descricao: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
   remove: PropTypes.func.isRequired,
 };
 
-export default TestComplementaryForm;
+export default memo(TestComplementaryForm);

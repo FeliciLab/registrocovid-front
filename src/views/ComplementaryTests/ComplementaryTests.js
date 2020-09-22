@@ -26,16 +26,6 @@ import { useToast } from 'hooks/toast';
 import { useHistory } from 'react-router-dom';
 import TestComplementaryFormList from './components/TestComplementaryFormList';
 
-// TODO: remover esses códigos que não estamos mais
-// function getExamesPorTipo(exames) {
-//   return exames.reduce((acc, curr) => {
-//     var key = curr.tipo_exame_id;
-//     acc[key] = acc[key] || [];
-//     acc[key].push(curr);
-//     return acc;
-//   }, []);
-// }
-
 function ComplementaryTests() {
   const { patient } = usePatient();
 
