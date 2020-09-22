@@ -78,14 +78,10 @@ const TesteRapidoForm = props => {
       >
         <FormGroup>
           <FormLabel>
-            <Typography variant="h4">Data de coleta da rápida </Typography>
+            <Typography variant="h4">Data de coleta de teste rápido</Typography>
           </FormLabel>
           <Field
-            InputLabelProps={{
-              shrink: true,
-            }}
             component={TextField}
-            label="Data da coleta do teste rápido"
             name={`newsTestes.${index}.data_realizacao`}
             type="date"
           />

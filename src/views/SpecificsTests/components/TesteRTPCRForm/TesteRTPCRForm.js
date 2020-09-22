@@ -81,12 +81,8 @@ const TesteRTPCRForm = props => {
             <Typography variant="h4">Data de coleta RT-PCR</Typography>
           </FormLabel>
           <Field
-            InputLabelProps={{
-              shrink: true,
-            }}
             className={classes.dateField}
             component={TextField}
-            label="Data de coleta RT-PCR "
             name={`newsTestes.${index}.data_coleta`}
             type="date"
           />
@@ -101,7 +97,7 @@ const TesteRTPCRForm = props => {
       >
         <FormGroup>
           <FormLabel>
-            <Typography variant="h4">Sítio da amostra RT-PCR*</Typography>
+            <Typography variant="h4">Sítio da amostra RT-PCR</Typography>
           </FormLabel>
           <ErrorMessage
             color="error"
@@ -138,12 +134,8 @@ const TesteRTPCRForm = props => {
             <Typography variant="h4">Data do resultado RT-PCR</Typography>
           </FormLabel>
           <Field
-            InputLabelProps={{
-              shrink: true,
-            }}
             className={classes.dateField}
             component={TextField}
-            label="Data do resultado RT-PCR"
             name={`newsTestes[${index}].data_resultado`}
             type="date"
           />
