@@ -107,20 +107,6 @@ const Comorbidities = () => {
         });
       });
 
-    // TODO: remover esse código que está duplicado
-    // api
-    //   .get('/corticosteroides')
-    //   .then(response => {
-    //     setAllCorticosteroides(response.data);
-    //   })
-    //   .catch(() => {
-    //     addToast({
-    //       type: 'error',
-    //       message:
-    //         'Ocorreu um erro ao carregar os corticosteroides, por favor tente novamente.',
-    //     });
-    //   });
-
     api
       .get('/corticosteroides')
       .then(response => {
@@ -485,7 +471,9 @@ const Comorbidities = () => {
             return (
               <OutrasDoencasItem
                 // filtra aqui todas as doencas de um tipo
-                allDoencas={allDoencas.filter(doenca => doenca.tipo_doenca_id === tipo.id)}
+                allDoencas={allDoencas.filter(
+                  doenca => doenca.tipo_doenca_id === tipo.id,
+                )}
                 doencas={doencasList}
                 key={tipo.id}
                 tipoDoenca={tipo}
@@ -493,13 +481,15 @@ const Comorbidities = () => {
             );
           })}
 
-          {!(doencasFromUser.length > 0) ? cards.map(card => (
-            <CardComorbirdades
-              card={card}
-              doencasFromUser={doencasFromUser}
-              key={card.id}
-            />
-          )) : null}
+          {!(doencasFromUser.length > 0)
+            ? cards.map(card => (
+              <CardComorbirdades
+                card={card}
+                doencasFromUser={doencasFromUser}
+                key={card.id}
+              />
+            ))
+            : null}
 
           <FormGroup
             className={classes.control}
