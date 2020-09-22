@@ -172,7 +172,8 @@ const ComplicationsVM = () => {
               color="secondary"
               onClick={handleSubmit}
               type="submit"
-              variant="contained">
+              variant="contained"
+            >
               Salvar
             </Button>
           </div>
@@ -182,7 +183,10 @@ const ComplicationsVM = () => {
           <CircularProgress />
         ) : (
           <div className="container">
-            <Grid container justify={'center'}>
+            <Grid
+              container
+              justify={'center'}
+            >
               <Paper className={classes.centralPaper}>
                 <FormLabel>
                   <Typography variant="h4">
@@ -191,21 +195,29 @@ const ComplicationsVM = () => {
                 </FormLabel>
 
                 <div className={classes.headerForm}>
-                  <Grid item lg={8}>
+                  <Grid
+                    item
+                    lg={8}
+                  >
                     <FormGroup>
                       <FormControl variant={'outlined'}>
                         <Select
                           className={classes.selectField}
                           name="complication"
                           onChange={handleSelect}
-                          value={selectedComplication.current}>
-                          <MenuItem disabled value={0}>
+                          value={selectedComplication.current}
+                        >
+                          <MenuItem
+                            disabled
+                            value={0}
+                          >
                             Escolher tipo de complicação (ventilação mecânica)
                           </MenuItem>
                           {complicationsTypes.map(complication => (
                             <MenuItem
                               key={complication.id}
-                              value={complication.id}>
+                              value={complication.id}
+                            >
                               {complication.descricao}
                             </MenuItem>
                           ))}
@@ -214,20 +226,27 @@ const ComplicationsVM = () => {
                     </FormGroup>
                   </Grid>
 
-                  <Grid item lg={4}>
+                  <Grid
+                    item
+                    lg={4}
+                  >
                     <Button
                       className={classes.buttonSave}
                       color="secondary"
                       onClick={handleNewComplication}
                       startIcon={<AddIcon />}
                       type="button"
-                      variant="contained">
+                      variant="contained"
+                    >
                       Adicionar Ocorrência
                     </Button>
                   </Grid>
                 </div>
 
-                <Form className={classes.examsFormGroup} ref={formRef}>
+                <Form
+                  className={classes.examsFormGroup}
+                  ref={formRef}
+                >
                   {newsComplications.map(item => (
                     <Complications
                       handleDelete={() => handleDelete(item.id)}

@@ -164,21 +164,26 @@ function ComplementaryTests() {
               }}
               onSubmit={handleSubmit}
               validateOnMount
-              validationSchema={schema}>
+              validationSchema={schema}
+            >
               {({ isSubmitting }) => (
                 <Form component={FormControl}>
                   <div className={classes.titleWrapper}>
                     <Typography variant="h2">
                       Exames laboratoriais complementares
                     </Typography>
-                    <Grid className={classes.actionSection} item>
+                    <Grid
+                      className={classes.actionSection}
+                      item
+                    >
                       <PatientInfo />
                       <Button
                         className={classes.buttonSave}
                         color="secondary"
                         disabled={isSubmitting}
                         type="submit"
-                        variant="contained">
+                        variant="contained"
+                      >
                         Salvar
                       </Button>
                     </Grid>
