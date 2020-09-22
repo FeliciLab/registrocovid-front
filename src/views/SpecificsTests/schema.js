@@ -1,25 +1,31 @@
 import * as Yup from 'yup';
 
 const schema = Yup.object().shape({
-  newsTestsRTCPRs: Yup.array().of(
+  newsTestes: Yup.array().of(
     Yup.object().shape({
-      data_coleta: Yup.string().required('Campo obrigatório'),
-      sitio_tipo: Yup.number().required(
-        'Campo obrigatório. Você deve preenchê-lo para salvar os dados.',
+      tipo_teste: Yup.string(),
+      data_coleta: Yup.string().when('tipo_teste', (tipo_teste, schema) =>
+        tipo_teste === 'RTPCR'
+          ? schema.required('Campo obrigatório')
+          : schema,
       ),
-      data_resultado: Yup.string(),
-      rt_pcr_resultado: Yup.number(),
+      sitio_tipo: Yup.string().when('tipo_teste', (tipo_teste, schema) =>
+        tipo_teste === 'RTPCR'
+          ? schema.required('Campo obrigatório')
+          : schema,
+      ),
+      data_realizacao: Yup.string().when('tipo_teste', (tipo_teste, schema) =>
+        tipo_teste === 'RAPIDO'
+          ? schema.required('Campo obrigatório')
+          : schema,
+      ),
+      resultado: Yup.string().when('tipo_teste', (tipo_teste, schema) =>
+        tipo_teste === 'RAPIDO'
+          ? schema.required('Campo obrigatório')
+          : schema,
+      ),
     }),
   ),
-  newsTestsRapidos: Yup.array().of(
-    Yup.object().shape({
-      data_realizacao: Yup.string().required('Campo obrigatório'),
-      resultado: Yup.string().required(
-        'Campo obrigatório. Você deve preenchê-lo para salvar os dados.',
-      ),
-    }),
-  ),
-  tipo_new_teste: Yup.string(),
 });
 
 export default schema;

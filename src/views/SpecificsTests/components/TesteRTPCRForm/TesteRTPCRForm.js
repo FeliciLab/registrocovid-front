@@ -101,7 +101,6 @@ const TesteRTPCRForm = props => {
             label="Data de coleta RT-PCR "
             name={`newsTestes.${index}.data_coleta`}
             onChange={handleChange}
-            required
             type="date"
             value={values.newsTestes[index].data_coleta}
           />
