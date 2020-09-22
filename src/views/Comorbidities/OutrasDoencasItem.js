@@ -19,13 +19,10 @@ const OutrasDoencasItem = props => {
 
   return (
     <Paper style={{ padding: 10, marginBottom: 20 }}>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
+      <Grid
+        alignItems="center"
+        container
+        justify="space-between"
       >
         <Grid item>
           <Typography style={{ fontSize: 20, fontWeight: 'bold' }}>
@@ -48,7 +45,7 @@ const OutrasDoencasItem = props => {
             ))}
           </FormGroup>
         </Grid>
-      </div>
+      </Grid>
     </Paper>
   );
 };
