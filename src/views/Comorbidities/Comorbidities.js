@@ -29,6 +29,7 @@ import { usePatient } from 'context/PatientContext';
 import { useToast } from 'hooks/toast';
 
 import CheckBoxCard from './CheckBoxCard';
+import OutrasDoencasItem from './OutrasDoencasItem';
 
 const Comorbidities = () => {
   const classes = useStyles();
@@ -103,19 +104,6 @@ const Comorbidities = () => {
           type: 'error',
           message:
             'Ocorreu um erro ao carregar os tipos de doenças, por favor tente novamente.',
-        });
-      });
-
-    api
-      .get('/corticosteroides')
-      .then(response => {
-        setAllCorticosteroides(response.data);
-      })
-      .catch(() => {
-        addToast({
-          type: 'error',
-          message:
-            'Ocorreu um erro ao carregar os corticosteroides, por favor tente novamente.',
         });
       });
 
@@ -221,6 +209,7 @@ const Comorbidities = () => {
             'Ocorreu um erro ao carregar suas informações, por favor tente novamente.',
         });
       });
+    // eslint-disable-next-line
   }, []);
 
   const handleSubmit = async () => {
@@ -452,12 +441,14 @@ const Comorbidities = () => {
                     </MenuItem>
                   ))}
                 </TextField>
+                {/* Campo de adicionar só pode estar habilitado quando o
+                    coletador selecionar uma doença. */}
                 <Button
                   className={classes.buttonAdd}
                   color="secondary"
-                  disabled={visualization}
+                  disabled={visualization || !selectedField.id}
                   onClick={() => {
-                    if (visualization) {
+                    if (visualization || !selectedField.id) {
                       return;
                     }
 
@@ -472,14 +463,33 @@ const Comorbidities = () => {
               </div>
             </div>
           )}
+          
+          {tiposDoenca.map(tipo => {
+            const doencasList = doencasFromUser.filter(
+              doenca => doenca.tipo_doenca_id === tipo.id,
+            );
+            return (
+              <OutrasDoencasItem
+                // filtra aqui todas as doencas de um tipo
+                allDoencas={allDoencas.filter(
+                  doenca => doenca.tipo_doenca_id === tipo.id,
+                )}
+                doencas={doencasList}
+                key={tipo.id}
+                tipoDoenca={tipo}
+              />
+            );
+          })}
 
-          {cards.map(card => (
-            <CardComorbirdades
-              card={card}
-              doencasFromUser={doencasFromUser}
-              key={card.id}
-            />
-          ))}
+          {!(doencasFromUser.length > 0)
+            ? cards.map(card => (
+              <CardComorbirdades
+                card={card}
+                doencasFromUser={doencasFromUser}
+                key={card.id}
+              />
+            ))
+            : null}
 
           <FormGroup
             className={classes.control}
@@ -723,7 +733,7 @@ const Comorbidities = () => {
                 color="secondary"
                 disabled={visualization}
                 onClick={() => {
-                  if (visualization) {
+                  if (visualization || outraCondicao === '') {
                     return;
                   }
 
@@ -784,7 +794,7 @@ const Comorbidities = () => {
                 color="secondary"
                 disabled={visualization}
                 onClick={() => {
-                  if (visualization) {
+                  if (visualization || medicacao === '') {
                     return;
                   }
 
