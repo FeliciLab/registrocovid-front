@@ -23,15 +23,17 @@ import TestComplementaryList from './components/TestComplementaryList';
 import api from 'services/api';
 import { useToast } from 'hooks/toast';
 import { useHistory } from 'react-router-dom';
+import TestComplementaryFormList from './components/TestComplementaryFormList';
 
-function getExamesPorTipo(exames) {
-  return exames.reduce((acc, curr) => {
-    var key = curr.tipo_exame_id;
-    acc[key] = acc[key] || [];
-    acc[key].push(curr);
-    return acc;
-  }, []);
-}
+// TODO: remover esses códigos que não estamos mais
+// function getExamesPorTipo(exames) {
+//   return exames.reduce((acc, curr) => {
+//     var key = curr.tipo_exame_id;
+//     acc[key] = acc[key] || [];
+//     acc[key].push(curr);
+//     return acc;
+//   }, []);
+// }
 
 function ComplementaryTests() {
   const { patient } = usePatient();
@@ -44,7 +46,7 @@ function ComplementaryTests() {
 
   const [examesComplementares, setExamesComplementares] = useState([]);
 
-  const [examesCompPorTipo, setExamesCompPorTipo] = useState([]);
+  // const [examesCompPorTipo, setExamesCompPorTipo] = useState([]);
 
   const [types, setTypes] = useState([]);
 
@@ -94,9 +96,9 @@ function ComplementaryTests() {
     handleComplementaryTests(id);
   }, [handleComplementaryTests, id]);
 
-  useEffect(() => {
-    setExamesCompPorTipo(getExamesPorTipo(examesComplementares));
-  }, [examesComplementares]);
+  // useEffect(() => {
+  //   setExamesCompPorTipo(getExamesPorTipo(examesComplementares));
+  // }, [examesComplementares]);
 
   const handleSubmit = async values => {
     try {
@@ -169,9 +171,7 @@ function ComplementaryTests() {
               {({ isSubmitting }) => (
                 <Form component={FormControl}>
                   <div className={classes.titleWrapper}>
-                    <Typography variant="h2">
-                      Exames laboratoriais complementares
-                    </Typography>
+                    <Typography variant="h2">Exames complementares</Typography>
                     <Grid
                       className={classes.actionSection}
                       item
@@ -194,13 +194,17 @@ function ComplementaryTests() {
                   {/* TODO: colocar depois do primeiro MVP */}
                   {/* <FormikErroObserver /> */}
 
+                  <TestComplementaryFormList />
+
                   {types &&
                     types.length !== 0 &&
                     types.map((tipo, index) => (
                       <TestComplementaryList
                         descricao={tipo.descricao}
                         key={index}
-                        testes={examesCompPorTipo[tipo.id]}
+                        testes={examesComplementares.filter(
+                          exame => exame.descricao === tipo.descricao,
+                        )}
                       />
                     ))}
                 </Form>

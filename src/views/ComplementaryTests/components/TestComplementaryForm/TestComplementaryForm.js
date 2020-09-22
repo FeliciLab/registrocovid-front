@@ -20,7 +20,7 @@ import useStyles from './styles';
 const TestComplementaryForm = props => {
   const classes = useStyles();
 
-  const { index, remove, descricao } = props;
+  const { index, remove } = props;
 
   const { values, handleChange, errors, touched } = useFormikContext();
 
@@ -31,7 +31,7 @@ const TestComplementaryForm = props => {
       item
     >
       <div className={classes.formLabel}>
-        <Typography variant="h4">{descricao}</Typography>
+        <Typography variant="h4">Teste</Typography>
         <IconButton
           aria-label="delete"
           onClick={() => remove(index)}
@@ -76,7 +76,7 @@ const TestComplementaryForm = props => {
                   ? errors.newComplementaryTests[index]?.resultado
                   : null
               }
-              label={descricao}
+              // label={descricao}
               name={`newComplementaryTests.${index}.resultado`}
               onChange={handleChange}
               value={values.newComplementaryTests[index].resultado}
@@ -128,7 +128,7 @@ const TestComplementaryForm = props => {
 
 TestComplementaryForm.propTypes = {
   className: PropTypes.string,
-  descricao: PropTypes.string.isRequired,
+  // descricao: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
   remove: PropTypes.func.isRequired,
 };
