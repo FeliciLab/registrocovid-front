@@ -5,20 +5,21 @@ import useStyles from './styles';
 
 import { Card, Grid } from '@material-ui/core';
 import TesteRTCPRItem from '../TesteRTCPRItem';
-import { useFormikContext, FieldArray } from 'formik';
-import TesteRTPCRForm from '../TesteRTPCRForm';
 
-const TestRTCPRList = ({ testes }) => {
+const TestRTCPRList = props => {
   const classes = useStyles();
 
-  const { values } = useFormikContext();
+  const { testes } = props;
+
+  if (testes.length === 0) {
+    return null;
+  }
 
   return (
     <div className={classes.root}>
       <Grid
         component={Card}
         item
-        xs={10}
       >
         {testes.map((teste, index) => (
           <TesteRTCPRItem
@@ -26,22 +27,6 @@ const TestRTCPRList = ({ testes }) => {
             teste={teste}
           />
         ))}
-        <FieldArray name="newsTestsRTCPRs">
-          {({ remove }) => (
-            <div>
-              {values.newsTestsRTCPRs &&
-                values.newsTestsRTCPRs.length > 0 &&
-                values.newsTestsRTCPRs.map((teste, index) => (
-                  <TesteRTPCRForm
-                    index={index}
-                    key={index}
-                    remove={remove}
-                  />
-                )).reverse()}
-            </div>
-          )}
-        </FieldArray>
-
       </Grid>
     </div>
   );
@@ -50,7 +35,7 @@ const TestRTCPRList = ({ testes }) => {
 TestRTCPRList.propTypes = {
   className: PropTypes.string,
   testes: PropTypes.arrayOf(
-    PropTypes.exact({
+    PropTypes.shape({
       id: PropTypes.number,
       data_coleta: PropTypes.string,
       data_resultado: PropTypes.string,

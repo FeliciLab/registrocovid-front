@@ -78,14 +78,10 @@ const TesteRTPCRItem = ({ teste }) => {
         >
           <FormGroup>
             <FormLabel>
-              <Typography variant="h4">Data de coleta da rápida </Typography>
+              <Typography variant="h4">Data de coleta RT-PCR</Typography>
             </FormLabel>
             <TextField
-              InputLabelProps={{
-                shrink: true,
-              }}
               contentEditable={false}
-              label="Data da coleta do teste rápido"
               type="date"
               value={teste.data_coleta}
             />
@@ -100,7 +96,7 @@ const TesteRTPCRItem = ({ teste }) => {
         >
           <FormGroup>
             <FormLabel>
-              <Typography variant="h4">Sítio da amostra RT-PCR*</Typography>
+              <Typography variant="h4">Sítio da amostra RT-PCR</Typography>
             </FormLabel>
             <RadioGroup
               row
@@ -147,7 +143,7 @@ const TesteRTPCRItem = ({ teste }) => {
         >
           <FormGroup>
             <FormLabel>
-              <Typography variant="h4">Sítio da amostra RT-PCR*</Typography>
+              <Typography variant="h4">Resultado RT-PCR</Typography>
             </FormLabel>
             <RadioGroup
               row
@@ -174,7 +170,7 @@ const TesteRTPCRItem = ({ teste }) => {
 };
 
 TesteRTPCRItem.propTypes = {
-  teste: PropTypes.exact({
+  teste: PropTypes.shape({
     id: PropTypes.number,
     data_coleta: PropTypes.string,
     data_resultado: PropTypes.string,

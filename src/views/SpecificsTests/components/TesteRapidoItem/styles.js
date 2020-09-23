@@ -8,15 +8,18 @@ const useStyles = makeStyles(theme => ({
   },
   heading: {
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   headingLabel: {
     marginRight: theme.spacing(1),
   },
+  field: {
+    marginBottom: theme.spacing(1)
+  },
   accordionDetails: {
     display: 'flex',
     flexDirection: 'column',
-  }
+  },
 }));
 
 export default useStyles;

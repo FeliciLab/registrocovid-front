@@ -5,3 +5,5 @@ export { default as TextMaskPhone } from './TextMaskPhone';
 export { default as CustomBreadcrumbs } from './CustomBreadcrumbs';
 export { default as TextMaskCPF } from './TextMaskCPF';
 export { default as FormikErroObserver } from './FormikErroObserver';
+export { default as NotToShowImg } from './NotToShowImg';
+

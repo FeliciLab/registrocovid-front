@@ -463,7 +463,7 @@ const Comorbidities = () => {
               </div>
             </div>
           )}
-
+          
           {tiposDoenca.map(tipo => {
             const doencasList = doencasFromUser.filter(
               doenca => doenca.tipo_doenca_id === tipo.id,
