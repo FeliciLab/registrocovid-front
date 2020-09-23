@@ -58,14 +58,25 @@ const SelectComplicationType = ({ tiposComplicacoes }) => {
   };
 
   return (
-    <Grid item className={classes.wrapper}>
-      <Grid className={classes.root} component={Card} item xs={8}>
+    <Grid
+      className={classes.wrapper}
+      item
+    >
+      <Grid
+        className={classes.root}
+        component={Card}
+        item
+        xs={8}
+      >
         <Grid item>
           <FormGroup>
             <FormLabel>
               <Typography variant="h4">Escolher tipo de complicação</Typography>
             </FormLabel>
-            <Grid className={classes.actionWrapper} item>
+            <Grid
+              className={classes.actionWrapper}
+              item
+            >
               <Field
                 as={TextField}
                 className={classes.textField}
@@ -75,10 +86,14 @@ const SelectComplicationType = ({ tiposComplicacoes }) => {
                 select
                 type="text"
                 value={values.tipo_new_complication}
-                variant="outlined">
+                variant="outlined"
+              >
                 {tiposComplicacoes.map((elemen, index) => {
                   return (
-                    <MenuItem value={elemen} key={index}>
+                    <MenuItem
+                      key={index}
+                      value={elemen}
+                    >
                       {elemen.descricao}
                     </MenuItem>
                   );
@@ -91,7 +106,8 @@ const SelectComplicationType = ({ tiposComplicacoes }) => {
                 disabled={values.tipo_new_complication === ''}
                 onClick={() => handleAddTesteType()}
                 startIcon={<AddIcon />}
-                variant="contained">
+                variant="contained"
+              >
                 ADICIONAR OCORRÊNCIA
               </Button>
             </Grid>

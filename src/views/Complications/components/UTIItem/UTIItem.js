@@ -21,9 +21,13 @@ export default ({ complicationData, separator }) => {
       <AccordionSummary
         aria-controls="panel1a-content"
         expandIcon={<ExpandMoreIcon />}
-        id="panel1a-header">
+        id="panel1a-header"
+      >
         <div className={classes.heading}>
-          <Typography className={classes.headingLabel} variant="h4">
+          <Typography
+            className={classes.headingLabel}
+            variant="h4"
+          >
             UTI
           </Typography>
           <Typography variant="caption">
@@ -32,65 +36,95 @@ export default ({ complicationData, separator }) => {
         </div>
       </AccordionSummary>
       <AccordionDetails className={classes.accordionDetails}>
-        <Grid item xs={12} className={classes.gridContainer}>
-          <Typography variant="h4" className={classes.headingLabel}>
+        <Grid
+          className={classes.gridContainer}
+          item
+          xs={12}
+        >
+          <Typography
+            className={classes.headingLabel}
+            variant="h4"
+          >
             Escala de Glasgow
           </Typography>
           <TextField
-            className={classes.textField}
             InputLabelProps={{
               shrink: true,
             }}
-            type="text"
+            className={classes.textField}
             defaultValue={
               complicationData ? complicationData.glasglow_admissao_uti : ''
             }
+            type="text"
           />
         </Grid>
-        <Grid item xs={12} className={classes.gridContainer}>
+        <Grid
+          className={classes.gridContainer}
+          item
+          xs={12}
+        >
           <Grid className={classes.formControlContainer}>
-            <Grid item xs={6}>
-              <Typography variant="h4" className={classes.formSubtitle}>
+            <Grid
+              item
+              xs={6}
+            >
+              <Typography
+                className={classes.formSubtitle}
+                variant="h4"
+              >
                 Admissão Em UTI
               </Typography>
               <TextField
-                className={classes.formInputDate}
                 InputLabelProps={{
                   shrink: true,
                 }}
+                className={classes.formInputDate}
+                defaultValue={complicationData ? complicationData.data : ''}
                 label="Data"
                 name="admissao_uti"
                 type="date"
-                defaultValue={complicationData ? complicationData.data : ''}
               />
             </Grid>
-            <Grid item xs={6}>
-              <Typography variant="h4" className={classes.formSubtitle}>
+            <Grid
+              item
+              xs={6}
+            >
+              <Typography
+                className={classes.formSubtitle}
+                variant="h4"
+              >
                 Saída de UTI
               </Typography>
               <TextField
-                className={classes.formInputDate}
                 InputLabelProps={{
                   shrink: true,
                 }}
-                label="Data"
-                name="saida_uti"
-                type="date"
+                className={classes.formInputDate}
                 defaultValue={
                   complicationData ? complicationData.data_termino : ''
                 }
+                label="Data"
+                name="saida_uti"
+                type="date"
               />
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={12} className={classes.gridContainer}>
-          <Typography variant="h4" className={classes.formSubtitle}>
+        <Grid
+          className={classes.gridContainer}
+          item
+          xs={12}
+        >
+          <Typography
+            className={classes.formSubtitle}
+            variant="h4"
+          >
             Paciente permaneceu menos de 24h na UTI?
           </Typography>
           <Switch
+            checked={complicationData && complicationData.menos_24h_uti}
             color="primary"
             name="menos_24h_uti"
-            checked={complicationData && complicationData.menos_24h_uti}
           />
         </Grid>
       </AccordionDetails>

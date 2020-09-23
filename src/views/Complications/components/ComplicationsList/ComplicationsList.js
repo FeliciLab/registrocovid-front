@@ -41,7 +41,11 @@ const ComplicationsList = ({ complicacoes }) => {
   sortDate(complicacoes);
   sortType(complicacoes);
   return (
-    <Grid className={classes.root} item xs={8}>
+    <Grid
+      className={classes.root}
+      item
+      xs={8}
+    >
       <div className={classes.complicationsContainer}>
         <FieldArray name="newsComplicacoes">
           {({ remove }) => (
@@ -51,23 +55,27 @@ const ComplicationsList = ({ complicacoes }) => {
                 values.newsComplicacoes.map((complicacao, index) => {
                   if (complicacao.tipo_complicacao_id === 1) {
                     return (
-                      <UTIForm key={index} index={index} remove={remove} />
+                      <UTIForm
+                        index={index}
+                        key={index}
+                        remove={remove}
+                      />
                     );
                   } else if (complicacao.tipo_complicacao_id === 13) {
                     return (
                       <NeurologicForm
-                        key={index}
                         index={index}
+                        key={index}
                         remove={remove}
                       />
                     );
                   } else {
                     return (
                       <DefaultForm
-                        key={index}
-                        index={index}
-                        remove={remove}
                         complicationData={complicacao}
+                        index={index}
+                        key={index}
+                        remove={remove}
                       />
                     );
                   }
@@ -76,7 +84,10 @@ const ComplicationsList = ({ complicacoes }) => {
           )}
         </FieldArray>
       </div>
-      <Grid item xs={12}>
+      <Grid
+        item
+        xs={12}
+      >
         {complicacoes.map((complicacao, index) => {
           let separator = false;
           if (index !== 0) {
@@ -96,25 +107,25 @@ const ComplicationsList = ({ complicacoes }) => {
           if (complicacao.tipo_complicacao.id === 1) {
             return (
               <UTIItem
+                complicationData={complicacao}
                 key={index}
                 separator={separator}
-                complicationData={complicacao}
               />
             );
           } else if (complicacao.tipo_complicacao.id === 13) {
             return (
               <NeurologicItem
+                complicationData={complicacao}
                 key={index}
                 separator={separator}
-                complicationData={complicacao}
               />
             );
           } else {
             return (
               <DefaultItem
+                complicationData={complicacao}
                 key={index}
                 separator={separator}
-                complicationData={complicacao}
               />
             );
           }

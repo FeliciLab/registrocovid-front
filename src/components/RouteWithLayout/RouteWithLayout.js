@@ -36,7 +36,8 @@ const RouteWithLayout = props => {
       }
     }, 60 * 1000);
     return () => clearInterval(interval);
-  }, [erroLogin, history, setErroLogin]);
+    // eslint-disable-next-line
+  }, [erroLogin]);
 
   if (isPrivate && !authenticated && !loading) {
     return <Redirect to="/sign-in" />;
@@ -52,7 +53,8 @@ const RouteWithLayout = props => {
             <Dialog
               classes={{ paper: classes.paper }}
               fullScreen
-              open={erroLogin}>
+              open={erroLogin}
+            >
               <DialogTitle>
                 Sua sessão expirou. Por favor, faça o login para continuar.
               </DialogTitle>
@@ -67,9 +69,9 @@ const RouteWithLayout = props => {
 
 RouteWithLayout.propTypes = {
   component: PropTypes.any.isRequired,
+  isPrivate: PropTypes.bool,
   layout: PropTypes.any.isRequired,
   path: PropTypes.string,
-  isPrivate: PropTypes.bool,
 };
 
 export default RouteWithLayout;

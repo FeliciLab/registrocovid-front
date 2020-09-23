@@ -16,43 +16,40 @@ import {
   CircularProgress,
 } from '@material-ui/core';
 
+import { usePatient } from 'context/PatientContext';
 import formatDate from '../../helpers/formatDate';
 
 import { useAxios } from 'hooks/axios';
 import { CustomBreadcrumbs } from 'components';
 
 const ListPatients = () => {
+  const { addPatient } = usePatient();
   const history = useHistory();
   const classes = useStyles();
 
   const [filter, setFilter] = useState('');
 
-  const { data } = useAxios(
-    '/pacientes?fields=id,prontuario,data_internacao,created_at,data_inicio_sintomas,caso_confirmado',
-    {
-      transformResponse: [
-        data => {
-          const patienteRow = JSON.parse(data);
+  const { data } = useAxios('/pacientes', {
+    transformResponse: [
+      data => {
+        const patienteRow = JSON.parse(data);
 
-          return patienteRow.map(paciente => {
-            paciente = {
-              ...paciente,
-              data_internacao: paciente.data_internacao
-                .split('-')
-                .reverse()
-                .join('/'),
-              created_at: formatDate(paciente.created_at),
-            };
+        return patienteRow.map(paciente => {
+          paciente = {
+            ...paciente,
+            data_internacao: paciente.data_internacao,
+            created_at: formatDate(paciente.created_at)
+          }
 
-            return paciente;
-          });
-        },
-      ],
-    },
-  );
+          return paciente;
+        });
+      }
+    ],
+  });
 
   const handleNavigation = () => {
     history.push('/categorias/informacoes-gerais');
+    addPatient({});
   };
 
   return (
@@ -86,7 +83,8 @@ const ListPatients = () => {
               color="secondary"
               onClick={handleNavigation}
               startIcon={<AddIcon />}
-              variant="contained">
+              variant="contained"
+            >
               Cadastrar Paciente
             </Button>
           </div>

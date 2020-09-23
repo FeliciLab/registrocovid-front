@@ -41,7 +41,7 @@ const Complications = () => {
 
       const [complications, tipoComplications] = await Promise.all([
         api.get(`pacientes/${patient.id}/complicacoes`),
-        api.get(`tipos-complicacoes`),
+        api.get('tipos-complicacoes'),
       ]);
 
       setComplicacoes(comp => [...comp, ...complications.data]);
@@ -114,7 +114,7 @@ const Complications = () => {
             { label: 'Categorias', route: '/categorias' },
             {
               label: 'Complicações',
-              route: `/categorias/complicacoes`,
+              route: '/categorias/complicacoes',
             },
           ]}
         />
@@ -126,22 +126,27 @@ const Complications = () => {
             enableReinitialize
             initialValues={initialValues}
             onSubmit={handleSubmit}
+            validateOnBlur={false}
+            validateOnChange={false}
             validateOnMount
             validationSchema={schema}
-            validateOnChange={false}
-            validateOnBlur={false}>
+          >
             {({ isSubmitting }) => (
               <Form>
                 <div className={classes.titleWrapper}>
                   <Typography variant="h2">Complicações</Typography>
-                  <Grid className={classes.actionSection} item>
+                  <Grid
+                    className={classes.actionSection}
+                    item
+                  >
                     <PatientInfo />
                     <Button
                       className={classes.buttonSave}
                       color="secondary"
                       disabled={isSubmitting}
                       type="submit"
-                      variant="contained">
+                      variant="contained"
+                    >
                       Salvar
                     </Button>
                   </Grid>

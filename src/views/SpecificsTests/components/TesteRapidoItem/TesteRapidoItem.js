@@ -37,14 +37,37 @@ const TesteRapidoItem = ({ teste }) => {
             Teste Rápido
           </Typography>
           <Typography variant="caption">
-            Data da coleta: {teste.data_realizacao.split('-').reverse().join('/')}
+            Data da coleta:{' '}
+            {teste.data_realizacao
+              .split('-')
+              .reverse()
+              .join('/')}
           </Typography>
         </div>
       </AccordionSummary>
       <AccordionDetails className={classes.accordionDetails}>
+        {/* data_realizacao */}
+        <Grid
+          className={classes.field}
+          item
+        >
+          <FormGroup>
+            <FormLabel>
+              <Typography variant="h4">
+                Data de coleta de teste rápido
+              </Typography>
+            </FormLabel>
+            <TextField
+              contentEditable={false}
+              type="date"
+              value={teste.data_realizacao}
+            />
+          </FormGroup>
+        </Grid>
 
         {/* resultado */}
         <Grid
+          className={classes.field}
           item
         >
           <FormGroup>
@@ -67,31 +90,8 @@ const TesteRapidoItem = ({ teste }) => {
                 value="false"
               />
             </RadioGroup>
-
           </FormGroup>
         </Grid>
-
-        {/* data_realizacao */}
-        <Grid
-          item
-          sm={12}
-        >
-          <FormGroup>
-            <FormLabel>
-              <Typography variant="h4">Data de coleta da rápida </Typography>
-            </FormLabel>
-            <TextField
-              InputLabelProps={{
-                shrink: true,
-              }}
-              contentEditable={false}
-              label="Data da coleta do teste rápido"
-              type="date"
-              value={teste.data_realizacao}
-            />
-          </FormGroup>
-        </Grid>
-
       </AccordionDetails>
     </Accordion>
   );

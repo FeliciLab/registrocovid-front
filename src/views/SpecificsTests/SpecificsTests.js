@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 
 import useStyles from './styles';
-import { CustomBreadcrumbs } from 'components';
+import { CustomBreadcrumbs, NotToShowImg } from 'components';
 import { useParams, useHistory } from 'react-router-dom';
 import {
   CircularProgress,
@@ -9,6 +9,7 @@ import {
   Typography,
   Grid,
   Button,
+  Card,
 } from '@material-ui/core';
 import { Formik, Form } from 'formik';
 import schema from './schema';
@@ -19,11 +20,11 @@ import api from 'services/api';
 import { useToast } from 'hooks/toast';
 import PatientInfo from 'components/PatientInfo';
 import { usePatient } from 'context/PatientContext';
+import TesteFormList from './components/TesteFormList';
 
 // Valores iniciais
 const initialValues = {
-  newsTestsRTCPRs: [],
-  newsTestsRapidos: [],
+  newsTestes: [],
   tipo_new_teste: '',
 };
 
@@ -74,36 +75,30 @@ const SpecificsTests = () => {
     handleSpecificsTests(id);
   }, [handleSpecificsTests, id]);
 
-  const handleSubmit = async ({ newsTestsRTCPRs, newsTestsRapidos }) => {
+  const handleSubmit = async ({ newsTestes }) => {
     try {
-      // sanitizando os dasos de newsTestsRTCPRs para o envio dos testes novos
-      const newsTestsRTCPRsSanitized = newsTestsRTCPRs.map(test => ({
-        data_coleta: test.data_coleta,
-        sitio_tipo_id: test.sitio_tipo,
-        data_resultado: test.data_resultado,
-        rt_pcr_resultado_id: test.rt_pcr_resultado,
-      }));
-
-      // sanitizando os dasos de newsTestsRapidos para o envio dos testes novos
-      const newsTestsRapidosSanitized = newsTestsRapidos.map(test => ({
-        data_realizacao: test.data_realizacao,
-        resultado: test.resultado === 'true' ? true : false,
-      }));
-
-      // criando as promises
-      const newsTestsRTCPRsPromises = newsTestsRTCPRsSanitized.map(test =>
-        api.post(`/pacientes/${id}/exames-laboratoriais`, test),
+      // sanitizando os dasos de novos testes para o envio
+      const newsTestesSanitized = newsTestes.map(test =>
+        test.tipo_teste === 'RTPCR'
+          ? {
+            data_coleta: test.data_coleta,
+            sitio_tipo_id: test.sitio_tipo,
+            data_resultado: test.data_resultado,
+            rt_pcr_resultado_id: test.rt_pcr_resultado,
+          }
+          : {
+            data_realizacao: test.data_realizacao,
+            resultado: test.resultado === 'true' ? true : false,
+          },
       );
 
-      const newsTestsRapidosPromises = newsTestsRapidosSanitized.map(test =>
+      // criando as promises
+      const newsTestesPromises = newsTestesSanitized.map(test =>
         api.post(`/pacientes/${id}/exames-laboratoriais`, test),
       );
 
       // tentando salvar mas sem nada para enviar.
-      if (
-        newsTestsRapidosPromises.length === 0 &&
-        newsTestsRTCPRsPromises.length === 0
-      ) {
+      if (newsTestesPromises.length === 0) {
         addToast({
           type: 'warning',
           message: 'Nada para salvar.',
@@ -112,10 +107,7 @@ const SpecificsTests = () => {
       }
 
       // enviando todas as requests juntas.
-      await Promise.all([
-        ...newsTestsRTCPRsPromises,
-        ...newsTestsRapidosPromises,
-      ]);
+      await Promise.all(newsTestesPromises);
 
       addToast({
         type: 'success',
@@ -151,32 +143,56 @@ const SpecificsTests = () => {
               initialValues={initialValues}
               onSubmit={handleSubmit}
               validateOnMount
-              validationSchema={schema}>
-              {({ isSubmitting }) => (
+              validationSchema={schema}
+            >
+              {({ isSubmitting, values }) => (
                 <Form component={FormControl}>
                   <div className={classes.titleWrapper}>
                     <Typography variant="h2">
                       Exames laboratoriais específicos COVID 19
                     </Typography>
-                    <Grid className={classes.actionSection} item>
+                    <Grid
+                      className={classes.actionSection}
+                      item
+                    >
                       <PatientInfo />
                       <Button
                         className={classes.buttonSave}
                         color="secondary"
                         disabled={isSubmitting}
                         type="submit"
-                        variant="contained">
+                        variant="contained"
+                      >
                         Salvar
                       </Button>
                     </Grid>
                   </div>
 
-                  <SelectTestType />
+                  <Grid
+                    className={classes.content}
+                    component={Card}
+                    container
+                    direction="column"
+                    spacing={2}
+                  >
+                    <SelectTestType />
 
-                  <TestRTCPRList testes={examesPCR} />
+                    <TesteFormList />
 
-                  <TestRapidoList testes={examesTesteRapido} />
+                    <TestRTCPRList testes={examesPCR} />
 
+                    <TestRapidoList testes={examesTesteRapido} />
+
+                    {examesPCR.length === 0 &&
+                      examesTesteRapido.length === 0 &&
+                      values.newsTestes.length === 0 && (
+                      <Grid item>
+                        <NotToShowImg label="Nenhum exame foi adicionado" />
+                      </Grid>
+                    )}
+                  </Grid>
+
+                  {/* TODO: Colocar depois do primeiro MVP */}
                   {/* <FormikErroObserver /> */}
                 </Form>
               )}
