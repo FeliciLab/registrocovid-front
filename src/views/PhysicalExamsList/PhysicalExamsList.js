@@ -103,7 +103,8 @@ const PhysicalExamsList = () => {
             <TableContainer
               component={Paper}
               elevation={2}
-              style={{ marginTop: 10 }}>
+              style={{ marginTop: 10 }}
+            >
               <Table size="small">
                 <TableHead>
                   <TableRow>
@@ -119,8 +120,12 @@ const PhysicalExamsList = () => {
                       key={exam.id}
                       onClick={() =>
                         handleNavigate(`/categorias/exame-fisico/${exam.id}`)
-                      }>
-                      <TableCell component="th" scope="row">
+                      }
+                    >
+                      <TableCell
+                        component="th"
+                        scope="row"
+                      >
                         {formatDate(exam.data_evolucao)}
                       </TableCell>
                       <TableCell align="right">

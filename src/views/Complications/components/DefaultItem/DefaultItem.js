@@ -19,9 +19,13 @@ export default ({ complicationData, separator }) => {
       <AccordionSummary
         aria-controls="panel1a-content"
         expandIcon={<ExpandMoreIcon />}
-        id="panel1a-header">
+        id="panel1a-header"
+      >
         <div className={classes.heading}>
-          <Typography className={classes.headingLabel} variant="h4">
+          <Typography
+            className={classes.headingLabel}
+            variant="h4"
+          >
             {complicationData && complicationData.tipo_complicacao.descricao
               ? complicationData.tipo_complicacao.descricao
               : ''}
@@ -33,23 +37,29 @@ export default ({ complicationData, separator }) => {
       </AccordionSummary>
       <AccordionDetails className={classes.accordionDetails}>
         <Grid className={classes.gridContainer}>
-          <Grid item xs={12}>
-            <Typography variant="h4" className={classes.formSubtitle}>
+          <Grid
+            item
+            xs={12}
+          >
+            <Typography
+              className={classes.formSubtitle}
+              variant="h4"
+            >
               Data de Complicação
             </Typography>
             <TextField
-              className={classes.formInputDate}
               InputLabelProps={{
                 shrink: true,
               }}
-              label="Data"
-              name="data_complicacao"
-              type="date"
+              className={classes.formInputDate}
               defaultValue={
                 complicationData && complicationData.data
                   ? complicationData.data
                   : ''
               }
+              label="Data"
+              name="data_complicacao"
+              type="date"
             />
           </Grid>
         </Grid>

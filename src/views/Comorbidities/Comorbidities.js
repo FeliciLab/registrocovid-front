@@ -29,6 +29,7 @@ import { usePatient } from 'context/PatientContext';
 import { useToast } from 'hooks/toast';
 
 import CheckBoxCard from './CheckBoxCard';
+import OutrasDoencasItem from './OutrasDoencasItem';
 
 const Comorbidities = () => {
   const classes = useStyles();
@@ -120,19 +121,6 @@ const Comorbidities = () => {
       });
 
     api
-      .get('/corticosteroides')
-      .then(response => {
-        setAllCorticosteroides(response.data);
-      })
-      .catch(() => {
-        addToast({
-          type: 'error',
-          message:
-            'Ocorreu um erro ao carregar os corticosteroides, por favor tente novamente.',
-        });
-      });
-
-    api
       .get('/orgaos')
       .then(response => {
         setAllOrgaos(response.data);
@@ -187,15 +175,15 @@ const Comorbidities = () => {
             apiData.corticosteroide === null
               ? ''
               : apiData.corticosteroide
-              ? 'sim'
-              : 'nao',
+                ? 'sim'
+                : 'nao',
           );
           setTransplantado(
             apiData.transplantado === null
               ? ''
               : apiData.transplantado
-              ? 'sim'
-              : 'nao',
+                ? 'sim'
+                : 'nao',
           );
           setGestacao(
             apiData.gestacao === null ? '' : apiData.gestacao ? 'sim' : 'nao',
@@ -221,6 +209,7 @@ const Comorbidities = () => {
             'Ocorreu um erro ao carregar suas informações, por favor tente novamente.',
         });
       });
+    // eslint-disable-next-line
   }, []);
 
   const handleSubmit = async () => {
@@ -305,7 +294,8 @@ const Comorbidities = () => {
             disabled={isSaving || visualization}
             onClick={handleSubmit}
             type="submit"
-            variant="contained">
+            variant="contained"
+          >
             {isSaving ? 'Salvando...' : 'Salvar'}
           </Button>
         </div>
@@ -316,13 +306,17 @@ const Comorbidities = () => {
           style={{
             display: 'flex',
             justifyContent: 'center',
-          }}>
+          }}
+        >
           <CircularProgress />
         </div>
       ) : (
         <Paper className={classes.paper}>
           <div className={classes.control}>
-            <Typography className={classes.label} variant="h6">
+            <Typography
+              className={classes.label}
+              variant="h6"
+            >
               Selecione as doenças que o paciente apresenta
             </Typography>
             <div className={classes.chipWrapper}>
@@ -422,7 +416,10 @@ const Comorbidities = () => {
 
           {!visualization && (
             <div className={classes.control}>
-              <Typography className={classes.label} variant="h6">
+              <Typography
+                className={classes.label}
+                variant="h6"
+              >
                 Acrescente outras doenças que o paciente apresenta
               </Typography>
               <div className={classes.buttonWrapper}>
@@ -430,24 +427,28 @@ const Comorbidities = () => {
                   className={classes.textFieldWithButton}
                   label="Escolher tipo de doença"
                   select
-                  variant="filled">
+                  variant="filled"
+                >
                   {tiposDoenca.map(({ id, descricao }) => (
                     <MenuItem
                       key={id}
                       onClick={() => {
                         setSelectedField({ id, descricao });
                       }}
-                      value={id}>
+                      value={id}
+                    >
                       {descricao}
                     </MenuItem>
                   ))}
                 </TextField>
+                {/* Campo de adicionar só pode estar habilitado quando o
+                    coletador selecionar uma doença. */}
                 <Button
                   className={classes.buttonAdd}
                   color="secondary"
-                  disabled={visualization}
+                  disabled={visualization || !selectedField.id}
                   onClick={() => {
-                    if (visualization) {
+                    if (visualization || !selectedField.id) {
                       return;
                     }
 
@@ -455,32 +456,63 @@ const Comorbidities = () => {
                   }}
                   startIcon={<Add />}
                   type="button"
-                  variant="contained">
+                  variant="contained"
+                >
                   Adicionar
                 </Button>
               </div>
             </div>
           )}
 
-          {cards.map(card => (
-            <CardComorbirdades
-              card={card}
-              doencasFromUser={doencasFromUser}
-              key={card.id}
-            />
-          ))}
+          {tiposDoenca.map(tipo => {
+            const doencasList = doencasFromUser.filter(
+              doenca => doenca.tipo_doenca_id === tipo.id,
+            );
+            return (
+              <OutrasDoencasItem
+                // filtra aqui todas as doencas de um tipo
+                allDoencas={allDoencas.filter(
+                  doenca => doenca.tipo_doenca_id === tipo.id,
+                )}
+                doencas={doencasList}
+                key={tipo.id}
+                tipoDoenca={tipo}
+              />
+            );
+          })}
 
-          <FormGroup className={classes.control} component="fieldset">
-            <FormLabel className={classes.label} component="legend">
+          {!(doencasFromUser.length > 0)
+            ? cards.map(card => (
+              <CardComorbirdades
+                card={card}
+                doencasFromUser={doencasFromUser}
+                key={card.id}
+              />
+            ))
+            : null}
+
+          <FormGroup
+            className={classes.control}
+            component="fieldset"
+          >
+            <FormLabel
+              className={classes.label}
+              component="legend"
+            >
               Transplantado
             </FormLabel>
             <RadioGroup
               aria-label="transplantado"
               name="transplantado"
               onChange={event => setTransplantado(event.target.value)}
-              value={transplantado}>
+              value={transplantado}
+            >
               <div className={classes.radiosWrapper}>
-                <FormControlLabel control={<Radio />} label="Sim" value="sim" />
+                <FormControlLabel
+                  control={<Radio />}
+                  label="Sim"
+                  value="sim"
+                />
                 <FormControlLabel
                   control={<Radio />}
                   label="Não"
@@ -492,8 +524,14 @@ const Comorbidities = () => {
           </FormGroup>
 
           {transplantado === 'sim' && (
-            <FormGroup className={classes.control} component="fieldset">
-              <FormLabel className={classes.label} component="legend">
+            <FormGroup
+              className={classes.control}
+              component="fieldset"
+            >
+              <FormLabel
+                className={classes.label}
+                component="legend"
+              >
                 Quais órgãos?
               </FormLabel>
               <div className={classes.orgaosWrapper}>
@@ -511,17 +549,28 @@ const Comorbidities = () => {
             </FormGroup>
           )}
 
-          <FormGroup className={classes.control} component="fieldset">
-            <FormLabel className={classes.label} component="legend">
+          <FormGroup
+            className={classes.control}
+            component="fieldset"
+          >
+            <FormLabel
+              className={classes.label}
+              component="legend"
+            >
               Usou corticosteroides por mais de 15 dias?
             </FormLabel>
             <RadioGroup
               aria-label="corticosteroides"
               name="corticosteroides"
               onChange={event => setCorticosteroide(event.target.value)}
-              value={corticosteroide}>
+              value={corticosteroide}
+            >
               <div className={classes.radiosWrapper}>
-                <FormControlLabel control={<Radio />} label="Sim" value="sim" />
+                <FormControlLabel
+                  control={<Radio />}
+                  label="Sim"
+                  value="sim"
+                />
                 <FormControlLabel
                   control={<Radio />}
                   label="Não"
@@ -533,8 +582,14 @@ const Comorbidities = () => {
           </FormGroup>
 
           {corticosteroide === 'sim' && (
-            <FormGroup className={classes.control} component="fieldset">
-              <FormLabel className={classes.label} component="legend">
+            <FormGroup
+              className={classes.control}
+              component="fieldset"
+            >
+              <FormLabel
+                className={classes.label}
+                component="legend"
+              >
                 Quais corticosteroides?
               </FormLabel>
               <div className={classes.orgaosWrapper}>
@@ -553,25 +608,46 @@ const Comorbidities = () => {
             </FormGroup>
           )}
 
-          <FormGroup className={classes.control} component="fieldset">
-            <FormLabel className={classes.label} component="legend">
+          <FormGroup
+            className={classes.control}
+            component="fieldset"
+          >
+            <FormLabel
+              className={classes.label}
+              component="legend"
+            >
               Gestação
             </FormLabel>
             <RadioGroup
               aria-label="gestacao"
               name="gestacao"
               onChange={event => setGestacao(event.target.value)}
-              value={gestacao}>
+              value={gestacao}
+            >
               <div className={classes.radiosWrapper}>
-                <FormControlLabel control={<Radio />} label="Sim" value="sim" />
-                <FormControlLabel control={<Radio />} label="Não" value="nao" />
+                <FormControlLabel
+                  control={<Radio />}
+                  label="Sim"
+                  value="sim"
+                />
+                <FormControlLabel
+                  control={<Radio />}
+                  label="Não"
+                  value="nao"
+                />
               </div>
             </RadioGroup>
           </FormGroup>
 
           {gestacao === 'sim' && (
-            <FormGroup className={classes.control} component="fieldset">
-              <FormLabel className={classes.label} component="legend">
+            <FormGroup
+              className={classes.control}
+              component="fieldset"
+            >
+              <FormLabel
+                className={classes.label}
+                component="legend"
+              >
                 Há quantas semanas?
               </FormLabel>
               <TextField
@@ -582,17 +658,28 @@ const Comorbidities = () => {
             </FormGroup>
           )}
 
-          <FormGroup className={classes.control} component="fieldset">
-            <FormLabel className={classes.label} component="legend">
+          <FormGroup
+            className={classes.control}
+            component="fieldset"
+          >
+            <FormLabel
+              className={classes.label}
+              component="legend"
+            >
               Puerpério
             </FormLabel>
             <RadioGroup
               aria-label="puerperio"
               name="puerperio"
               onChange={event => setPuerperio(event.target.value)}
-              value={puerperio}>
+              value={puerperio}
+            >
               <div className={classes.radiosWrapper}>
-                <FormControlLabel control={<Radio />} label="Sim" value="sim" />
+                <FormControlLabel
+                  control={<Radio />}
+                  label="Sim"
+                  value="sim"
+                />
                 <FormControlLabel
                   control={<Radio />}
                   label="Não"
@@ -604,8 +691,14 @@ const Comorbidities = () => {
           </FormGroup>
 
           {puerperio === 'sim' && (
-            <FormGroup className={classes.control} component="fieldset">
-              <FormLabel className={classes.label} component="legend">
+            <FormGroup
+              className={classes.control}
+              component="fieldset"
+            >
+              <FormLabel
+                className={classes.label}
+                component="legend"
+              >
                 Há quantas semanas?
               </FormLabel>
               <TextField
@@ -616,8 +709,14 @@ const Comorbidities = () => {
             </FormGroup>
           )}
 
-          <FormGroup className={classes.control} component="fieldset">
-            <FormLabel className={classes.label} component="legend">
+          <FormGroup
+            className={classes.control}
+            component="fieldset"
+          >
+            <FormLabel
+              className={classes.label}
+              component="legend"
+            >
               Outras condições
             </FormLabel>
             <div className={classes.buttonWrapper}>
@@ -634,7 +733,7 @@ const Comorbidities = () => {
                 color="secondary"
                 disabled={visualization}
                 onClick={() => {
-                  if (visualization) {
+                  if (visualization || outraCondicao === '') {
                     return;
                   }
 
@@ -651,7 +750,8 @@ const Comorbidities = () => {
                 }}
                 startIcon={<Add />}
                 type="button"
-                variant="contained">
+                variant="contained"
+              >
                 Adicionar
               </Button>
             </div>
@@ -674,7 +774,10 @@ const Comorbidities = () => {
           </FormGroup>
 
           <FormGroup component="fieldset">
-            <FormLabel className={classes.label} component="legend">
+            <FormLabel
+              className={classes.label}
+              component="legend"
+            >
               Medicações de uso contínuo
             </FormLabel>
             <div className={classes.buttonWrapper}>
@@ -691,7 +794,7 @@ const Comorbidities = () => {
                 color="secondary"
                 disabled={visualization}
                 onClick={() => {
-                  if (visualization) {
+                  if (visualization || medicacao === '') {
                     return;
                   }
 
@@ -708,7 +811,8 @@ const Comorbidities = () => {
                 }}
                 startIcon={<Add />}
                 type="button"
-                variant="contained">
+                variant="contained"
+              >
                 Adicionar
               </Button>
             </div>

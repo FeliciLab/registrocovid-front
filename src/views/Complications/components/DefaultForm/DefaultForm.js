@@ -20,24 +20,36 @@ const DefaultForm = ({ index, remove, complicationData }) => {
   const { values, handleChange, errors, touched } = useFormikContext();
 
   return (
-    <Grid className={classes.root} component={Card} item>
+    <Grid
+      className={classes.root}
+      component={Card}
+      item
+    >
       <FormLabel className={classes.formLabel}>
         <Typography variant="h3">
           {complicationData && complicationData.tipo_complicacao_descricao
             ? complicationData.tipo_complicacao_descricao
             : ''}
         </Typography>
-        <IconButton aria-label="delete" onClick={() => remove(index)}>
+        <IconButton
+          aria-label="delete"
+          onClick={() => remove(index)}
+        >
           <DeleteIcon fontSize="small" />
         </IconButton>
       </FormLabel>
-      <Grid className={classes.fieldFormDefaultFlex} item sm={12}>
+      <Grid
+        className={classes.fieldFormDefaultFlex}
+        item
+        sm={12}
+      >
         <FormGroup className={classes.defaultFormGroup}>
           <FormLabel>
             <Typography variant="h4">Ocorrência</Typography>
             <Typography
+              className={classes.defaultFormLabelSubtitle}
               variant="p"
-              className={classes.defaultFormLabelSubtitle}>
+            >
               Data
             </Typography>
           </FormLabel>
@@ -47,10 +59,6 @@ const DefaultForm = ({ index, remove, complicationData }) => {
             }}
             as={TextField}
             className={classes.dateField}
-            name={`newsComplicacoes[${index}].data`}
-            onChange={handleChange}
-            value={values.newsComplicacoes[index].data}
-            type="date"
             error={
               errors.newsComplicacoes && touched.newsComplicacoes
                 ? !!errors.newsComplicacoes[index]?.data
@@ -63,6 +71,10 @@ const DefaultForm = ({ index, remove, complicationData }) => {
                 ? errors.newsComplicacoes[index]?.data
                 : ''
             }
+            name={`newsComplicacoes[${index}].data`}
+            onChange={handleChange}
+            type="date"
+            value={values.newsComplicacoes[index].data}
           />
         </FormGroup>
       </Grid>

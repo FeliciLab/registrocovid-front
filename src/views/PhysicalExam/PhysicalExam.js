@@ -83,7 +83,8 @@ const PhysicalExam = () => {
               disabled={disableButton}
               onClick={handleSubmit}
               type="submit"
-              variant="contained">
+              variant="contained"
+            >
               Salvar
             </Button>
           </div>
