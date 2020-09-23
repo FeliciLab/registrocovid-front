@@ -146,7 +146,7 @@ function ComplementaryTests() {
             { label: 'Meus pacientes', route: '/meus-pacientes' },
             { label: 'Categorias', route: '/categorias' },
             {
-              label: 'Exames laboratoriais complementares',
+              label: 'Exames complementares',
               route: '/categorias/exames-complementares/',
             },
           ]}
