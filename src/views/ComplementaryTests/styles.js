@@ -25,6 +25,10 @@ const useStyles = makeStyles(theme => ({
     width: '200px',
     height: '48px',
   },
+  content: {
+    padding: theme.spacing(2),
+    maxWidth: '864px',
+  },
 }));
 
 export default useStyles;

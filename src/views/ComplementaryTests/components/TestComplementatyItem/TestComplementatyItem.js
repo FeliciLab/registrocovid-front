@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 import PropTypes from 'prop-types';
 
@@ -51,7 +51,8 @@ const TestComplementaryItem = ({ teste, descricao }) => {
         {/* resultado */}
         <Grid
           item
-          sm={6}
+          md={6}
+          xs={12}
         >
           <FormGroup>
             <FormLabel>
@@ -60,7 +61,6 @@ const TestComplementaryItem = ({ teste, descricao }) => {
             <TextField
               as={TextField}
               className={classes.field}
-              label="Resultado"
               type="text"
               value={teste.resultado}
               variant="outlined"
@@ -71,21 +71,19 @@ const TestComplementaryItem = ({ teste, descricao }) => {
         {/* data */}
         <Grid
           item
-          sm={6}
+          md={6}
+          xs={12}
         >
           <FormGroup>
             <FormLabel>
               <Typography variant="h4">Data</Typography>
             </FormLabel>
             <TextField
-              InputLabelProps={{
-                shrink: true,
-              }}
               className={classes.field}
               contentEditable={false}
-              label="Data da coleta do teste rápido"
               type="date"
               value={teste.data}
+              variant="outlined"
             />
           </FormGroup>
         </Grid>
@@ -105,4 +103,4 @@ TestComplementaryItem.propTypes = {
   }).isRequired,
 };
 
-export default TestComplementaryItem;
+export default memo(TestComplementaryItem);

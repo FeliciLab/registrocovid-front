@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 import PropTypes from 'prop-types';
 
@@ -7,7 +7,6 @@ import {
   FormGroup,
   FormLabel,
   Typography,
-  TextField,
   Card,
   IconButton,
 } from '@material-ui/core';
@@ -16,13 +15,14 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 import { Field, useFormikContext } from 'formik';
 import useStyles from './styles';
+import { TextField } from 'formik-material-ui';
 
 const TestComplementaryForm = props => {
   const classes = useStyles();
 
-  const { index, remove, descricao } = props;
+  const { index, remove } = props;
 
-  const { values, handleChange, errors, touched } = useFormikContext();
+  const { values } = useFormikContext();
 
   return (
     <Grid
@@ -30,15 +30,17 @@ const TestComplementaryForm = props => {
       component={Card}
       item
     >
-      <FormLabel className={classes.formLabel}>
-        <Typography variant="h4">{descricao}</Typography>
+      <div className={classes.formLabel}>
+        <Typography variant="h4">
+          {values.newComplementaryTests[index].descricao}
+        </Typography>
         <IconButton
           aria-label="delete"
           onClick={() => remove(index)}
         >
           <DeleteIcon fontSize="small" />
         </IconButton>
-      </FormLabel>
+      </div>
 
       <Grid
         className={classes.formWraper}
@@ -50,36 +52,17 @@ const TestComplementaryForm = props => {
           className={classes.fieldWraper}
           item
           md={6}
-          sm={12}
+          xs={12}
         >
           <FormGroup>
             <FormLabel>
-              <Typography variant="h4">
-                {values.newComplementaryTests[index].descricao}
-              </Typography>
+              <Typography variant="h4">Resultado</Typography>
             </FormLabel>
             <Field
-              InputLabelProps={{
-                shrink: true,
-              }}
-              as={TextField}
               className={classes.field}
-              error={
-                errors.newComplementaryTests &&
-                touched.newComplementaryTests &&
-                !!errors.newComplementaryTests[index]?.resultado
-              }
-              helperText={
-                errors.newComplementaryTests &&
-                touched.newComplementaryTests &&
-                errors.newComplementaryTests[index]?.resultado
-                  ? errors.newComplementaryTests[index]?.resultado
-                  : null
-              }
-              label={descricao}
+              component={TextField}
               name={`newComplementaryTests.${index}.resultado`}
-              onChange={handleChange}
-              value={values.newComplementaryTests[index].resultado}
+              type="text"
               variant="outlined"
             />
           </FormGroup>
@@ -89,35 +72,18 @@ const TestComplementaryForm = props => {
           className={classes.fieldWraper}
           item
           md={6}
-          sm={12}
+          xs={12}
         >
           <FormGroup>
             <FormLabel>
-              <Typography variant="h4">Data de coleta</Typography>
+              <Typography variant="h4">Data</Typography>
             </FormLabel>
             <Field
-              InputLabelProps={{
-                shrink: true,
-              }}
-              as={TextField}
               className={classes.field}
-              error={
-                errors.newComplementaryTests &&
-                touched.newComplementaryTests &&
-                !!errors.newComplementaryTests[index]?.data
-              }
-              helperText={
-                errors.newComplementaryTests &&
-                touched.newComplementaryTests &&
-                errors.newComplementaryTests[index]?.data
-                  ? errors.newComplementaryTests[index]?.data
-                  : null
-              }
-              label="Data da coleta do teste rápido"
+              component={TextField}
               name={`newComplementaryTests.${index}.data`}
-              onChange={handleChange}
               type="date"
-              value={values.newComplementaryTests[index].data}
+              variant="outlined"
             />
           </FormGroup>
         </Grid>
@@ -128,9 +94,8 @@ const TestComplementaryForm = props => {
 
 TestComplementaryForm.propTypes = {
   className: PropTypes.string,
-  descricao: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
   remove: PropTypes.func.isRequired,
 };
 
-export default TestComplementaryForm;
+export default memo(TestComplementaryForm);

@@ -4,6 +4,7 @@ import useStyles from './styles';
 
 import {
   CustomBreadcrumbs,
+  NotToShowImg,
   // FormikErroObserver,
 } from 'components';
 
@@ -13,6 +14,7 @@ import {
   Typography,
   Grid,
   Button,
+  Card,
 } from '@material-ui/core';
 
 import { Formik, Form } from 'formik';
@@ -23,15 +25,12 @@ import TestComplementaryList from './components/TestComplementaryList';
 import api from 'services/api';
 import { useToast } from 'hooks/toast';
 import { useHistory } from 'react-router-dom';
+import TestComplementaryFormList from './components/TestComplementaryFormList';
 
-function getExamesPorTipo(exames) {
-  return exames.reduce((acc, curr) => {
-    var key = curr.tipo_exame_id;
-    acc[key] = acc[key] || [];
-    acc[key].push(curr);
-    return acc;
-  }, []);
-}
+const initialValues = {
+  newComplementaryTests: [],
+  tipoNewTesteSelected: '',
+};
 
 function ComplementaryTests() {
   const { patient } = usePatient();
@@ -44,7 +43,7 @@ function ComplementaryTests() {
 
   const [examesComplementares, setExamesComplementares] = useState([]);
 
-  const [examesCompPorTipo, setExamesCompPorTipo] = useState([]);
+  // const [examesCompPorTipo, setExamesCompPorTipo] = useState([]);
 
   const [types, setTypes] = useState([]);
 
@@ -94,9 +93,9 @@ function ComplementaryTests() {
     handleComplementaryTests(id);
   }, [handleComplementaryTests, id]);
 
-  useEffect(() => {
-    setExamesCompPorTipo(getExamesPorTipo(examesComplementares));
-  }, [examesComplementares]);
+  // useEffect(() => {
+  //   setExamesCompPorTipo(getExamesPorTipo(examesComplementares));
+  // }, [examesComplementares]);
 
   const handleSubmit = async values => {
     try {
@@ -147,7 +146,7 @@ function ComplementaryTests() {
             { label: 'Meus pacientes', route: '/meus-pacientes' },
             { label: 'Categorias', route: '/categorias' },
             {
-              label: 'Exames laboratoriais complementares',
+              label: 'Exames complementares',
               route: '/categorias/exames-complementares/',
             },
           ]}
@@ -158,20 +157,15 @@ function ComplementaryTests() {
           <div className={classes.formWrapper}>
             <Formik
               enableReinitialize
-              initialValues={{
-                newComplementaryTests: [],
-                tipoNewTesteSelected: '',
-              }}
+              initialValues={initialValues}
               onSubmit={handleSubmit}
               validateOnMount
               validationSchema={schema}
             >
-              {({ isSubmitting }) => (
+              {({ isSubmitting, values }) => (
                 <Form component={FormControl}>
                   <div className={classes.titleWrapper}>
-                    <Typography variant="h2">
-                      Exames laboratoriais complementares
-                    </Typography>
+                    <Typography variant="h2">Exames complementares</Typography>
                     <Grid
                       className={classes.actionSection}
                       item
@@ -189,20 +183,39 @@ function ComplementaryTests() {
                     </Grid>
                   </div>
 
-                  <SelectComplementaryTestType types={types} />
+                  <Grid
+                    className={classes.content}
+                    component={Card}
+                    container
+                    direction="column"
+                    spacing={2}
+                  >
+                    <SelectComplementaryTestType types={types} />
 
-                  {/* TODO: colocar depois do primeiro MVP */}
-                  {/* <FormikErroObserver /> */}
+                    {/* TODO: colocar depois do primeiro MVP */}
+                    {/* <FormikErroObserver /> */}
 
-                  {types &&
-                    types.length !== 0 &&
-                    types.map((tipo, index) => (
-                      <TestComplementaryList
-                        descricao={tipo.descricao}
-                        key={index}
-                        testes={examesCompPorTipo[tipo.id]}
-                      />
-                    ))}
+                    <TestComplementaryFormList />
+
+                    {types &&
+                      types.length !== 0 &&
+                      types.map((tipo, index) => (
+                        <TestComplementaryList
+                          descricao={tipo.descricao}
+                          key={index}
+                          testes={examesComplementares.filter(
+                            exame => exame.descricao === tipo.descricao,
+                          )}
+                        />
+                      ))}
+
+                    {examesComplementares.length === 0 &&
+                      values.newComplementaryTests.length === 0 && (
+                      <Grid item>
+                        <NotToShowImg label="Nenhum exame foi adicionado" />
+                      </Grid>
+                    )}
+                  </Grid>
                 </Form>
               )}
             </Formik>
