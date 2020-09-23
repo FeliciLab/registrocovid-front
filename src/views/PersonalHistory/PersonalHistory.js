@@ -4,7 +4,7 @@ import React, {
   useEffect,
   useRef,
   useImperativeHandle,
-  forwardRef
+  forwardRef,
 } from 'react';
 import { useHistory } from 'react-router-dom';
 
@@ -22,12 +22,12 @@ import {
   Radio,
   CircularProgress,
   Checkbox,
-  FormGroup
+  FormGroup,
 } from '@material-ui/core';
 
 import { useFormik } from 'formik';
 
-import CustonBreadcrumbs from 'components/CustonBreadcrumbs';
+import CustomBreadcrumbs from 'components/CustomBreadcrumbs';
 import PatientInfo from 'components/PatientInfo';
 
 import { useToast } from 'hooks/toast';
@@ -61,7 +61,9 @@ const PersonalHistory = () => {
       const responseDrogas = await api.get('/drogas');
       setDrogas(responseDrogas.data);
 
-      const responseHistory = await api.get(`/pacientes/${patient.id}/historico`);
+      const responseHistory = await api.get(
+        `/pacientes/${patient.id}/historico`,
+      );
       setPatientHistory(responseHistory.data);
 
       if (responseHistory) {
@@ -89,16 +91,19 @@ const PersonalHistory = () => {
 
   const handleSubmit = () => {
     formRef.current.submit();
-  }
+  };
 
   return (
     <div className={classes.root}>
       <div className={classes.header}>
-        <CustonBreadcrumbs
+        <CustomBreadcrumbs
           links={[
             { label: 'Meus pacientes', route: '/meus-pacientes' },
             { label: 'Categorias', route: '/categorias' },
-            { label: 'História Pessoal', route: '/categorias/historia-pessoal' },
+            {
+              label: 'História Pessoal',
+              route: '/categorias/historia-pessoal',
+            },
           ]}
         />
       </div>
@@ -123,7 +128,9 @@ const PersonalHistory = () => {
           </div>
         </div>
 
-        {loading ? <CircularProgress /> : (
+        {loading ? (
+          <CircularProgress />
+        ) : (
           <Form
             drogas={drogas}
             patientHistory={patientHistory}
@@ -134,7 +141,7 @@ const PersonalHistory = () => {
       </div>
     </div>
   );
-}
+};
 
 export default PersonalHistory;
 
@@ -145,20 +152,20 @@ const Form = forwardRef((props, ref) => {
   const { addToast } = useToast();
   const { patient } = usePatient();
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async values => {
     try {
       const historico = {
         situacao_uso_drogas_id: Number(values.situacao_uso_drogas_id),
         drogas: values.drogas,
         tabagismo: values.tabagismo === 'true' ? true : false,
-        etilismo: values.etilismo === 'true' ? true : false
+        etilismo: values.etilismo === 'true' ? true : false,
       };
 
       await api.post(`/pacientes/${patient.id}/historico`, historico);
 
       addToast({
         type: 'success',
-        message: 'Dados salvos com sucesso'
+        message: 'Dados salvos com sucesso',
       });
       history.push('/categorias');
     } catch {
@@ -174,16 +181,20 @@ const Form = forwardRef((props, ref) => {
       tabagismo: String(patientHistory.tabagismo) ?? undefined,
       situacao_uso_drogas_id: String(patientHistory.situacao_uso_drogas_id),
       drogas: patientHistory.drogas?.map(droga => droga.id),
-      etilismo: String(patientHistory.etilismo) ?? undefined
+      etilismo: String(patientHistory.etilismo) ?? undefined,
     },
-    onSubmit: handleSubmit
+    onSubmit: handleSubmit,
   });
 
-  useImperativeHandle(ref, () => {
-    return {
-      submit: formik.handleSubmit,
-    }
-  }, [formik.handleSubmit]);
+  useImperativeHandle(
+    ref,
+    () => {
+      return {
+        submit: formik.handleSubmit,
+      };
+    },
+    [formik.handleSubmit],
+  );
 
   return (
     <form onSubmit={formik.handleSubmit}>
@@ -197,10 +208,22 @@ const Form = forwardRef((props, ref) => {
           <Card className={classes.form}>
             <CardInfo
               items={[
-                { label: 'Fumante Diário:', description: '1 cigarro ao dia por no mínimo 1 mês'},
-                { label: 'Fumante ocasional:', description: 'menos de 1 cigarro por dia por no mínimo 1 mês'},
-                { label: 'Ex-fumante:', description: 'parou de fumar há pelo menos 1 mês'},
-                { label: 'Não fumante:', description: 'nunca fumaram ou fumam há menos de 1 mês'},
+                {
+                  label: 'Fumante Diário:',
+                  description: '1 cigarro ao dia por no mínimo 1 mês',
+                },
+                {
+                  label: 'Fumante ocasional:',
+                  description: 'menos de 1 cigarro por dia por no mínimo 1 mês',
+                },
+                {
+                  label: 'Ex-fumante:',
+                  description: 'parou de fumar há pelo menos 1 mês',
+                },
+                {
+                  label: 'Não fumante:',
+                  description: 'nunca fumaram ou fumam há menos de 1 mês',
+                },
               ]}
               title="Classificação do tabagismo segundo OMS:"
             />
@@ -244,7 +267,8 @@ const Form = forwardRef((props, ref) => {
             >
               <FormLabel>
                 <Typography variant="h4">
-                  Em relação ao uso de drogas ilícitas, em que opção você se enquadra?
+                  Em relação ao uso de drogas ilícitas, em que opção você se
+                  enquadra?
                 </Typography>
               </FormLabel>
 
@@ -273,7 +297,8 @@ const Form = forwardRef((props, ref) => {
             >
               <FormLabel>
                 <Typography variant="h4">
-                  Em caso de uso de drogas (atual ou ex-usuário), descrever quais drogas
+                  Em caso de uso de drogas (atual ou ex-usuário), descrever
+                  quais drogas
                 </Typography>
               </FormLabel>
 
@@ -300,9 +325,21 @@ const Form = forwardRef((props, ref) => {
 
             <CardInfo
               items={[
-                { label: 'Etilista:', description: 'consumo de pelo menos 1 unidade (ver abaixo) de qualquer bebida alcoólica por dia no último ano'},
-                { label: 'Ex-etilista:', description: 'já consumiu bebida alcoólica, mas parou de consumir no último ano'},
-                { label: 'Não etilista:', description: 'nunca consumiu bebida alcoólica na frequência de etilista'},
+                {
+                  label: 'Etilista:',
+                  description:
+                    'consumo de pelo menos 1 unidade (ver abaixo) de qualquer bebida alcoólica por dia no último ano',
+                },
+                {
+                  label: 'Ex-etilista:',
+                  description:
+                    'já consumiu bebida alcoólica, mas parou de consumir no último ano',
+                },
+                {
+                  label: 'Não etilista:',
+                  description:
+                    'nunca consumiu bebida alcoólica na frequência de etilista',
+                },
               ]}
               title="Classificação do etilismo segundo OMS:"
             />
@@ -343,7 +380,7 @@ const Form = forwardRef((props, ref) => {
         </Grid>
       </div>
     </form>
-  )
+  );
 });
 
 function CardInfo({ title, items }) {

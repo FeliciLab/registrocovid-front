@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import CustonBreadcrumbs from 'components/CustonBreadcrumbs';
+import CustomBreadcrumbs from 'components/CustomBreadcrumbs';
 import useStyles from './styles';
 import { Formik, Form, Field } from 'formik';
 import schema from './schema';
@@ -26,7 +26,6 @@ import { usePatient } from 'context/PatientContext';
 import { useToast } from 'hooks/toast';
 
 const PatientIdentification = () => {
-
   const history = useHistory();
 
   const classes = useStyles();
@@ -291,7 +290,7 @@ const PatientIdentification = () => {
   return (
     <div className={classes.root}>
       <div className={classes.header}>
-        <CustonBreadcrumbs
+        <CustomBreadcrumbs
           links={[
             { label: 'Meus pacientes', route: '/meus-pacientes' },
             { label: 'Categorias', route: '/categorias' },

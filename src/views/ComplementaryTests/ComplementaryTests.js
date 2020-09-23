@@ -3,7 +3,7 @@ import { usePatient } from 'context/PatientContext';
 import useStyles from './styles';
 
 import {
-  CustonBreadcrumbs,
+  CustomBreadcrumbs,
   // FormikErroObserver,
 } from 'components';
 
@@ -71,7 +71,10 @@ function ComplementaryTests() {
 
         // os exames podem não existir
         if (responseExames.data.length) {
-          setExamesComplementares(exames => [...exames, ...responseExames.data]);
+          setExamesComplementares(exames => [
+            ...exames,
+            ...responseExames.data,
+          ]);
         }
       } catch (err) {
         // caso aconteça algum erro, mostra a mensagem de erro e volta a página.
@@ -139,7 +142,7 @@ function ComplementaryTests() {
   return (
     <div className={classes.root}>
       <div className={classes.header}>
-        <CustonBreadcrumbs
+        <CustomBreadcrumbs
           links={[
             { label: 'Meus pacientes', route: '/meus-pacientes' },
             { label: 'Categorias', route: '/categorias' },

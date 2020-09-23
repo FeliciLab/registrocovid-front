@@ -2,22 +2,13 @@ import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import { Divider, Drawer, Typography } from '@material-ui/core';
-// import DashboardIcon from '@material-ui/icons/Dashboard';
-// import PeopleIcon from '@material-ui/icons/People';
-// import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
-// import TextFieldsIcon from '@material-ui/icons/TextFields';
-// import ImageIcon from '@material-ui/icons/Image';
-// import AccountBoxIcon from '@material-ui/icons/AccountBox';
-// import SettingsIcon from '@material-ui/icons/Settings';
-// import LockOpenIcon from '@material-ui/icons/LockOpen';
-import { IconButton } from '@material-ui/core';
 import InputIcon from '@material-ui/icons/Input';
 import PeopleIcon from '@material-ui/icons/People';
 import useAuth from 'context/hooks/useAuth';
 import Button from '@material-ui/core/Button';
 
 import { Profile, SidebarNav } from './components';
+import { Divider, Drawer } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   drawer: {
@@ -53,51 +44,11 @@ const Sidebar = props => {
   const classes = useStyles();
 
   const pages = [
-    // {
-    //   title: 'Dashboard',
-    //   href: '/dashboard',
-    //   icon: <DashboardIcon />
-    // },
-    // {
-    //   title: 'Users',
-    //   href: '/users',
-    //   icon: <PeopleIcon />
-    // },
-    // {
-    //   title: 'Products',
-    //   href: '/products',
-    //   icon: <ShoppingBasketIcon />
-    // },
     {
       title: 'Meus pacientes',
       href: '/meus-pacientes',
       icon: <PeopleIcon />,
     },
-    // {
-    //   title: 'Authentication',
-    //   href: '/sign-in',
-    //   icon: <LockOpenIcon />
-    // },
-    // {
-    //   title: 'Typography',
-    //   href: '/typography',
-    //   icon: <TextFieldsIcon />
-    // },
-    // {
-    //   title: 'Icons',
-    //   href: '/icons',
-    //   icon: <ImageIcon />
-    // },
-    // {
-    //   title: 'Account',
-    //   href: '/account',
-    //   icon: <AccountBoxIcon />
-    // },
-    // {
-    //   title: 'Settings',
-    //   href: '/settings',
-    //   icon: <SettingsIcon />
-    // },
   ];
 
   return (
@@ -116,7 +67,8 @@ const Sidebar = props => {
           className={classes.signOutButton}
           color="primary"
           onClick={handleLogout}
-          startIcon={<InputIcon />}>
+          startIcon={<InputIcon />}
+        >
           SAIR
         </Button>
         {/* <UpgradePlan /> */}

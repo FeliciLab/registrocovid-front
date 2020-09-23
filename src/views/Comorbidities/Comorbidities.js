@@ -22,13 +22,14 @@ import api from 'services/api';
 import CardComorbirdades from './CardComorbidades';
 import PatientInfo from 'components/PatientInfo';
 import useStyles from './styles';
-import CustonBreadcrumbs from 'components/CustonBreadcrumbs';
+import CustomBreadcrumbs from 'components/CustomBreadcrumbs';
 
 import { useComorbidade } from 'context/ComorbidadesContext';
 import { usePatient } from 'context/PatientContext';
 import { useToast } from 'hooks/toast';
 
 import CheckBoxCard from './CheckBoxCard';
+import OutrasDoencasItem from './OutrasDoencasItem';
 
 const Comorbidities = () => {
   const classes = useStyles();
@@ -93,95 +94,122 @@ const Comorbidities = () => {
   useEffect(() => {
     setIsLoading(true);
 
-    api.get('/tipos-doencas').then((response) => {
-      setTiposDoenca(response.data);
-    }).catch(() => {
-      addToast({
-        type: 'error',
-        message: 'Ocorreu um erro ao carregar os tipos de doenças, por favor tente novamente.'
+    api
+      .get('/tipos-doencas')
+      .then(response => {
+        setTiposDoenca(response.data);
+      })
+      .catch(() => {
+        addToast({
+          type: 'error',
+          message:
+            'Ocorreu um erro ao carregar os tipos de doenças, por favor tente novamente.',
+        });
       });
-    });
 
-    api.get('/corticosteroides').then((response) => {
-      setAllCorticosteroides(response.data);
-    }).catch(() => {
-      addToast({
-        type: 'error',
-        message: 'Ocorreu um erro ao carregar os corticosteroides, por favor tente novamente.'
+    api
+      .get('/corticosteroides')
+      .then(response => {
+        setAllCorticosteroides(response.data);
+      })
+      .catch(() => {
+        addToast({
+          type: 'error',
+          message:
+            'Ocorreu um erro ao carregar os corticosteroides, por favor tente novamente.',
+        });
       });
-    });
 
-    api.get('/corticosteroides').then((response) => {
-      setAllCorticosteroides(response.data);
-    }).catch(() => {
-      addToast({
-        type: 'error',
-        message: 'Ocorreu um erro ao carregar os corticosteroides, por favor tente novamente.'
+    api
+      .get('/orgaos')
+      .then(response => {
+        setAllOrgaos(response.data);
+      })
+      .catch(() => {
+        addToast({
+          type: 'error',
+          message:
+            'Ocorreu um erro ao carregar os orgaos, por favor tente novamente.',
+        });
       });
-    });
 
-    api.get('/orgaos').then((response) => {
-      setAllOrgaos(response.data);
-    }).catch(() => {
-      addToast({
-        type: 'error',
-        message: 'Ocorreu um erro ao carregar os orgaos, por favor tente novamente.'
+    api
+      .get('/doencas')
+      .then(response => {
+        setAllDoencas(response.data);
+      })
+      .catch(() => {
+        addToast({
+          type: 'error',
+          message:
+            'Ocorreu um erro ao carregar as doenças, por favor tente novamente.',
+        });
       });
-    });
 
-    api.get('/doencas').then((response) => {
-      setAllDoencas(response.data);
-    }).catch(() => {
-      addToast({
-        type: 'error',
-        message: 'Ocorreu um erro ao carregar as doenças, por favor tente novamente.'
-      });
-    });
+    api
+      .get(`/pacientes/${patient.id}/comorbidades`)
+      .then(response => {
+        if (response.status === 204) {
+          setVisualization(false);
+          setIsLoading(false);
+          return;
+        } else {
+          setVisualization(true);
 
-    api.get(`/pacientes/${patient.id}/comorbidades`).then((response) => {
-      if (response.status === 204) {
-        setVisualization(false);
+          const apiData = response.data;
+
+          setDoencasFromUser(apiData.doencas);
+          setCorticosteroidesFromUser(apiData.corticosteroides);
+          setOrgaosFromUser(apiData.orgaos);
+
+          //chips
+          setDiabetes(apiData.diabetes);
+          setObesidade(apiData.obesidade);
+          setHipertensao(apiData.hipertensao);
+          setHiv(apiData.HIV);
+          setTuberculose(apiData.tuberculose);
+          setNeoplasia(apiData.neoplasia);
+          setQuimioterapia(apiData.quimioterapia);
+
+          setCorticosteroide(
+            apiData.corticosteroide === null
+              ? ''
+              : apiData.corticosteroide
+                ? 'sim'
+                : 'nao',
+          );
+          setTransplantado(
+            apiData.transplantado === null
+              ? ''
+              : apiData.transplantado
+                ? 'sim'
+                : 'nao',
+          );
+          setGestacao(
+            apiData.gestacao === null ? '' : apiData.gestacao ? 'sim' : 'nao',
+          );
+          setSemanasGestacao(apiData.gestacao_semanas);
+          setPuerperio(
+            apiData.puerperio === null ? '' : apiData.puerperio ? 'sim' : 'nao',
+          );
+          setSemanasPuerperio(apiData.puerperio_semanas);
+
+          setOutrasCondicoes(apiData.outras_condicoes);
+          setMedicacoes(apiData.medicacoes);
+
+          // arrays de ids
+          fetchDoencasAPI(tiposDoenca, apiData.doencas, allDoencas);
+        }
         setIsLoading(false);
-        return;
-      } else {
-        setVisualization(true);
-
-        const apiData = response.data;
-
-        setDoencasFromUser(apiData.doencas);
-        setCorticosteroidesFromUser(apiData.corticosteroides);
-        setOrgaosFromUser(apiData.orgaos);
-
-        //chips
-        setDiabetes(apiData.diabetes);
-        setObesidade(apiData.obesidade);
-        setHipertensao(apiData.hipertensao);
-        setHiv(apiData.HIV);
-        setTuberculose(apiData.tuberculose);
-        setNeoplasia(apiData.neoplasia);
-        setQuimioterapia(apiData.quimioterapia);
-
-        setCorticosteroide(apiData.corticosteroide === null ? '' : apiData.corticosteroide ? 'sim' : 'nao' );
-        setTransplantado(apiData.transplantado === null ? '' : apiData.transplantado ? 'sim' : 'nao' );
-        setGestacao(apiData.gestacao === null ? '' : apiData.gestacao ? 'sim' : 'nao' );
-        setSemanasGestacao(apiData.gestacao_semanas);
-        setPuerperio(apiData.puerperio === null ? '' : apiData.puerperio ? 'sim' : 'nao' );
-        setSemanasPuerperio(apiData.puerperio_semanas);
-
-        setOutrasCondicoes(apiData.outras_condicoes);
-        setMedicacoes(apiData.medicacoes);
-
-        // arrays de ids
-        fetchDoencasAPI(tiposDoenca, apiData.doencas, allDoencas);
-      }
-      setIsLoading(false);
-    }).catch(() => {
-      addToast({
-        type: 'error',
-        message: 'Ocorreu um erro ao carregar suas informações, por favor tente novamente.'
+      })
+      .catch(() => {
+        addToast({
+          type: 'error',
+          message:
+            'Ocorreu um erro ao carregar suas informações, por favor tente novamente.',
+        });
       });
-    });
-
+    // eslint-disable-next-line
   }, []);
 
   const handleSubmit = async () => {
@@ -245,7 +273,7 @@ const Comorbidities = () => {
   return (
     <div className={classes.root}>
       <div className={classes.header}>
-        <CustonBreadcrumbs
+        <CustomBreadcrumbs
           links={[
             { label: 'Meus pacientes', route: '/meus-pacientes' },
             { label: 'Categorias', route: '/categorias' },
@@ -386,57 +414,82 @@ const Comorbidities = () => {
             </div>
           </div>
 
-          {!visualization && <div className={classes.control}>
-            <Typography
-              className={classes.label}
-              variant="h6"
-            >
-              Acrescente outras doenças que o paciente apresenta
-            </Typography>
-            <div className={classes.buttonWrapper}>
-              <TextField
-                className={classes.textFieldWithButton}
-                label="Escolher tipo de doença"
-                select
-                variant="filled"
+          {!visualization && (
+            <div className={classes.control}>
+              <Typography
+                className={classes.label}
+                variant="h6"
               >
-                {tiposDoenca.map(({ id, descricao }) => (
-                  <MenuItem
-                    key={id}
-                    onClick={() => { setSelectedField({ id, descricao }) }}
-                    value={id}
-                  >
-                    {descricao}
-                  </MenuItem>
-                ))}
-              </TextField>
-              <Button
-                className={classes.buttonAdd}
-                color="secondary"
-                disabled={visualization}
-                onClick={() => {
-                  if (visualization) {
-                    return;
-                  }
+                Acrescente outras doenças que o paciente apresenta
+              </Typography>
+              <div className={classes.buttonWrapper}>
+                <TextField
+                  className={classes.textFieldWithButton}
+                  label="Escolher tipo de doença"
+                  select
+                  variant="filled"
+                >
+                  {tiposDoenca.map(({ id, descricao }) => (
+                    <MenuItem
+                      key={id}
+                      onClick={() => {
+                        setSelectedField({ id, descricao });
+                      }}
+                      value={id}
+                    >
+                      {descricao}
+                    </MenuItem>
+                  ))}
+                </TextField>
+                {/* Campo de adicionar só pode estar habilitado quando o
+                    coletador selecionar uma doença. */}
+                <Button
+                  className={classes.buttonAdd}
+                  color="secondary"
+                  disabled={visualization || !selectedField.id}
+                  onClick={() => {
+                    if (visualization || !selectedField.id) {
+                      return;
+                    }
 
-                  addCard(selectedField, allDoencas);
-                }}
-                startIcon={<Add />}
-                type="button"
-                variant="contained"
-              >
-                Adicionar
-              </Button>
+                    addCard(selectedField, allDoencas);
+                  }}
+                  startIcon={<Add />}
+                  type="button"
+                  variant="contained"
+                >
+                  Adicionar
+                </Button>
+              </div>
             </div>
-          </div>}
+          )}
 
-          {cards.map(card => (
-            <CardComorbirdades
-              card={card}
-              doencasFromUser={doencasFromUser}
-              key={card.id}
-            />
-          ))}
+          {tiposDoenca.map(tipo => {
+            const doencasList = doencasFromUser.filter(
+              doenca => doenca.tipo_doenca_id === tipo.id,
+            );
+            return (
+              <OutrasDoencasItem
+                // filtra aqui todas as doencas de um tipo
+                allDoencas={allDoencas.filter(
+                  doenca => doenca.tipo_doenca_id === tipo.id,
+                )}
+                doencas={doencasList}
+                key={tipo.id}
+                tipoDoenca={tipo}
+              />
+            );
+          })}
+
+          {!(doencasFromUser.length > 0)
+            ? cards.map(card => (
+              <CardComorbirdades
+                card={card}
+                doencasFromUser={doencasFromUser}
+                key={card.id}
+              />
+            ))
+            : null}
 
           <FormGroup
             className={classes.control}
@@ -484,7 +537,9 @@ const Comorbidities = () => {
               <div className={classes.orgaosWrapper}>
                 {allOrgaos.map(orgao => (
                   <CheckBoxCard
-                    alreadyExists={orgaosFromUser.some(item => item.id === orgao.id)}
+                    alreadyExists={orgaosFromUser.some(
+                      item => item.id === orgao.id,
+                    )}
                     handleArray={handleOrgaoId}
                     id={orgao.id}
                     label={orgao.descricao}
@@ -540,7 +595,9 @@ const Comorbidities = () => {
               <div className={classes.orgaosWrapper}>
                 {allCorticosteroides.map(corticosteroide => (
                   <CheckBoxCard
-                    alreadyExists={corticosteroidesFromUser.some(item => item.id === corticosteroide.id)}
+                    alreadyExists={corticosteroidesFromUser.some(
+                      item => item.id === corticosteroide.id,
+                    )}
                     handleArray={handleCorticosteroideId}
                     id={corticosteroide.id}
                     key={corticosteroide.id}
@@ -676,7 +733,7 @@ const Comorbidities = () => {
                 color="secondary"
                 disabled={visualization}
                 onClick={() => {
-                  if (visualization) {
+                  if (visualization || outraCondicao === '') {
                     return;
                   }
 
@@ -737,7 +794,7 @@ const Comorbidities = () => {
                 color="secondary"
                 disabled={visualization}
                 onClick={() => {
-                  if (visualization) {
+                  if (visualization || medicacao === '') {
                     return;
                   }
 

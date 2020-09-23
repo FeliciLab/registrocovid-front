@@ -1,18 +1,10 @@
-import React, {
-  useState,
-  useEffect,
-  useRef,
-} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useRouteMatch } from 'react-router-dom';
 
-import {
-  Typography,
-  Button,
-  CircularProgress,
-} from '@material-ui/core';
+import { Typography, Button, CircularProgress } from '@material-ui/core';
 
 import { getPhysicalExam } from '../../services/physicalExam';
-import CustonBreadcrumbs from 'components/CustonBreadcrumbs';
+import CustomBreadcrumbs from 'components/CustomBreadcrumbs';
 import PatientInfo from 'components/PatientInfo';
 import Form from './components/Form';
 
@@ -31,34 +23,34 @@ const PhysicalExam = () => {
   const [physicalExam, setPhysicalExam] = useState({});
   const [disableButton, setDisableButton] = useState(true);
 
-  useEffect( () => {
-    if(patient.id && params.examId){
+  useEffect(() => {
+    if (patient.id && params.examId) {
       getPhysicalExam(patient.id, params.examId)
-        .then( response => {
+        .then(response => {
           setPhysicalExam(response.data);
         })
-        .catch( err => {
+        .catch(err => {
           addToast({
             type: 'error',
             message: err.message,
           });
         })
-        .finally(() =>{
+        .finally(() => {
           setLoading(false);
         });
-    }else{
+    } else {
       setLoading(false);
     }
   }, [addToast, params.examId, patient.id]);
 
   const handleSubmit = () => {
     formRef.current.submit();
-  }
+  };
 
-  const hasExam = Object.entries(physicalExam).length !== 0; 
-  const shouldDisableButton = (disable) => {
+  const hasExam = Object.entries(physicalExam).length !== 0;
+  const shouldDisableButton = disable => {
     setDisableButton(disable);
-  }
+  };
 
   useEffect(() => {
     setDisableButton(loading || hasExam);
@@ -67,11 +59,14 @@ const PhysicalExam = () => {
   return (
     <div className={classes.root}>
       <div className={classes.header}>
-        <CustonBreadcrumbs
+        <CustomBreadcrumbs
           links={[
             { label: 'Meus pacientes', route: '/meus-pacientes' },
             { label: 'Categorias', route: '/categorias' },
-            { label: 'Lista de evoluções', route: '/categorias/lista-exame-fisico' },
+            {
+              label: 'Lista de evoluções',
+              route: '/categorias/lista-exame-fisico',
+            },
             { label: 'Exame Físico', route: '/categorias/exame-fisico' },
           ]}
         />
@@ -95,16 +90,18 @@ const PhysicalExam = () => {
           </div>
         </div>
 
-        {loading ? <CircularProgress /> : (
+        {loading ? (
+          <CircularProgress />
+        ) : (
           <Form
-            shouldDisableButton={shouldDisableButton}
             physicalExam={physicalExam}
             ref={formRef}
+            shouldDisableButton={shouldDisableButton}
           />
         )}
       </div>
     </div>
   );
-}
+};
 
 export default PhysicalExam;

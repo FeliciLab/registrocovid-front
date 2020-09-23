@@ -8,6 +8,8 @@ import { TableRow, TableCell, Button } from '@material-ui/core';
 
 import { usePatient } from 'context/PatientContext';
 
+import formatDate from 'helpers/formatDate';
+
 const PatientRow = props => {
   const { patient, ...rest } = props;
   const { addPatient } = usePatient();
@@ -27,7 +29,7 @@ const PatientRow = props => {
       <TableCell align="left">
         <strong>#</strong> {patient.prontuario}
       </TableCell>
-      <TableCell align="left">{patient.data_internacao}</TableCell>
+      <TableCell align="left">{formatDate(patient.data_internacao)}</TableCell>
       <TableCell align="left">{patient.created_at}</TableCell>
       <TableCell align="right">
         <Button color="inherit">

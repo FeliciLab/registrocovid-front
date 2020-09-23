@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { useAxios } from 'hooks/axios';
 import { usePatient } from 'context/PatientContext';
 import PatientInfo from 'components/PatientInfo';
-import CustonBreadcrumbs from 'components/CustonBreadcrumbs';
+import CustomBreadcrumbs from 'components/CustomBreadcrumbs';
 import formatDate from '../../helpers/formatDate';
 
 // Icons
@@ -50,11 +50,14 @@ const PhysicalExamsList = () => {
   return (
     <div className={classes.root}>
       <div className={classes.header}>
-        <CustonBreadcrumbs
+        <CustomBreadcrumbs
           links={[
             { label: 'Meus pacientes', route: '/meus-pacientes' },
             { label: 'Categorias', route: '/categorias' },
-            { label: 'Lista de evoluções', route: '/categorias/lista-exame-fisico' }
+            {
+              label: 'Lista de evoluções',
+              route: '/categorias/lista-exame-fisico',
+            },
           ]}
         />
       </div>
@@ -67,10 +70,11 @@ const PhysicalExamsList = () => {
           <PatientInfo />
           <Button
             className={classes.buttonSave}
+            color="secondary"
+            onClick={() => handleNavigate('/categorias/exame-fisico')}
             type="submit"
             variant="contained"
-            color="secondary"
-            onClick={() => handleNavigate(`/categorias/exame-fisico`)}>
+          >
             <AddIcon fontSize="small" />
             INSERIR NOVA OCORRÊNCIA
           </Button>
@@ -87,11 +91,15 @@ const PhysicalExamsList = () => {
             <TableContainer
               component={Paper}
               elevation={2}
-              style={{ marginTop: 10 }}>
+              style={{ marginTop: 10 }}
+            >
               <Table size="small">
                 <TableHead>
                   <TableRow>
-                    <TableCell colSpan={2} className={classes.tableCellHead}>
+                    <TableCell
+                      className={classes.tableCellHead}
+                      colSpan={2}
+                    >
                       Data de Evolução
                     </TableCell>
                   </TableRow>
@@ -103,8 +111,12 @@ const PhysicalExamsList = () => {
                       key={exam.id}
                       onClick={() =>
                         handleNavigate(`/categorias/exame-fisico/${exam.id}`)
-                      }>
-                      <TableCell component="th" scope="row">
+                      }
+                    >
+                      <TableCell
+                        component="th"
+                        scope="row"
+                      >
                         {formatDate(exam.data_evolucao)}
                       </TableCell>
                       <TableCell align="right">

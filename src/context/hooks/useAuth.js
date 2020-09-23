@@ -13,12 +13,14 @@ export default function useAuth() {
     if (token) {
       api.defaults.headers.Authorization = `Bearer ${token}`;
       setAuthenticated(true);
+    } else {
+      setAuthenticated(false);
     }
 
     setLoading(false);
   }, []);
 
-  async function handleLogin({ cpf, password }) {
+  async function handleLogin({ cpf, password, isModal = false }) {
     await api
       .post('/auth/login', { cpf, password })
       .then(response => {
@@ -28,7 +30,10 @@ export default function useAuth() {
         api.defaults.headers.Authorization = `Bearer ${access_token}`;
 
         setAuthenticated(true);
-        history.push('/meus-pacientes');
+        setErroLogin(false);
+        if (!isModal) {
+          history.push('/meus-pacientes');
+        }
       })
       .catch(error => {
         // TODO: Melhorar esse tratamento de erro.
@@ -56,6 +61,8 @@ export default function useAuth() {
     loading,
     erroLogin,
     authenticated,
+    setAuthenticated,
+    setErroLogin,
     handleLogin,
     handleLogout,
   };

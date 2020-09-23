@@ -3,7 +3,7 @@ import React, {
   useCallback,
   useEffect,
   useRef,
-  useMemo
+  useMemo,
 } from 'react';
 import { useHistory } from 'react-router-dom';
 
@@ -17,11 +17,11 @@ import {
   FormLabel,
   FormControl,
   Select,
-  MenuItem
+  MenuItem,
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 
-import CustonBreadcrumbs from 'components/CustonBreadcrumbs';
+import CustomBreadcrumbs from 'components/CustomBreadcrumbs';
 import PatientInfo from 'components/PatientInfo';
 import Form from './components/Form';
 
@@ -57,14 +57,20 @@ const RespiratorySupport = () => {
 
       const [supports, patientRecords] = await Promise.all([
         api.get('/suportes-respiratorios'),
-        api.get(`pacientes/${patient.id}/suportes-respiratorios`)
+        api.get(`pacientes/${patient.id}/suportes-respiratorios`),
       ]);
 
       setSupportsTypes(supports.data);
 
-      const tratamentoRecords = orderByDate(patientRecords.data.tratamento_suporte);
-      const pronacaoRecords = orderByDate(patientRecords.data.tratamento_pronacao);
-      const desmameRecords = orderByDate(patientRecords.data.tratamento_inclusao_desmame);
+      const tratamentoRecords = orderByDate(
+        patientRecords.data.tratamento_suporte,
+      );
+      const pronacaoRecords = orderByDate(
+        patientRecords.data.tratamento_pronacao,
+      );
+      const desmameRecords = orderByDate(
+        patientRecords.data.tratamento_inclusao_desmame,
+      );
       setOldRecords(tratamentoRecords);
       setPronacao(pronacaoRecords);
       setDesmame(desmameRecords);
@@ -84,7 +90,7 @@ const RespiratorySupport = () => {
     handleInfos();
   }, [handleInfos]);
 
-  const handleSelect = (event) => {
+  const handleSelect = event => {
     selectedTratament.current = event.target.value;
   };
 
@@ -92,7 +98,7 @@ const RespiratorySupport = () => {
     if (selectedTratament.current) {
       const newTratament = {
         id: recordId,
-        tratament: selectedTratament.current
+        tratament: selectedTratament.current,
       };
 
       setRecordId(oldState => oldState + 1);
@@ -100,8 +106,10 @@ const RespiratorySupport = () => {
     }
   };
 
-  const handleDelete = (recordId) => {
-    const updatedComplications = newsRecords.filter(({ id }) => id !== recordId);
+  const handleDelete = recordId => {
+    const updatedComplications = newsRecords.filter(
+      ({ id }) => id !== recordId,
+    );
     setNewsRecords(updatedComplications);
 
     formRef.current.setValues(recordId);
@@ -111,7 +119,7 @@ const RespiratorySupport = () => {
     formRef.current.submit();
   };
 
-  const orderByDate = (array) => {
+  const orderByDate = array => {
     if (!array) {
       return [];
     }
@@ -121,15 +129,17 @@ const RespiratorySupport = () => {
         a.data_inicio > b.data_inicio ||
         a.data_pronacao > b.data_pronacao ||
         a.data_inclusao_desmame > b.data_inclusao_desmame
-      ) return 1;
+      )
+        return 1;
       if (
         a.data_inicio < b.data_inicio ||
         a.data_pronacao < b.data_pronacao ||
         a.data_inclusao_desmame < b.data_inclusao_desmame
-      ) return -1;
+      )
+        return -1;
       return 0;
     });
-  }
+  };
 
   const groupedOldRecords = useMemo(() => {
     return oldRecords.reduce((acc, object) => {
@@ -147,11 +157,14 @@ const RespiratorySupport = () => {
   return (
     <div className={classes.root}>
       <div className={classes.header}>
-        <CustonBreadcrumbs
+        <CustomBreadcrumbs
           links={[
             { label: 'Meus pacientes', route: '/meus-pacientes' },
             { label: 'Categorias', route: '/categorias' },
-            { label: 'Suporte respiratório', route: '/categorias/suporte-respiratorio' },
+            {
+              label: 'Suporte respiratório',
+              route: '/categorias/suporte-respiratorio',
+            },
           ]}
         />
       </div>
@@ -175,7 +188,9 @@ const RespiratorySupport = () => {
           </div>
         </div>
 
-        {loading ? <CircularProgress /> : (
+        {loading ? (
+          <CircularProgress />
+        ) : (
           <div className="container">
             <Grid
               container
@@ -183,7 +198,9 @@ const RespiratorySupport = () => {
             >
               <Paper className={classes.centralPaper}>
                 <FormLabel>
-                  <Typography variant="h4">Escolher tipo de suporte ou procedimento:</Typography>
+                  <Typography variant="h4">
+                    Escolher tipo de suporte ou procedimento:
+                  </Typography>
                 </FormLabel>
 
                 <div className={classes.headerForm}>
@@ -205,7 +222,7 @@ const RespiratorySupport = () => {
                           >
                             Escolher
                           </MenuItem>
-                          {supportsTypes.map((support) => (
+                          {supportsTypes.map(support => (
                             <MenuItem
                               key={String(support.id)}
                               value={support.id}
@@ -239,7 +256,7 @@ const RespiratorySupport = () => {
                   className={classes.examsFormGroup}
                   ref={formRef}
                 >
-                  {newsRecords.map((item) => (
+                  {newsRecords.map(item => (
                     <Records
                       handleDelete={() => handleDelete(item.id)}
                       id={item.id}
@@ -262,46 +279,47 @@ const RespiratorySupport = () => {
                             newRecord={item.tipo_suporte_id}
                             visible
                           />
-                        )
+                        );
                       }),
                       <div
                         className={classes.newExpPanel}
                         key={String(Math.random())}
-                      />
-                    ]
-                  }
-                  )}
+                      />,
+                    ];
+                  })}
 
-                  {[pronacao.map((item) => (
-                    <Records
-                      id={item.id}
-                      infos={item}
-                      isNew={false}
-                      key={String(item.id)}
-                      newRecord={7}
-                      visible
-                    />
-                  )),
-                  <div
-                    className={classes.newExpPanel}
-                    key={String(Math.random())}
-                  />
+                  {[
+                    pronacao.map(item => (
+                      <Records
+                        id={item.id}
+                        infos={item}
+                        isNew={false}
+                        key={String(item.id)}
+                        newRecord={7}
+                        visible
+                      />
+                    )),
+                    <div
+                      className={classes.newExpPanel}
+                      key={String(Math.random())}
+                    />,
                   ]}
 
-                  {[desmame.map((item) => (
-                    <Records
-                      id={item.id}
-                      infos={item}
-                      isNew={false}
-                      key={String(item.id)}
-                      newRecord={8}
-                      visible
-                    />
-                  )),
-                  <div
-                    className={classes.newExpPanel}
-                    key={String(Math.random())}
-                  />
+                  {[
+                    desmame.map(item => (
+                      <Records
+                        id={item.id}
+                        infos={item}
+                        isNew={false}
+                        key={String(item.id)}
+                        newRecord={8}
+                        visible
+                      />
+                    )),
+                    <div
+                      className={classes.newExpPanel}
+                      key={String(Math.random())}
+                    />,
                   ]}
                 </Form>
               </Paper>
@@ -311,6 +329,6 @@ const RespiratorySupport = () => {
       </div>
     </div>
   );
-}
+};
 
 export default RespiratorySupport;

@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import useStyles from './styles';
 import * as Yup from 'yup';
 import { Formik, Form, Field } from 'formik';
-import CustonBreadcrumbs from 'components/CustonBreadcrumbs';
+import CustomBreadcrumbs from 'components/CustomBreadcrumbs';
 
 // Material-UI Components
 import {
@@ -42,7 +42,7 @@ const schema = Yup.object().shape({
 
 const GeneralInfo = () => {
   const { addToast } = useToast();
-  const { addPatient } = usePatient();
+  const { patient, addPatient } = usePatient();
   const history = useHistory();
   const classes = useStyles();
 
@@ -109,15 +109,29 @@ const GeneralInfo = () => {
       const responsePatient = {
         id: response.data.paciente.id,
         prontuario: response.data.paciente.prontuario,
-        created_at: formatDate(response.data.paciente.created_at)
+        created_at: formatDate(response.data.paciente.created_at),
       };
+
+      const complementaryResponsePatient = {
+        ...responsePatient,
+
+        data_internacao: values.data_internacao,
+        suporte_respiratorio: values.suporte_respiratorio,
+        reinternacao: values.reinternacao,
+
+        instituicao_primeiro_atendimento: { id: values.unidade_primeiro_atendimento },
+        instituicao_referencia: { id: values.unidade_de_saude },
+        data_atendimento_referencia: values.data_atendimento,
+        tipo_suporte_respiratorios: [{ id: values.tipo_suport_respiratorio }],
+      }
 
       addToast({
         type: 'success',
         message: 'Dados salvos com sucesso',
       });
 
-      addPatient(responsePatient);
+      addPatient(complementaryResponsePatient);
+
       history.push('/categorias');
     } catch (err) {
       if (err.response.data.message === 'The given data was invalid.') {
@@ -134,10 +148,39 @@ const GeneralInfo = () => {
     }
   };
 
+  const loadInitialValues = () => {
+    let initialValues = {
+      prontuario: '',
+      data_internacao: '',
+      unidade_primeiro_atendimento: '',
+      unidade_de_saude: '',
+      data_atendimento: '',
+      suporte_respiratorio: false,
+      tipo_suport_respiratorio: '',
+      reinternacao: false,
+    };
+
+    if (patient && patient.prontuario) {
+      initialValues = {
+        prontuario: patient.prontuario,
+        data_internacao: patient.data_internacao,
+        suporte_respiratorio: patient.suporte_respiratorio || false,
+        reinternacao: patient.reinternacao || false,
+        unidade_primeiro_atendimento: patient.instituicao_primeiro_atendimento ? patient.instituicao_primeiro_atendimento.id : '',
+        unidade_de_saude: patient.instituicao_referencia ? patient.instituicao_referencia.id : '',
+        data_atendimento: patient.data_atendimento_referencia || '',
+        tipo_suport_respiratorio: patient.tipo_suporte_respiratorios.length > 0 ? patient.tipo_suporte_respiratorios[0].id : '',
+
+      }
+    }
+
+    return initialValues;
+  }
+
   return (
     <div className={classes.root}>
       <div className={classes.header}>
-        <CustonBreadcrumbs
+        <CustomBreadcrumbs
           links={[
             { label: 'Meus pacientes', route: '/meus-pacientes' },
             { label: 'Categorias', route: '/categorias' },
@@ -151,16 +194,7 @@ const GeneralInfo = () => {
 
       <div className={classes.formWrapper}>
         <Formik
-          initialValues={{
-            prontuario: '',
-            data_internacao: '',
-            unidade_primeiro_atendimento: '',
-            unidade_de_saude: '',
-            data_atendimento: '',
-            suporte_respiratorio: false,
-            tipo_suport_respiratorio: '',
-            reinternacao: false,
-          }}
+          initialValues={loadInitialValues()}
           onSubmit={handleSubmit}
           validateOnMount
           validationSchema={schema}
@@ -173,7 +207,7 @@ const GeneralInfo = () => {
                 <Button
                   className={classes.buttonSave}
                   color="secondary"
-                  disable={isSubmitting}
+                  disabled={!!patient.prontuario || isSubmitting}
                   type="submit"
                   variant="contained"
                 >
