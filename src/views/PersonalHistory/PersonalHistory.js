@@ -36,7 +36,6 @@ import { usePatient } from 'context/PatientContext';
 import api from 'services/api';
 
 import useStyles from './styles';
-import { UnfoldLess } from '@material-ui/icons';
 
 const PersonalHistory = () => {
   const classes = useStyles();
@@ -66,7 +65,6 @@ const PersonalHistory = () => {
         `/pacientes/${patient.id}/historico`,
       );
       setPatientHistory(responseHistory.data);
-
     } catch (err) {
       if (err.response.status === 404) {
         return null;
@@ -91,11 +89,11 @@ const PersonalHistory = () => {
     formRef.current.submit();
   };
 
-  const handleChange = (bool) => {
-    if(Object.keys(patientHistory).length === 0){
+  const handleChange = bool => {
+    if (Object.keys(patientHistory).length === 0) {
       setButtonDisabled(bool);
     }
-  }
+  };
 
   return (
     <div className={classes.root}>
@@ -137,7 +135,7 @@ const PersonalHistory = () => {
         ) : (
           <Form
             drogas={drogas}
-            onChange={(bool) => handleChange(bool)}
+            onChange={bool => handleChange(bool)}
             patientHistory={patientHistory}
             ref={formRef}
             usoDrogas={usoDrogas}
@@ -194,14 +192,21 @@ const Form = forwardRef((props, ref) => {
     }
   };
 
-
-
   const formik = useFormik({
     initialValues: {
-      tabagismo: patientHistory.tabagismo != null? patientHistory.tabagismo.toString() : '',
-      situacao_uso_drogas_id: patientHistory.situacao_uso_drogas_id != null? patientHistory.situacao_uso_drogas_id.toString() : '',
+      tabagismo:
+        patientHistory.tabagismo != null
+          ? patientHistory.tabagismo.toString()
+          : '',
+      situacao_uso_drogas_id:
+        patientHistory.situacao_uso_drogas_id != null
+          ? patientHistory.situacao_uso_drogas_id.toString()
+          : '',
       drogas: patientHistory.drogas?.map(droga => droga.id),
-      etilismo: patientHistory.etilismo != null? patientHistory.etilismo.toString() : '',
+      etilismo:
+        patientHistory.etilismo != null
+          ? patientHistory.etilismo.toString()
+          : '',
     },
     onSubmit: handleSubmit,
   });
@@ -235,8 +240,7 @@ const Form = forwardRef((props, ref) => {
 
   useEffect(() => {
     onChange(shallowEqual(formik.values, formik.initialValues));
-  }, [formik.values])
-
+  }, [formik.values, formik.initialValues, onChange]);
 
   return (
     <form onSubmit={formik.handleSubmit}>
