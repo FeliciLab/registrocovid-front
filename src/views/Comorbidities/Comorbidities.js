@@ -234,6 +234,10 @@ const Comorbidities = () => {
       medicacoes,
     };
 
+    if (quimioterapia) {
+      submitData.quimioterapia = quimioterapia === 'sim';
+    }
+
     if (transplantado) {
       submitData.transplantado = transplantado === 'sim';
     }
@@ -278,14 +282,16 @@ const Comorbidities = () => {
             { label: 'Meus pacientes', route: '/meus-pacientes' },
             { label: 'Categorias', route: '/categorias' },
             {
-              label: 'Comorbidades / condições iniciais',
+              label: 'Comorbidades / Condições clínicas de base',
               route: '/categorias/comorbidades',
             },
           ]}
         />
       </div>
       <div className={classes.titleWrapper}>
-        <Typography variant="h1">Comorbidades / condições clínicas</Typography>
+        <Typography variant="h2">
+          Comorbidades / Condições clínicas de base
+        </Typography>
         <div className={classes.patientWrapper}>
           <PatientInfo />
           <Button
@@ -329,7 +335,6 @@ const Comorbidities = () => {
                   if (visualization) {
                     return;
                   }
-
                   setDiabetes(prevDiabetes => !prevDiabetes);
                 }}
               />
@@ -342,46 +347,19 @@ const Comorbidities = () => {
                   if (visualization) {
                     return;
                   }
-
                   setObesidade(prevObesidade => !prevObesidade);
                 }}
               />
-              <Chip
-                clickable
-                color={neoplasia ? 'primary' : 'default'}
-                icon={neoplasia ? <DoneIcon /> : null}
-                label="Neoplasia"
-                onClick={() => {
-                  if (visualization) {
-                    return;
-                  }
 
-                  setNeoplasia(prevNeoplasia => !prevNeoplasia);
-                }}
-              />
-              <Chip
-                clickable
-                color={quimioterapia ? 'primary' : 'default'}
-                icon={quimioterapia ? <DoneIcon /> : null}
-                label="Quimioterapia"
-                onClick={() => {
-                  if (visualization) {
-                    return;
-                  }
-
-                  setQuimioterapia(prevQuimioterapia => !prevQuimioterapia);
-                }}
-              />
               <Chip
                 clickable
                 color={hipertensao ? 'primary' : 'default'}
                 icon={hipertensao ? <DoneIcon /> : null}
-                label="Hipertensão (pressão arterial)"
+                label="Hipertensão"
                 onClick={() => {
                   if (visualization) {
                     return;
                   }
-
                   setHipertensao(prevHipertensao => !prevHipertensao);
                 }}
               />
@@ -394,7 +372,6 @@ const Comorbidities = () => {
                   if (visualization) {
                     return;
                   }
-
                   setHiv(prevHiv => !prevHiv);
                 }}
               />
@@ -407,7 +384,6 @@ const Comorbidities = () => {
                   if (visualization) {
                     return;
                   }
-
                   setTuberculose(prevTuberculose => !prevTuberculose);
                 }}
               />
@@ -463,7 +439,7 @@ const Comorbidities = () => {
               </div>
             </div>
           )}
-          
+
           {tiposDoenca.map(tipo => {
             const doencasList = doencasFromUser.filter(
               doenca => doenca.tipo_doenca_id === tipo.id,
@@ -490,6 +466,38 @@ const Comorbidities = () => {
               />
             ))
             : null}
+
+          {/* quimioterapia */}
+          <FormGroup
+            className={classes.control}
+            component="fieldset"
+          >
+            <FormLabel
+              className={classes.label}
+              component="legend"
+            >
+              Quimioterapia
+            </FormLabel>
+            <RadioGroup
+              aria-label="quimioterapia"
+              name="quimioterapia"
+              onChange={event => setQuimioterapia(event.target.value)}
+              value={quimioterapia ? 'sim' : 'nao'}
+            >
+              <div className={classes.radiosWrapper}>
+                <FormControlLabel
+                  control={<Radio />}
+                  label="Sim"
+                  value="sim"
+                />
+                <FormControlLabel
+                  control={<Radio />}
+                  label="Não"
+                  value="nao"
+                />
+              </div>
+            </RadioGroup>
+          </FormGroup>
 
           <FormGroup
             className={classes.control}
@@ -557,7 +565,7 @@ const Comorbidities = () => {
               className={classes.label}
               component="legend"
             >
-              Usou corticosteroides por mais de 15 dias?
+              Faz uso crônico de corticóides?
             </FormLabel>
             <RadioGroup
               aria-label="corticosteroides"
