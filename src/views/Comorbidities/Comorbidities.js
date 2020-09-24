@@ -66,7 +66,7 @@ const Comorbidities = () => {
   const [hiv, setHiv] = useState(false);
   const [tuberculose, setTuberculose] = useState(false);
   const [neoplasia, setNeoplasia] = useState(false);
-  const [quimioterapia, setQuimioterapia] = useState(false);
+  const [quimioterapia, setQuimioterapia] = useState('');
 
   const [transplantado, setTransplantado] = useState('');
   const [corticosteroide, setCorticosteroide] = useState('');
@@ -83,7 +83,7 @@ const Comorbidities = () => {
   const [outraCondicao, setOutraCondicao] = useState('');
   const [medicacao, setMedicacao] = useState('');
 
-  const [selectedField, setSelectedField] = useState({});
+  const [selectedField, setSelectedField] = useState({id: ''});
 
   const [isSaving, setIsSaving] = useState(false);
 
@@ -170,6 +170,9 @@ const Comorbidities = () => {
           setTuberculose(apiData.tuberculose);
           setNeoplasia(apiData.neoplasia);
           setQuimioterapia(apiData.quimioterapia);
+
+          // TODO: testando
+          console.log('apiData.quimioterapia');
 
           setCorticosteroide(
             apiData.corticosteroide === null
@@ -403,6 +406,7 @@ const Comorbidities = () => {
                   className={classes.textFieldWithButton}
                   label="Escolher tipo de doença"
                   select
+                  value={selectedField.id}
                   variant="filled"
                 >
                   {tiposDoenca.map(({ id, descricao }) => (
@@ -427,7 +431,6 @@ const Comorbidities = () => {
                     if (visualization || !selectedField.id) {
                       return;
                     }
-
                     addCard(selectedField, allDoencas);
                   }}
                   startIcon={<Add />}
@@ -481,8 +484,10 @@ const Comorbidities = () => {
             <RadioGroup
               aria-label="quimioterapia"
               name="quimioterapia"
-              onChange={event => setQuimioterapia(event.target.value)}
-              value={quimioterapia ? 'sim' : 'nao'}
+              onChange={event =>
+                setQuimioterapia(event.target.value)
+              }
+              value={quimioterapia}
             >
               <div className={classes.radiosWrapper}>
                 <FormControlLabel
@@ -805,11 +810,9 @@ const Comorbidities = () => {
                   if (visualization || medicacao === '') {
                     return;
                   }
-
                   const exists = medicacoes.some(
                     medicacao2 => medicacao2 === medicacao,
                   );
-
                   if (!exists) {
                     setMedicacoes(prevMedicacoes => [
                       ...prevMedicacoes,

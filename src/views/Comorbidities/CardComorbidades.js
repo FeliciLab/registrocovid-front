@@ -21,8 +21,11 @@ const CardComorbidades = ({ card, doencasFromUser }) => {
           {card.descricao}
         </Typography>
 
-        <IconButton aria-label="delete">
-          <Delete onClick={() => removeCard(card.id, card.doencas)} />
+        <IconButton
+          aria-label="delete"
+          onClick={() => removeCard(card.id, card.doencas)}
+        >
+          <Delete />
         </IconButton>
       </div>
       <Typography style={{ fontSize: 18, fontWeight: 500, marginBottom: 10 }}>
@@ -33,6 +36,7 @@ const CardComorbidades = ({ card, doencasFromUser }) => {
           alreadyExists={doencasFromUser.some(item => item.id === doenca.id)}
           handleArray={handleDoencaId}
           id={doenca.id}
+          key={doenca.id}
           label={doenca.descricao}
         />
       ))}
