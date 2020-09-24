@@ -85,7 +85,7 @@ const Categories = () => {
       },
       {
         id: 8,
-        label: 'Tratamento de Suporte',
+        label: 'Hemodiálise',
         url: 'categorias/tratamento-suporte/',
       },
       { id: 9, label: 'Desfecho', url: 'categorias/desfecho/' },

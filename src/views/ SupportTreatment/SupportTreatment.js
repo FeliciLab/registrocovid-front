@@ -106,7 +106,7 @@ function SupportTreatment() {
             { label: 'Meus pacientes', route: '/meus-pacientes' },
             { label: 'Categorias', route: '/categorias' },
             {
-              label: 'Tratamento de Suporte',
+              label: 'Hemodiálise',
               route: '/categorias/tratamento-suporte/',
             },
           ]}
@@ -120,33 +120,25 @@ function SupportTreatment() {
               initialValues={initialValues}
               onSubmit={handleSubmit}
               validateOnMount
-              validationSchema={schema}
-            >
+              validationSchema={schema}>
               {({ isSubmitting }) => (
                 <Form component={FormControl}>
                   <div className={classes.titleWrapper}>
-                    <Typography variant="h2">Tratamento de suporte</Typography>
-                    <Grid
-                      className={classes.actionSection}
-                      item
-                    >
+                    <Typography variant="h2">Hemodiálise</Typography>
+                    <Grid className={classes.actionSection} item>
                       <PatientInfo />
                       <Button
                         className={classes.buttonSave}
                         color="secondary"
                         disabled={isSubmitting || isPrevValue}
                         type="submit"
-                        variant="contained"
-                      >
+                        variant="contained">
                         Salvar
                       </Button>
                     </Grid>
                   </div>
 
-                  <Grid
-                    className={classes.contentContainer}
-                    container
-                  >
+                  <Grid className={classes.contentContainer} container>
                     {isPrevValue ? (
                       <SupportTreatmentItem tratamento={tratamento} />
                     ) : (
