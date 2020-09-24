@@ -49,6 +49,7 @@ const Comorbidities = () => {
   } = useComorbidade();
 
   const { patient } = usePatient();
+
   const { addToast } = useToast();
 
   const [tiposDoenca, setTiposDoenca] = useState([]);
@@ -83,7 +84,7 @@ const Comorbidities = () => {
   const [outraCondicao, setOutraCondicao] = useState('');
   const [medicacao, setMedicacao] = useState('');
 
-  const [selectedField, setSelectedField] = useState({id: ''});
+  const [selectedField, setSelectedField] = useState({ id: '' });
 
   const [isSaving, setIsSaving] = useState(false);
 
@@ -185,6 +186,13 @@ const Comorbidities = () => {
             apiData.transplantado === null
               ? ''
               : apiData.transplantado
+                ? 'sim'
+                : 'nao',
+          );
+          setQuimioterapia(
+            apiData.quimioterapia === null
+              ? ''
+              : apiData.quimioterapia
                 ? 'sim'
                 : 'nao',
           );
@@ -484,9 +492,7 @@ const Comorbidities = () => {
             <RadioGroup
               aria-label="quimioterapia"
               name="quimioterapia"
-              onChange={event =>
-                setQuimioterapia(event.target.value)
-              }
+              onChange={event => setQuimioterapia(event.target.value)}
               value={quimioterapia}
             >
               <div className={classes.radiosWrapper}>
