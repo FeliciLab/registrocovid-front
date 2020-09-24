@@ -20,13 +20,12 @@ function SupportTreatmentForm() {
     <Grid
       className={classes.root}
       component={Card}
+      container
       item
       md={10}
       spacing={2}
       xs={12}>
-      <FormLabel className={classes.formLabel} />
-
-      <Grid className={classes.formWraper} container spacing={1}>
+      <Grid className={classes.formWraper} container item spacing={1}>
         {/* data_inicio */}
         <Grid className={classes.fieldWraper} item sm={6}>
           <FormGroup>
@@ -84,7 +83,7 @@ function SupportTreatmentForm() {
         </Grid>
 
         {/* motivo_hemodialise */}
-        <Grid className={classes.fieldWraper} item sm={6}>
+        <Grid className={classes.fieldWraper} item sm={12}>
           <FormGroup>
             <FormLabel>
               <Typography variant="h5">Motivo</Typography>
@@ -105,7 +104,7 @@ function SupportTreatmentForm() {
         </Grid>
 
         {/* frequencia_hemodialise */}
-        <Grid className={classes.fieldWraper} item sm={6}>
+        <Grid className={classes.fieldWraper} item sm={12}>
           <FormGroup>
             <FormLabel>
               <Typography variant="h5">Frequência</Typography>
