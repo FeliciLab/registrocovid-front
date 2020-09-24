@@ -7,8 +7,8 @@ import PeopleIcon from '@material-ui/icons/People';
 import useAuth from 'context/hooks/useAuth';
 import Button from '@material-ui/core/Button';
 
-import { Profile, SidebarNav } from './components';
-import { Divider, Drawer } from '@material-ui/core';
+import { SidebarNav } from './components';
+import { Drawer } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   drawer: {
@@ -67,8 +67,7 @@ const Sidebar = props => {
           className={classes.signOutButton}
           color="primary"
           onClick={handleLogout}
-          startIcon={<InputIcon />}
-        >
+          startIcon={<InputIcon />}>
           SAIR
         </Button>
         {/* <UpgradePlan /> */}

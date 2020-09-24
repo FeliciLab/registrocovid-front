@@ -23,7 +23,9 @@ import {
   TableRow,
   Paper,
   CircularProgress,
+  Grid,
 } from '@material-ui/core';
+import { NotToShowImg } from 'components';
 
 const PhysicalExamsList = () => {
   const { patient } = usePatient();
@@ -62,7 +64,7 @@ const PhysicalExamsList = () => {
         />
       </div>
       <div className={classes.titleWrapper}>
-        <Typography variant="h1">
+        <Typography variant="h3">
           Exame físico (admissão e evolução diária)
         </Typography>
 
@@ -73,8 +75,7 @@ const PhysicalExamsList = () => {
             color="secondary"
             onClick={() => handleNavigate('/categorias/exame-fisico')}
             type="submit"
-            variant="contained"
-          >
+            variant="contained">
             <AddIcon fontSize="small" />
             INSERIR NOVA OCORRÊNCIA
           </Button>
@@ -84,22 +85,27 @@ const PhysicalExamsList = () => {
         {!data ? (
           <CircularProgress />
         ) : data.length === 0 ? (
-          <Typography variant="h4">Nenhum Exame Encontrado</Typography>
+          <>
+            <Typography variant="h4">Lista de Evoluções</Typography>
+            <Grid
+              alignItems="center"
+              className={classes.mainGrid}
+              container
+              justify="center">
+              <NotToShowImg label="Nenhum Exame Encontrado" />
+            </Grid>
+          </>
         ) : (
           <>
             <Typography variant="h4">Ficha Inicial</Typography>
             <TableContainer
               component={Paper}
               elevation={2}
-              style={{ marginTop: 10 }}
-            >
+              style={{ marginTop: 10 }}>
               <Table size="small">
                 <TableHead>
                   <TableRow>
-                    <TableCell
-                      className={classes.tableCellHead}
-                      colSpan={2}
-                    >
+                    <TableCell className={classes.tableCellHead} colSpan={2}>
                       Data de Evolução
                     </TableCell>
                   </TableRow>
@@ -111,12 +117,8 @@ const PhysicalExamsList = () => {
                       key={exam.id}
                       onClick={() =>
                         handleNavigate(`/categorias/exame-fisico/${exam.id}`)
-                      }
-                    >
-                      <TableCell
-                        component="th"
-                        scope="row"
-                      >
+                      }>
+                      <TableCell component="th" scope="row">
                         {formatDate(exam.data_evolucao)}
                       </TableCell>
                       <TableCell align="right">

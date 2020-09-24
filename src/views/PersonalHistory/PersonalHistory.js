@@ -36,7 +36,6 @@ import { usePatient } from 'context/PatientContext';
 import api from 'services/api';
 
 import useStyles from './styles';
-import { UnfoldLess } from '@material-ui/icons';
 
 const PersonalHistory = () => {
   const classes = useStyles();
@@ -66,7 +65,6 @@ const PersonalHistory = () => {
         `/pacientes/${patient.id}/historico`,
       );
       setPatientHistory(responseHistory.data);
-
     } catch (err) {
       if (err.response.status === 404) {
         return null;
@@ -91,11 +89,11 @@ const PersonalHistory = () => {
     formRef.current.submit();
   };
 
-  const handleChange = (bool) => {
-    if(Object.keys(patientHistory).length === 0){
+  const handleChange = bool => {
+    if (Object.keys(patientHistory).length === 0) {
       setButtonDisabled(bool);
     }
-  }
+  };
 
   return (
     <div className={classes.root}>
@@ -125,8 +123,7 @@ const PersonalHistory = () => {
               disabled={buttonDisabled}
               onClick={handleSubmit}
               type="submit"
-              variant="contained"
-            >
+              variant="contained">
               Salvar
             </Button>
           </div>
@@ -137,7 +134,7 @@ const PersonalHistory = () => {
         ) : (
           <Form
             drogas={drogas}
-            onChange={(bool) => handleChange(bool)}
+            onChange={bool => handleChange(bool)}
             patientHistory={patientHistory}
             ref={formRef}
             usoDrogas={usoDrogas}
@@ -162,8 +159,8 @@ const Form = forwardRef((props, ref) => {
       const historico = {};
       values.situacao_uso_drogas_id
         ? (historico.situacao_uso_drogas_id = Number(
-          values.situacao_uso_drogas_id,
-        ))
+            values.situacao_uso_drogas_id,
+          ))
         : (historico.situacao_uso_drogas_id = undefined);
       values.drogas
         ? (historico.drogas = values.drogas)
@@ -194,14 +191,21 @@ const Form = forwardRef((props, ref) => {
     }
   };
 
-
-
   const formik = useFormik({
     initialValues: {
-      tabagismo: patientHistory.tabagismo != null? patientHistory.tabagismo.toString() : '',
-      situacao_uso_drogas_id: patientHistory.situacao_uso_drogas_id != null? patientHistory.situacao_uso_drogas_id.toString() : '',
+      tabagismo:
+        patientHistory.tabagismo != null
+          ? patientHistory.tabagismo.toString()
+          : '',
+      situacao_uso_drogas_id:
+        patientHistory.situacao_uso_drogas_id != null
+          ? patientHistory.situacao_uso_drogas_id.toString()
+          : '',
       drogas: patientHistory.drogas?.map(droga => droga.id),
-      etilismo: patientHistory.etilismo != null? patientHistory.etilismo.toString() : '',
+      etilismo:
+        patientHistory.etilismo != null
+          ? patientHistory.etilismo.toString()
+          : '',
     },
     onSubmit: handleSubmit,
   });
@@ -235,21 +239,14 @@ const Form = forwardRef((props, ref) => {
 
   useEffect(() => {
     onChange(shallowEqual(formik.values, formik.initialValues));
-  }, [formik.values])
-
+  }, [formik.values, formik.initialValues, onChange]);
 
   return (
     <form onSubmit={formik.handleSubmit}>
       <div className={classes.formContainer}>
         <Card className={classes.form}>
-          <Grid
-            container
-            spacing={2}
-          >
-            <Grid
-              item
-              sm={12}
-            >
+          <Grid container spacing={2}>
+            <Grid item sm={12}>
               <CardInfo
                 items={[
                   {
@@ -273,38 +270,23 @@ const Form = forwardRef((props, ref) => {
                 title="Classificação do tabagismo segundo OMS:"
               />
             </Grid>
-            <Grid
-              item
-              sm={12}
-            >
-              <FormControl
-                className={classes.formGroup}
-                component="fieldset"
-              >
+            <Grid item sm={12}>
+              <FormControl className={classes.formGroup} component="fieldset">
                 <FormLabel>
                   <Typography variant="h4">Tabagismo</Typography>
                 </FormLabel>
 
-                <RadioGroup
-                  name="tabagismo"
-                  value={formik.values.tabagismo}
-                >
+                <RadioGroup name="tabagismo" value={formik.values.tabagismo}>
                   <FormControlLabel
                     control={
-                      <Radio
-                        onChange={formik.handleChange}
-                        value="true"
-                      />
+                      <Radio onChange={formik.handleChange} value="true" />
                     }
                     label="Sim"
                   />
 
                   <FormControlLabel
                     control={
-                      <Radio
-                        onChange={formik.handleChange}
-                        value="false"
-                      />
+                      <Radio onChange={formik.handleChange} value="false" />
                     }
                     label="Não"
                   />
@@ -312,14 +294,8 @@ const Form = forwardRef((props, ref) => {
               </FormControl>
             </Grid>
 
-            <Grid
-              item
-              sm={12}
-            >
-              <FormControl
-                className={classes.formGroup}
-                component="fieldset"
-              >
+            <Grid item sm={12}>
+              <FormControl className={classes.formGroup} component="fieldset">
                 <FormLabel>
                   <Typography variant="h4">
                     Em relação ao uso de drogas ilícitas, em que opção você se
@@ -329,8 +305,7 @@ const Form = forwardRef((props, ref) => {
 
                 <RadioGroup
                   name="situacao_uso_drogas_id"
-                  value={formik.values.situacao_uso_drogas_id}
-                >
+                  value={formik.values.situacao_uso_drogas_id}>
                   {usoDrogas.map(item => (
                     <FormControlLabel
                       control={
@@ -347,14 +322,8 @@ const Form = forwardRef((props, ref) => {
               </FormControl>
             </Grid>
 
-            <Grid
-              item
-              sm={12}
-            >
-              <FormControl
-                className={classes.formGroup}
-                component="fieldset"
-              >
+            <Grid item sm={12}>
+              <FormControl className={classes.formGroup} component="fieldset">
                 <FormLabel>
                   <Typography variant="h4">
                     Em caso de uso de drogas (atual ou ex-usuário), descrever
@@ -362,10 +331,7 @@ const Form = forwardRef((props, ref) => {
                   </Typography>
                 </FormLabel>
 
-                <FormGroup
-                  name="drogas"
-                  value={formik.values.drogas}
-                >
+                <FormGroup name="drogas" value={formik.values.drogas}>
                   {drogas.map(item => (
                     <FormControlLabel
                       control={
@@ -386,10 +352,7 @@ const Form = forwardRef((props, ref) => {
               </FormControl>
             </Grid>
 
-            <Grid
-              item
-              sm={12}
-            >
+            <Grid item sm={12}>
               <CardInfo
                 items={[
                   {
@@ -411,37 +374,22 @@ const Form = forwardRef((props, ref) => {
                 title="Classificação do etilismo segundo OMS:"
               />
             </Grid>
-            <Grid
-              item
-              sm={12}
-            >
-              <FormControl
-                className={classes.formGroup}
-                component="fieldset"
-              >
+            <Grid item sm={12}>
+              <FormControl className={classes.formGroup} component="fieldset">
                 <FormLabel>
                   <Typography variant="h4">Etilismo</Typography>
                 </FormLabel>
 
-                <RadioGroup
-                  name="etilismo"
-                  value={formik.values.etilismo}
-                >
+                <RadioGroup name="etilismo" value={formik.values.etilismo}>
                   <FormControlLabel
                     control={
-                      <Radio
-                        onChange={formik.handleChange}
-                        value="true"
-                      />
+                      <Radio onChange={formik.handleChange} value="true" />
                     }
                     label="Etilista / Ex- etilista"
                   />
                   <FormControlLabel
                     control={
-                      <Radio
-                        onChange={formik.handleChange}
-                        value="false"
-                      />
+                      <Radio onChange={formik.handleChange} value="false" />
                     }
                     label="Não etilista"
                   />
@@ -467,36 +415,23 @@ function CardInfo({ title, items }) {
   return (
     <Card className={classes.cardInfo}>
       <div className={classes.titleContainer}>
-        <Typography
-          className={classes.title}
-          variant="subtitle1"
-        >
+        <Typography className={classes.title} variant="subtitle1">
           {title}
         </Typography>
 
         <IconButton
           aria-label="delete"
-          onClick={() => setShowCard(state => !state)}
-        >
+          onClick={() => setShowCard(state => !state)}>
           <CloseIcon fontSize="small" />
         </IconButton>
       </div>
 
       {items.map((item, index) => (
-        <div
-          key={index}
-          style={{ display: 'flex', flexDirection: 'row' }}
-        >
-          <Typography
-            className={classes.label}
-            variant="subtitle1"
-          >
+        <div key={index} style={{ display: 'flex', flexDirection: 'row' }}>
+          <Typography className={classes.label} variant="subtitle1">
             {item.label}
           </Typography>
-          <Typography
-            className={classes.description}
-            variant="subtitle1"
-          >
+          <Typography className={classes.description} variant="subtitle1">
             {item.description}
           </Typography>
         </div>

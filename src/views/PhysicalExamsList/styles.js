@@ -1,15 +1,14 @@
 import { makeStyles } from '@material-ui/styles';
 
-
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    padding: theme.spacing(4)
+    padding: theme.spacing(4),
   },
   header: {
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   titleWrapper: {
     display: 'flex',
@@ -52,14 +51,17 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
   },
   tableRowExamDate: {
-    '&:hover':{
+    '&:hover': {
       cursor: 'pointer',
-      backgroundColor: '#E6E6E6'
-    } 
+      backgroundColor: '#E6E6E6',
+    },
   },
   tableCellHead: {
-    height: '50px'
-  }
+    height: '50px',
+  },
+  mainGrid: {
+    marginTop: theme.spacing(7),
+  },
 }));
 
 export default useStyles;

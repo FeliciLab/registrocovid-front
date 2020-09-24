@@ -29,7 +29,7 @@ const RouteWithLayout = props => {
         try {
           await api.get('/profile');
         } catch (error) {
-          if (error.response?.status == 401) {
+          if (error.response?.status === 401) {
             setErroLogin(true);
           }
         }
@@ -53,8 +53,7 @@ const RouteWithLayout = props => {
             <Dialog
               classes={{ paper: classes.paper }}
               fullScreen
-              open={erroLogin}
-            >
+              open={erroLogin}>
               <DialogTitle>
                 Sua sessão expirou. Por favor, faça o login para continuar.
               </DialogTitle>
