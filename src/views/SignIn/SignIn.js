@@ -10,7 +10,6 @@ import { Formik, Form, Field } from 'formik';
 import { useUser } from '../../context/UserContext';
 import { Context } from '../../context/AuthContext';
 import {
-  Grid,
   Button,
   IconButton,
   TextField,
@@ -51,7 +50,7 @@ const SignIn = props => {
       cpf: values.cpf,
       password: values.password,
     };
-    
+
     // sanitizando o cpf
     user.cpf = user.cpf.split('.').join('');
     user.cpf = user.cpf.split('-').join('');

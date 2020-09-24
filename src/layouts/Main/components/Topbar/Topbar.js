@@ -3,13 +3,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import {
-  AppBar,
-  Toolbar,
-  Hidden,
-  IconButton,
-  Typography,
-} from '@material-ui/core';
+import { AppBar, Toolbar, Hidden, IconButton } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import InputIcon from '@material-ui/icons/Input';
 import useAuth from 'context/hooks/useAuth';
@@ -43,15 +37,9 @@ const Topbar = props => {
   const { handleLogout } = useAuth();
 
   return (
-    <AppBar
-      {...rest}
-      className={clsx(classes.root, className)}
-    >
+    <AppBar {...rest} className={clsx(classes.root, className)}>
       <Toolbar>
-        <RouterLink
-          className={classes.logoLink}
-          to="/"
-        >
+        <RouterLink className={classes.logoLink} to="/">
           <img
             alt="Logo"
             className={classes.logoImg}
@@ -63,16 +51,12 @@ const Topbar = props => {
           <IconButton
             className={classes.signOutButton}
             color="inherit"
-            onClick={handleLogout}
-          >
+            onClick={handleLogout}>
             <InputIcon />
           </IconButton>
         </Hidden>
         <Hidden lgUp>
-          <IconButton
-            color="inherit"
-            onClick={onSidebarOpen}
-          >
+          <IconButton color="inherit" onClick={onSidebarOpen}>
             <MenuIcon />
           </IconButton>
         </Hidden>

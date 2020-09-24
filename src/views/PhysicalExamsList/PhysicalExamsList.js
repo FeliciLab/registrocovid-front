@@ -6,7 +6,6 @@ import { usePatient } from 'context/PatientContext';
 import PatientInfo from 'components/PatientInfo';
 import CustomBreadcrumbs from 'components/CustomBreadcrumbs';
 import formatDate from '../../helpers/formatDate';
-import Placeholder from './components/index.js';
 
 // Icons
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
@@ -26,6 +25,7 @@ import {
   CircularProgress,
   Grid,
 } from '@material-ui/core';
+import { NotToShowImg } from 'components';
 
 const PhysicalExamsList = () => {
   const { patient } = usePatient();
@@ -92,9 +92,7 @@ const PhysicalExamsList = () => {
               className={classes.mainGrid}
               container
               justify="center">
-              <Grid item>
-                <Placeholder />
-              </Grid>
+              <NotToShowImg label="Nenhum Exame Encontrado" />
             </Grid>
           </>
         ) : (
@@ -103,8 +101,7 @@ const PhysicalExamsList = () => {
             <TableContainer
               component={Paper}
               elevation={2}
-              style={{ marginTop: 10 }}
-            >
+              style={{ marginTop: 10 }}>
               <Table size="small">
                 <TableHead>
                   <TableRow>
@@ -120,12 +117,8 @@ const PhysicalExamsList = () => {
                       key={exam.id}
                       onClick={() =>
                         handleNavigate(`/categorias/exame-fisico/${exam.id}`)
-                      }
-                    >
-                      <TableCell
-                        component="th"
-                        scope="row"
-                      >
+                      }>
+                      <TableCell component="th" scope="row">
                         {formatDate(exam.data_evolucao)}
                       </TableCell>
                       <TableCell align="right">
