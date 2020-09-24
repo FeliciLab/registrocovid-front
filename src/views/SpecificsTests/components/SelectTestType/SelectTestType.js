@@ -5,7 +5,6 @@ import {
   Grid,
   FormGroup,
   FormLabel,
-  TextField,
   MenuItem,
   Button,
 } from '@material-ui/core';
@@ -15,32 +14,26 @@ import useStyles from './styles';
 import AddIcon from '@material-ui/icons/Add';
 
 import { Field, useFormikContext } from 'formik';
+import { TextField } from 'formik-material-ui';
 
 const SelectTestType = () => {
   const classes = useStyles();
 
-  const { values, handleChange, setFieldValue } = useFormikContext();
+  const { values, setFieldValue } = useFormikContext();
 
   const handleAddTesteType = () => {
-    if (values.tipo_new_teste === 'RTPCR') {
-      setFieldValue('newsTestsRTCPRs', [
-        ...values.newsTestsRTCPRs,
-        {
-          data_coleta: '',
-          data_resultado: '',
-          sitio_tipo: '',
-          rt_pcr_resultado: '',
-        },
-      ]);
-    } else {
-      setFieldValue('newsTestsRapidos', [
-        ...values.newsTestsRapidos,
-        {
-          data_realizacao: '',
-          resultado: '',
-        },
-      ]);
-    }
+    setFieldValue('newsTestes', [
+      ...values.newsTestes,
+      {
+        data_coleta: '',
+        data_resultado: '',
+        sitio_tipo: '',
+        rt_pcr_resultado: '',
+        resultado: '',
+        data_realizacao: '',
+        tipo_teste: values.tipo_new_teste
+      },
+    ]);
   };
 
   return (
@@ -48,7 +41,6 @@ const SelectTestType = () => {
       className={classes.root}
       component={Card}
       item
-      xs={10}
     >
       <Grid item>
         <FormGroup>
@@ -60,14 +52,12 @@ const SelectTestType = () => {
             item
           >
             <Field
-              as={TextField}
               className={classes.textField}
+              component={TextField}
               label="Tipo teste"
               name="tipo_new_teste"
-              onChange={handleChange}
               select
               type="text"
-              value={values.tipo_new_teste}
               variant="outlined"
             >
               <MenuItem value="RTPCR">Teste RT-PCR</MenuItem>

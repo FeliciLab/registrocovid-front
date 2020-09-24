@@ -6,62 +6,39 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.default,
     height: '100%',
   },
-  grid: {
-    height: '100%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   name: {
     marginTop: theme.spacing(3),
-    color: theme.palette.white
+    color: theme.palette.white,
   },
   bio: {
-    color: theme.palette.white
+    color: theme.palette.white,
   },
   contentContainer: {},
-  content: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column'
-  },
   contentHeader: {
     display: 'flex',
     alignItems: 'center',
     paddingBototm: theme.spacing(2),
     paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2)
+    paddingRight: theme.spacing(2),
   },
   logoImage: {
-    marginLeft: theme.spacing(4)
-  },
-  contentBody: {
-    flexGrow: 1,
-    display: 'flex',
-    alignItems: 'center',
-    [theme.breakpoints.down('md')]: {
-      justifyContent: 'center'
-    }
+    marginLeft: theme.spacing(4),
   },
   form: {
-    paddingLeft: 100,
-    paddingRight: 100,
-    paddingBottom: 125,
-    flexBasis: 700,
-    [theme.breakpoints.down('sm')]: {
-      paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(2)
-    }
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100%',
   },
   title: {
-    marginTop: theme.spacing(3)
+    marginTop: theme.spacing(3),
   },
   textField: {
     marginTop: theme.spacing(2),
   },
   signInButtonWrapper: {
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   errorLoginMessage: {
     display: 'flex',
@@ -69,11 +46,33 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
   },
   errorLoginMessageLabel: {
-    marginLeft: theme.spacing(1)
+    marginLeft: theme.spacing(1),
   },
   signInButton: {
-    margin: theme.spacing(2, 0)
-  }
+    margin: theme.spacing(2, 0),
+  },
+  contentForm: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+  },
+  image: {
+    display: 'flex',
+    height: '100%',
+    maxHeight: 200,
+  },
+  divImage: {
+    display: 'flex',
+    alignItems: 'center',
+    marginRight: 100,
+    marginLeft: 100,
+  },
+  viewForm: {
+    display: 'flex',
+    flexDirection: 'column',
+    minWidth: 500,
+  },
 }));
 
 export default useStyles;

@@ -30,6 +30,8 @@ const useStyles = makeStyles(theme => ({
   },
   logoImg: {
     marginRight: theme.spacing(1),
+    height: 50,
+    paddingLeft: 50,
   },
 }));
 
@@ -53,14 +55,8 @@ const Topbar = props => {
           <img
             alt="Logo"
             className={classes.logoImg}
-            src="/images/logos/logo-registro-covid.svg"
+            src="/images/logo-white.svg"
           />
-          <Typography
-            color="initial"
-            variant="h3"
-          >
-            Registro Covid
-          </Typography>
         </RouterLink>
         <div className={classes.flexGrow} />
         <Hidden mdDown>
