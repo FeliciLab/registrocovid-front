@@ -30,9 +30,13 @@ const Topbar = props => {
       {...rest}
       className={clsx(classes.root, className)}
       color="primary"
-      position="fixed">
+      position="fixed"
+    >
       <Toolbar>
-        <RouterLink className={classes.logoLink} to="/">
+        <RouterLink
+          className={classes.logoLink}
+          to="/"
+        >
           <img
             alt="Logo"
             className={classes.logoImg}

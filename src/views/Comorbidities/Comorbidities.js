@@ -66,7 +66,7 @@ const Comorbidities = () => {
   const [hiv, setHiv] = useState(false);
   const [tuberculose, setTuberculose] = useState(false);
   const [neoplasia, setNeoplasia] = useState(false);
-  const [quimioterapia, setQuimioterapia] = useState(false);
+  const [quimioterapia, setQuimioterapia] = useState('');
 
   const [transplantado, setTransplantado] = useState('');
   const [corticosteroide, setCorticosteroide] = useState('');
@@ -83,7 +83,7 @@ const Comorbidities = () => {
   const [outraCondicao, setOutraCondicao] = useState('');
   const [medicacao, setMedicacao] = useState('');
 
-  const [selectedField, setSelectedField] = useState({});
+  const [selectedField, setSelectedField] = useState({id: ''});
 
   const [isSaving, setIsSaving] = useState(false);
 
@@ -171,6 +171,9 @@ const Comorbidities = () => {
           setNeoplasia(apiData.neoplasia);
           setQuimioterapia(apiData.quimioterapia);
 
+          // TODO: testando
+          console.log('apiData.quimioterapia');
+
           setCorticosteroide(
             apiData.corticosteroide === null
               ? ''
@@ -234,6 +237,10 @@ const Comorbidities = () => {
       medicacoes,
     };
 
+    if (quimioterapia) {
+      submitData.quimioterapia = quimioterapia === 'sim';
+    }
+
     if (transplantado) {
       submitData.transplantado = transplantado === 'sim';
     }
@@ -278,14 +285,16 @@ const Comorbidities = () => {
             { label: 'Meus pacientes', route: '/meus-pacientes' },
             { label: 'Categorias', route: '/categorias' },
             {
-              label: 'Comorbidades / condições iniciais',
+              label: 'Comorbidades / Condições clínicas de base',
               route: '/categorias/comorbidades',
             },
           ]}
         />
       </div>
       <div className={classes.titleWrapper}>
-        <Typography variant="h1">Comorbidades / condições clínicas</Typography>
+        <Typography variant="h2">
+          Comorbidades / Condições clínicas de base
+        </Typography>
         <div className={classes.patientWrapper}>
           <PatientInfo />
           <Button
@@ -329,7 +338,6 @@ const Comorbidities = () => {
                   if (visualization) {
                     return;
                   }
-
                   setDiabetes(prevDiabetes => !prevDiabetes);
                 }}
               />
@@ -342,46 +350,19 @@ const Comorbidities = () => {
                   if (visualization) {
                     return;
                   }
-
                   setObesidade(prevObesidade => !prevObesidade);
                 }}
               />
-              <Chip
-                clickable
-                color={neoplasia ? 'primary' : 'default'}
-                icon={neoplasia ? <DoneIcon /> : null}
-                label="Neoplasia"
-                onClick={() => {
-                  if (visualization) {
-                    return;
-                  }
 
-                  setNeoplasia(prevNeoplasia => !prevNeoplasia);
-                }}
-              />
-              <Chip
-                clickable
-                color={quimioterapia ? 'primary' : 'default'}
-                icon={quimioterapia ? <DoneIcon /> : null}
-                label="Quimioterapia"
-                onClick={() => {
-                  if (visualization) {
-                    return;
-                  }
-
-                  setQuimioterapia(prevQuimioterapia => !prevQuimioterapia);
-                }}
-              />
               <Chip
                 clickable
                 color={hipertensao ? 'primary' : 'default'}
                 icon={hipertensao ? <DoneIcon /> : null}
-                label="Hipertensão (pressão arterial)"
+                label="Hipertensão"
                 onClick={() => {
                   if (visualization) {
                     return;
                   }
-
                   setHipertensao(prevHipertensao => !prevHipertensao);
                 }}
               />
@@ -394,7 +375,6 @@ const Comorbidities = () => {
                   if (visualization) {
                     return;
                   }
-
                   setHiv(prevHiv => !prevHiv);
                 }}
               />
@@ -407,7 +387,6 @@ const Comorbidities = () => {
                   if (visualization) {
                     return;
                   }
-
                   setTuberculose(prevTuberculose => !prevTuberculose);
                 }}
               />
@@ -427,6 +406,7 @@ const Comorbidities = () => {
                   className={classes.textFieldWithButton}
                   label="Escolher tipo de doença"
                   select
+                  value={selectedField.id}
                   variant="filled"
                 >
                   {tiposDoenca.map(({ id, descricao }) => (
@@ -451,7 +431,6 @@ const Comorbidities = () => {
                     if (visualization || !selectedField.id) {
                       return;
                     }
-
                     addCard(selectedField, allDoencas);
                   }}
                   startIcon={<Add />}
@@ -463,7 +442,7 @@ const Comorbidities = () => {
               </div>
             </div>
           )}
-          
+
           {tiposDoenca.map(tipo => {
             const doencasList = doencasFromUser.filter(
               doenca => doenca.tipo_doenca_id === tipo.id,
@@ -490,6 +469,40 @@ const Comorbidities = () => {
               />
             ))
             : null}
+
+          {/* quimioterapia */}
+          <FormGroup
+            className={classes.control}
+            component="fieldset"
+          >
+            <FormLabel
+              className={classes.label}
+              component="legend"
+            >
+              Quimioterapia
+            </FormLabel>
+            <RadioGroup
+              aria-label="quimioterapia"
+              name="quimioterapia"
+              onChange={event =>
+                setQuimioterapia(event.target.value)
+              }
+              value={quimioterapia}
+            >
+              <div className={classes.radiosWrapper}>
+                <FormControlLabel
+                  control={<Radio />}
+                  label="Sim"
+                  value="sim"
+                />
+                <FormControlLabel
+                  control={<Radio />}
+                  label="Não"
+                  value="nao"
+                />
+              </div>
+            </RadioGroup>
+          </FormGroup>
 
           <FormGroup
             className={classes.control}
@@ -542,6 +555,7 @@ const Comorbidities = () => {
                     )}
                     handleArray={handleOrgaoId}
                     id={orgao.id}
+                    key={orgao.id}
                     label={orgao.descricao}
                   />
                 ))}
@@ -557,7 +571,7 @@ const Comorbidities = () => {
               className={classes.label}
               component="legend"
             >
-              Usou corticosteroides por mais de 15 dias?
+              Faz uso crônico de corticóides?
             </FormLabel>
             <RadioGroup
               aria-label="corticosteroides"
@@ -757,9 +771,10 @@ const Comorbidities = () => {
             </div>
             <div className={classes.chipWrapper}>
               {outrasCondicoes &&
-                outrasCondicoes.map(outraCondicao => (
+                outrasCondicoes.map((outraCondicao, index) => (
                   <Chip
                     color="primary"
+                    key={index}
                     label={outraCondicao}
                     onDelete={() => {
                       setOutrasCondicoes(
@@ -797,11 +812,9 @@ const Comorbidities = () => {
                   if (visualization || medicacao === '') {
                     return;
                   }
-
                   const exists = medicacoes.some(
                     medicacao2 => medicacao2 === medicacao,
                   );
-
                   if (!exists) {
                     setMedicacoes(prevMedicacoes => [
                       ...prevMedicacoes,
@@ -818,9 +831,10 @@ const Comorbidities = () => {
             </div>
             <div className={classes.chipWrapper}>
               {medicacoes &&
-                medicacoes.map(medicacao => (
+                medicacoes.map((medicacao, index) => (
                   <Chip
                     color="primary"
+                    key={index}
                     label={medicacao}
                     onDelete={() => {
                       setMedicacoes(
