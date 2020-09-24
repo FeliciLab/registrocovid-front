@@ -3,7 +3,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import { AppBar, Toolbar, Typography } from '@material-ui/core';
+import { AppBar, Toolbar } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -30,9 +30,13 @@ const Topbar = props => {
       {...rest}
       className={clsx(classes.root, className)}
       color="primary"
-      position="fixed">
+      position="fixed"
+    >
       <Toolbar>
-        <RouterLink className={classes.logoLink} to="/">
+        <RouterLink
+          className={classes.logoLink}
+          to="/"
+        >
           <img
             alt="Logo"
             className={classes.logoImg}
