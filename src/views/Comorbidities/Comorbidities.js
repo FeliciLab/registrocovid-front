@@ -555,6 +555,7 @@ const Comorbidities = () => {
                     )}
                     handleArray={handleOrgaoId}
                     id={orgao.id}
+                    key={orgao.id}
                     label={orgao.descricao}
                   />
                 ))}
@@ -770,9 +771,10 @@ const Comorbidities = () => {
             </div>
             <div className={classes.chipWrapper}>
               {outrasCondicoes &&
-                outrasCondicoes.map(outraCondicao => (
+                outrasCondicoes.map((outraCondicao, index) => (
                   <Chip
                     color="primary"
+                    key={index}
                     label={outraCondicao}
                     onDelete={() => {
                       setOutrasCondicoes(
@@ -829,9 +831,10 @@ const Comorbidities = () => {
             </div>
             <div className={classes.chipWrapper}>
               {medicacoes &&
-                medicacoes.map(medicacao => (
+                medicacoes.map((medicacao, index) => (
                   <Chip
                     color="primary"
+                    key={index}
                     label={medicacao}
                     onDelete={() => {
                       setMedicacoes(
