@@ -34,6 +34,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    padding: theme.spacing(6),
   },
 }));
 export default useStyles;
