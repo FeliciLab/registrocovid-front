@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import useStyles from './styles';
-import * as Yup from 'yup';
 import { Formik, Form, Field } from 'formik';
 import CustomBreadcrumbs from 'components/CustomBreadcrumbs';
-
+import { Switch } from 'formik-material-ui';
 // Material-UI Components
 import {
   Typography,
@@ -13,7 +12,6 @@ import {
   FormLabel,
   FormControlLabel,
   FormControl,
-  Switch,
   FormGroup,
   Grid,
   MenuItem,
@@ -21,24 +19,12 @@ import {
   Card,
 } from '@material-ui/core';
 
+import schema from './schema';
+
 import { useToast } from 'hooks/toast';
 import { usePatient } from 'context/PatientContext';
 import api from 'services/api';
 import formatDate from 'helpers/formatDate';
-
-const schema = Yup.object().shape({
-  prontuario: Yup.number()
-    .integer('Número de prontuário inválido (apenas números inteiros)')
-    .min(1, 'Número de prontuário deve ser maior que 0 (zero)')
-    .required('Campo obrigatório'),
-  data_internacao: Yup.date().required('Campo obrigatório'),
-  unidade_primeiro_atendimento: Yup.string(),
-  unidade_de_saude: Yup.string(),
-  data_atendimento: Yup.date(),
-  suporte_respiratorio: Yup.boolean(),
-  tipo_suport_respiratorio: Yup.string(),
-  reinternacao: Yup.boolean(),
-});
 
 const GeneralInfo = () => {
   const { addToast } = useToast();
@@ -119,11 +105,13 @@ const GeneralInfo = () => {
         suporte_respiratorio: values.suporte_respiratorio,
         reinternacao: values.reinternacao,
 
-        instituicao_primeiro_atendimento: { id: values.unidade_primeiro_atendimento },
+        instituicao_primeiro_atendimento: {
+          id: values.unidade_primeiro_atendimento,
+        },
         instituicao_referencia: { id: values.unidade_de_saude },
         data_atendimento_referencia: values.data_atendimento,
         tipo_suporte_respiratorios: [{ id: values.tipo_suport_respiratorio }],
-      }
+      };
 
       addToast({
         type: 'success',
@@ -166,16 +154,22 @@ const GeneralInfo = () => {
         data_internacao: patient.data_internacao,
         suporte_respiratorio: patient.suporte_respiratorio || false,
         reinternacao: patient.reinternacao || false,
-        unidade_primeiro_atendimento: patient.instituicao_primeiro_atendimento ? patient.instituicao_primeiro_atendimento.id : '',
-        unidade_de_saude: patient.instituicao_referencia ? patient.instituicao_referencia.id : '',
+        unidade_primeiro_atendimento: patient.instituicao_primeiro_atendimento
+          ? patient.instituicao_primeiro_atendimento.id
+          : '',
+        unidade_de_saude: patient.instituicao_referencia
+          ? patient.instituicao_referencia.id
+          : '',
         data_atendimento: patient.data_atendimento_referencia || '',
-        tipo_suport_respiratorio: patient.tipo_suporte_respiratorios.length > 0 ? patient.tipo_suporte_respiratorios[0].id : '',
-
-      }
+        tipo_suport_respiratorio:
+          patient.tipo_suporte_respiratorios.length > 0
+            ? patient.tipo_suporte_respiratorios[0].id
+            : '',
+      };
     }
 
     return initialValues;
-  }
+  };
 
   return (
     <div className={classes.root}>
@@ -390,22 +384,18 @@ const GeneralInfo = () => {
                     xs={12}
                   >
                     <FormGroup>
-                      <Field
-                        as={FormControlLabel}
+                      <FormControlLabel
                         control={
-                          <Switch
-                            checked={values.suporte_respiratorio}
+                          <Field
                             color="primary"
+                            component={Switch}
                             name="suporte_respiratorio"
-                            onChange={handleChange}
+                            type="checkbox"
                           />
                         }
                         label={
-                          <Typography variant="h4">
-                            Paciente chegou com suporte respiratório?
-                          </Typography>
+                          <Typography variant="h4">Paciente chegou com suplementação de oxigênio?</Typography>
                         }
-                        name="suporte_respiratorio"
                       />
                       {/* tipo_suport_respiratorio */}
                       <FormControl component="fieldset">
@@ -436,28 +426,47 @@ const GeneralInfo = () => {
                     </FormGroup>
                   </Grid>
 
+                  {/* TODO: ainda falta colocar esse value nos initial values */}
                   {/* reinternacao */}
                   <Grid
+                    container
                     item
                     xs={12}
                   >
-                    <FormGroup>
-                      <Field
-                        as={FormControlLabel}
-                        control={
-                          <Switch
-                            checked={values.reinternacao}
-                            color="primary"
-                            name="reinternacao"
-                            onChange={handleChange}
-                          />
-                        }
-                        label={
-                          <Typography variant="h4">Reinternação?</Typography>
-                        }
-                        name="reinternacao"
-                      />
-                    </FormGroup>
+                    <FormControlLabel
+                      control={
+                        <Field
+                          color="primary"
+                          component={Switch}
+                          name="reinternacao"
+                          type="checkbox"
+                        />
+                      }
+                      label={
+                        <Typography variant="h4">Paciente chegou traqueostomizado?</Typography>
+                      }
+                    />
+                  </Grid>
+
+                  {/* reinternacao */}
+                  <Grid
+                    container
+                    item
+                    xs={12}
+                  >
+                    <FormControlLabel
+                      control={
+                        <Field
+                          color="primary"
+                          component={Switch}
+                          name="reinternacao"
+                          type="checkbox"
+                        />
+                      }
+                      label={
+                        <Typography variant="h4">Reinternação?</Typography>
+                      }
+                    />
                   </Grid>
                 </Grid>
               )}

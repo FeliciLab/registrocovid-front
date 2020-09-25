@@ -74,7 +74,8 @@ const Sidebar = props => {
           className={classes.signOutButton}
           color="primary"
           onClick={handleLogout}
-          startIcon={<InputIcon />}>
+          startIcon={<InputIcon />}
+        >
           SAIR
         </Button>
         {/* <UpgradePlan /> */}
