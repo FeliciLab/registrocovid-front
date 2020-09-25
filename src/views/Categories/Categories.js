@@ -44,7 +44,7 @@ const Categories = () => {
       },
       {
         id: 5,
-        label: 'Comorbidades / Condições clínicas da base',
+        label: 'Comorbidades / Condições clínicas de base',
         url: 'categorias/comorbidades',
       },
     ];
@@ -59,34 +59,34 @@ const Categories = () => {
       },
       {
         id: 2,
-        label: 'Complicações relacionadas à ventilação mecânica',
-        url: 'categorias/complicacoes-vm',
-      },
-      {
-        id: 3,
         label: 'Exames laboratoriais específicos COVID 19',
         url: 'categorias/exames-especificos/',
       },
       {
-        id: 4,
+        id: 3,
         label: 'Exames complementares',
         url: 'categorias/exames-complementares/',
       },
       {
-        id: 5,
-        label: 'Tratamento de Suporte',
-        url: 'categorias/tratamento-suporte/',
-      },
-      { id: 6, label: 'Complicações', url: 'categorias/complicacoes/' },
-      {
-        id: 7,
+        id: 4,
         label: 'Suporte respiratório',
         url: 'categorias/suporte-respiratorio',
       },
+      { id: 5, label: 'Complicações', url: 'categorias/complicacoes/' },
       {
-        id: 8,
+        id: 6,
+        label: 'Complicações relacionadas à ventilação mecânica',
+        url: 'categorias/complicacoes-vm',
+      },
+      {
+        id: 7,
         label: 'Infecções relacionadas à assistência à saúde (IRAS)',
         url: '/categorias/iras/',
+      },
+      {
+        id: 8,
+        label: 'Hemodiálise',
+        url: 'categorias/tratamento-suporte/',
       },
       { id: 9, label: 'Desfecho', url: 'categorias/desfecho/' },
     ];
