@@ -24,7 +24,7 @@ import { usePatient } from 'context/PatientContext';
 import api from 'services/api';
 import formatDate from 'helpers/formatDate';
 
-const loadInitialValues = (patient) => {
+const loadInitialValues = patient => {
   // TODO: colocando aqui o traqueostomizado: false para quando tiver esse campo no backend
   let initialValues = {
     prontuario: '',
@@ -82,8 +82,12 @@ const GeneralInfo = () => {
       const responseSuportesRespiratorio = await api.get(
         '/suportes-respiratorios',
       );
-      setTiposSuporteRespiratorio(responseSuportesRespiratorio.data);
-    } catch {
+      setTiposSuporteRespiratorio(
+        responseSuportesRespiratorio.data.filter(tipo =>
+          [1, 2, 3, 4, 7].some(id => id === tipo.id),
+        ),
+      );
+    } catch (error) {
       addToast({
         type: 'error',
         message: 'Erro ao tentar carregar informações, tente novamente',
