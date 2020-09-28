@@ -182,15 +182,15 @@ export const Transfusional = (props) => {
                     <Typography variant="h5">Data de hemorragia:</Typography>
                   </FormLabel>
                   <TextField
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
                     className={classes.dateField}
                     disabled={infos?.data_transfusao ? true : undefined}
                     error={(fContext.errors[`data_complicacao#${id}`] && fContext.touched[`data_complicacao#${id}`])}
                     helperText={
                       (fContext.errors[`data_complicacao#${id}`] && fContext.touched[`data_complicacao#${id}`]) ? fContext.errors[`data_complicacao#${id}`] : null
                     }
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
                     label="Data"
                     name={`data_complicacao#${id}`}
                     onBlur={fContext.handleBlur}

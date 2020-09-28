@@ -289,10 +289,10 @@ const InitialSymptoms = () => {
                       Data do início dos sintomas
                     </FormLabel>
                     <Field
+                      as={TextField}
                       InputLabelProps={{
                         shrink: true,
                       }}
-                      as={TextField}
                       label="Início dos sintomas"
                       name="data_inicio_sintomas"
                       onChange={handleChange}

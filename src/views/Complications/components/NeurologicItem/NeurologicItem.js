@@ -69,11 +69,11 @@ export default ({ complicationData, separator }) => {
               Data de Complicação
             </Typography>
             <TextField
+              className={classes.textField}
+              defaultValue={complicationData ? complicationData.data : ''}
               InputLabelProps={{
                 shrink: true,
               }}
-              className={classes.textField}
-              defaultValue={complicationData ? complicationData.data : ''}
               label="Data"
               name="data_complicacao"
               type="date"
