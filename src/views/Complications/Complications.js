@@ -70,8 +70,8 @@ const Complications = () => {
           ? complicacao.data_termino
           : null,
         descricao: complicacao.descricao ? complicacao.descricao : null,
-        glasglow_admissao_uti: complicacao.glasglow_admissao_uti
-          ? complicacao.glasglow_admissao_uti
+        glasgow_admissao_uti: complicacao.glasgow_admissao_uti
+          ? complicacao.glasgow_admissao_uti
           : null,
         menos_24h_uti:
           typeof complicacao.menos_24h_uti === 'boolean'

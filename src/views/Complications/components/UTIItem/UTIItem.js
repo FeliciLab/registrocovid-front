@@ -23,17 +23,21 @@ export default ({ complicationData, separator }) => {
         expandIcon={<ExpandMoreIcon />}
         id="panel1a-header"
       >
-        <div className={classes.heading}>
-          <Typography
-            className={classes.headingLabel}
-            variant="h4"
-          >
-            UTI
+        <Grid container className={classes.heading}>
+          <Grid item xs={10}>
+            <Typography
+              className={classes.headingLabel}
+              variant="h4"
+            >
+              Admissão na Unidade de Terapia Intensiva (UTI)
           </Typography>
-          <Typography variant="caption">
-            {complicationData ? formatDate(complicationData.data) : ''}
-          </Typography>
-        </div>
+          </Grid>
+          <Grid item xs={2}>
+            <Typography variant="caption">
+              {complicationData ? formatDate(complicationData.data) : ''}
+            </Typography>
+          </Grid>
+        </Grid>
       </AccordionSummary>
       <AccordionDetails className={classes.accordionDetails}>
         <Grid
@@ -53,7 +57,7 @@ export default ({ complicationData, separator }) => {
             }}
             className={classes.textField}
             defaultValue={
-              complicationData ? complicationData.glasglow_admissao_uti : ''
+              complicationData ? complicationData.glasgow_admissao_uti : ''
             }
             type="text"
           />
