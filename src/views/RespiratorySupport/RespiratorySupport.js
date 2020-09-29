@@ -2,8 +2,8 @@ import React, {
   useState,
   useCallback,
   useEffect,
-  useRef,
-  useMemo,
+  // useRef,
+  // useMemo,
 } from 'react';
 import { useHistory } from 'react-router-dom';
 
@@ -11,28 +11,26 @@ import {
   Typography,
   Button,
   CircularProgress,
-  Paper,
   Grid,
-  FormGroup,
-  FormLabel,
   FormControl,
-  Select,
-  MenuItem,
 } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
 
 import CustomBreadcrumbs from 'components/CustomBreadcrumbs';
 import PatientInfo from 'components/PatientInfo';
-import Form from './components/Form';
 
 import { useToast } from 'hooks/toast';
 import { usePatient } from 'context/PatientContext';
 
-import Records from './components';
-
 import api from 'services/api';
 
 import useStyles from './styles';
+import { Form, Formik } from 'formik';
+import SelectRespiratorySuportType from './components/SelectRespiratorySuportType';
+
+const initialValues = {
+  newSuportesRespitatorios: [],
+  tipoNewSuporteRespiratorioSelected: '',
+};
 
 const RespiratorySupport = () => {
   const classes = useStyles();
@@ -40,8 +38,8 @@ const RespiratorySupport = () => {
   const { addToast } = useToast();
   const { patient } = usePatient();
 
-  const formRef = useRef(null);
-  const selectedTratament = useRef();
+  // const formRef = useRef(null);
+  // const selectedTratament = useRef();
 
   const [loading, setLoading] = useState(false);
   const [supportsTypes, setSupportsTypes] = useState([]);
@@ -49,7 +47,7 @@ const RespiratorySupport = () => {
   const [pronacao, setPronacao] = useState([]);
   const [desmame, setDesmame] = useState([]);
   const [newsRecords, setNewsRecords] = useState([]);
-  const [recordId, setRecordId] = useState(0);
+  // const [recordId, setRecordId] = useState(0);
 
   const handleInfos = useCallback(async () => {
     try {
@@ -65,12 +63,15 @@ const RespiratorySupport = () => {
       const tratamentoRecords = orderByDate(
         patientRecords.data.tratamento_suporte,
       );
+
       const pronacaoRecords = orderByDate(
         patientRecords.data.tratamento_pronacao,
       );
+
       const desmameRecords = orderByDate(
         patientRecords.data.tratamento_inclusao_desmame,
       );
+
       setOldRecords(tratamentoRecords);
       setPronacao(pronacaoRecords);
       setDesmame(desmameRecords);
@@ -90,33 +91,34 @@ const RespiratorySupport = () => {
     handleInfos();
   }, [handleInfos]);
 
-  const handleSelect = event => {
-    selectedTratament.current = event.target.value;
-  };
+  // const handleSelect = event => {
+  //   selectedTratament.current = event.target.value;
+  // };
 
-  const handleNewComplication = () => {
-    if (selectedTratament.current) {
-      const newTratament = {
-        id: recordId,
-        tratament: selectedTratament.current,
-      };
+  // const handleNewComplication = () => {
+  //   if (selectedTratament.current) {
+  //     const newTratament = {
+  //       id: recordId,
+  //       tratament: selectedTratament.current,
+  //     };
 
-      setRecordId(oldState => oldState + 1);
-      setNewsRecords(oldState => [newTratament, ...oldState]);
-    }
-  };
+  //     setRecordId(oldState => oldState + 1);
+  //     setNewsRecords(oldState => [newTratament, ...oldState]);
+  //   }
+  // };
 
-  const handleDelete = recordId => {
-    const updatedComplications = newsRecords.filter(
-      ({ id }) => id !== recordId,
-    );
-    setNewsRecords(updatedComplications);
+  // const handleDelete = recordId => {
+  //   const updatedComplications = newsRecords.filter(
+  //     ({ id }) => id !== recordId,
+  //   );
+  //   setNewsRecords(updatedComplications);
 
-    formRef.current.setValues(recordId);
-  };
+  //   formRef.current.setValues(recordId);
+  // };
 
-  const handleSubmit = () => {
-    formRef.current.submit();
+  const handleSubmit = values => {
+    console.log(values);
+    // formRef.current.submit();
   };
 
   const orderByDate = array => {
@@ -141,18 +143,19 @@ const RespiratorySupport = () => {
     });
   };
 
-  const groupedOldRecords = useMemo(() => {
-    return oldRecords.reduce((acc, object) => {
-      let key = object['tipo_suporte_id'];
+  // O que isso aqui faz??? Agrupa pelo que???
+  // const groupedOldRecords = useMemo(() => {
+  //   return oldRecords.reduce((acc, object) => {
+  //     let key = object['tipo_suporte_id'];
 
-      if (!acc[key]) {
-        acc[key] = [];
-      }
-      acc[key].push(object);
+  //     if (!acc[key]) {
+  //       acc[key] = [];
+  //     }
+  //     acc[key].push(object);
 
-      return acc;
-    }, {});
-  }, [oldRecords]);
+  //     return acc;
+  //   }, {});
+  // }, [oldRecords]);
 
   return (
     <div className={classes.root}>
@@ -170,29 +173,54 @@ const RespiratorySupport = () => {
       </div>
 
       <div>
-        <div className={classes.titleWrapper}>
-          <Typography variant="h2">Suporte respiratório</Typography>
-
-          <div className={classes.rightContent}>
-            <PatientInfo />
-
-            <Button
-              className={classes.buttonSave}
-              color="secondary"
-              onClick={handleSubmit}
-              type="submit"
-              variant="contained"
-            >
-              Salvar
-            </Button>
-          </div>
-        </div>
-
         {loading ? (
           <CircularProgress />
         ) : (
           <div className="container">
             <Grid
+              container
+              justify="center"
+            >
+              <Formik
+                enableReinitialize
+                initialValues={initialValues}
+                onSubmit={handleSubmit}
+                validateOnMount
+                // validationSchema={schema}
+              >
+                {({ isSubmitting }) => (
+                  <Form component={FormControl}>
+                    <div className={classes.titleWrapper}>
+                      <Typography variant="h2">Suporte respiratório</Typography>
+
+                      <div className={classes.rightContent}>
+                        <PatientInfo />
+                        <Button
+                          className={classes.buttonSave}
+                          color="secondary"
+                          disabled={isSubmitting}
+                          type="submit"
+                          variant="contained"
+                        >
+                          Salvar
+                        </Button>
+                      </div>
+                    </div>
+                    <Grid
+                      alignContent="center"
+                      container
+                      direction="column"
+                      item
+                    >
+                      <SelectRespiratorySuportType
+                        tipos={supportsTypes}
+                      />
+                    </Grid>
+                  </Form>
+                )}
+              </Formik>
+            </Grid>
+            {/* <Grid
               container
               justify={'center'}
             >
@@ -267,6 +295,10 @@ const RespiratorySupport = () => {
                     />
                   ))}
 
+                  <pre>
+                    {JSON.stringify(groupedOldRecords, null, 4)}
+                  </pre>
+
                   {Object.entries(groupedOldRecords).map(element => {
                     return [
                       element[1].map(item => {
@@ -323,7 +355,7 @@ const RespiratorySupport = () => {
                   ]}
                 </Form>
               </Paper>
-            </Grid>
+            </Grid> */}
           </div>
         )}
       </div>
