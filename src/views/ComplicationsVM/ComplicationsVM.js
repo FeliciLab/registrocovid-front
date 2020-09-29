@@ -274,7 +274,7 @@ const ComplicationsVM = () => {
                       }),
                       <div
                         className={classes.newExpPanel}
-                        key={String(item.id)}
+                        key={element}
                       />,
                     ];
                   })}
