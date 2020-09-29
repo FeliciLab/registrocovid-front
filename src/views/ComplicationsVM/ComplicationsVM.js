@@ -272,7 +272,10 @@ const ComplicationsVM = () => {
                           />
                         );
                       }),
-                      <div className={classes.newExpPanel} />,
+                      <div
+                        className={classes.newExpPanel}
+                        key={String(item.id)}
+                      />,
                     ];
                   })}
 

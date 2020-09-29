@@ -13,7 +13,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import formatDate from '../../../../helpers/formatDate';
 import useStyles from './styles';
 
-export default ({ complicationData, separator }) => {
+const UTIItem = ({ complicationData, separator }) => {
   const classes = useStyles();
 
   return (
@@ -131,3 +131,5 @@ export default ({ complicationData, separator }) => {
     </Accordion>
   );
 };
+
+export default UTIItem;
