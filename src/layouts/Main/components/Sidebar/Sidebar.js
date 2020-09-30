@@ -7,8 +7,8 @@ import PeopleIcon from '@material-ui/icons/People';
 import useAuth from 'context/hooks/useAuth';
 import Button from '@material-ui/core/Button';
 
-import { Profile, SidebarNav } from './components';
-import { Divider, Drawer } from '@material-ui/core';
+import { SidebarNav } from './components';
+import { Drawer } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   drawer: {
@@ -57,11 +57,17 @@ const Sidebar = props => {
       classes={{ paper: classes.drawer }}
       onClose={onClose}
       open={open}
-      variant={variant}>
-      <div {...rest} className={clsx(classes.root, className)}>
-        {/* <Profile /> */}
-        {/* <Divider className={classes.divider} /> */}
-        <SidebarNav className={classes.nav} pages={pages} />
+      variant={variant}
+    >
+      <div
+        {...rest}
+        className={clsx(classes.root, className)}
+      >
+
+        <SidebarNav
+          className={classes.nav}
+          pages={pages}
+        />
 
         <Button
           className={classes.signOutButton}
