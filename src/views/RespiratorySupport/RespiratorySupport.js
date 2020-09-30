@@ -26,6 +26,7 @@ import api from 'services/api';
 import useStyles from './styles';
 import { Form, Formik } from 'formik';
 import SelectRespiratorySuportType from './components/SelectRespiratorySuportType';
+import { PrevJSON } from 'components';
 
 const initialValues = {
   newSuportesRespitatorios: [],
@@ -212,10 +213,13 @@ const RespiratorySupport = () => {
                       direction="column"
                       item
                     >
-                      <SelectRespiratorySuportType
-                        tipos={supportsTypes}
-                      />
+                      <SelectRespiratorySuportType tipos={supportsTypes} />
                     </Grid>
+
+                    <PrevJSON
+                      data={oldRecords}
+                      name="oldRecords"
+                    />
                   </Form>
                 )}
               </Formik>
