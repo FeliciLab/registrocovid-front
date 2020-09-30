@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import {
   FormControlLabel,
@@ -19,7 +20,7 @@ const FieldComposerItem = props => {
     fluxo_o2: (
       <Grid
         item
-        lg={6}
+        xs={6}
       >
         <FormGroup>
           <FormLabel>
@@ -42,7 +43,7 @@ const FieldComposerItem = props => {
     data_inicio: (
       <Grid
         item
-        lg={6}
+        xs={6}
       >
         <FormGroup>
           <FormLabel>
@@ -60,7 +61,7 @@ const FieldComposerItem = props => {
     data_termino: (
       <Grid
         item
-        lg={6}
+        xs={6}
       >
         <FormGroup>
           <FormLabel>
@@ -78,7 +79,7 @@ const FieldComposerItem = props => {
     concentracao_o2: (
       <Grid
         item
-        lg={6}
+        xs={6}
       >
         <FormGroup>
           <FormLabel>
@@ -99,7 +100,7 @@ const FieldComposerItem = props => {
     menos_24h_vmi: (
       <Grid
         item
-        lg={6}
+        xs={6}
       >
         <FormGroup>
           <FormLabel>
@@ -123,7 +124,7 @@ const FieldComposerItem = props => {
     fluxo_sangue: (
       <Grid
         item
-        lg={6}
+        xs={6}
       >
         <FormGroup>
           <FormLabel>
@@ -146,7 +147,7 @@ const FieldComposerItem = props => {
     fluxo_gasoso: (
       <Grid
         item
-        lg={6}
+        xs={6}
       >
         <FormGroup>
           <FormLabel>
@@ -169,7 +170,7 @@ const FieldComposerItem = props => {
     fio2: (
       <Grid
         item
-        lg={6}
+        xs={6}
       >
         <FormGroup>
           <FormLabel>
@@ -191,4 +192,19 @@ const FieldComposerItem = props => {
 
   return fields[name];
 };
+
+FieldComposerItem.propTypes = {
+  name: PropTypes.oneOf([
+    'fluxo_o2',
+    'data_inicio',
+    'data_termino',
+    'menos_24h_vmi',
+    'concentracao_o2',
+    'fluxo_sangue',
+    'fluxo_gasoso',
+    'fio2',
+  ]).isRequired,
+  value: PropTypes.any.isRequired,
+};
+
 export default FieldComposerItem;
