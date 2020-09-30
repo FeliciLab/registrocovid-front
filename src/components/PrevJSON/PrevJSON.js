@@ -9,15 +9,15 @@ const PrevJSON = props => {
 
   return (
     <pre {...rest}>
-      <Typography variant="overline">{name}</Typography>
+      <Typography variant="overline">{name}:</Typography>
       {JSON.stringify(data, null, 4)}
     </pre>
   );
 };
 
 PrevJSON.propTypes = {
-  data: PropTypes.object.isRequired,
-  name: PropTypes.string.isRequired,
+  data: PropTypes.any.isRequired, //  O que vai ser apresentado no formato JSON
+  name: PropTypes.string.isRequired, // Nome de apresentação
 };
 
 export default memo(PrevJSON);

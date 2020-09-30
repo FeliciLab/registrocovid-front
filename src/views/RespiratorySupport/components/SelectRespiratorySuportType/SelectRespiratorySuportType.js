@@ -22,7 +22,16 @@ const SelectRespiratorySuportType = props => {
 
   const handleAddRespiratorySuportType = () => {
     setFieldValue('newSuportesRespitatorios', [...values.newSuportesRespitatorios, {
-      tipo_suport_respiratorio_id: values.tipoNewSuporteRespiratorioSelected.toString(),
+      id: '',
+      tipo_suporte_id: values.tipoNewSuporteRespiratorioSelected.toString(),
+      fluxo_o2: '',
+      data_inicio: '',
+      data_termino: '',
+      menos_24h_vmi: '',
+      concentracao_o2: '',
+      fluxo_sangue: '',
+      fluxo_gasoso: '',
+      fio2: '',
     }])
   }
 

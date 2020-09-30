@@ -27,6 +27,7 @@ import useStyles from './styles';
 import { Form, Formik } from 'formik';
 import SelectRespiratorySuportType from './components/SelectRespiratorySuportType';
 import { PrevJSON } from 'components';
+import RespiratorySuportItem from './components/RespiratorySuportItem';
 
 const initialValues = {
   newSuportesRespitatorios: [],
@@ -189,7 +190,7 @@ const RespiratorySupport = () => {
                 validateOnMount
                 // validationSchema={schema}
               >
-                {({ isSubmitting }) => (
+                {({ isSubmitting, values }) => (
                   <Form component={FormControl}>
                     <div className={classes.titleWrapper}>
                       <Typography variant="h2">Suporte respiratório</Typography>
@@ -220,6 +221,13 @@ const RespiratorySupport = () => {
                       data={oldRecords}
                       name="oldRecords"
                     />
+
+                    {oldRecords.map((item, index) => (
+                      <RespiratorySuportItem
+                        key={index}
+                        suporteRespiratorio={item}
+                      />
+                    ))}
                   </Form>
                 )}
               </Formik>
