@@ -57,11 +57,16 @@ const Sidebar = props => {
       classes={{ paper: classes.drawer }}
       onClose={onClose}
       open={open}
-      variant={variant}>
-      <div {...rest} className={clsx(classes.root, className)}>
-        {/* <Profile /> */}
-        {/* <Divider className={classes.divider} /> */}
-        <SidebarNav className={classes.nav} pages={pages} />
+      variant={variant}
+    >
+      <div
+        {...rest}
+        className={clsx(classes.root, className)}
+      >
+        <SidebarNav
+          className={classes.nav}
+          pages={pages}
+        />
 
         <Button
           className={classes.signOutButton}
@@ -70,7 +75,6 @@ const Sidebar = props => {
           startIcon={<InputIcon />}>
           SAIR
         </Button>
-        {/* <UpgradePlan /> */}
       </div>
     </Drawer>
   );
