@@ -72,7 +72,7 @@ const OutcomeItem = props => {
             {desfecho.tipo_desfecho.descricao}
           </Typography>
           <Typography variant="caption">
-            Data da coleta:{' '}
+            Data:{' '}
             {desfecho.data
               .split('-')
               .reverse()
