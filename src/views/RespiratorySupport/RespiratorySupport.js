@@ -62,7 +62,7 @@ const RespiratorySupport = () => {
       setSupportsTypes(supports.data);
 
       const tratamentoRecords = orderByDate(
-        patientRecords.data.tratamento_suporte,
+        patientRecords.data.suporte_respiratorio,
       );
 
       const pronacaoRecords = orderByDate(
@@ -92,10 +92,54 @@ const RespiratorySupport = () => {
     handleInfos();
   }, [handleInfos]);
 
-  const handleSubmit = values => {
-    console.log(values);
-    // formRef.current.submit();
-  };
+  const handleSubmit = useCallback(
+    async values => {
+      try {
+        const { newSuportesRespitatorios } = values;
+
+        // tentando salvar mas sem nada para enviar
+        if (newSuportesRespitatorios.length === 0) {
+          addToast({
+            type: 'warning',
+            message: 'Nada para salvar.',
+          });
+          return;
+        }
+
+        const newSuportesRespitatoriosSanitazed = newSuportesRespitatorios.map(
+          item => ({
+            tipo_suporte_id: item.tipo_suporte_id,
+            fluxo_o2: item.fluxo_o2,
+            data_inicio: item.data_inicio,
+            data_termino: item.data_termino,
+            menos_24h_vmi: item.menos_24h_vmi,
+            concentracao_o2: item.concentracao_o2,
+            fluxo_sangue: item.fluxo_sangue,
+            fluxo_gasoso: item.fluxo_gasoso,
+            fio2: item.fio2,
+          }),
+        );
+
+        await api.post(
+          `/pacientes/${patient.id}/suportes-respiratorios/`,
+          newSuportesRespitatoriosSanitazed,
+        );
+
+        addToast({
+          type: 'success',
+          message: 'Dados salvos com sucesso.',
+        });
+
+        window.location.reload();
+      } catch (error) {
+        addToast({
+          type: 'error',
+          message: 'Erro ao tentar salvar as informações',
+        });
+      }
+    },
+    [patient.id, addToast],
+  );
 
   const orderByDate = array => {
     if (!array) {
@@ -118,20 +162,6 @@ const RespiratorySupport = () => {
       return 0;
     });
   };
-
-  // O que isso aqui faz??? Agrupa pelo que???
-  // const groupedOldRecords = useMemo(() => {
-  //   return oldRecords.reduce((acc, object) => {
-  //     let key = object['tipo_suporte_id'];
-
-  //     if (!acc[key]) {
-  //       acc[key] = [];
-  //     }
-  //     acc[key].push(object);
-
-  //     return acc;
-  //   }, {});
-  // }, [oldRecords]);
 
   return (
     <div className={classes.root}>
@@ -196,6 +226,11 @@ const RespiratorySupport = () => {
                     {/* TODO: separar aqui por tipos */}
                     {oldRecords.map((item, index) => (
                       <RespiratorySuportItem
+                        descricao={
+                          supportsTypes.filter(
+                            tipo => tipo.id === item.tipo_suporte_id,
+                          )[0].nome
+                        }
                         key={index}
                         suporteRespiratorio={item}
                       />
@@ -203,6 +238,11 @@ const RespiratorySupport = () => {
 
                     {pronacao.map((item, index) => (
                       <RespiratorySuportItem
+                        descricao={
+                          supportsTypes.filter(
+                            tipo => tipo.id === item.tipo_suporte_id,
+                          )[0].nome
+                        }
                         key={index}
                         suporteRespiratorio={item}
                       />
@@ -210,6 +250,11 @@ const RespiratorySupport = () => {
 
                     {desmame.map((item, index) => (
                       <RespiratorySuportItem
+                        descricao={
+                          supportsTypes.filter(
+                            tipo => tipo.id === item.tipo_suporte_id,
+                          )[0].nome
+                        }
                         key={index}
                         suporteRespiratorio={item}
                       />
@@ -218,142 +263,6 @@ const RespiratorySupport = () => {
                 )}
               </Formik>
             </Grid>
-            {/* <Grid
-              container
-              justify={'center'}
-            >
-              <Paper className={classes.centralPaper}>
-                <FormLabel>
-                  <Typography variant="h4">
-                    Escolher tipo de suporte ou procedimento:
-                  </Typography>
-                </FormLabel>
-
-                <div className={classes.headerForm}>
-                  <Grid
-                    item
-                    lg={8}
-                  >
-                    <FormGroup>
-                      <FormControl variant={'outlined'}>
-                        <Select
-                          className={classes.selectField}
-                          name="complication"
-                          onChange={handleSelect}
-                          value={selectedTratament.current}
-                        >
-                          <MenuItem
-                            disabled
-                            value={0}
-                          >
-                            Escolher
-                          </MenuItem>
-                          {supportsTypes.map(support => (
-                            <MenuItem
-                              key={String(support.id)}
-                              value={support.id}
-                            >
-                              {support.nome}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
-                    </FormGroup>
-                  </Grid>
-
-                  <Grid
-                    item
-                    lg={4}
-                  >
-                    <Button
-                      className={classes.buttonSave}
-                      color="secondary"
-                      onClick={handleNewComplication}
-                      startIcon={<AddIcon />}
-                      type="button"
-                      variant="contained"
-                    >
-                      Adicionar Ocorrência
-                    </Button>
-                  </Grid>
-                </div>
-
-                <Form
-                  className={classes.examsFormGroup}
-                  ref={formRef}
-                >
-                  {newsRecords.map(item => (
-                    <Records
-                      handleDelete={() => handleDelete(item.id)}
-                      id={item.id}
-                      isNew
-                      key={String(item.id)}
-                      newRecord={item.tratament}
-                      visible
-                    />
-                  ))}
-
-                  <pre>
-                    {JSON.stringify(groupedOldRecords, null, 4)}
-                  </pre>
-
-                  {Object.entries(groupedOldRecords).map(element => {
-                    return [
-                      element[1].map(item => {
-                        return (
-                          <Records
-                            id={item.id}
-                            infos={item}
-                            isNew={false}
-                            key={String(item.id)}
-                            newRecord={item.tipo_suporte_id}
-                            visible
-                          />
-                        );
-                      }),
-                      <div
-                        className={classes.newExpPanel}
-                        key={String(Math.random())}
-                      />,
-                    ];
-                  })}
-
-                  {[
-                    pronacao.map(item => (
-                      <Records
-                        id={item.id}
-                        infos={item}
-                        isNew={false}
-                        key={String(item.id)}
-                        newRecord={7}
-                        visible
-                      />
-                    )),
-                    <div
-                      className={classes.newExpPanel}
-                      key={String(Math.random())}
-                    />,
-                  ]}
-
-                  {[
-                    desmame.map(item => (
-                      <Records
-                        id={item.id}
-                        infos={item}
-                        isNew={false}
-                        key={String(item.id)}
-                        newRecord={8}
-                        visible
-                      />
-                    )),
-                    <div
-                      className={classes.newExpPanel}
-                      key={String(Math.random())}
-                    />,
-                  ]}
-                </Form>
-              </Paper>
-            </Grid> */}
           </div>
         )}
       </div>

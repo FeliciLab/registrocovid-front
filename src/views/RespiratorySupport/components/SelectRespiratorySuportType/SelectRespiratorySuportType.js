@@ -8,11 +8,6 @@ import AddIcon from '@material-ui/icons/Add';
 import useStyles from './styles';
 import { PrevJSON } from 'components';
 
-// const initialValues = {
-//   newSuportesRespitatorios: [],
-//   tipoNewSuporteRespiratorioSelected: '',
-// };
-
 const SelectRespiratorySuportType = props => {
   const { tipos } = props;
 
@@ -22,7 +17,6 @@ const SelectRespiratorySuportType = props => {
 
   const handleAddRespiratorySuportType = () => {
     setFieldValue('newSuportesRespitatorios', [...values.newSuportesRespitatorios, {
-      id: '',
       tipo_suporte_id: values.tipoNewSuporteRespiratorioSelected.toString(),
       fluxo_o2: '',
       data_inicio: '',

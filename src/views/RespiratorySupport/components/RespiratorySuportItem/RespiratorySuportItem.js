@@ -12,7 +12,7 @@ import {
 import FieldComposerItem from '../FieldComposerItem/FieldComposerItem';
 
 const RespiratorySuportItem = props => {
-  const { descricao, suporteRespiratorio } = props;
+  const { suporteRespiratorio, descricao } = props;
 
   return (
     <Accordion>
@@ -22,7 +22,7 @@ const RespiratorySuportItem = props => {
         id="panel1a-header"
       >
         <div>
-          <Typography variant="h4">{suporteRespiratorio.id}</Typography>
+          <Typography variant="h4">{descricao}</Typography>
         </div>
       </AccordionSummary>
       <AccordionDetails>
