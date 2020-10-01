@@ -28,6 +28,7 @@ import { Form, Formik } from 'formik';
 import SelectRespiratorySuportType from './components/SelectRespiratorySuportType';
 import RespiratorySuportItem from './components/RespiratorySuportItem';
 import RespiratorySuportFormList from './components/RespiratorySuportFormList';
+import RespiratorySuportItemList from './components/RespiratorySuportItemList';
 
 const initialValues = {
   newSuportesRespitatorios: [],
@@ -223,16 +224,11 @@ const RespiratorySupport = () => {
 
                       <RespiratorySuportFormList tipos={supportsTypes} />
 
-                      {/* TODO: separar aqui por tipos */}
-                      {oldRecords.map((item, index) => (
-                        <RespiratorySuportItem
-                          descricao={
-                            supportsTypes.filter(
-                              tipo => tipo.id === item.tipo_suporte_id,
-                            )[0].nome
-                          }
+                      {supportsTypes.map((tipo, index) => (
+                        <RespiratorySuportItemList
+                          descricao={tipo.nome}
                           key={index}
-                          suporteRespiratorio={item}
+                          list={oldRecords.filter(item => tipo.id === item.tipo_suporte_id)}
                         />
                       ))}
 
