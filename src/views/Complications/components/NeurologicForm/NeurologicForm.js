@@ -16,7 +16,6 @@ import useStyles from './styles';
 
 const NeurologicForm = ({ complicationData, index, remove }) => {
   const classes = useStyles();
-  console.log('19', complicationData);
   const { values, handleChange, errors, touched } = useFormikContext();
 
   return (
@@ -56,15 +55,19 @@ const NeurologicForm = ({ complicationData, index, remove }) => {
             as={TextField}
             className={classes.dateField}
             error={
-              errors.newsComplicacoes && touched.newsComplicacoes
-                ? !!errors.newsComplicacoes[index]?.data
+              errors.newsComplicacoes && 
+              touched.newsComplicacoes &&
+              errors.newsComplicacoes[index] &&
+              errors.newsComplicacoes[index].data
+                ? errors.newsComplicacoes[index].data
                 : false
             }
             helperText={
               errors.newsComplicacoes &&
                 touched.newsComplicacoes &&
-                errors.newsComplicacoes[index]?.data
-                ? errors.newsComplicacoes[index]?.data
+                errors.newsComplicacoes[index] &&
+                errors.newsComplicacoes[index].data
+                ? errors.newsComplicacoes[index].data
                 : ''
             }
             name={`newsComplicacoes[${index}].data`}
@@ -94,15 +97,19 @@ const NeurologicForm = ({ complicationData, index, remove }) => {
             as={TextField}
             className={classes.textField}
             error={
-              errors.newsComplicacoes && touched.newsComplicacoes
-                ? !!errors.newsComplicacoes[index]?.descricao
+              errors.newsComplicacoes && 
+              touched.newsComplicacoes &&
+              errors.newsComplicacoes[index] &&
+              errors.newsComplicacoes[index].descricao
+                ? errors.newsComplicacoes[index].descricao
                 : false
             }
             helperText={
-              errors.newsComplicacoes &&
-                touched.newsComplicacoes &&
-                errors.newsComplicacoes[index]?.descricao
-                ? errors.newsComplicacoes[index]?.descricao
+              errors.newsComplicacoes && 
+              touched.newsComplicacoes &&
+              errors.newsComplicacoes[index] &&
+              errors.newsComplicacoes[index].descricao
+                ? errors.newsComplicacoes[index].descricao
                 : ''
             }
             name={`newsComplicacoes[${index}].descricao`}

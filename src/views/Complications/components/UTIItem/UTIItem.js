@@ -13,7 +13,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import formatDate from '../../../../helpers/formatDate';
 import useStyles from './styles';
 
-export default ({ complicationData, separator }) => {
+const UTIItem = ({ complicationData, separator }) => {
   const classes = useStyles();
 
   return (
@@ -23,16 +23,25 @@ export default ({ complicationData, separator }) => {
         expandIcon={<ExpandMoreIcon />}
         id="panel1a-header"
       >
-        <Grid container className={classes.heading}>
-          <Grid item xs={10}>
+        <Grid
+          className={classes.heading}
+          container
+        >
+          <Grid
+            item
+            xs={10}
+          >
             <Typography
               className={classes.headingLabel}
               variant="h4"
             >
               Admissão na Unidade de Terapia Intensiva (UTI)
-          </Typography>
+            </Typography>
           </Grid>
-          <Grid item xs={2}>
+          <Grid
+            item
+            xs={2}
+          >
             <Typography variant="caption">
               {complicationData ? formatDate(complicationData.data) : ''}
             </Typography>
@@ -135,3 +144,5 @@ export default ({ complicationData, separator }) => {
     </Accordion>
   );
 };
+
+export default UTIItem;

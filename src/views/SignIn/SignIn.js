@@ -70,7 +70,8 @@ const SignIn = props => {
         }}
         onSubmit={handleSignIn}
         validateOnMount
-        validationSchema={schema}>
+        validationSchema={schema}
+      >
         {({ values, touched, handleChange, isValid, errors }) => (
           <Form className={classes.form}>
             <div className={classes.contentForm}>
@@ -84,18 +85,21 @@ const SignIn = props => {
               </div>
 
               <div className={classes.viewForm}>
-                <Typography className={classes.title} variant="h2">
+                <Typography
+                  className={classes.title}
+                  variant="h2"
+                >
                   Entrar no sistema
                 </Typography>
                 <Field
+                  InputProps={{
+                    inputComponent: TextMaskCPF,
+                  }}
                   as={TextField}
                   className={classes.textField}
                   error={errors.cpf && touched.cpf}
                   fullWidth
                   helperText={errors.cpf && touched.cpf ? errors.cpf : null}
-                  InputProps={{
-                    inputComponent: TextMaskCPF,
-                  }}
                   label="cpf"
                   name="cpf"
                   onChange={handleChange}
@@ -104,20 +108,14 @@ const SignIn = props => {
                   variant="outlined"
                 />
                 <Field
-                  as={TextField}
-                  className={classes.textField}
-                  error={errors.password && touched.password}
-                  fullWidth
-                  helperText={
-                    errors.password && touched.password ? errors.password : null
-                  }
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
                         <IconButton
                           aria-label="Mudar a visibilidade da senha"
                           edge="end"
-                          onClick={handleClickShowPassword}>
+                          onClick={handleClickShowPassword}
+                        >
                           {showPassword ? (
                             <VisibilityIcon />
                           ) : (
@@ -127,6 +125,13 @@ const SignIn = props => {
                       </InputAdornment>
                     ),
                   }}
+                  as={TextField}
+                  className={classes.textField}
+                  error={errors.password && touched.password}
+                  fullWidth
+                  helperText={
+                    errors.password && touched.password ? errors.password : null
+                  }
                   label="Password"
                   name="password"
                   onChange={handleChange}
@@ -142,7 +147,8 @@ const SignIn = props => {
                     fullWidth
                     size="large"
                     type="submit"
-                    variant="contained">
+                    variant="contained"
+                  >
                     Entrar
                   </Button>
 
@@ -151,7 +157,8 @@ const SignIn = props => {
                       <InfoIcon />
                       <Typography
                         className={classes.errorLoginMessageLabel}
-                        variant="caption">
+                        variant="caption"
+                      >
                         Usuário ou senha incorretos, tente novamente.
                       </Typography>
                     </div>

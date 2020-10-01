@@ -12,8 +12,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import formatDate from '../../../../helpers/formatDate';
 import useStyles from './styles';
 
-// eslint-disable-next-line react/display-name
-export default ({ complicationData, separator }) => {
+const NeurologicItem = ({ complicationData, separator }) => {
   const classes = useStyles();
   return (
     <Accordion className={separator ? classes.typeSeparator : ''}>
@@ -22,8 +21,14 @@ export default ({ complicationData, separator }) => {
         expandIcon={<ExpandMoreIcon />}
         id="panel1a-header"
       >
-        <Grid container className={classes.heading}>
-          <Grid item xs={10}>
+        <Grid
+          className={classes.heading}
+          container
+        >
+          <Grid
+            item
+            xs={10}
+          >
             <Typography
               className={classes.headingLabel}
               variant="h4"
@@ -33,7 +38,10 @@ export default ({ complicationData, separator }) => {
                 : ''}
             </Typography>
           </Grid>
-          <Grid item xs={2}>
+          <Grid
+            item
+            xs={2}
+          >
             <Typography variant="caption">
               {complicationData ? formatDate(complicationData.data) : ''}
             </Typography>
@@ -41,7 +49,8 @@ export default ({ complicationData, separator }) => {
         </Grid>
       </AccordionSummary >
       <AccordionDetails
-        className={classes.accordionDetails}>
+        className={classes.accordionDetails}
+      >
         <Grid
           className={classes.root}
           item
@@ -93,3 +102,5 @@ export default ({ complicationData, separator }) => {
     </Accordion >
   );
 };
+
+export default NeurologicItem
