@@ -217,48 +217,49 @@ const RespiratorySupport = () => {
                       container
                       direction="column"
                       item
+                      spacing={2}
                     >
                       <SelectRespiratorySuportType tipos={supportsTypes} />
+
+                      <RespiratorySuportFormList tipos={supportsTypes} />
+
+                      {/* TODO: separar aqui por tipos */}
+                      {oldRecords.map((item, index) => (
+                        <RespiratorySuportItem
+                          descricao={
+                            supportsTypes.filter(
+                              tipo => tipo.id === item.tipo_suporte_id,
+                            )[0].nome
+                          }
+                          key={index}
+                          suporteRespiratorio={item}
+                        />
+                      ))}
+
+                      {pronacao.map((item, index) => (
+                        <RespiratorySuportItem
+                          descricao={
+                            supportsTypes.filter(
+                              tipo => tipo.id === item.tipo_suporte_id,
+                            )[0].nome
+                          }
+                          key={index}
+                          suporteRespiratorio={item}
+                        />
+                      ))}
+
+                      {desmame.map((item, index) => (
+                        <RespiratorySuportItem
+                          descricao={
+                            supportsTypes.filter(
+                              tipo => tipo.id === item.tipo_suporte_id,
+                            )[0].nome
+                          }
+                          key={index}
+                          suporteRespiratorio={item}
+                        />
+                      ))}
                     </Grid>
-
-                    <RespiratorySuportFormList />
-
-                    {/* TODO: separar aqui por tipos */}
-                    {oldRecords.map((item, index) => (
-                      <RespiratorySuportItem
-                        descricao={
-                          supportsTypes.filter(
-                            tipo => tipo.id === item.tipo_suporte_id,
-                          )[0].nome
-                        }
-                        key={index}
-                        suporteRespiratorio={item}
-                      />
-                    ))}
-
-                    {pronacao.map((item, index) => (
-                      <RespiratorySuportItem
-                        descricao={
-                          supportsTypes.filter(
-                            tipo => tipo.id === item.tipo_suporte_id,
-                          )[0].nome
-                        }
-                        key={index}
-                        suporteRespiratorio={item}
-                      />
-                    ))}
-
-                    {desmame.map((item, index) => (
-                      <RespiratorySuportItem
-                        descricao={
-                          supportsTypes.filter(
-                            tipo => tipo.id === item.tipo_suporte_id,
-                          )[0].nome
-                        }
-                        key={index}
-                        suporteRespiratorio={item}
-                      />
-                    ))}
                   </Form>
                 )}
               </Formik>

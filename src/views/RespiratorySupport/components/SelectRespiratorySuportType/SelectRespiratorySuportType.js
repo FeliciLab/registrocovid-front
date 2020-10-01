@@ -1,12 +1,19 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { Field, useFormikContext } from 'formik';
-import { Button, Card, FormGroup, FormLabel, Grid, MenuItem, Typography } from '@material-ui/core';
+import {
+  Button,
+  Card,
+  FormGroup,
+  FormLabel,
+  Grid,
+  MenuItem,
+  Typography,
+} from '@material-ui/core';
 import { TextField } from 'formik-material-ui';
 
 import AddIcon from '@material-ui/icons/Add';
 import useStyles from './styles';
-import { PrevJSON } from 'components';
 
 const SelectRespiratorySuportType = props => {
   const { tipos } = props;
@@ -16,18 +23,21 @@ const SelectRespiratorySuportType = props => {
   const { values, setFieldValue } = useFormikContext();
 
   const handleAddRespiratorySuportType = () => {
-    setFieldValue('newSuportesRespitatorios', [...values.newSuportesRespitatorios, {
-      tipo_suporte_id: values.tipoNewSuporteRespiratorioSelected.toString(),
-      fluxo_o2: '',
-      data_inicio: '',
-      data_termino: '',
-      menos_24h_vmi: '',
-      concentracao_o2: '',
-      fluxo_sangue: '',
-      fluxo_gasoso: '',
-      fio2: '',
-    }])
-  }
+    setFieldValue('newSuportesRespitatorios', [
+      ...values.newSuportesRespitatorios,
+      {
+        tipo_suporte_id: values.tipoNewSuporteRespiratorioSelected.toString(),
+        fluxo_o2: '',
+        data_inicio: '',
+        data_termino: '',
+        menos_24h_vmi: '',
+        concentracao_o2: '',
+        fluxo_sangue: '',
+        fluxo_gasoso: '',
+        fio2: '',
+      },
+    ]);
+  };
 
   return (
     <Grid
@@ -76,14 +86,9 @@ const SelectRespiratorySuportType = props => {
           </Button>
         </Grid>
       </FormGroup>
-      <PrevJSON
-        data={values}
-        name="values"
-      />
     </Grid>
-
   );
-}
+};
 
 SelectRespiratorySuportType.propTypes = {
   tipos: PropTypes.arrayOf(

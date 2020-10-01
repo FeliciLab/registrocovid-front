@@ -1,25 +1,24 @@
-import {
-  Card,
-  Grid,
-  IconButton,
-  Typography,
-} from '@material-ui/core';
+import { Card, Grid, IconButton, Typography } from '@material-ui/core';
 import React from 'react';
 import FieldComposerForm from '../FieldComposerForm';
 
 import DeleteIcon from '@material-ui/icons/Delete';
+import useStyles from './styles';
 
 const RespiratorySuportForm = props => {
-  const { index, tipo, remove } = props;
+  const { index, tipo, descricao, remove } = props;
+
+  const classes = useStyles();
 
   return (
     <Grid
-      componet={Card}
+      className={classes.root}
+      component={Card}
       container
       item
     >
-      <div>
-        <Typography variant="h4">Alta hospitalar</Typography>
+      <div className={classes.title}>
+        <Typography variant="h4">{descricao}</Typography>
         <IconButton
           aria-label="delete"
           onClick={() => remove(index)}

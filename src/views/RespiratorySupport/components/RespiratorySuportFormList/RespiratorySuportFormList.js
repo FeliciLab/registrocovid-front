@@ -2,7 +2,9 @@ import { FieldArray, useFormikContext } from 'formik';
 import React from 'react';
 import RespiratorySuportForm from '../RespiratorySuportForm/RespiratorySuportForm';
 
-const RespiratorySuportFormList = () => {
+const RespiratorySuportFormList = props => {
+  const { tipos } = props;
+
   const { values } = useFormikContext();
 
   return (
@@ -14,6 +16,11 @@ const RespiratorySuportFormList = () => {
             values.newSuportesRespitatorios
               .map((item, index) => (
                 <RespiratorySuportForm
+                  descricao={
+                    tipos.filter(
+                      tipo => tipo.id.toString() === item.tipo_suporte_id,
+                    )[0].nome
+                  }
                   index={index}
                   key={index}
                   remove={remove}
