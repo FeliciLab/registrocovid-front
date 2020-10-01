@@ -28,6 +28,7 @@ import { Form, Formik } from 'formik';
 import SelectRespiratorySuportType from './components/SelectRespiratorySuportType';
 import { PrevJSON } from 'components';
 import RespiratorySuportItem from './components/RespiratorySuportItem';
+import RespiratorySuportForm from './components/RespiratorySuportForm';
 
 const initialValues = {
   newSuportesRespitatorios: [],
@@ -217,11 +218,21 @@ const RespiratorySupport = () => {
                       <SelectRespiratorySuportType tipos={supportsTypes} />
                     </Grid>
 
+                    {/* TODO: remover depois */}
                     <PrevJSON
                       data={oldRecords}
                       name="oldRecords"
                     />
 
+                    {values.newSuportesRespitatorios.map((item, index) => (
+                      <RespiratorySuportForm
+                        index={index}
+                        key={index}
+                        tipo={item.tipo_suporte_id}
+                      />
+                    ))}
+
+                    {/* TODO: separar aqui por tipos */}
                     {oldRecords.map((item, index) => (
                       <RespiratorySuportItem
                         key={index}
