@@ -73,7 +73,7 @@ const SelectRespiratorySuportType = props => {
           <Button
             className={classes.buttonAddType}
             color="secondary"
-            disabled={values.tipoNewDesfechoSelected === ''}
+            disabled={values.tipoNewSuporteRespiratorioSelected === ''}
             onClick={handleAddRespiratorySuportType}
             startIcon={<AddIcon />}
             variant="contained"

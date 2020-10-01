@@ -26,9 +26,8 @@ import api from 'services/api';
 import useStyles from './styles';
 import { Form, Formik } from 'formik';
 import SelectRespiratorySuportType from './components/SelectRespiratorySuportType';
-import { PrevJSON } from 'components';
 import RespiratorySuportItem from './components/RespiratorySuportItem';
-import RespiratorySuportForm from './components/RespiratorySuportForm';
+import RespiratorySuportFormList from './components/RespiratorySuportFormList';
 
 const initialValues = {
   newSuportesRespitatorios: [],
@@ -37,20 +36,19 @@ const initialValues = {
 
 const RespiratorySupport = () => {
   const classes = useStyles();
+
   const history = useHistory();
+
   const { addToast } = useToast();
+
   const { patient } = usePatient();
 
-  // const formRef = useRef(null);
-  // const selectedTratament = useRef();
-
   const [loading, setLoading] = useState(false);
+
   const [supportsTypes, setSupportsTypes] = useState([]);
   const [oldRecords, setOldRecords] = useState([]);
   const [pronacao, setPronacao] = useState([]);
   const [desmame, setDesmame] = useState([]);
-  const [newsRecords, setNewsRecords] = useState([]);
-  // const [recordId, setRecordId] = useState(0);
 
   const handleInfos = useCallback(async () => {
     try {
@@ -93,31 +91,6 @@ const RespiratorySupport = () => {
   useEffect(() => {
     handleInfos();
   }, [handleInfos]);
-
-  // const handleSelect = event => {
-  //   selectedTratament.current = event.target.value;
-  // };
-
-  // const handleNewComplication = () => {
-  //   if (selectedTratament.current) {
-  //     const newTratament = {
-  //       id: recordId,
-  //       tratament: selectedTratament.current,
-  //     };
-
-  //     setRecordId(oldState => oldState + 1);
-  //     setNewsRecords(oldState => [newTratament, ...oldState]);
-  //   }
-  // };
-
-  // const handleDelete = recordId => {
-  //   const updatedComplications = newsRecords.filter(
-  //     ({ id }) => id !== recordId,
-  //   );
-  //   setNewsRecords(updatedComplications);
-
-  //   formRef.current.setValues(recordId);
-  // };
 
   const handleSubmit = values => {
     console.log(values);
@@ -218,22 +191,24 @@ const RespiratorySupport = () => {
                       <SelectRespiratorySuportType tipos={supportsTypes} />
                     </Grid>
 
-                    {/* TODO: remover depois */}
-                    <PrevJSON
-                      data={oldRecords}
-                      name="oldRecords"
-                    />
-
-                    {values.newSuportesRespitatorios.map((item, index) => (
-                      <RespiratorySuportForm
-                        index={index}
-                        key={index}
-                        tipo={item.tipo_suporte_id}
-                      />
-                    ))}
+                    <RespiratorySuportFormList />
 
                     {/* TODO: separar aqui por tipos */}
                     {oldRecords.map((item, index) => (
+                      <RespiratorySuportItem
+                        key={index}
+                        suporteRespiratorio={item}
+                      />
+                    ))}
+
+                    {pronacao.map((item, index) => (
+                      <RespiratorySuportItem
+                        key={index}
+                        suporteRespiratorio={item}
+                      />
+                    ))}
+
+                    {desmame.map((item, index) => (
                       <RespiratorySuportItem
                         key={index}
                         suporteRespiratorio={item}

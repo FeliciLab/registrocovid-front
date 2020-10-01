@@ -25,7 +25,7 @@ const FieldComposerForm = props => {
             <Typography variant="h5">Fluxo O₂</Typography>
           </FormLabel>
           <Field
-            componet={TextField}
+            component={TextField}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="start">l/min</InputAdornment>

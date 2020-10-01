@@ -204,7 +204,7 @@ FieldComposerItem.propTypes = {
     'fluxo_gasoso',
     'fio2',
   ]).isRequired,
-  value: PropTypes.any.isRequired,
+  value: PropTypes.any,
 };
 
 export default FieldComposerItem;
