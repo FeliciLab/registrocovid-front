@@ -171,9 +171,6 @@ const Comorbidities = () => {
           setNeoplasia(apiData.neoplasia);
           setQuimioterapia(apiData.quimioterapia);
 
-          // TODO: testando
-          console.log('apiData.quimioterapia');
-
           setCorticosteroide(
             apiData.corticosteroide === null
               ? ''
