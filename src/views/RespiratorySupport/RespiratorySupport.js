@@ -118,6 +118,8 @@ const RespiratorySupport = () => {
             fluxo_sangue: item.fluxo_sangue,
             fluxo_gasoso: item.fluxo_gasoso,
             fio2: item.fio2,
+            data_pronacao: item.data_pronacao, // Pronacao
+            quantidade_horas: item.quantidade_horas, // Pronacao
           }),
         );
 

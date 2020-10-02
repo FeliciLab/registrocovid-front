@@ -187,6 +187,45 @@ const FieldComposerForm = props => {
         </FormGroup>
       </Grid>
     ),
+    data_pronacao: (
+      <Grid
+        item
+        xs={6}
+      >
+        <FormGroup>
+          <FormLabel>
+            <Typography variant="h5">Data de pronação</Typography>
+          </FormLabel>
+          <Field
+            component={TextField}
+            name={name}
+            type="date"
+            variant="outlined"
+          />
+        </FormGroup>
+      </Grid>
+    ),
+    quantidade_horas: (
+      <Grid
+        item
+        xs={6}
+      >
+        <FormGroup>
+          <FormLabel>
+            <Typography variant="h5">Pronação</Typography>
+          </FormLabel>
+          <Field
+            component={TextField}
+            InputProps={{
+              endAdornment: <InputAdornment position="start">hora(s)</InputAdornment>,
+            }}
+            name={name}
+            type="number"
+            variant="outlined"
+          />
+        </FormGroup>
+      </Grid>
+    )
   };
 
   return fields[field];
@@ -202,6 +241,8 @@ FieldComposerForm.propTypes = {
     'fluxo_sangue',
     'fluxo_gasoso',
     'fio2',
+    'data_pronacao', // pronacao
+    'quantidade_horas', // pronacao
   ]).isRequired,
   name: PropTypes.any.isRequired,
 };

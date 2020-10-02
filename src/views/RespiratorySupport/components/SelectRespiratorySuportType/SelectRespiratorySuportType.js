@@ -35,6 +35,8 @@ const SelectRespiratorySuportType = props => {
         fluxo_sangue: '',
         fluxo_gasoso: '',
         fio2: '',
+        data_pronacao: '', // Pronacao
+        quantidade_horas: '', // Pronacao
       },
     ]);
   };

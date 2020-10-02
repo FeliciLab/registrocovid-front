@@ -77,9 +77,8 @@ const RespiratorySuportForm = props => {
 
       {/* Ventilação mecânica não invasiva (VNI)
         Intubação Orotraqueal
-        Traqueostomia
-        Pronação */}
-      {['5', '7', '8', '10'].some(id => tipo === id) && (
+        Traqueostomia */}
+      {['5', '7', '8'].some(id => tipo === id) && (
         <Grid
           container
           item
@@ -121,6 +120,23 @@ const RespiratorySuportForm = props => {
           <FieldComposerForm
             field="fio2"
             name={`newSuportesRespitatorios.${index}.fio2`}
+          />
+        </Grid>
+      )}
+      {/* Pronação */}
+      {['10'].some(id => tipo === id) && (
+        <Grid
+          container
+          item
+          spacing={2}
+        >
+          <FieldComposerForm
+            field="data_pronacao"
+            name={`newSuportesRespitatorios.${index}.data_pronacao`}
+          />
+          <FieldComposerForm
+            field="quantidade_horas"
+            name={`newSuportesRespitatorios.${index}.quantidade_horas`}
           />
         </Grid>
       )}
