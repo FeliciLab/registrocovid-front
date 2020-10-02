@@ -129,8 +129,8 @@ const FieldComposerForm = props => {
           <FormLabel>
             <Typography variant="h5">Fluxo de sangue</Typography>
           </FormLabel>
-          <TextField
-            contentEditable={false}
+          <Field
+            component={TextField}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="start">l/min</InputAdornment>
