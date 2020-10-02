@@ -76,7 +76,6 @@ const Sidebar = props => {
         >
           SAIR
         </Button>
-        {/* <UpgradePlan /> */}
       </div>
     </Drawer>
   );
