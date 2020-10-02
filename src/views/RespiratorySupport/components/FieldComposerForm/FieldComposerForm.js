@@ -112,7 +112,8 @@ const FieldComposerForm = props => {
               <Switch
                 color="primary"
                 type="checkbox"
-              />}
+              />
+            }
             label={<Typography variant="h5">Sim</Typography>}
             name={name}
           />
@@ -217,7 +218,9 @@ const FieldComposerForm = props => {
           <Field
             component={TextField}
             InputProps={{
-              endAdornment: <InputAdornment position="start">hora(s)</InputAdornment>,
+              endAdornment: (
+                <InputAdornment position="start">hora(s)</InputAdornment>
+              ),
             }}
             name={name}
             type="number"
@@ -225,7 +228,25 @@ const FieldComposerForm = props => {
           />
         </FormGroup>
       </Grid>
-    )
+    ),
+    data_inclusao_desmame: (
+      <Grid item>
+        <FormGroup>
+          <FormLabel>
+            <Typography variant="h5">
+              Em caso afirmativo, informe a data da inclusão do paciente no
+              desmame
+            </Typography>
+          </FormLabel>
+          <Field
+            component={TextField}
+            name={name}
+            type="date"
+            variant="outlined"
+          />
+        </FormGroup>
+      </Grid>
+    ),
   };
 
   return fields[field];
@@ -243,6 +264,7 @@ FieldComposerForm.propTypes = {
     'fio2',
     'data_pronacao', // pronacao
     'quantidade_horas', // pronacao
+    'data_inclusao_desmame', // desmane
   ]).isRequired,
   name: PropTypes.any.isRequired,
 };

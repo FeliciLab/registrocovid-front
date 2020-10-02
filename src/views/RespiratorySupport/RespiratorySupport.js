@@ -29,6 +29,7 @@ import SelectRespiratorySuportType from './components/SelectRespiratorySuportTyp
 import RespiratorySuportItem from './components/RespiratorySuportItem';
 import RespiratorySuportFormList from './components/RespiratorySuportFormList';
 import RespiratorySuportItemList from './components/RespiratorySuportItemList';
+import { PrevJSON } from 'components';
 
 const initialValues = {
   newSuportesRespitatorios: [],
@@ -109,7 +110,7 @@ const RespiratorySupport = () => {
 
         const newSuportesRespitatoriosSanitazed = newSuportesRespitatorios.map(
           item => ({
-            tipo_suporte_id: item.tipo_suporte_id,
+            tipo_suporte_id: Number(item.tipo_suporte_id),
             fluxo_o2: item.fluxo_o2,
             data_inicio: item.data_inicio,
             data_termino: item.data_termino,
@@ -120,6 +121,7 @@ const RespiratorySupport = () => {
             fio2: item.fio2,
             data_pronacao: item.data_pronacao, // Pronacao
             quantidade_horas: item.quantidade_horas, // Pronacao
+            data_inclusao_desmame: item.data_inclusao_desmame, // desmame
           }),
         );
 
@@ -226,6 +228,12 @@ const RespiratorySupport = () => {
 
                       <RespiratorySuportFormList tipos={supportsTypes} />
 
+                      {/* TODO: remover depois */}
+                      <PrevJSON
+                        data={values.newSuportesRespitatorios}
+                        name="newSuportesRespitatorios"
+                      />
+
                       {supportsTypes.map((tipo, index) => (
                         <RespiratorySuportItemList
                           descricao={tipo.nome}
@@ -234,7 +242,7 @@ const RespiratorySupport = () => {
                         />
                       ))}
 
-                      {pronacao.map((item, index) => (
+                      {/* {pronacao.map((item, index) => (
                         <RespiratorySuportItem
                           descricao={
                             supportsTypes.filter(
@@ -244,9 +252,9 @@ const RespiratorySupport = () => {
                           key={index}
                           suporteRespiratorio={item}
                         />
-                      ))}
+                      ))} */}
 
-                      {desmame.map((item, index) => (
+                      {/* {desmame.map((item, index) => (
                         <RespiratorySuportItem
                           descricao={
                             supportsTypes.filter(
@@ -256,7 +264,7 @@ const RespiratorySupport = () => {
                           key={index}
                           suporteRespiratorio={item}
                         />
-                      ))}
+                      ))} */}
                     </Grid>
                   </Form>
                 )}

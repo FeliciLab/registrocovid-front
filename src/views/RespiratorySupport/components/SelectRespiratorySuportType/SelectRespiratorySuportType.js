@@ -37,6 +37,7 @@ const SelectRespiratorySuportType = props => {
         fio2: '',
         data_pronacao: '', // Pronacao
         quantidade_horas: '', // Pronacao
+        data_inclusao_desmame: '', // Desmane
       },
     ]);
   };

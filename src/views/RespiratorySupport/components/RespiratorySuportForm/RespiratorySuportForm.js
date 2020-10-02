@@ -140,6 +140,19 @@ const RespiratorySuportForm = props => {
           />
         </Grid>
       )}
+      {/* Inclusão em desmame da ventilação mecânica */}
+      {['11'].some(id => tipo === id) && (
+        <Grid
+          container
+          item
+          spacing={2}
+        >
+          <FieldComposerForm
+            field="data_inclusao_desmame"
+            name={`newSuportesRespitatorios.${index}.data_inclusao_desmame`}
+          />
+        </Grid>
+      )}
     </Grid>
   );
 };
