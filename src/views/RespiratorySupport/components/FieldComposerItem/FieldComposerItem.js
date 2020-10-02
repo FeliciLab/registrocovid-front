@@ -188,6 +188,69 @@ const FieldComposerItem = props => {
         </FormGroup>
       </Grid>
     ),
+    data_pronacao: (
+      <Grid
+        item
+        xs={6}
+      >
+        <FormGroup>
+          <FormLabel>
+            <Typography variant="h5">Data de pronação</Typography>
+          </FormLabel>
+          <TextField
+            contentEditable={false}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="start">l/min</InputAdornment>
+              )
+            }}
+            type="date"
+            value={value || ''}
+            variant="outlined"
+          />
+        </FormGroup>
+      </Grid>
+    ),
+    quantidade_horas: (
+      <Grid
+        item
+        xs={6}
+      >
+        <FormGroup>
+          <FormLabel>
+            <Typography variant="h5">Pronação</Typography>
+          </FormLabel>
+          <TextField
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="start">hora(s)</InputAdornment>
+              ),
+            }}
+            type="number"
+            value={value || ''}
+            variant="outlined"
+          />
+        </FormGroup>
+      </Grid>
+    ),
+    data_inclusao_desmame: (
+      <Grid item>
+        <FormGroup>
+          <FormLabel>
+            <Typography variant="h5">
+              Em caso afirmativo, informe a data da inclusão do paciente no
+              desmame
+            </Typography>
+          </FormLabel>
+          <TextField
+            contentEditable={false}
+            type="date"
+            value={value || ''}
+            variant="outlined"
+          />
+        </FormGroup>
+      </Grid>
+    ),
   };
 
   return fields[name];
@@ -203,6 +266,9 @@ FieldComposerItem.propTypes = {
     'fluxo_sangue',
     'fluxo_gasoso',
     'fio2',
+    'data_pronacao', // pronacao
+    'quantidade_horas', // pronacao
+    'data_inclusao_desmame', // desmane
   ]).isRequired,
   value: PropTypes.any,
 };

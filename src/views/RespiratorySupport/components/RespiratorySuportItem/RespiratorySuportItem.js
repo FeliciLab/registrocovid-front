@@ -74,14 +74,10 @@ const RespiratorySuportItem = props => {
             />
           </Grid>
         )}
-
         {/* Ventilação mecânica não invasiva (VNI)
         Intubação Orotraqueal
-        Traqueostomia
-        Pronação */}
-        {[5, 7, 8, 10].some(
-          id => suporteRespiratorio.tipo_suporte_id === id,
-        ) && (
+        Traqueostomia */}
+        {[5, 7, 8].some(id => suporteRespiratorio.tipo_suporte_id === id) && (
           <Grid
             container
             item
@@ -126,6 +122,36 @@ const RespiratorySuportItem = props => {
             />
           </Grid>
         )}
+        {/* Pronaão */}
+        {[10].some(id => suporteRespiratorio.tipo_suporte_id === id) && (
+          <Grid
+            container
+            item
+            spacing={2}
+          >
+            <FieldComposerItem
+              name="data_pronacao"
+              value={suporteRespiratorio.data_pronacao}
+            />
+            <FieldComposerItem
+              name="quantidade_horas"
+              value={suporteRespiratorio.quantidade_horas}
+            />
+          </Grid>
+        )}
+        {/* Pronação */}
+        {[11].some(id => suporteRespiratorio.tipo_suporte_id === id) && (
+          <Grid
+            container
+            item
+            spacing={2}
+          >
+            <FieldComposerItem
+              name="data_inclusao_desmame"
+              value={suporteRespiratorio.data_inclusao_desmame}
+            />
+          </Grid>
+        )}
       </AccordionDetails>
     </Accordion>
   );
@@ -133,7 +159,7 @@ const RespiratorySuportItem = props => {
 
 RespiratorySuportItem.propTypes = {
   descricao: PropTypes.string,
-  suporteRespiratorio: PropTypes.exact({
+  suporteRespiratorio: PropTypes.shape({
     id: PropTypes.number,
     tipo_suporte_id: PropTypes.number,
     fluxo_o2: PropTypes.string,
@@ -144,6 +170,9 @@ RespiratorySuportItem.propTypes = {
     fluxo_sangue: PropTypes.string,
     fluxo_gasoso: PropTypes.string,
     fio2: PropTypes.string,
+    data_pronacao: PropTypes.string, // Pronacao
+    quantidade_horas: PropTypes.number, // Pronacao
+    data_inclusao_desmame: PropTypes.string, // Desmane
   }).isRequired,
 };
 

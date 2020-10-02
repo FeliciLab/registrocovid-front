@@ -76,8 +76,18 @@ const RespiratorySupport = () => {
       );
 
       setOldRecords(tratamentoRecords);
-      setPronacao(pronacaoRecords);
-      setDesmame(desmameRecords);
+
+      setPronacao(
+        pronacaoRecords.map(item => {
+          item.tipo_suporte_id = 10; // Pronacao
+          return item;
+        }),
+      );
+
+      setDesmame(desmameRecords.map(item => {
+        item.tipo_suporte_id = 11; // Desmame
+        return item;
+      }));
     } catch {
       addToast({
         type: 'error',
@@ -238,33 +248,21 @@ const RespiratorySupport = () => {
                         <RespiratorySuportItemList
                           descricao={tipo.nome}
                           key={index}
-                          list={oldRecords.filter(item => tipo.id === item.tipo_suporte_id)}
+                          list={oldRecords.filter(
+                            item => tipo.id === item.tipo_suporte_id,
+                          )}
                         />
                       ))}
 
-                      {/* {pronacao.map((item, index) => (
-                        <RespiratorySuportItem
-                          descricao={
-                            supportsTypes.filter(
-                              tipo => tipo.id === item.tipo_suporte_id,
-                            )[0].nome
-                          }
-                          key={index}
-                          suporteRespiratorio={item}
-                        />
-                      ))} */}
+                      <RespiratorySuportItemList
+                        descricao={'Proncacao'}
+                        list={pronacao}
+                      />
 
-                      {/* {desmame.map((item, index) => (
-                        <RespiratorySuportItem
-                          descricao={
-                            supportsTypes.filter(
-                              tipo => tipo.id === item.tipo_suporte_id,
-                            )[0].nome
-                          }
-                          key={index}
-                          suporteRespiratorio={item}
-                        />
-                      ))} */}
+                      <RespiratorySuportItemList
+                        descricao={'Inclusão em desmame da ventilação mecânica'}
+                        list={desmame}
+                      />
                     </Grid>
                   </Form>
                 )}
