@@ -15,7 +15,6 @@ const schema = Yup.object().shape({
   ),
   ventMecInvasiva: Yup.object().shape({
     data_inicio: Yup.string().required('Campo obrigatório'),
-    data_termino: Yup.string().required('Campo obrigatório'),
   }),
 });
 

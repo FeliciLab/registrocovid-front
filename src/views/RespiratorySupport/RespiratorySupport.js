@@ -111,18 +111,6 @@ const RespiratorySupport = () => {
       try {
         const { newSuportesRespitatorios, ventMecInvasiva } = values;
 
-        // Ventilação mecânica invasiva" tem id = 6
-        // newSuportesRespitatorios.push({...ventMecInvasiva, tipo_suporte_id: 6});
-
-        // tentando salvar mas sem nada para enviar
-        // if (newSuportesRespitatorios.length === 0) {
-        //   addToast({
-        //     type: 'warning',
-        //     message: 'Nada para salvar.',
-        //   });
-        //   return;
-        // }
-
         const newSuportesRespitatoriosSanitazed = newSuportesRespitatorios.map(
           item => ({
             tipo_suporte_id: Number(item.tipo_suporte_id),
@@ -197,81 +185,81 @@ const RespiratorySupport = () => {
           ]}
         />
       </div>
-
-      <div>
-        {loading ? (
-          <CircularProgress />
-        ) : (
-          <div className="container">
-            <Grid
-              container
-              justify="center"
+      {loading ? (
+        <CircularProgress />
+      ) : (
+        <div className="container">
+          <Grid
+            container
+            justify="center"
+          >
+            <Formik
+              enableReinitialize
+              initialValues={initialValues}
+              onSubmit={handleSubmit}
+              validateOnMount
+              validationSchema={schema}
             >
-              <Formik
-                enableReinitialize
-                initialValues={initialValues}
-                onSubmit={handleSubmit}
-                validateOnMount
-                validationSchema={schema}
-              >
-                {({ isSubmitting, values }) => (
-                  <Form component={FormControl}>
-                    <div className={classes.titleWrapper}>
-                      <Typography variant="h2">Suporte respiratório</Typography>
+              {({ isSubmitting }) => (
+                <Form component={FormControl}>
+                  <div className={classes.titleWrapper}>
+                    <Typography variant="h2">Suporte respiratório</Typography>
 
-                      <div className={classes.rightContent}>
-                        <PatientInfo />
-                        <Button
-                          className={classes.buttonSave}
-                          color="secondary"
-                          disabled={isSubmitting}
-                          type="submit"
-                          variant="contained"
-                        >
+                    <div className={classes.rightContent}>
+                      <PatientInfo />
+                      <Button
+                        className={classes.buttonSave}
+                        color="secondary"
+                        disabled={isSubmitting}
+                        type="submit"
+                        variant="contained"
+                      >
                           Salvar
-                        </Button>
-                      </div>
+                      </Button>
                     </div>
-                    <Grid
-                      alignContent="center"
-                      container
-                      direction="column"
-                      item
-                      spacing={2}
-                    >
-                      <SelectRespiratorySuportType tipos={supportsTypes} />
+                  </div>
+                  <Grid
+                    alignContent="center"
+                    alignItems="center"
+                    container
+                    direction="column"
+                    item
+                    spacing={2}
+                  >
+                    <SelectRespiratorySuportType tipos={supportsTypes} />
 
-                      <RespiratorySuportFormList tipos={supportsTypes} />
+                    <RespiratorySuportFormList tipos={supportsTypes} />
 
-                      {supportsTypes.map((tipo, index) => (
-                        <RespiratorySuportItemList
-                          descricao={tipo.nome}
-                          key={index}
-                          list={oldRecords.filter(
-                            item => tipo.id === item.tipo_suporte_id,
-                          )}
-                        />
-                      ))}
-
+                    {supportsTypes.map((tipo, index) => (
                       <RespiratorySuportItemList
-                        descricao={'Proncacao'}
-                        list={pronacao}
+                        descricao={tipo.nome}
+                        key={index}
+                        list={oldRecords.filter(
+                          item => tipo.id === item.tipo_suporte_id,
+                        )}
                       />
+                    ))}
 
-                      <RespiratorySuportItemList
-                        descricao={'Inclusão em desmame da ventilação mecânica'}
-                        list={desmame}
-                      />
+                    <RespiratorySuportItemList
+                      descricao={'Proncacao'}
+                      list={pronacao}
+                    />
 
-                      <VentMecInvasivaForm />
-                    </Grid>
-                  </Form>
-                )}
-              </Formik>
-            </Grid>
-          </div>
-        )}
-      </div>
+                    <RespiratorySuportItemList
+                      descricao={'Inclusão em desmame da ventilação mecânica'}
+                      list={desmame}
+                    />
+
+                    <VentMecInvasivaForm />
+                  </Grid>
+                </Form>
+              )}
+            </Formik>
+          </Grid>
+        </div>
+      )}
+
+
     </div>
   );
 };

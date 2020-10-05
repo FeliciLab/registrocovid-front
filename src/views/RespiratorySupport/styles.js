@@ -4,6 +4,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
+    width: '100%',
     padding: theme.spacing(4),
   },
   header: {
@@ -12,6 +13,7 @@ const useStyles = makeStyles(theme => ({
   },
   titleWrapper: {
     display: 'flex',
+    width: '100%',
     marginTop: theme.spacing(3),
     marginBottom: theme.spacing(3),
     justifyContent: 'space-between',
@@ -33,14 +35,7 @@ const useStyles = makeStyles(theme => ({
     paddingBottom: theme.spacing(3),
     paddingTop: theme.spacing(3),
   },
-  form: {
-    backgroundColor: '#fff',
-    width: 864,
-    minHeight: 800,
-    marginTop: 40,
-    paddingLeft: 40,
-    paddingTop: 24
-  },
+
   formGroup: {
     marginBottom: 24,
     width: '100%'
@@ -50,19 +45,10 @@ const useStyles = makeStyles(theme => ({
     width: 570,
     marginBottom: 10,
   },
-  title: {
-    fontWeight: 'bold',
-    letterSpacing: 1.25,
-    textTransform: 'uppercase',
-    fontSize: 16
-  },
   label: {
     fontWeight: 'bold',
     fontSize: 14,
     marginRight: 4
-  },
-  description: {
-    fontSize: 14
   },
   titleContainer: {
     display: 'flex',
@@ -91,22 +77,9 @@ const useStyles = makeStyles(theme => ({
     paddingRight: 30,
     paddingTop: 30,
   },
-  headerForm: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: theme.spacing(1),
-  },
   selectField: {
     height: '48px',
     marginRight: theme.spacing(1),
-  },
-  accordionDetails: {
-    flexDirection: 'column',
-    '& > *': {
-      marginBottom: theme.spacing(2),
-    }
   },
   fullWidth: {
     width: '100%'
