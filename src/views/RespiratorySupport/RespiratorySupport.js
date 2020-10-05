@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useCallback,
-  useEffect,
-  // useRef,
-  // useMemo,
-} from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import {
@@ -28,10 +22,19 @@ import { Form, Formik } from 'formik';
 import SelectRespiratorySuportType from './components/SelectRespiratorySuportType';
 import RespiratorySuportFormList from './components/RespiratorySuportFormList';
 import RespiratorySuportItemList from './components/RespiratorySuportItemList';
+import VentMecInvasivaForm from './components/VentMecInvasivaForm';
+import { PrevJSON } from 'components';
+
+import schema from './schema';
 
 const initialValues = {
   newSuportesRespitatorios: [],
   tipoNewSuporteRespiratorioSelected: '',
+  ventMecInvasiva: {
+    data_inicio: '',
+    data_termino: '',
+    menos_24h_vmi: false,
+  }
 };
 
 const RespiratorySupport = () => {
@@ -82,10 +85,12 @@ const RespiratorySupport = () => {
         }),
       );
 
-      setDesmame(desmameRecords.map(item => {
-        item.tipo_suporte_id = 11; // Desmame
-        return item;
-      }));
+      setDesmame(
+        desmameRecords.map(item => {
+          item.tipo_suporte_id = 11; // Desmame
+          return item;
+        }),
+      );
     } catch {
       addToast({
         type: 'error',
@@ -205,7 +210,7 @@ const RespiratorySupport = () => {
                 initialValues={initialValues}
                 onSubmit={handleSubmit}
                 validateOnMount
-                // validationSchema={schema}
+                validationSchema={schema}
               >
                 {({ isSubmitting, values }) => (
                   <Form component={FormControl}>
@@ -254,6 +259,14 @@ const RespiratorySupport = () => {
                       <RespiratorySuportItemList
                         descricao={'Inclusão em desmame da ventilação mecânica'}
                         list={desmame}
+                      />
+
+                      <VentMecInvasivaForm />
+
+                      {/* TODO: remover depois de testar */}
+                      <PrevJSON
+                        data={values.ventMecInvasiva}
+                        name="ventMecInvasiva"
                       />
                     </Grid>
                   </Form>
