@@ -1,39 +1,35 @@
 import React, { Component } from 'react';
 import { Router } from 'react-router-dom';
-// import { createBrowserHistory } from 'history';
-import { Chart } from 'react-chartjs-2';
 import { ThemeProvider } from '@material-ui/styles';
-import validate from 'validate.js';
+import { ToastProvider } from 'hooks/toast';
 
-import { chartjs } from './helpers';
 import theme from './theme';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import './assets/scss/index.scss';
-import validators from './common/validators';
 import Routes from './Routes';
 import history from './history';
 
 import { AuthProvider } from './context/AuthContext';
-
-// const browserHistory = createBrowserHistory();
-
-Chart.helpers.extend(Chart.elements.Rectangle.prototype, {
-  draw: chartjs.draw
-});
-
-validate.validators = {
-  ...validate.validators,
-  ...validators
-};
+import { PatientProvider } from './context/PatientContext';
+import { UserProvider } from './context/UserContext';
+import { ComorbidadeProvider } from './context/ComorbidadesContext';
 
 export default class App extends Component {
   render() {
     return (
       <ThemeProvider theme={theme}>
         <AuthProvider>
-          <Router history={history}>
-            <Routes />
-          </Router>
+          <UserProvider>
+            <ToastProvider>
+              <PatientProvider>
+                <ComorbidadeProvider>
+                  <Router history={history}>
+                    <Routes />
+                  </Router>
+                </ComorbidadeProvider>
+              </PatientProvider>
+            </ToastProvider>
+          </UserProvider>
         </AuthProvider>
       </ThemeProvider>
     );

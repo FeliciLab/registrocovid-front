@@ -1,32 +1,36 @@
 import React, { memo } from 'react';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 
-import {
-  TableRow,
-  TableCell,
-  Button
-} from '@material-ui/core';
+import { TableRow, TableCell, Button } from '@material-ui/core';
+
+import { usePatient } from 'context/PatientContext';
+
+import formatDate from 'helpers/formatDate';
 
 const PatientRow = props => {
+  const { patient, ...rest } = props;
+  const { addPatient } = usePatient();
 
-  const {
-    patient: {
-      prontuario,
-      data_internacao,
-      created_at
-    },
-    ...rest
-  } = props;
+  const history = useHistory();
 
-  // TODO: encontrar e colocar um icon para o caractere '#'.
+  const handleNavigate = (patientProps) => {
+    addPatient(patientProps);
+    history.push('/categorias');
+  };
 
   return (
-    <TableRow {...rest}>
-      <TableCell align="left"><strong>#</strong> {prontuario}</TableCell>
-      <TableCell align="left">{data_internacao}</TableCell>
-      <TableCell align="left">{created_at}</TableCell>
+    <TableRow
+      {...rest}
+      onClick={() => handleNavigate(patient)}
+    >
+      <TableCell align="left">
+        <strong>#</strong> {patient.prontuario}
+      </TableCell>
+      <TableCell align="left">{formatDate(patient.data_internacao)}</TableCell>
+      <TableCell align="left">{patient.created_at}</TableCell>
       <TableCell align="right">
         <Button color="inherit">
           <NavigateNextIcon fontSize="small" />
@@ -34,9 +38,8 @@ const PatientRow = props => {
       </TableCell>
     </TableRow>
   );
-}
+};
 
-// id,prontuario,data_internacao,created_at
 PatientRow.propTypes = {
   className: PropTypes.string,
   patient: PropTypes.exact({
@@ -44,7 +47,7 @@ PatientRow.propTypes = {
     prontuario: PropTypes.string,
     data_internacao: PropTypes.string,
     created_at: PropTypes.string,
-  }).isRequired
+  }).isRequired,
 };
 
 export default memo(PatientRow);

@@ -5,95 +5,187 @@ import { RouteWithLayout } from './components';
 import { Main as MainLayout, Minimal as MinimalLayout } from './layouts';
 
 import {
-  // Dashboard as DashboardView,
-  // ProductList as ProductListView,
-  // UserList as UserListView,
-  // Typography as TypographyView,
-  // Icons as IconsView,
-  // Account as AccountView,
-  // Settings as SettingsView,
-  // SignUp as SignUpView,
+  NotFound as NotFoundView,
   SignIn as SignInView,
-  // NotFound as NotFoundView,
   ListPatients as ListPatientsView,
+  Categories as CategoriesView,
+  GeneralInfo as GeneralInfoView,
+  SpecificsTests as SpecificsTestsView,
+  PersonalHistory as PersonalHistoryView,
+  PhysicalExam as PhysicalExamView,
+  ComplicationsVM as ComplicationsVMView,
+  Complications as ComplicationsView,
+  InitialSymptoms as InitialSymptomsView,
+  Comorbidities as ComorbiditiesView,
+  PhysicalExamsList as PhysicalExamsListView,
+  SupportTreatment as SupportTreatmentView,
+  ComplementaryTests as ComplementaryTestsView,
+  Outcome as OutcomeView,
+  RelatedInfections as RelatedInfectionsView,
+  RespiratorySupport as RespiratorySupportView,
 } from './views';
+import PatientIdentification from 'views/PatientIdentification';
 
 const Routes = () => {
   return (
-
     <Switch>
       <Redirect
         exact
         from="/"
         to="/meus-pacientes"
       />
-      {/*
-      <RouteWithLayout
-        component={DashboardView}
-        exact
-        layout={MainLayout}
-        path="/dashboard"
-      />
-      <RouteWithLayout
-        component={UserListView}
-        exact
-        layout={MainLayout}
-        path="/users"
-      />
-      <RouteWithLayout
-        component={ProductListView}
-        exact
-        layout={MainLayout}
-        path="/products"
-      />
-      <RouteWithLayout
-        component={TypographyView}
-        exact
-        layout={MainLayout}
-        path="/typography"
-      />
-      <RouteWithLayout
-        component={IconsView}
-        exact
-        layout={MainLayout}
-        path="/icons"
-      />
-      <RouteWithLayout
-        component={AccountView}
-        exact
-        layout={MainLayout}
-        path="/account"
-      />
-      <RouteWithLayout
-        component={SettingsView}
-        exact
-        layout={MainLayout}
-        path="/settings"
-      />
-      <RouteWithLayout
-      component={NotFoundView}
-      exact
-      layout={MinimalLayout}
-      path="/not-found"
-    />
-      <RouteWithLayout
-        component={SignUpView}
-        exact
-        layout={MinimalLayout}
-        path="/sign-up"
-      />
-    */}
       <RouteWithLayout
         component={SignInView}
         exact
         layout={MinimalLayout}
         path="/sign-in"
       />
-      <RouteWithLayout isPrivate
+      <RouteWithLayout
         component={ListPatientsView}
         exact
+        isPrivate
         layout={MainLayout}
         path="/meus-pacientes"
+      />
+      <RouteWithLayout
+        component={CategoriesView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias"
+      />
+      <RouteWithLayout
+        component={GeneralInfoView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/informacoes-gerais"
+      />
+      <RouteWithLayout
+        component={PhysicalExamsListView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/lista-exame-fisico"
+      />
+      <RouteWithLayout
+        component={SpecificsTestsView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/exames-especificos/:id"
+      />
+      <RouteWithLayout
+        component={SpecificsTestsView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/exames-especificos/"
+      />
+      <RouteWithLayout
+        component={PersonalHistoryView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/historia-pessoal"
+      />
+      <RouteWithLayout
+        component={PhysicalExamView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/exame-fisico"
+      />
+      <RouteWithLayout
+        component={PhysicalExamView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/exame-fisico/:examId"
+      />
+
+      <RouteWithLayout
+        component={ComplicationsView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/complicacoes"
+      />
+      <RouteWithLayout
+        component={ComplicationsVMView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/complicacoes-vm"
+      />
+      <RouteWithLayout
+        component={InitialSymptomsView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/sintomas-iniciais"
+      />
+      <RouteWithLayout
+        component={ComorbiditiesView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/comorbidades"
+      />
+      <RouteWithLayout
+        component={PatientIdentification}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/identificacao-paciente"
+      />
+      <RouteWithLayout
+        component={PatientIdentification}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/identificacao-paciente/:id"
+      />
+      <RouteWithLayout
+        component={SupportTreatmentView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/tratamento-suporte/"
+      />
+      <RouteWithLayout
+        component={ComplementaryTestsView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/exames-complementares/"
+      />
+      <RouteWithLayout
+        component={OutcomeView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/desfecho/"
+      />
+      <RouteWithLayout
+        component={RelatedInfectionsView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/iras/"
+      />
+      <RouteWithLayout
+        component={RespiratorySupportView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/suporte-respiratorio"
+      />
+      <RouteWithLayout
+        component={NotFoundView}
+        exact
+        layout={MinimalLayout}
+        path="/not-found"
       />
       <Redirect to="/not-found" />
     </Switch>

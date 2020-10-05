@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { createContext } from 'react';
 
 import useAuth from './hooks/useAuth';
@@ -10,13 +11,13 @@ function AuthProvider({ children }) {
     authenticated,
     handleLogin,
     handleLogout,
+    setErroLogin,
     erroLogin,
-    isLogged,
   } = useAuth();
 
   return (
     <Context.Provider
-      value={{ loading, authenticated, handleLogin, handleLogout, erroLogin, isLogged }}
+      value={{ loading, authenticated, handleLogin, handleLogout, erroLogin, setErroLogin }}
     >
       {children}
     </Context.Provider>
