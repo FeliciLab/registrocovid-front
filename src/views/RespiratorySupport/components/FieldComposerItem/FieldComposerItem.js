@@ -100,7 +100,7 @@ const FieldComposerItem = props => {
     menos_24h_vmi: (
       <Grid
         item
-        xs={6}
+        xs={12}
       >
         <FormGroup>
           <FormLabel>
@@ -111,9 +111,9 @@ const FieldComposerItem = props => {
           <FormControlLabel
             control={
               <Switch
+                checked={value}
                 color="primary"
                 type="checkbox"
-                value={value || undefined}
               />
             }
             label={<Typography variant="h5">Sim</Typography>}

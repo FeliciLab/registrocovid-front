@@ -23,7 +23,6 @@ import SelectRespiratorySuportType from './components/SelectRespiratorySuportTyp
 import RespiratorySuportFormList from './components/RespiratorySuportFormList';
 import RespiratorySuportItemList from './components/RespiratorySuportItemList';
 import VentMecInvasivaForm from './components/VentMecInvasivaForm';
-import { PrevJSON } from 'components';
 
 import schema from './schema';
 
@@ -34,7 +33,7 @@ const initialValues = {
     data_inicio: '',
     data_termino: '',
     menos_24h_vmi: false,
-  }
+  },
 };
 
 const RespiratorySupport = () => {
@@ -110,16 +109,19 @@ const RespiratorySupport = () => {
   const handleSubmit = useCallback(
     async values => {
       try {
-        const { newSuportesRespitatorios } = values;
+        const { newSuportesRespitatorios, ventMecInvasiva } = values;
+
+        // Ventilação mecânica invasiva" tem id = 6
+        // newSuportesRespitatorios.push({...ventMecInvasiva, tipo_suporte_id: 6});
 
         // tentando salvar mas sem nada para enviar
-        if (newSuportesRespitatorios.length === 0) {
-          addToast({
-            type: 'warning',
-            message: 'Nada para salvar.',
-          });
-          return;
-        }
+        // if (newSuportesRespitatorios.length === 0) {
+        //   addToast({
+        //     type: 'warning',
+        //     message: 'Nada para salvar.',
+        //   });
+        //   return;
+        // }
 
         const newSuportesRespitatoriosSanitazed = newSuportesRespitatorios.map(
           item => ({
@@ -138,10 +140,10 @@ const RespiratorySupport = () => {
           }),
         );
 
-        await api.post(
-          `/pacientes/${patient.id}/suportes-respiratorios/`,
-          newSuportesRespitatoriosSanitazed,
-        );
+        await api.post(`/pacientes/${patient.id}/suportes-respiratorios/`, [
+          ...newSuportesRespitatoriosSanitazed,
+          { ...ventMecInvasiva, tipo_suporte_id: 6 },
+        ]);
 
         addToast({
           type: 'success',
@@ -262,12 +264,6 @@ const RespiratorySupport = () => {
                       />
 
                       <VentMecInvasivaForm />
-
-                      {/* TODO: remover depois de testar */}
-                      <PrevJSON
-                        data={values.ventMecInvasiva}
-                        name="ventMecInvasiva"
-                      />
                     </Grid>
                   </Form>
                 )}

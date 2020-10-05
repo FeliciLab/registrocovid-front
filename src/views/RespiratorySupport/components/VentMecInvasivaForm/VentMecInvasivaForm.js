@@ -4,7 +4,6 @@ import {
   FormGroup,
   FormLabel,
   Grid,
-  // Switch,
   Typography,
 } from '@material-ui/core';
 import { Field } from 'formik';

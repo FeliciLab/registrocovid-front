@@ -93,6 +93,27 @@ const RespiratorySuportItem = props => {
             />
           </Grid>
         )}
+        {/* Ventilação mecânica invasiva (VNI) */}
+        {[6].some(id => suporteRespiratorio.tipo_suporte_id === id) && (
+          <Grid
+            container
+            item
+            spacing={2}
+          >
+            <FieldComposerItem
+              name="data_inicio"
+              value={suporteRespiratorio.data_inicio}
+            />
+            <FieldComposerItem
+              name="data_termino"
+              value={suporteRespiratorio.data_termino}
+            />
+            <FieldComposerItem
+              name="menos_24h_vmi"
+              value={suporteRespiratorio.menos_24h_vmi}
+            />
+          </Grid>
+        )}
         {/* Oxigenação por membrana extracorpórea (ECMO) */}
         {[9].some(id => suporteRespiratorio.tipo_suporte_id === id) && (
           <Grid
