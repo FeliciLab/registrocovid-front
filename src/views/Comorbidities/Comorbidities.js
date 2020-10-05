@@ -22,7 +22,6 @@ import schema from './schema';
 
 import api from 'services/api';
 
-import CardComorbirdades from './CardComorbidades';
 import PatientInfo from 'components/PatientInfo';
 import useStyles from './styles';
 import CustomBreadcrumbs from 'components/CustomBreadcrumbs';
@@ -31,10 +30,9 @@ import { useComorbidade } from 'context/ComorbidadesContext';
 import { usePatient } from 'context/PatientContext';
 import { useToast } from 'hooks/toast';
 
-import CheckBoxCard from './CheckBoxCard';
 import OutrasDoencasItem from './OutrasDoencasItem';
 
-import { Formik, Form, Field } from 'formik'
+import { Formik, Form, Field, FieldArray } from 'formik'
 import {
   TextField,
   Select,
@@ -46,13 +44,7 @@ const Comorbidities = () => {
   const classes = useStyles();
   const history = useHistory();
 
-  const initialValues = {
-    quimioterapia: '',
-    transplantado: '',
-    corticoides: '',
-    gestacao: '',
-    puerperio: ''
-  }
+
 
   const {
     doencas,
@@ -305,6 +297,16 @@ const Comorbidities = () => {
     }
   };
 
+  const initialValues = {
+    quimioterapia: '',
+    transplantado: '',
+    corticoides: '',
+    gestacao: '',
+    puerperio: '',
+    orgaos: allOrgaos.map(() => false),
+    corticosteroides: allCorticosteroides.map(() => false)
+  }
+
   return (
     <div className={classes.root}>
       <div className={classes.header}>
@@ -362,7 +364,10 @@ const Comorbidities = () => {
                     xs={12}
                   >
                     <InputLabel htmlFor="chips">Selecione as doenças que o paciente apresenta</InputLabel>
-                    <div className={classes.chipWrapper} id="chips">
+                    <div
+                      className={classes.chipWrapper}
+                      id="chips"
+                    >
                       <Chip
                         clickable
                         color={diabetes ? 'primary' : 'default'}
@@ -463,13 +468,8 @@ const Comorbidities = () => {
                         <Button
                           className={classes.buttonAdd}
                           color="secondary"
-                          disabled={visualization || !selectedField.id}
-                          onClick={() => {
-                            if (visualization || !selectedField.id) {
-                              return;
-                            }
-                            addCard(selectedField, allDoencas);
-                          }}
+                          disabled={!selectedField.id}
+                          onClick={() =>  console.log(selectedField)}
                           startIcon={<Add />}
                           type="button"
                           variant="contained"
@@ -479,6 +479,9 @@ const Comorbidities = () => {
                       </Grid>
 
                     </Grid>
+                  </Grid>
+                  <Grid item xs={12}>
+
                   </Grid>
                   <Grid
                     item
@@ -518,32 +521,38 @@ const Comorbidities = () => {
                         control={<Radio />}
                         disabled={isSubmitting}
                         label={'Sim'}
-                        value
+                        value={'sim'}
                       />
                       <FormControlLabel
                         control={<Radio />}
                         disabled={isSubmitting}
                         label={'Não'}
-                        value={false}
+                        value={'nao'}
                       />
                     </Field>
                   </Grid>
-                  {values.transplantado && (
+                  {values.transplantado == 'sim' && (
                     <Grid
                       item
                       xs={12}
                     >
                       <InputLabel htmlFor="orgaos">Quais órgãos?</InputLabel>
                       <div id="orgaos">
-                        {allOrgaos.map((orgao, index) =>
-                          (<Field
-                            Label={{ label: orgao.descricao }}
-                            component={CheckboxWithLabel}
-                            key={index}
-                            name={`orgao-${orgao.id}`}
-                            type={'checkbox'}
-                          />)
-                        )}
+                        <FieldArray
+                          name={'orgaos'}
+                          render={() => (
+                            allOrgaos.map((orgao, index) =>
+                              (<Field
+                                Label={{ label: orgao.descricao }}
+                                component={CheckboxWithLabel}
+                                key={index}
+                                name={`orgaos.${orgao.id - 1}`}
+                                type={'checkbox'}
+                              />)
+                            )
+                          ) 
+                          }
+                        />
                       </div>
                     </Grid>
                   )}
@@ -561,31 +570,38 @@ const Comorbidities = () => {
                         control={<Radio />}
                         disabled={isSubmitting}
                         label={'Sim'}
-                        value
+                        value={'sim'}
                       />
                       <FormControlLabel
                         control={<Radio />}
                         disabled={isSubmitting}
                         label={'Não'}
-                        value={false}
+                        value={'nao'}
                       />
                     </Field>
                   </Grid>
-                  {values.corticoides && (
+                  {values.corticoides === 'sim' && (
                     <Grid
                       item
                       xs={12}
                     >
                       <InputLabel htmlFor="corticosteroides">Quais corticosteroides?</InputLabel>
                       <div id="corticosteroides">
-                        {allCorticosteroides.map(corticosteroide =>
-                          (<Field
-                            Label={{ label: corticosteroide.descricao }}
-                            component={CheckboxWithLabel}
-                            name={`corticosteroide-${corticosteroide.id}`}
-                            type={'checkbox'}
-                          />)
-                        )}
+                        <FieldArray
+                          name={'corticosteroides'}
+                          render={() => (
+                            allCorticosteroides.map((corticosteroide, index) =>
+                              (<Field
+                                Label={{ label: corticosteroide.descricao }}
+                                component={CheckboxWithLabel}
+                                key={index}
+                                name={`corticosteroides.${corticosteroide.id - 1}`}
+                                type={'checkbox'}
+                              />)
+                            )
+                          ) 
+                          }
+                        />
                       </div>
                     </Grid>
                   )}
@@ -603,17 +619,17 @@ const Comorbidities = () => {
                         control={<Radio />}
                         disabled={isSubmitting}
                         label={'Sim'}
-                        value
+                        value={'sim'}
                       />
                       <FormControlLabel
                         control={<Radio />}
                         disabled={isSubmitting}
                         label={'Não'}
-                        value={false}
+                        value={'nao'}
                       />
                     </Field>
                   </Grid>
-                  {values.gestacao && (
+                  {values.gestacao === 'sim' && (
                     <Grid
                       item
                       xs={12}
@@ -622,6 +638,7 @@ const Comorbidities = () => {
                       <div id="wGestacao">
                         <Field
                           component={TextField}
+                          fullWidth
                           name={'wGestacao'}
                           type={'number'}
                         />
@@ -644,17 +661,17 @@ const Comorbidities = () => {
                         control={<Radio />}
                         disabled={isSubmitting}
                         label={'Sim'}
-                        value
+                        value={'sim'}
                       />
                       <FormControlLabel
                         control={<Radio />}
                         disabled={isSubmitting}
                         label={'Não'}
-                        value={false}
+                        value={'nao'}
                       />
                     </Field>
                   </Grid>
-                  {values.puerperio && (
+                  {values.puerperio === 'sim' && (
                     <Grid
                       item
                       xs={12}
@@ -663,6 +680,7 @@ const Comorbidities = () => {
                       <div id="wPuerperio">
                         <Field
                           component={TextField}
+                          fullWidth
                           name={'wPuerperio'}
                           type={'number'}
                         />
@@ -674,317 +692,6 @@ const Comorbidities = () => {
             )}
           </Formik>
         </div>
-
-
-
-
-
-
-      // <Paper className={classes.paper}>
-      //   <div className={classes.control}>
-      //     <Typography
-      //       className={classes.label}
-      //       variant="h6"
-      //     >
-      //         Selecione as doenças que o paciente apresenta
-      //     </Typography>
-      //     
-      //   </div>
-
-      //   {!visualization && (
-      //     <div className={classes.control}>
-      //       <Typography
-      //         className={classes.label}
-      //         variant="h6"
-      //       >
-      //           Acrescente outras doenças que o paciente apresenta
-      //       </Typography>
-      //       <div className={classes.buttonWrapper}>
-      //         
-      //         {/* Campo de adicionar só pode estar habilitado quando o
-      //             coletador selecionar uma doença. */}
-      //        
-      //       </div>
-      //     </div>
-      //   )}
-
-      //   {tiposDoenca.map(tipo => {
-      //     const doencasList = doencasFromUser.filter(
-      //       doenca => doenca.tipo_doenca_id === tipo.id,
-      //     );
-      //     return (
-      //       <OutrasDoencasItem
-      //         // filtra aqui todas as doencas de um tipo
-      //         allDoencas={allDoencas.filter(
-      //           doenca => doenca.tipo_doenca_id === tipo.id,
-      //         )}
-      //         doencas={doencasList}
-      //         key={tipo.id}
-      //         tipoDoenca={tipo}
-      //       />
-      //     );
-      //   })}
-
-      //   {!(doencasFromUser.length > 0)
-      //     ? cards.map(card => (
-      //       <CardComorbirdades
-      //         card={card}
-      //         doencasFromUser={doencasFromUser}
-      //         key={card.id}
-      //       />
-      //     ))
-      //     : null}
-
-      //   {/* quimioterapia */}
-      //   <FormGroup
-      //     className={classes.control}
-      //     component="fieldset"
-      //   >
-      //     <FormLabel
-      //       className={classes.label}
-      //       component="legend"
-      //     >
-      //         Quimioterapia
-      //     </FormLabel>
-      //     <RadioGroup
-      //       aria-label="quimioterapia"
-      //       name="quimioterapia"
-      //       onChange={event => setQuimioterapia(event.target.value)}
-      //       value={quimioterapia}
-      //     >
-      //       <div className={classes.radiosWrapper}>
-      //         <FormControlLabel
-      //           control={<Radio />}
-      //           label="Sim"
-      //           value="sim"
-      //         />
-      //         <FormControlLabel
-      //           control={<Radio />}
-      //           label="Não"
-      //           value="nao"
-      //         />
-      //       </div>
-      //     </RadioGroup>
-      //   </FormGroup>
-
-      //   <FormGroup
-      //     className={classes.control}
-      //     component="fieldset"
-      //   >
-      //     <FormLabel
-      //       className={classes.label}
-      //       component="legend"
-      //     >
-      //         Transplantado
-      //     </FormLabel>
-      //     <RadioGroup
-      //       aria-label="transplantado"
-      //       name="transplantado"
-      //       onChange={event => setTransplantado(event.target.value)}
-      //       value={transplantado}
-      //     >
-      //       <div className={classes.radiosWrapper}>
-      //         <FormControlLabel
-      //           control={<Radio />}
-      //           label="Sim"
-      //           value="sim"
-      //         />
-      //         <FormControlLabel
-      //           control={<Radio />}
-      //           label="Não"
-      //           onClick={removeOrgaos}
-      //           value="nao"
-      //         />
-      //       </div>
-      //     </RadioGroup>
-      //   </FormGroup>
-
-      //   {transplantado === 'sim' && (
-      //     <FormGroup
-      //       className={classes.control}
-      //       component="fieldset"
-      //     >
-      //       <FormLabel
-      //         className={classes.label}
-      //         component="legend"
-      //       >
-      //           Quais órgãos?
-      //       </FormLabel>
-      //       <div className={classes.orgaosWrapper}>
-      //         {allOrgaos.map(orgao => (
-      //           <CheckBoxCard
-      //             alreadyExists={orgaosFromUser.some(
-      //               item => item.id === orgao.id,
-      //             )}
-      //             handleArray={handleOrgaoId}
-      //             id={orgao.id}
-      //             key={orgao.id}
-      //             label={orgao.descricao}
-      //           />
-      //         ))}
-      //       </div>
-      //     </FormGroup>
-      //   )}
-
-      //   <FormGroup
-      //     className={classes.control}
-      //     component="fieldset"
-      //   >
-      //     <FormLabel
-      //       className={classes.label}
-      //       component="legend"
-      //     >
-      //         Faz uso crônico de corticóides?
-      //     </FormLabel>
-      //     <RadioGroup
-      //       aria-label="corticosteroides"
-      //       name="corticosteroides"
-      //       onChange={event => setCorticosteroide(event.target.value)}
-      //       value={corticosteroide}
-      //     >
-      //       <div className={classes.radiosWrapper}>
-      //         <FormControlLabel
-      //           control={<Radio />}
-      //           label="Sim"
-      //           value="sim"
-      //         />
-      //         <FormControlLabel
-      //           control={<Radio />}
-      //           label="Não"
-      //           onClick={removeCorticosteroides}
-      //           value="nao"
-      //         />
-      //       </div>
-      //     </RadioGroup>
-      //   </FormGroup>
-
-      //   {corticosteroide === 'sim' && (
-      //     <FormGroup
-      //       className={classes.control}
-      //       component="fieldset"
-      //     >
-      //       <FormLabel
-      //         className={classes.label}
-      //         component="legend"
-      //       >
-      //           Quais corticosteroides?
-      //       </FormLabel>
-      //       <div className={classes.orgaosWrapper}>
-      //         {allCorticosteroides.map(corticosteroide => (
-      //           <CheckBoxCard
-      //             alreadyExists={corticosteroidesFromUser.some(
-      //               item => item.id === corticosteroide.id,
-      //             )}
-      //             handleArray={handleCorticosteroideId}
-      //             id={corticosteroide.id}
-      //             key={corticosteroide.id}
-      //             label={corticosteroide.descricao}
-      //           />
-      //         ))}
-      //       </div>
-      //     </FormGroup>
-      //   )}
-
-      //   <FormGroup
-      //     className={classes.control}
-      //     component="fieldset"
-      //   >
-      //     <FormLabel
-      //       className={classes.label}
-      //       component="legend"
-      //     >
-      //         Gestação
-      //     </FormLabel>
-      //     <RadioGroup
-      //       aria-label="gestacao"
-      //       name="gestacao"
-      //       onChange={event => setGestacao(event.target.value)}
-      //       value={gestacao}
-      //     >
-      //       <div className={classes.radiosWrapper}>
-      //         <FormControlLabel
-      //           control={<Radio />}
-      //           label="Sim"
-      //           value="sim"
-      //         />
-      //         <FormControlLabel
-      //           control={<Radio />}
-      //           label="Não"
-      //           value="nao"
-      //         />
-      //       </div>
-      //     </RadioGroup>
-      //   </FormGroup>
-
-      //   {gestacao === 'sim' && (
-      //     <FormGroup
-      //       className={classes.control}
-      //       component="fieldset"
-      //     >
-      //       <FormLabel
-      //         className={classes.label}
-      //         component="legend"
-      //       >
-      //           Há quantas semanas?
-      //       </FormLabel>
-      //       <TextField
-      //         onChange={event => setSemanasGestacao(event.target.value)}
-      //         type="number"
-      //         value={semanasGestacao}
-      //       />
-      //     </FormGroup>
-      //   )}
-
-      //   <FormGroup
-      //     className={classes.control}
-      //     component="fieldset"
-      //   >
-      //     <FormLabel
-      //       className={classes.label}
-      //       component="legend"
-      //     >
-      //         Puerpério
-      //     </FormLabel>
-      //     <RadioGroup
-      //       aria-label="puerperio"
-      //       name="puerperio"
-      //       onChange={event => setPuerperio(event.target.value)}
-      //       value={puerperio}
-      //     >
-      //       <div className={classes.radiosWrapper}>
-      //         <FormControlLabel
-      //           control={<Radio />}
-      //           label="Sim"
-      //           value="sim"
-      //         />
-      //         <FormControlLabel
-      //           control={<Radio />}
-      //           label="Não"
-      //           onClick={() => setSemanasPuerperio(0)}
-      //           value="nao"
-      //         />
-      //       </div>
-      //     </RadioGroup>
-      //   </FormGroup>
-
-      //   {puerperio === 'sim' && (
-      //     <FormGroup
-      //       className={classes.control}
-      //       component="fieldset"
-      //     >
-      //       <FormLabel
-      //         className={classes.label}
-      //         component="legend"
-      //       >
-      //           Há quantas semanas?
-      //       </FormLabel>
-      //       <TextField
-      //         onChange={event => setSemanasPuerperio(event.target.value)}
-      //         type="number"
-      //         value={semanasPuerperio}
-      //       />
-      //     </FormGroup>
-      //   )}
 
       //   <FormGroup
       //     className={classes.control}
