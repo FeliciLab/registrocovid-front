@@ -83,7 +83,6 @@ const Comorbidities = () => {
 
   const [outraCondicao, setOutraCondicao] = useState('');
   const [medicacao, setMedicacao] = useState('');
-
   const [selectedField, setSelectedField] = useState({ id: '' });
 
   const [isSaving, setIsSaving] = useState(false);
@@ -489,7 +488,9 @@ const Comorbidities = () => {
             <RadioGroup
               aria-label="quimioterapia"
               name="quimioterapia"
-              onChange={event => setQuimioterapia(event.target.value)}
+              onChange={event =>
+                setQuimioterapia(event.target.value)
+              }
               value={quimioterapia}
             >
               <div className={classes.radiosWrapper}>
