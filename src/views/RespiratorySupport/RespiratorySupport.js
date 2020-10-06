@@ -230,7 +230,7 @@ const RespiratorySupport = () => {
                     <RespiratorySuportItemList
                       descricao={tipo.nome}
                       key={index}
-                      list={oldRecords.filter(
+                      list={orderByDate(oldRecords).filter(
                         item => tipo.id === item.tipo_suporte_id,
                       )}
                     />
@@ -238,14 +238,13 @@ const RespiratorySupport = () => {
 
                   <RespiratorySuportItemList
                     descricao={'Proncacao'}
-                    list={pronacao}
+                    list={orderByDate(pronacao)}
                   />
 
                   <RespiratorySuportItemList
                     descricao={'Inclusão em desmame da ventilação mecânica'}
-                    list={desmame}
+                    list={orderByDate(desmame)}
                   />
-
                   <VentMecInvasivaForm />
                 </Grid>
               </Form>

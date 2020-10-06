@@ -9,10 +9,44 @@ import {
   Grid,
   Typography,
 } from '@material-ui/core';
+
 import FieldComposerItem from '../FieldComposerItem/FieldComposerItem';
+import { makeStyles } from '@material-ui/styles';
+
+function getData(suporteRespiratorio) {
+  let aux;
+  switch (suporteRespiratorio.tipo_suporte_id) {
+    case 10: // tipo pronacao
+      aux = suporteRespiratorio.data_pronacao;
+      break;
+    case 11: // tidpo desmame
+      aux = suporteRespiratorio.data_inclusao_desmame;
+      break;
+    default:
+      // outros tipos
+      aux = suporteRespiratorio.data_inicio;
+  }
+  return aux
+    .split('-')
+    .reverse()
+    .join('/');
+}
+
+const useStyles = makeStyles(theme => ({
+  date: {
+    display: 'flex',
+    marginLeft: theme.spacing(2),
+  },
+  summary: {
+    display: 'flex',
+    alignItems: 'center'
+  }
+}));
 
 const RespiratorySuportItem = props => {
   const { suporteRespiratorio, descricao } = props;
+
+  const classes = useStyles();
 
   return (
     <Accordion>
@@ -21,9 +55,15 @@ const RespiratorySuportItem = props => {
         expandIcon={<ExpandMoreIcon />}
         id="panel1a-header"
       >
-        <div>
+        <section className={classes.summary}>
           <Typography variant="h4">{descricao}</Typography>
-        </div>
+          <Typography
+            className={classes.date}
+            variant="subtitle2"
+          >
+          Data: {getData(suporteRespiratorio)}
+          </Typography>
+        </section>
       </AccordionSummary>
       <AccordionDetails>
         {/* Catéter nasal de baixo fluxo
