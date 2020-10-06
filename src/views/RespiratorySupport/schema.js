@@ -11,10 +11,30 @@ const schema = Yup.object().shape({
           ? schema.required('Campo obrigatório')
           : schema,
       ),
+      data_termino: Yup.string().when('tipo_suporte_id', (tipo, schema) =>
+        ['1', '2', '3', '4', '5', '6', '7', '8', '9'].some(
+          item => item === tipo,
+        )
+          ? schema.required('Campo obrigatório')
+          : schema,
+      ),
+      data_pronacao: Yup.string().when('tipo_suporte_id', (tipo, schema) =>
+        ['10'].some(item => item === tipo)
+          ? schema.required('Campo obrigatório')
+          : schema,
+      ),
+      data_inclusao_desmame: Yup.string().when(
+        'tipo_suporte_id',
+        (tipo, schema) =>
+          ['11'].some(item => item === tipo)
+            ? schema.required('Campo obrigatório')
+            : schema,
+      ),
     }),
   ),
   ventMecInvasiva: Yup.object().shape({
     data_inicio: Yup.string().required('Campo obrigatório'),
+    data_termino: Yup.string().required('Campo obrigatório'),
   }),
 });
 
