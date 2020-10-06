@@ -189,77 +189,70 @@ const RespiratorySupport = () => {
         <CircularProgress />
       ) : (
         <div className="container">
-          <Grid
-            container
-            justify="center"
+          <Formik
+            enableReinitialize
+            initialValues={initialValues}
+            onSubmit={handleSubmit}
+            validateOnMount
+            validationSchema={schema}
           >
-            <Formik
-              enableReinitialize
-              initialValues={initialValues}
-              onSubmit={handleSubmit}
-              validateOnMount
-              validationSchema={schema}
-            >
-              {({ isSubmitting }) => (
-                <Form component={FormControl}>
-                  <div className={classes.titleWrapper}>
-                    <Typography variant="h2">Suporte respiratório</Typography>
+            {({ isSubmitting }) => (
+              <Form component={FormControl}>
+                <div className={classes.titleWrapper}>
+                  <Typography variant="h2">Suporte respiratório</Typography>
 
-                    <div className={classes.rightContent}>
-                      <PatientInfo />
-                      <Button
-                        className={classes.buttonSave}
-                        color="secondary"
-                        disabled={isSubmitting}
-                        type="submit"
-                        variant="contained"
-                      >
-                          Salvar
-                      </Button>
-                    </div>
+                  <div className={classes.rightContent}>
+                    <PatientInfo />
+                    <Button
+                      className={classes.buttonSave}
+                      color="secondary"
+                      disabled={isSubmitting}
+                      type="submit"
+                      variant="contained"
+                    >
+                      Salvar
+                    </Button>
                   </div>
-                  <Grid
-                    alignContent="center"
-                    alignItems="center"
-                    container
-                    direction="column"
-                    item
-                    spacing={2}
-                  >
-                    <SelectRespiratorySuportType tipos={supportsTypes} />
+                </div>
+                <Grid
+                  alignContent="center"
+                  alignItems="center"
+                  container
+                  direction="column"
+                  item
+                  spacing={2}
+                >
+                  <SelectRespiratorySuportType tipos={supportsTypes} />
 
-                    <RespiratorySuportFormList tipos={supportsTypes} />
+                  <RespiratorySuportFormList tipos={supportsTypes} />
 
-                    {supportsTypes.map((tipo, index) => (
-                      <RespiratorySuportItemList
-                        descricao={tipo.nome}
-                        key={index}
-                        list={oldRecords.filter(
-                          item => tipo.id === item.tipo_suporte_id,
-                        )}
-                      />
-                    ))}
-
+                  {supportsTypes.map((tipo, index) => (
                     <RespiratorySuportItemList
-                      descricao={'Proncacao'}
-                      list={pronacao}
+                      descricao={tipo.nome}
+                      key={index}
+                      list={oldRecords.filter(
+                        item => tipo.id === item.tipo_suporte_id,
+                      )}
                     />
+                  ))}
 
-                    <RespiratorySuportItemList
-                      descricao={'Inclusão em desmame da ventilação mecânica'}
-                      list={desmame}
-                    />
+                  <RespiratorySuportItemList
+                    descricao={'Proncacao'}
+                    list={pronacao}
+                  />
 
-                    <VentMecInvasivaForm />
-                  </Grid>
-                </Form>
-              )}
-            </Formik>
-          </Grid>
+                  <RespiratorySuportItemList
+                    descricao={'Inclusão em desmame da ventilação mecânica'}
+                    list={desmame}
+                  />
+
+                  <VentMecInvasivaForm />
+                </Grid>
+              </Form>
+            )}
+          </Formik>
         </div>
       )}
-
-
     </div>
   );
 };

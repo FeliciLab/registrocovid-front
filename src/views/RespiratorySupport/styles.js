@@ -9,7 +9,7 @@ const useStyles = makeStyles(theme => ({
   },
   header: {
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   titleWrapper: {
     display: 'flex',
@@ -28,65 +28,11 @@ const useStyles = makeStyles(theme => ({
     width: '258px',
     height: '48px',
   },
-  formContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingBottom: theme.spacing(3),
-    paddingTop: theme.spacing(3),
-  },
-
-  formGroup: {
-    marginBottom: 24,
-    width: '100%'
-  },
-  cardInfo: {
-    padding: 16,
-    width: 570,
-    marginBottom: 10,
-  },
-  label: {
-    fontWeight: 'bold',
-    fontSize: 14,
-    marginRight: 4
-  },
-  titleContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  },
-  panels: {
-    width: '50%',
-    marginBottom: 24,
-  },
-  dateField: {
-    marginTop: theme.spacing(1)
-  },
-  deleteIcon: {
-    transform: 'rotate(180deg)'
-  },
   container: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  centralPaper: {
-    width: 864,
-    paddingLeft: 30,
-    paddingRight: 30,
-    paddingTop: 30,
-  },
-  selectField: {
-    height: '48px',
-    marginRight: theme.spacing(1),
-  },
-  fullWidth: {
-    width: '100%'
-  },
-  newExpPanel: {
-    marginBottom: theme.spacing(1)
-  }
 }));
 
 export default useStyles;

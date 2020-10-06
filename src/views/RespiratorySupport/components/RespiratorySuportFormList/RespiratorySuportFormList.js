@@ -1,16 +1,28 @@
+import { makeStyles } from '@material-ui/styles';
 import { FieldArray, useFormikContext } from 'formik';
 import React from 'react';
 import RespiratorySuportForm from '../RespiratorySuportForm/RespiratorySuportForm';
 
+const useStyles = makeStyles(theme => ({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+    maxWidth: '864px',
+  },
+}));
+
 const RespiratorySuportFormList = props => {
   const { tipos } = props;
+
+  const classes = useStyles();
 
   const { values } = useFormikContext();
 
   return (
     <FieldArray name="newSuportesRespitatorios">
       {({ remove }) => (
-        <div>
+        <div className={classes.root}>
           {values.newSuportesRespitatorios &&
             values.newSuportesRespitatorios.length > 0 &&
             values.newSuportesRespitatorios
