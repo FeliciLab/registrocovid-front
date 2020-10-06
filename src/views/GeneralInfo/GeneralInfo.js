@@ -4,7 +4,6 @@ import useStyles from './styles';
 import { Formik, Form, Field } from 'formik';
 import CustomBreadcrumbs from 'components/CustomBreadcrumbs';
 import { Switch, TextField } from 'formik-material-ui';
-// Material-UI Components
 
 import {
   Typography,
@@ -25,7 +24,7 @@ import { usePatient } from 'context/PatientContext';
 import api from 'services/api';
 import formatDate from 'helpers/formatDate';
 
-const loadInitialValues = (patient) => {
+const loadInitialValues = patient => {
   let initialValues = {
     prontuario: '',
     data_internacao: '',
@@ -35,7 +34,7 @@ const loadInitialValues = (patient) => {
     suporte_respiratorio: false,
     tipo_suport_respiratorio: '',
     reinternacao: false,
-    traqueostomizado: false,
+    chegou_traqueostomizado: false,
   };
 
   if (patient && patient.prontuario) {
@@ -55,7 +54,7 @@ const loadInitialValues = (patient) => {
         patient.tipo_suporte_respiratorios.length > 0
           ? patient.tipo_suporte_respiratorios[0].id
           : '',
-      traqueostomizado: false,
+      chegou_traqueostomizado: patient.chegou_traqueostomizado,
     };
   }
 
@@ -140,6 +139,7 @@ const GeneralInfo = () => {
         instituicao_referencia: { id: values.unidade_de_saude },
         data_atendimento_referencia: values.data_atendimento,
         tipo_suporte_respiratorios: [{ id: values.tipo_suport_respiratorio }],
+        chegou_traqueostomizado: values.chegou_traqueostomizado,
       };
 
       addToast({
@@ -394,6 +394,8 @@ const GeneralInfo = () => {
                       </FormControl>
                     </FormGroup>
                   </Grid>
+
+                  {/* chegou_traqueostomizado */}
                   <Grid
                     container
                     item
@@ -404,7 +406,7 @@ const GeneralInfo = () => {
                         <Field
                           color="primary"
                           component={Switch}
-                          name="traqueostomizado"
+                          name="chegou_traqueostomizado"
                           type="checkbox"
                         />
                       }
