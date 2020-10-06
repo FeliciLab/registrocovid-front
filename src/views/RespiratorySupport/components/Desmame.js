@@ -62,15 +62,15 @@ export const Desmame = (props) => {
                 <Typography variant="h5">Em caso afirmativo, informe a data da inclusão do paciente no desmame</Typography>
               </FormLabel>
               <TextField
-                InputLabelProps={{
-                  shrink: true,
-                }}
                 className={classes.dateField}
                 disabled={!isNew}
                 error={(fContext.errors[`data_inclusao_desmame#${id}`] && fContext.touched[`data_inclusao_desmame#${id}`])}
                 helperText={
                   (fContext.errors[`data_inclusao_desmame#${id}`] && fContext.touched[`data_inclusao_desmame#${id}`]) ? fContext.errors[`data_inclusao_desmame#${id}`] : null
                 }
+                InputLabelProps={{
+                  shrink: true,
+                }}
                 label="Data"
                 name={`data_inclusao_desmame#${id}`}
                 onBlur={fContext.handleBlur}

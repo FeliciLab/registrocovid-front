@@ -78,9 +78,6 @@ const OutcomeObitoForm = props => {
               <Typography variant="h5">Data de óbito</Typography>
             </FormLabel>
             <Field
-              InputLabelProps={{
-                shrink: true,
-              }}
               as={TextField}
               className={classes.field}
               error={
@@ -89,6 +86,9 @@ const OutcomeObitoForm = props => {
                 !!errors.newDesfechos[index]?.data
               }
               helperText={<ErrorMessage name={`newDesfechos.${index}.data`} />}
+              InputLabelProps={{
+                shrink: true,
+              }}
               label="Data"
               name={`newDesfechos.${index}.data`}
               onChange={handleChange}

@@ -46,9 +46,6 @@ const NeurologicForm = ({ index, remove }) => {
             </Typography>
           </FormLabel>
           <Field
-            InputLabelProps={{
-              shrink: true,
-            }}
             as={TextField}
             className={classes.textField}
             error={
@@ -63,6 +60,9 @@ const NeurologicForm = ({ index, remove }) => {
                 ? errors.newsComplicacoes[index]?.descricao
                 : ''
             }
+            InputLabelProps={{
+              shrink: true,
+            }}
             name={`newsComplicacoes[${index}].descricao`}
             onChange={handleChange}
             placeholder="Local de complicação"
@@ -82,9 +82,6 @@ const NeurologicForm = ({ index, remove }) => {
             <Typography variant="h4">Ocorrência</Typography>
           </FormLabel>
           <Field
-            InputLabelProps={{
-              shrink: true,
-            }}
             as={TextField}
             className={classes.dateField}
             error={
@@ -99,6 +96,9 @@ const NeurologicForm = ({ index, remove }) => {
                 ? errors.newsComplicacoes[index]?.data
                 : ''
             }
+            InputLabelProps={{
+              shrink: true,
+            }}
             name={`newsComplicacoes[${index}].data`}
             onChange={handleChange}
             type="date"
