@@ -84,7 +84,6 @@ const Comorbidities = () => {
   const [outraCondicao, setOutraCondicao] = useState('');
   const [medicacao, setMedicacao] = useState('');
   const [selectedField, setSelectedField] = useState({ id: '' });
-
   const [isSaving, setIsSaving] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);

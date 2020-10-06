@@ -72,7 +72,7 @@ const OutcomeItem = props => {
             {desfecho.tipo_desfecho.descricao}
           </Typography>
           <Typography variant="caption">
-            Data da coleta:{' '}
+            Data:{' '}
             {desfecho.data
               .split('-')
               .reverse()
@@ -114,7 +114,7 @@ const OutcomeItem = props => {
             >
               <FormLabel>
                 <Typography variant="h5">
-                  O óbito ocorreu em menos de 24h após a data da internação?
+                  O óbito ocorreu em menos de 24h após a data da internação hospitalar?
                 </Typography>
                 <FormControlLabel
                   control={
@@ -141,7 +141,7 @@ const OutcomeItem = props => {
             >
               <FormLabel>
                 <Typography variant="h5">
-                  O paciente estava em ventilação mecânica na ocasião do óbito?
+                  O paciente estava em ventilação mecânica invasiva na ocasião do óbito?
                 </Typography>
                 <FormControlLabel
                   control={
@@ -168,7 +168,7 @@ const OutcomeItem = props => {
             >
               <FormLabel>
                 <Typography variant="h5">
-                  O paciente estava na UTI na ocasião do óbito?
+                  O paciente estava na Unidade de Terapia Intensiva (UTI) na ocasião do óbito?
                 </Typography>
                 <FormControlLabel
                   control={
@@ -330,7 +330,7 @@ const OutcomeItem = props => {
           <FormGroup>
             <FormLabel>
               <Typography variant="h5">
-                Paciente encontrava-se em cuidados paliativos?
+                Paciente sob cuidados paliativos (CP)?
               </Typography>
             </FormLabel>
             <RadioGroup

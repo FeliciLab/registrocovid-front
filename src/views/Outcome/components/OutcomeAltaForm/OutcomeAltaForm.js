@@ -147,7 +147,7 @@ const OutcomeAltaForm = props => {
           <FormGroup>
             <FormLabel>
               <Typography variant="h5">
-                Paciente encontrava-se em cuidados paliativos?
+                Paciente sob cuidados paliativos (CP)?
               </Typography>
             </FormLabel>
             <ErrorMessage
