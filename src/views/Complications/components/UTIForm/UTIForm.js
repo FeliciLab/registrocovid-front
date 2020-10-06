@@ -104,9 +104,6 @@ const UTIForm = ({ index, remove }) => {
               </Typography>
             </FormLabel>
             <Field
-              InputLabelProps={{
-                shrink: true,
-              }}
               as={TextField}
               className={classes.dateField}
               error={
@@ -121,6 +118,9 @@ const UTIForm = ({ index, remove }) => {
                   ? errors.newsComplicacoes[index]?.data
                   : ''
               }
+              InputLabelProps={{
+                shrink: true,
+              }}
               name={`newsComplicacoes[${index}].data`}
               onChange={handleChange}
               type="date"
@@ -143,9 +143,6 @@ const UTIForm = ({ index, remove }) => {
               </Typography>
             </FormLabel>
             <Field
-              InputLabelProps={{
-                shrink: true,
-              }}
               as={TextField}
               className={classes.dateField}
               error={
@@ -160,6 +157,9 @@ const UTIForm = ({ index, remove }) => {
                   ? errors.newsComplicacoes[index]?.data_termino
                   : ''
               }
+              InputLabelProps={{
+                shrink: true,
+              }}
               name={`newsComplicacoes[${index}].data_termino`}
               onChange={handleChange}
               type="date"

@@ -56,10 +56,10 @@ function IRASItem({ iras }) {
                 <Typography variant="h5">Descrição da infecção</Typography>
               </FormLabel>
               <TextField
+                className={classes.field}
                 InputLabelProps={{
                   shrink: true,
                 }}
-                className={classes.field}
                 type="text"
                 value={iras.descricao}
                 variant="outlined"
@@ -78,10 +78,10 @@ function IRASItem({ iras }) {
               <Typography variant="h5">Ocorrência</Typography>
             </FormLabel>
             <TextField
+              contentEditable={false}
               InputLabelProps={{
                 shrink: true,
               }}
-              contentEditable={false}
               label="Data"
               type="date"
               value={iras.data}

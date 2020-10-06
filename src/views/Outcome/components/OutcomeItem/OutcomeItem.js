@@ -95,10 +95,10 @@ const OutcomeItem = props => {
                   <Typography variant="h5">Data de óbito</Typography>
                 </FormLabel>
                 <TextField
+                  className={classes.field}
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  className={classes.field}
                   type="date"
                   value={desfecho.data}
                   variant="outlined"
@@ -198,10 +198,10 @@ const OutcomeItem = props => {
                   <Typography variant="h5">Causa do óbito</Typography>
                 </FormLabel>
                 <TextField
+                  className={classes.field}
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  className={classes.field}
                   type="text"
                   value={desfecho.causa_obito}
                   variant="outlined"
@@ -226,10 +226,10 @@ const OutcomeItem = props => {
                   </Typography>
                 </FormLabel>
                 <TextField
+                  className={classes.field}
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  className={classes.field}
                   type="date"
                   value={desfecho.data}
                   variant="outlined"
@@ -251,10 +251,10 @@ const OutcomeItem = props => {
                   </Typography>
                 </FormLabel>
                 <TextField
+                  className={classes.field}
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  className={classes.field}
                   type="text"
                   value={desfecho.instituicao_transferencia?.nome}
                   variant="outlined"
@@ -279,10 +279,10 @@ const OutcomeItem = props => {
                   </Typography>
                 </FormLabel>
                 <TextField
+                  className={classes.field}
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  className={classes.field}
                   type="date"
                   value={desfecho.data}
                   variant="outlined"

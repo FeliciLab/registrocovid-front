@@ -61,15 +61,15 @@ const DefaultItem = ({ complicationData, separator }) => {
               Data de Complicação
             </Typography>
             <TextField
-              InputLabelProps={{
-                shrink: true,
-              }}
               className={classes.formInputDate}
               defaultValue={
                 complicationData && complicationData.data
                   ? complicationData.data
                   : ''
               }
+              InputLabelProps={{
+                shrink: true,
+              }}
               label="Data"
               name="data_complicacao"
               type="date"

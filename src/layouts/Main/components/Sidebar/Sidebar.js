@@ -63,8 +63,6 @@ const Sidebar = props => {
         {...rest}
         className={clsx(classes.root, className)}
       >
-        {/* <Profile /> */}
-        {/* <Divider className={classes.divider} /> */}
         <SidebarNav
           className={classes.nav}
           pages={pages}
@@ -78,7 +76,6 @@ const Sidebar = props => {
         >
           SAIR
         </Button>
-        {/* <UpgradePlan /> */}
       </div>
     </Drawer>
   );

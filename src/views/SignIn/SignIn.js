@@ -72,7 +72,7 @@ const SignIn = props => {
         validateOnMount
         validationSchema={schema}
       >
-        {({ values, touched, handleChange, isValid, errors }) => (
+        {({ values, touched, handleChange, errors }) => (
           <Form className={classes.form}>
             <div className={classes.contentForm}>
               <div className={classes.divImage}>

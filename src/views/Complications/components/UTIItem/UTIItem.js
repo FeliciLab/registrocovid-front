@@ -61,13 +61,13 @@ const UTIItem = ({ complicationData, separator }) => {
             Escala de Glasgow
           </Typography>
           <TextField
-            InputLabelProps={{
-              shrink: true,
-            }}
             className={classes.textField}
             defaultValue={
               complicationData ? complicationData.glasgow_admissao_uti : ''
             }
+            InputLabelProps={{
+              shrink: true,
+            }}
             type="text"
           />
         </Grid>
@@ -88,11 +88,11 @@ const UTIItem = ({ complicationData, separator }) => {
                 Admissão Em UTI
               </Typography>
               <TextField
+                className={classes.formInputDate}
+                defaultValue={complicationData ? complicationData.data : ''}
                 InputLabelProps={{
                   shrink: true,
                 }}
-                className={classes.formInputDate}
-                defaultValue={complicationData ? complicationData.data : ''}
                 label="Data"
                 name="admissao_uti"
                 type="date"
@@ -109,13 +109,13 @@ const UTIItem = ({ complicationData, separator }) => {
                 Saída de UTI
               </Typography>
               <TextField
-                InputLabelProps={{
-                  shrink: true,
-                }}
                 className={classes.formInputDate}
                 defaultValue={
                   complicationData ? complicationData.data_termino : ''
                 }
+                InputLabelProps={{
+                  shrink: true,
+                }}
                 label="Data"
                 name="saida_uti"
                 type="date"

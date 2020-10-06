@@ -49,9 +49,6 @@ const NeurologicForm = ({ complicationData, index, remove }) => {
             <Typography variant="h4">Ocorrência</Typography>
           </FormLabel>
           <Field
-            InputLabelProps={{
-              shrink: true,
-            }}
             as={TextField}
             className={classes.dateField}
             error={
@@ -71,6 +68,7 @@ const NeurologicForm = ({ complicationData, index, remove }) => {
                 : ''
             }
             name={`newsComplicacoes[${index}].data`}
+
             onChange={handleChange}
             type="date"
             value={values.newsComplicacoes[index].data}
@@ -91,9 +89,6 @@ const NeurologicForm = ({ complicationData, index, remove }) => {
             </Typography>
           </FormLabel>
           <Field
-            InputLabelProps={{
-              shrink: true,
-            }}
             as={TextField}
             className={classes.textField}
             error={

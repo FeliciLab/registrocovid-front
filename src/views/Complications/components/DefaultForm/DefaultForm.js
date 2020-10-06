@@ -56,9 +56,6 @@ const DefaultForm = ({ index, remove, complicationData }) => {
             </Typography>
           </FormLabel>
           <Field
-            InputLabelProps={{
-              shrink: true,
-            }}
             as={TextField}
             className={classes.dateField}
             error={
@@ -73,6 +70,9 @@ const DefaultForm = ({ index, remove, complicationData }) => {
                 ? errors.newsComplicacoes[index]?.data
                 : ''
             }
+            InputLabelProps={{
+              shrink: true,
+            }}
             name={`newsComplicacoes[${index}].data`}
             onChange={handleChange}
             type="date"
