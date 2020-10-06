@@ -24,10 +24,20 @@ function SupportTreatmentForm() {
       item
       md={10}
       spacing={2}
-      xs={12}>
-      <Grid className={classes.formWraper} container item spacing={1}>
+      xs={12}
+    >
+      <Grid
+        className={classes.formWraper}
+        container
+        item
+        spacing={1}
+      >
         {/* data_inicio */}
-        <Grid className={classes.fieldWraper} item sm={6}>
+        <Grid
+          className={classes.fieldWraper}
+          item
+          sm={6}
+        >
           <FormGroup>
             <FormLabel>
               <Typography variant="h5">Primeira Sessão</Typography>
@@ -52,7 +62,11 @@ function SupportTreatmentForm() {
         </Grid>
 
         {/* data_termino */}
-        <Grid className={classes.fieldWraper} item sm={6}>
+        <Grid
+          className={classes.fieldWraper}
+          item
+          sm={6}
+        >
           <FormGroup>
             <FormLabel>
               <Typography variant="h5">Última Sessão</Typography>
@@ -83,7 +97,11 @@ function SupportTreatmentForm() {
         </Grid>
 
         {/* motivo_hemodialise */}
-        <Grid className={classes.fieldWraper} item sm={12}>
+        <Grid
+          className={classes.fieldWraper}
+          item
+          sm={12}
+        >
           <FormGroup>
             <FormLabel>
               <Typography variant="h5">Motivo</Typography>
@@ -104,7 +122,11 @@ function SupportTreatmentForm() {
         </Grid>
 
         {/* frequencia_hemodialise */}
-        <Grid className={classes.fieldWraper} item sm={12}>
+        <Grid
+          className={classes.fieldWraper}
+          item
+          sm={12}
+        >
           <FormGroup>
             <FormLabel>
               <Typography variant="h5">Frequência</Typography>

@@ -72,15 +72,15 @@ export const Ventilacao = (props) => {
                     <Typography variant="h5">Início</Typography>
                   </FormLabel>
                   <TextField
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
                     className={classes.dateField}
                     disabled={!isNew}
                     error={(fContext.errors[`data_inicio#${id}`] && fContext.touched[`data_inicio#${id}`])}
                     helperText={
                       (fContext.errors[`data_inicio#${id}`] && fContext.touched[`data_inicio#${id}`]) ? fContext.errors[`data_inicio#${id}`] : null
                     }
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
                     label="Data"
                     name={`data_inicio#${id}`}
                     onBlur={fContext.handleBlur}
@@ -100,15 +100,15 @@ export const Ventilacao = (props) => {
                     <Typography variant="h5">Término</Typography>
                   </FormLabel>
                   <TextField
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
                     className={classes.dateField}
                     disabled={!isNew}
                     error={(fContext.errors[`data_termino#${id}`] && fContext.touched[`data_termino#${id}`])}
                     helperText={
                       (fContext.errors[`data_termino#${id}`] && fContext.touched[`data_termino#${id}`]) ? fContext.errors[`data_termino#${id}`] : null
                     }
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
                     label="Data"
                     name={`data_termino#${id}`}
                     onBlur={fContext.handleBlur}

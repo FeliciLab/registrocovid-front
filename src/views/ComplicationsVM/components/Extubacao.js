@@ -67,15 +67,15 @@ export const Extubacao = (props) => {
                 <Typography variant="h5">Data de extubação acidental:</Typography>
               </FormLabel>
               <TextField
-                InputLabelProps={{
-                  shrink: true,
-                }}
                 className={classes.dateField}
                 disabled={infos?.data_complicacao ? true : false}
                 error={(fContext.errors[`data_complicacao#${id}`] && fContext.touched[`data_complicacao#${id}`])}
                 helperText={
                   (fContext.errors[`data_complicacao#${id}`] && fContext.touched[`data_complicacao#${id}`]) ? fContext.errors[`data_complicacao#${id}`] : null
                 }
+                InputLabelProps={{
+                  shrink: true,
+                }}
                 label="Data"
                 name={`data_complicacao#${id}`}
                 onBlur={fContext.handleBlur}
