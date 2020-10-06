@@ -508,9 +508,6 @@ const PatientIdentification = () => {
                       <Typography variant="h4">Telefone de casa</Typography>
                     </FormLabel>
                     <Field
-                      InputProps={{
-                        inputComponent: TextMaskPhone,
-                      }}
                       as={TextField}
                       className={classes.textField}
                       error={
@@ -521,6 +518,9 @@ const PatientIdentification = () => {
                           ? errors.telefone_de_casa
                           : null
                       }
+                      InputProps={{
+                        inputComponent: TextMaskPhone,
+                      }}
                       label="Telefone de casa"
                       name="telefone_de_casa"
                       onChange={handleChange}
@@ -542,9 +542,6 @@ const PatientIdentification = () => {
                       <Typography variant="h4">Telefone celular</Typography>
                     </FormLabel>
                     <Field
-                      InputProps={{
-                        inputComponent: TextMaskPhone,
-                      }}
                       as={TextField}
                       className={classes.textField}
                       error={
@@ -555,6 +552,9 @@ const PatientIdentification = () => {
                           ? errors.telefone_celular
                           : null
                       }
+                      InputProps={{
+                        inputComponent: TextMaskPhone,
+                      }}
                       label="Telefone celular"
                       name="telefone_celular"
                       onChange={handleChange}
@@ -576,9 +576,6 @@ const PatientIdentification = () => {
                       <Typography variant="h4">Telefone do trabalho</Typography>
                     </FormLabel>
                     <Field
-                      InputProps={{
-                        inputComponent: TextMaskPhone,
-                      }}
                       as={TextField}
                       className={classes.textField}
                       error={
@@ -591,6 +588,9 @@ const PatientIdentification = () => {
                           ? errors.telefone_do_trabalho
                           : null
                       }
+                      InputProps={{
+                        inputComponent: TextMaskPhone,
+                      }}
                       label="Telefone do trabalho"
                       name="telefone_do_trabalho"
                       onChange={handleChange}
@@ -612,9 +612,6 @@ const PatientIdentification = () => {
                       <Typography variant="h4">Telefone do vizinho</Typography>
                     </FormLabel>
                     <Field
-                      InputProps={{
-                        inputComponent: TextMaskPhone,
-                      }}
                       as={TextField}
                       className={classes.textField}
                       error={
@@ -627,6 +624,9 @@ const PatientIdentification = () => {
                           ? errors.telefone_de_vizinho
                           : null
                       }
+                      InputProps={{
+                        inputComponent: TextMaskPhone,
+                      }}
                       label="Telefone do vizinho"
                       name="telefone_de_vizinho"
                       onChange={handleChange}
@@ -685,9 +685,6 @@ const PatientIdentification = () => {
                       <Typography variant="h4">Data de nascimento</Typography>
                     </FormLabel>
                     <Field
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
                       as={TextField}
                       className={classes.dateField}
                       error={errors.data_nascimento && touched.data_nascimento}
@@ -696,6 +693,9 @@ const PatientIdentification = () => {
                           ? errors.data_nascimento
                           : null
                       }
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
                       label="Data de nascimento"
                       name="data_nascimento"
                       onChange={handleChange}

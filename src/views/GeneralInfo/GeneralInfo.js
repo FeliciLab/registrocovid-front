@@ -5,6 +5,7 @@ import { Formik, Form, Field } from 'formik';
 import CustomBreadcrumbs from 'components/CustomBreadcrumbs';
 import { Switch, TextField } from 'formik-material-ui';
 // Material-UI Components
+
 import {
   Typography,
   Button,
@@ -25,7 +26,6 @@ import api from 'services/api';
 import formatDate from 'helpers/formatDate';
 
 const loadInitialValues = (patient) => {
-  // TODO: colocando aqui o traqueostomizado: false para quando tiver esse campo no backend
   let initialValues = {
     prontuario: '',
     data_internacao: '',
@@ -82,8 +82,12 @@ const GeneralInfo = () => {
       const responseSuportesRespiratorio = await api.get(
         '/suportes-respiratorios',
       );
-      setTiposSuporteRespiratorio(responseSuportesRespiratorio.data);
-    } catch {
+      setTiposSuporteRespiratorio(
+        responseSuportesRespiratorio.data.filter(tipo =>
+          [1, 2, 3, 4, 7].some(id => id === tipo.id),
+        ),
+      );
+    } catch (error) {
       addToast({
         type: 'error',
         message: 'Erro ao tentar carregar informações, tente novamente',
@@ -104,6 +108,7 @@ const GeneralInfo = () => {
       data_atendimento_referencia: values.data_atendimento,
       suporte_respiratorio: values.suporte_respiratorio,
       reinternacao: values.reinternacao,
+      chegou_traqueostomizado: values.chegou_traqueostomizado,
     };
 
     if (values.suporte_respiratorio) {
@@ -389,9 +394,6 @@ const GeneralInfo = () => {
                       </FormControl>
                     </FormGroup>
                   </Grid>
-
-                  {/* TODO: ainda falta colocar esse value nos initial values */}
-                  {/* traqueostomizado */}
                   <Grid
                     container
                     item

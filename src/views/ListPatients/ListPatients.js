@@ -64,6 +64,8 @@ const ListPatients = () => {
 
           <div className={classes.actionsWrapper}>
             <TextField
+              className={classes.fieldNumProntuario}
+              id="num-prontuario"
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -71,8 +73,6 @@ const ListPatients = () => {
                   </InputAdornment>
                 ),
               }}
-              className={classes.fieldNumProntuario}
-              id="num-prontuario"
               label="Buscar por número de prontuário"
               onChange={e => setFilter(e.target.value)}
               variant="outlined"

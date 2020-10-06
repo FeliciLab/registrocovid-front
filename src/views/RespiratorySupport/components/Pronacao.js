@@ -70,15 +70,15 @@ export const Pronacao = (props) => {
                     <Typography variant="h5">Data de pronação</Typography>
                   </FormLabel>
                   <TextField
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
                     className={classes.dateField}
                     disabled={!isNew}
                     error={(fContext.errors[`data_pronacao#${id}`] && fContext.touched[`data_pronacao#${id}`])}
                     helperText={
                       (fContext.errors[`data_pronacao#${id}`] && fContext.touched[`data_pronacao#${id}`]) ? fContext.errors[`data_pronacao#${id}`] : null
                     }
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
                     label="Ocorrência"
                     name={`data_pronacao#${id}`}
                     onBlur={fContext.handleBlur}
