@@ -67,8 +67,7 @@ const SelectRespiratorySuportType = props => {
             select
             variant="outlined"
           >
-            {/* "Ventilação mecânica invasiva" (id = 6) deve ficar fora do select */}
-            {tipos.filter(tipo => tipo.id !== 6).map(tipo => (
+            {tipos.map(tipo => (
               <MenuItem
                 key={tipo.id}
                 value={tipo.id.toString()}

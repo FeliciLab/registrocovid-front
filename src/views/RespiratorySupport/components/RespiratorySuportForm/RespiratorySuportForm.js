@@ -74,7 +74,6 @@ const RespiratorySuportForm = props => {
           />
         </Grid>
       )}
-
       {/* Ventilação mecânica não invasiva (VNI)
         Intubação Orotraqueal
         Traqueostomia */}
@@ -91,6 +90,27 @@ const RespiratorySuportForm = props => {
           <FieldComposerForm
             field="data_termino"
             name={`newSuportesRespitatorios.${index}.data_termino`}
+          />
+        </Grid>
+      )}
+      {/* Ventilação mecânica invasiva */}
+      {['6'].some(id => tipo === id) && (
+        <Grid
+          container
+          item
+          spacing={2}
+        >
+          <FieldComposerForm
+            field="data_inicio"
+            name={`newSuportesRespitatorios.${index}.data_inicio`}
+          />
+          <FieldComposerForm
+            field="data_termino"
+            name={`newSuportesRespitatorios.${index}.data_termino`}
+          />
+          <FieldComposerForm
+            field="menos_24h_vmi"
+            name={`newSuportesRespitatorios.${index}.menos_24h_vmi`}
           />
         </Grid>
       )}
