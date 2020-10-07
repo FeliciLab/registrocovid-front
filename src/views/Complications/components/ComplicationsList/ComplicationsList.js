@@ -113,7 +113,7 @@ const ComplicationsList = ({ complicacoes }) => {
                 separator={separator}
               />
             );
-          } else if (complicacao.tipo_complicacao.id >== 13) {
+          } else if (complicacao.tipo_complicacao.id === 13) {
             return (
               <NeurologicItem
                 complicationData={complicacao}
