@@ -22,18 +22,12 @@ import { Form, Formik } from 'formik';
 import SelectRespiratorySuportType from './components/SelectRespiratorySuportType';
 import RespiratorySuportFormList from './components/RespiratorySuportFormList';
 import RespiratorySuportItemList from './components/RespiratorySuportItemList';
-import VentMecInvasivaForm from './components/VentMecInvasivaForm';
 
 import schema from './schema';
 
 const initialValues = {
   newSuportesRespitatorios: [],
   tipoNewSuporteRespiratorioSelected: '',
-  ventMecInvasiva: {
-    data_inicio: '',
-    data_termino: '',
-    menos_24h_vmi: false,
-  },
 };
 
 const RespiratorySupport = () => {
@@ -109,7 +103,7 @@ const RespiratorySupport = () => {
   const handleSubmit = useCallback(
     async values => {
       try {
-        const { newSuportesRespitatorios, ventMecInvasiva } = values;
+        const { newSuportesRespitatorios } = values;
 
         const newSuportesRespitatoriosSanitazed = newSuportesRespitatorios.map(
           item => ({
@@ -128,10 +122,10 @@ const RespiratorySupport = () => {
           }),
         );
 
-        await api.post(`/pacientes/${patient.id}/suportes-respiratorios/`, [
-          ...newSuportesRespitatoriosSanitazed,
-          { ...ventMecInvasiva, tipo_suporte_id: 6 },
-        ]);
+        await api.post(
+          `/pacientes/${patient.id}/suportes-respiratorios/`,
+          newSuportesRespitatoriosSanitazed,
+        );
 
         addToast({
           type: 'success',
@@ -245,7 +239,6 @@ const RespiratorySupport = () => {
                     descricao={'Inclusão em desmame da ventilação mecânica'}
                     list={orderByDate(desmame)}
                   />
-                  <VentMecInvasivaForm />
                 </Grid>
               </Form>
             )}
