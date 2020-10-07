@@ -61,7 +61,7 @@ const ComplicationsList = ({ complicacoes }) => {
                         remove={remove}
                       />
                     );
-                  } else if (complicacao.tipo_complicacao_id >== 13) {
+                  } else if (complicacao.tipo_complicacao_id === 13) {
                     return (
                       <NeurologicForm
                         complicationData={complicacao}
