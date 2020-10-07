@@ -35,10 +35,10 @@ import OutrasDoencasItem from './OutrasDoencasItem';
 import { Formik, Form, Field, FieldArray } from 'formik'
 import {
   TextField,
-  Select,
   RadioGroup,
   CheckboxWithLabel
 } from 'formik-material-ui';
+import Diseases from './diseases';
 
 const Comorbidities = () => {
   const classes = useStyles();
@@ -67,6 +67,8 @@ const Comorbidities = () => {
   const [allDoencas, setAllDoencas] = useState([]);
   const [allCorticosteroides, setAllCorticosteroides] = useState([]);
   const [allOrgaos, setAllOrgaos] = useState([]);
+  const [selectedIds, setSelectedIds] = useState([]);
+  const [diseases, setDiseases] = useState([]);
 
   const [orgaosFromUser, setOrgaosFromUser] = useState([]);
   const [doencasFromUser, setDoencasFromUser] = useState([]);
@@ -234,6 +236,7 @@ const Comorbidities = () => {
   const handleSubmit = async (values) => {
 
     console.log(values);
+    console.log(allDoencas);
     return
 
     if (visualization) {
@@ -297,6 +300,18 @@ const Comorbidities = () => {
     }
   };
 
+  const handleAdd = () => {
+    console.log(selectedField, selectedIds)
+    if(!selectedIds.includes(selectedField.id)){
+      const disease = 
+        <Diseases
+          doencas={allDoencas.filter(d => d.tipo_doenca_id === selectedField.id)}
+          header={selectedField.descricao}
+        />
+      setDiseases(old => [disease, ...old])
+      setSelectedIds(old => [...old, selectedField.id])
+    }
+  }
   const initialValues = {
     quimioterapia: '',
     transplantado: '',
@@ -304,7 +319,8 @@ const Comorbidities = () => {
     gestacao: '',
     puerperio: '',
     orgaos: allOrgaos.map(() => false),
-    corticosteroides: allCorticosteroides.map(() => false)
+    corticosteroides: allCorticosteroides.map(() => false),
+    doencas: allDoencas.map(() => false)
   }
 
   return (
@@ -469,7 +485,7 @@ const Comorbidities = () => {
                           className={classes.buttonAdd}
                           color="secondary"
                           disabled={!selectedField.id}
-                          onClick={() =>  console.log(selectedField)}
+                          onClick={() =>  handleAdd()}
                           startIcon={<Add />}
                           type="button"
                           variant="contained"
@@ -480,9 +496,7 @@ const Comorbidities = () => {
 
                     </Grid>
                   </Grid>
-                  <Grid item xs={12}>
-
-                  </Grid>
+                  {diseases}
                   <Grid
                     item
                     xs={12}
