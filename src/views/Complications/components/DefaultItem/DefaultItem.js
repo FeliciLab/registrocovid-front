@@ -21,19 +21,32 @@ const DefaultItem = ({ complicationData, separator }) => {
         expandIcon={<ExpandMoreIcon />}
         id="panel1a-header"
       >
-        <div className={classes.heading}>
-          <Typography
-            className={classes.headingLabel}
-            variant="h4"
+        <Grid
+          className={classes.heading}
+          container
+        >
+          <Grid
+            item
+            xs={10}
           >
-            {complicationData && complicationData.tipo_complicacao.descricao
-              ? complicationData.tipo_complicacao.descricao
-              : ''}
-          </Typography>
-          <Typography variant="caption">
-            {complicationData ? formatDate(complicationData.data) : ''}
-          </Typography>
-        </div>
+            <Typography
+              className={classes.headingLabel}
+              variant="h4"
+            >
+              {complicationData && complicationData.tipo_complicacao.descricao
+                ? complicationData.tipo_complicacao.descricao
+                : ''}
+            </Typography>
+          </Grid>
+          <Grid
+            item
+            xs={2}
+          >
+            <Typography variant="caption">
+              {complicationData ? formatDate(complicationData.data) : ''}
+            </Typography>
+          </Grid>
+        </Grid>
       </AccordionSummary>
       <AccordionDetails className={classes.accordionDetails}>
         <Grid className={classes.gridContainer}>

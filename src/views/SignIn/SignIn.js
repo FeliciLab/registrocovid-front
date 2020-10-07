@@ -92,14 +92,14 @@ const SignIn = props => {
                   Entrar no sistema
                 </Typography>
                 <Field
+                  InputProps={{
+                    inputComponent: TextMaskCPF,
+                  }}
                   as={TextField}
                   className={classes.textField}
                   error={errors.cpf && touched.cpf}
                   fullWidth
                   helperText={errors.cpf && touched.cpf ? errors.cpf : null}
-                  InputProps={{
-                    inputComponent: TextMaskCPF,
-                  }}
                   label="cpf"
                   name="cpf"
                   onChange={handleChange}
@@ -108,13 +108,6 @@ const SignIn = props => {
                   variant="outlined"
                 />
                 <Field
-                  as={TextField}
-                  className={classes.textField}
-                  error={errors.password && touched.password}
-                  fullWidth
-                  helperText={
-                    errors.password && touched.password ? errors.password : null
-                  }
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
@@ -132,6 +125,13 @@ const SignIn = props => {
                       </InputAdornment>
                     ),
                   }}
+                  as={TextField}
+                  className={classes.textField}
+                  error={errors.password && touched.password}
+                  fullWidth
+                  helperText={
+                    errors.password && touched.password ? errors.password : null
+                  }
                   label="Password"
                   name="password"
                   onChange={handleChange}

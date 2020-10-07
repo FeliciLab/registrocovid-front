@@ -30,7 +30,7 @@ const SelectComplicationType = ({ tiposComplicacoes }) => {
           data_termino: '',
           descricao: '',
           menos_24h_uti: false,
-          glasglow_admissao_uti: '',
+          glasgow_admissao_uti: '',
         },
         ...values.newsComplicacoes,
       ]);
@@ -38,9 +38,9 @@ const SelectComplicationType = ({ tiposComplicacoes }) => {
       setFieldValue('newsComplicacoes', [
         {
           tipo_complicacao_id: values.tipo_new_complication.id,
+          tipo_complicacao_descricao: values.tipo_new_complication.descricao,
           data: '',
           data_termino: '',
-          descricao: '',
         },
         ...values.newsComplicacoes,
       ]);

@@ -49,6 +49,7 @@ const Comorbidities = () => {
   } = useComorbidade();
 
   const { patient } = usePatient();
+
   const { addToast } = useToast();
 
   const [tiposDoenca, setTiposDoenca] = useState([]);
@@ -82,9 +83,7 @@ const Comorbidities = () => {
 
   const [outraCondicao, setOutraCondicao] = useState('');
   const [medicacao, setMedicacao] = useState('');
-
-  const [selectedField, setSelectedField] = useState({id: ''});
-
+  const [selectedField, setSelectedField] = useState({ id: '' });
   const [isSaving, setIsSaving] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -171,9 +170,6 @@ const Comorbidities = () => {
           setNeoplasia(apiData.neoplasia);
           setQuimioterapia(apiData.quimioterapia);
 
-          // TODO: testando
-          console.log('apiData.quimioterapia');
-
           setCorticosteroide(
             apiData.corticosteroide === null
               ? ''
@@ -185,6 +181,13 @@ const Comorbidities = () => {
             apiData.transplantado === null
               ? ''
               : apiData.transplantado
+                ? 'sim'
+                : 'nao',
+          );
+          setQuimioterapia(
+            apiData.quimioterapia === null
+              ? ''
+              : apiData.quimioterapia
                 ? 'sim'
                 : 'nao',
           );

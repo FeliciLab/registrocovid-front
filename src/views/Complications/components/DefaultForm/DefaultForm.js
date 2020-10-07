@@ -25,7 +25,7 @@ const DefaultForm = ({ index, remove, complicationData }) => {
       component={Card}
       item
     >
-      <FormLabel className={classes.formLabel}>
+      <div className={classes.formLabel}>
         <Typography variant="h3">
           {complicationData && complicationData.tipo_complicacao_descricao
             ? complicationData.tipo_complicacao_descricao
@@ -35,9 +35,11 @@ const DefaultForm = ({ index, remove, complicationData }) => {
           aria-label="delete"
           onClick={() => remove(index)}
         >
-          <DeleteIcon fontSize="small" />
+          <DeleteIcon
+            fontSize="small"
+          />
         </IconButton>
-      </FormLabel>
+      </div>
       <Grid
         className={classes.fieldFormDefaultFlex}
         item
@@ -48,7 +50,7 @@ const DefaultForm = ({ index, remove, complicationData }) => {
             <Typography variant="h4">Ocorrência</Typography>
             <Typography
               className={classes.defaultFormLabelSubtitle}
-              variant="p"
+              variant="body1"
             >
               Data
             </Typography>
