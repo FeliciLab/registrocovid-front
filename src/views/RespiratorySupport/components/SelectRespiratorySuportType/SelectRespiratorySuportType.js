@@ -53,7 +53,7 @@ const SelectRespiratorySuportType = props => {
     >
       <FormGroup>
         <FormLabel>
-          <Typography variant="h4">Escolher tipo de desfecho:</Typography>
+          <Typography variant="h4">Escolher tipo de suporte ou procedimento:</Typography>
         </FormLabel>
         <Grid
           className={classes.actionWrapper}
