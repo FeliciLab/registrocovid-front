@@ -215,7 +215,7 @@ const Comorbidities = () => {
             'Ocorreu um erro ao carregar suas informações, por favor tente novamente.',
         });
       });
-    // eslint-disable-next-line
+  // eslint-disable-next-line
   }, []);
 
   const handleSubmit = async () => {
