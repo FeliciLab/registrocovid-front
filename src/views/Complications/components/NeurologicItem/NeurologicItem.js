@@ -12,9 +12,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import formatDate from '../../../../helpers/formatDate';
 import useStyles from './styles';
 
-export default ({ complicationData, separator }) => {
+const NeurologicItem = ({ complicationData, separator }) => {
   const classes = useStyles();
-
   return (
     <Accordion className={separator ? classes.typeSeparator : ''}>
       <AccordionSummary
@@ -22,19 +21,36 @@ export default ({ complicationData, separator }) => {
         expandIcon={<ExpandMoreIcon />}
         id="panel1a-header"
       >
-        <div className={classes.heading}>
-          <Typography
-            className={classes.headingLabel}
-            variant="h4"
+        <Grid
+          className={classes.heading}
+          container
+        >
+          <Grid
+            item
+            xs={10}
           >
-            Complicação Neurológica
-          </Typography>
-          <Typography variant="caption">
-            {complicationData ? formatDate(complicationData.data) : ''}
-          </Typography>
-        </div>
-      </AccordionSummary>
-      <AccordionDetails className={classes.accordionDetails}>
+            <Typography
+              className={classes.headingLabel}
+              variant="h4"
+            >
+              {complicationData && complicationData.tipo_complicacao
+                ? complicationData.tipo_complicacao.descricao
+                : ''}
+            </Typography>
+          </Grid>
+          <Grid
+            item
+            xs={2}
+          >
+            <Typography variant="caption">
+              {complicationData ? formatDate(complicationData.data) : ''}
+            </Typography>
+          </Grid>
+        </Grid>
+      </AccordionSummary >
+      <AccordionDetails
+        className={classes.accordionDetails}
+      >
         <Grid
           className={classes.root}
           item
@@ -49,12 +65,17 @@ export default ({ complicationData, separator }) => {
               className={classes.formSubtitle}
               variant="h4"
             >
-              Em caso afirmativo para complicação neurológica, qual?
+              Data de Complicação
             </Typography>
             <TextField
-              className={classes.extField}
-              placeholder="Local de Complicação"
-              value={complicationData ? complicationData.descricao : ''}
+              className={classes.textField}
+              defaultValue={complicationData ? complicationData.data : ''}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              label="Data"
+              name="data_complicacao"
+              type="date"
             />
           </Grid>
           <Grid
@@ -66,21 +87,20 @@ export default ({ complicationData, separator }) => {
               className={classes.formSubtitle}
               variant="h4"
             >
-              Data de Complicação
+              Em caso afirmativo para {complicationData && complicationData.tipo_complicacao
+                ? complicationData.tipo_complicacao.descricao.toLowerCase()
+                : ''}, qual?
             </Typography>
             <TextField
-              InputLabelProps={{
-                shrink: true,
-              }}
-              className={classes.textField}
-              defaultValue={complicationData ? complicationData.data : ''}
-              label="Data"
-              name="data_complicacao"
-              type="date"
+              className={classes.extField}
+              placeholder="Local de Complicação"
+              value={(complicationData && complicationData.descricao) ? complicationData.descricao : ''}
             />
           </Grid>
         </Grid>
       </AccordionDetails>
-    </Accordion>
+    </Accordion >
   );
 };
+
+export default NeurologicItem

@@ -1,19 +1,15 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import useStyles from './styles';
-import * as Yup from 'yup';
 import { Formik, Form, Field } from 'formik';
 import CustomBreadcrumbs from 'components/CustomBreadcrumbs';
-
-// Material-UI Components
+import { Switch, TextField } from 'formik-material-ui';
 import {
   Typography,
   Button,
-  TextField,
   FormLabel,
   FormControlLabel,
   FormControl,
-  Switch,
   FormGroup,
   Grid,
   MenuItem,
@@ -21,24 +17,48 @@ import {
   Card,
 } from '@material-ui/core';
 
+import schema from './schema';
 import { useToast } from 'hooks/toast';
 import { usePatient } from 'context/PatientContext';
 import api from 'services/api';
 import formatDate from 'helpers/formatDate';
 
-const schema = Yup.object().shape({
-  prontuario: Yup.number()
-    .integer('Número de prontuário inválido (apenas números inteiros)')
-    .min(1, 'Número de prontuário deve ser maior que 0 (zero)')
-    .required('Campo obrigatório'),
-  data_internacao: Yup.date().required('Campo obrigatório'),
-  unidade_primeiro_atendimento: Yup.string(),
-  unidade_de_saude: Yup.string(),
-  data_atendimento: Yup.date(),
-  suporte_respiratorio: Yup.boolean(),
-  tipo_suport_respiratorio: Yup.string(),
-  reinternacao: Yup.boolean(),
-});
+const loadInitialValues = patient => {
+  let initialValues = {
+    prontuario: '',
+    data_internacao: '',
+    unidade_primeiro_atendimento: '',
+    unidade_de_saude: '',
+    data_atendimento: '',
+    suporte_respiratorio: false,
+    tipo_suport_respiratorio: '',
+    reinternacao: false,
+    chegou_traqueostomizado: false,
+  };
+
+  if (patient && patient.prontuario) {
+    initialValues = {
+      prontuario: patient.prontuario,
+      data_internacao: patient.data_internacao,
+      suporte_respiratorio: patient.suporte_respiratorio || false,
+      reinternacao: patient.reinternacao || false,
+      unidade_primeiro_atendimento: patient.instituicao_primeiro_atendimento
+        ? patient.instituicao_primeiro_atendimento.id
+        : '',
+      unidade_de_saude: patient.instituicao_referencia
+        ? patient.instituicao_referencia.id
+        : '',
+      data_atendimento: patient.data_atendimento_referencia || '',
+      tipo_suport_respiratorio:
+        patient.tipo_suporte_respiratorios.length > 0
+          ? patient.tipo_suporte_respiratorios[0].id
+          : '',
+      chegou_traqueostomizado: patient.chegou_traqueostomizado,
+    };
+  }
+
+  return initialValues;
+};
 
 const GeneralInfo = () => {
   const { addToast } = useToast();
@@ -60,8 +80,12 @@ const GeneralInfo = () => {
       const responseSuportesRespiratorio = await api.get(
         '/suportes-respiratorios',
       );
-      setTiposSuporteRespiratorio(responseSuportesRespiratorio.data);
-    } catch {
+      setTiposSuporteRespiratorio(
+        responseSuportesRespiratorio.data.filter(tipo =>
+          [1, 2, 3, 4, 7].some(id => id === tipo.id),
+        ),
+      );
+    } catch (error) {
       addToast({
         type: 'error',
         message: 'Erro ao tentar carregar informações, tente novamente',
@@ -73,19 +97,7 @@ const GeneralInfo = () => {
     }
   }, [addToast, history]);
 
-  useEffect(() => {
-    handleInfos();
-  }, [handleInfos]);
-
   const handleSubmit = async values => {
-    if (!values.prontuario && !values.data_internacao) {
-      addToast({
-        type: 'warning',
-        message: 'Existem campos obrigatórios em branco',
-      });
-      return;
-    }
-
     let patient = {
       prontuario: values.prontuario,
       data_internacao: values.data_internacao,
@@ -94,6 +106,7 @@ const GeneralInfo = () => {
       data_atendimento_referencia: values.data_atendimento,
       suporte_respiratorio: values.suporte_respiratorio,
       reinternacao: values.reinternacao,
+      chegou_traqueostomizado: values.chegou_traqueostomizado,
     };
 
     if (values.suporte_respiratorio) {
@@ -125,6 +138,7 @@ const GeneralInfo = () => {
         instituicao_referencia: { id: values.unidade_de_saude },
         data_atendimento_referencia: values.data_atendimento,
         tipo_suporte_respiratorios: [{ id: values.tipo_suport_respiratorio }],
+        chegou_traqueostomizado: values.chegou_traqueostomizado,
       };
 
       addToast({
@@ -149,7 +163,7 @@ const GeneralInfo = () => {
       }
     }
   };
-
+  
   const loadInitialValues = () => {
     let initialValues = {
       prontuario: '',
@@ -185,6 +199,10 @@ const GeneralInfo = () => {
     return initialValues;
   };
 
+  useEffect(() => {
+    handleInfos();
+  }, [handleInfos]);
+
   return (
     <div className={classes.root}>
       <div className={classes.header}>
@@ -215,12 +233,12 @@ const GeneralInfo = () => {
 
       <div className={classes.formWrapper}>
         <Formik
-          initialValues={loadInitialValues()}
+          initialValues={loadInitialValues(patient)}
           onSubmit={handleSubmit}
           validateOnMount
           validationSchema={schema}
         >
-          {({ values, touched, handleChange, errors, isSubmitting }) => (
+          {({ values, isSubmitting }) => (
             <Form component={FormControl}>
               <div className={classes.titleWrapper}>
                 <Typography variant="h1">Informações Gerais</Typography>
@@ -240,6 +258,7 @@ const GeneralInfo = () => {
                 <CircularProgress />
               ) : (
                 <Grid
+                  className={classes.card}
                   component={Card}
                   container
                   item
@@ -259,19 +278,11 @@ const GeneralInfo = () => {
                         </Typography>
                       </FormLabel>
                       <Field
-                        as={TextField}
                         className={classes.textField}
-                        error={errors.prontuario && touched.prontuario}
-                        helperText={
-                          errors.prontuario && touched.prontuario
-                            ? errors.prontuario
-                            : null
-                        }
+                        component={TextField}
                         label="Número do prontuário"
                         name="prontuario"
-                        onChange={handleChange}
                         type="number"
-                        value={values.prontuario}
                         variant="outlined"
                       />
                     </FormGroup>
@@ -288,24 +299,11 @@ const GeneralInfo = () => {
                         <Typography variant="h4">Data de internação</Typography>
                       </FormLabel>
                       <Field
-                        as={TextField}
                         className={classes.dateField}
-                        error={
-                          errors.data_internacao && touched.data_internacao
-                        }
-                        helperText={
-                          errors.data_internacao && touched.data_internacao
-                            ? errors.data_internacao
-                            : null
-                        }
-                        InputLabelProps={{
-                          shrink: true,
-                        }}
-                        label="Data de internação"
+                        component={TextField}
                         name="data_internacao"
-                        onChange={handleChange}
                         type="date"
-                        value={values.data_internacao}
+                        variant="outlined"
                       />
                     </FormGroup>
                   </Grid>
@@ -323,13 +321,11 @@ const GeneralInfo = () => {
                         </Typography>
                       </FormLabel>
                       <Field
-                        as={TextField}
                         className={classes.textField}
+                        component={TextField}
                         label="Unidade de Saúde"
                         name="unidade_primeiro_atendimento"
-                        onChange={handleChange}
                         select
-                        value={values.unidade_primeiro_atendimento}
                         variant="filled"
                       >
                         {instituicoes.map(({ id, nome }) => (
@@ -357,13 +353,11 @@ const GeneralInfo = () => {
                         </Typography>
                       </FormLabel>
                       <Field
-                        as={TextField}
                         className={classes.textField}
+                        component={TextField}
                         label="Unidade de Saúde"
                         name="unidade_de_saude"
-                        onChange={handleChange}
                         select
-                        value={values.unidade_de_saude}
                         variant="filled"
                       >
                         {instituicoes.map(({ id, nome }) => (
@@ -391,16 +385,11 @@ const GeneralInfo = () => {
                         </Typography>
                       </FormLabel>
                       <Field
-                        as={TextField}
                         className={classes.dateField}
-                        InputLabelProps={{
-                          shrink: true,
-                        }}
-                        label="Data Atendimento"
+                        component={TextField}
                         name="data_atendimento"
-                        onChange={handleChange}
                         type="date"
-                        value={values.data_atendimento}
+                        variant="outlined"
                       />
                     </FormGroup>
                   </Grid>
@@ -411,22 +400,20 @@ const GeneralInfo = () => {
                     xs={12}
                   >
                     <FormGroup>
-                      <Field
-                        as={FormControlLabel}
+                      <FormControlLabel
                         control={
-                          <Switch
-                            checked={values.suporte_respiratorio}
+                          <Field
                             color="primary"
+                            component={Switch}
                             name="suporte_respiratorio"
-                            onChange={handleChange}
+                            type="checkbox"
                           />
                         }
                         label={
                           <Typography variant="h4">
-                            Paciente chegou com suporte respiratório?
+                            Paciente chegou com suplementação de oxigênio?
                           </Typography>
                         }
-                        name="suporte_respiratorio"
                       />
                       {/* tipo_suport_respiratorio */}
                       <FormControl component="fieldset">
@@ -434,14 +421,12 @@ const GeneralInfo = () => {
                           Em caso afirmativo, qual o suporte respiratório?
                         </FormLabel>
                         <Field
-                          as={TextField}
                           className={classes.textField}
+                          component={TextField}
                           disabled={!values.suporte_respiratorio}
                           label="Tipo suporte respiratorio"
                           name="tipo_suport_respiratorio"
-                          onChange={handleChange}
                           select
-                          value={values.tipo_suport_respiratorio}
                           variant="filled"
                         >
                           {tiposSuporteRespiratorio.map(({ id, nome }) => (
@@ -457,28 +442,48 @@ const GeneralInfo = () => {
                     </FormGroup>
                   </Grid>
 
-                  {/* reinternacao */}
+                  {/* chegou_traqueostomizado */}
                   <Grid
+                    container
                     item
                     xs={12}
                   >
-                    <FormGroup>
-                      <Field
-                        as={FormControlLabel}
-                        control={
-                          <Switch
-                            checked={values.reinternacao}
-                            color="primary"
-                            name="reinternacao"
-                            onChange={handleChange}
-                          />
-                        }
-                        label={
-                          <Typography variant="h4">Reinternação?</Typography>
-                        }
-                        name="reinternacao"
-                      />
-                    </FormGroup>
+                    <FormControlLabel
+                      control={
+                        <Field
+                          color="primary"
+                          component={Switch}
+                          name="chegou_traqueostomizado"
+                          type="checkbox"
+                        />
+                      }
+                      label={
+                        <Typography variant="h4">
+                          Paciente chegou traqueostomizado?
+                        </Typography>
+                      }
+                    />
+                  </Grid>
+
+                  {/* reinternacao */}
+                  <Grid
+                    container
+                    item
+                    xs={12}
+                  >
+                    <FormControlLabel
+                      control={
+                        <Field
+                          color="primary"
+                          component={Switch}
+                          name="reinternacao"
+                          type="checkbox"
+                        />
+                      }
+                      label={
+                        <Typography variant="h4">Reinternação?</Typography>
+                      }
+                    />
                   </Grid>
                 </Grid>
               )}

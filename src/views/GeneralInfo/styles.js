@@ -32,6 +32,9 @@ const useStyles = makeStyles(theme => ({
   dateField: {
     marginTop: theme.spacing(1),
   },
+  card: {
+    padding: theme.spacing(1)
+  },
 }));
 
 export default useStyles;
