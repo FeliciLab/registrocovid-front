@@ -58,7 +58,6 @@
     "underscore": "^1.9.1",
     "uuid": "^3.3.2",
     "validate.js": "^0.13.1",
-    "yarn": "^1.22.10",
     "yup": "^0.29.1"
   },
   "devDependencies": {
