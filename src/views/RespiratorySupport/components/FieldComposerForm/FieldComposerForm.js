@@ -12,240 +12,151 @@ import { Field } from 'formik';
 import { TextField } from 'formik-material-ui';
 import React, { memo } from 'react';
 
+const FieldGrid = ({ label, component, type, name, ...rest }) => (
+  <Grid
+    item
+    xs={6}
+  >
+    <FormGroup>
+      <FormLabel>
+        <Typography variant="h5">{label}</Typography>
+      </FormLabel>
+      <Field
+        component={component}
+        name={name}
+        type={type}
+        {...rest}
+      />
+    </FormGroup>
+  </Grid>
+);
+
 const FieldComposerForm = props => {
   const { field, name } = props;
   const fields = {
-    fluxo_o2: (
-      <Grid
-        item
-        xs={6}
-      >
-        <FormGroup>
-          <FormLabel>
-            <Typography variant="h5">Fluxo O₂</Typography>
-          </FormLabel>
-          <Field
-            component={TextField}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="start">l/min</InputAdornment>
-              ),
-            }}
-            name={name}
-            type="number"
-            variant="outlined"
-          />
-        </FormGroup>
-      </Grid>
-    ),
     data_inicio: (
-      <Grid
-        item
-        xs={6}
-      >
-        <FormGroup>
-          <FormLabel>
-            <Typography variant="h5">Inicio</Typography>
-          </FormLabel>
-          <Field
-            component={TextField}
-            name={name}
-            type="date"
-            variant="outlined"
-          />
-        </FormGroup>
-      </Grid>
+      <FieldGrid
+        component={TextField}
+        label="Inicio"
+        name={name}
+        type="date"
+        variant="outlined"
+      />
     ),
     data_termino: (
-      <Grid
-        item
-        xs={6}
-      >
-        <FormGroup>
-          <FormLabel>
-            <Typography variant="h5">Término</Typography>
-          </FormLabel>
-          <Field
-            component={TextField}
-            name={name}
-            type="date"
-            variant="outlined"
-          />
-        </FormGroup>
-      </Grid>
+      <FieldGrid
+        component={TextField}
+        label="Término"
+        name={name}
+        type="date"
+        variant="outlined"
+      />
+    ),
+    fluxo_o2: (
+      <FieldGrid
+        component={TextField}
+        InputProps={{
+          endAdornment: <InputAdornment position="start">l/min</InputAdornment>,
+        }}
+        label="Fluxo O₂"
+        name={name}
+        type="number"
+        variant="outlined"
+      />
     ),
     concentracao_o2: (
-      <Grid
-        item
-        xs={6}
-      >
-        <FormGroup>
-          <FormLabel>
-            <Typography variant="h5">Concentração O₂</Typography>
-          </FormLabel>
-          <Field
-            component={TextField}
-            InputProps={{
-              endAdornment: <InputAdornment position="start">%</InputAdornment>,
-            }}
-            name={name}
-            type="number"
-            variant="outlined"
-          />
-        </FormGroup>
-      </Grid>
+      <FieldGrid
+        component={TextField}
+        InputProps={{
+          endAdornment: <InputAdornment position="start">%</InputAdornment>,
+        }}
+        label="Concentração O₂"
+        name={name}
+        type="number"
+        variant="outlined"
+      />
     ),
     menos_24h_vmi: (
-      <Grid
-        item
-        xs={6}
-      >
-        <FormGroup>
-          <FormLabel>
-            <Typography variant="h5">
-              Paciente permaneceu menos de 24h em ventilação invasiva?
-            </Typography>
-          </FormLabel>
-          <Field
-            component={FormControlLabel}
-            control={
-              <Switch
-                color="primary"
-                type="checkbox"
-              />
-            }
-            label={<Typography variant="h5">Sim</Typography>}
-            name={name}
-          />
-        </FormGroup>
-      </Grid>
+      <FieldGrid
+        component={FormControlLabel}
+        control={
+          <Switch
+            color="primary"
+            type="checkbox"
+          />}
+        label="Paciente permaneceu menos de 24h em ventilação invasiva?"
+        name={name}
+        type="checkbox"
+        variant="outlined"
+      />
     ),
     fluxo_sangue: (
-      <Grid
-        item
-        xs={6}
-      >
-        <FormGroup>
-          <FormLabel>
-            <Typography variant="h5">Fluxo de sangue</Typography>
-          </FormLabel>
-          <Field
-            component={TextField}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="start">l/min</InputAdornment>
-              ),
-            }}
-            name={name}
-            type="number"
-            variant="outlined"
-          />
-        </FormGroup>
-      </Grid>
+      <FieldGrid
+        component={TextField}
+        InputProps={{
+          endAdornment: <InputAdornment position="start">l/min</InputAdornment>,
+        }}
+        label="Fluxo de sangue"
+        name={name}
+        type="number"
+        variant="outlined"
+      />
     ),
     fluxo_gasoso: (
-      <Grid
-        item
-        xs={6}
-      >
-        <FormGroup>
-          <FormLabel>
-            <Typography variant="h5">Fluxo gasoso</Typography>
-          </FormLabel>
-          <Field
-            component={TextField}
-            contentEditable={false}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="start">l/min</InputAdornment>
-              ),
-            }}
-            name={name}
-            type="number"
-            variant="outlined"
-          />
-        </FormGroup>
-      </Grid>
+      <FieldGrid
+        component={TextField}
+        InputProps={{
+          endAdornment: <InputAdornment position="start">l/min</InputAdornment>,
+        }}
+        label="Fluxo gasoso"
+        name={name}
+        type="number"
+        variant="outlined"
+      />
     ),
     fio2: (
-      <Grid
-        item
-        xs={6}
-      >
-        <FormGroup>
-          <FormLabel>
-            <Typography variant="h5">FiO₂</Typography>
-          </FormLabel>
-          <Field
-            component={TextField}
-            InputProps={{
-              endAdornment: <InputAdornment position="start">%</InputAdornment>,
-            }}
-            name={name}
-            type="number"
-            variant="outlined"
-          />
-        </FormGroup>
-      </Grid>
+      <FieldGrid
+        component={TextField}
+        InputProps={{
+          endAdornment: <InputAdornment position="start">l/min</InputAdornment>,
+        }}
+        label="FiO₂"
+        name={name}
+        type="number"
+        variant="outlined"
+      />
     ),
     data_pronacao: (
-      <Grid
-        item
-        xs={6}
-      >
-        <FormGroup>
-          <FormLabel>
-            <Typography variant="h5">Data de pronação</Typography>
-          </FormLabel>
-          <Field
-            component={TextField}
-            name={name}
-            type="date"
-            variant="outlined"
-          />
-        </FormGroup>
-      </Grid>
+      <FieldGrid
+        component={TextField}
+        label="Data de pronação"
+        name={name}
+        type="date"
+        variant="outlined"
+      />
     ),
     quantidade_horas: (
-      <Grid
-        item
-        xs={6}
-      >
-        <FormGroup>
-          <FormLabel>
-            <Typography variant="h5">Pronação</Typography>
-          </FormLabel>
-          <Field
-            component={TextField}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="start">hora(s)</InputAdornment>
-              ),
-            }}
-            name={name}
-            type="number"
-            variant="outlined"
-          />
-        </FormGroup>
-      </Grid>
+      <FieldGrid
+        component={TextField}
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="start">hora(s)</InputAdornment>
+          ),
+        }}
+        label="Pronação"
+        name={name}
+        type="number"
+        variant="outlined"
+      />
     ),
     data_inclusao_desmame: (
-      <Grid item>
-        <FormGroup>
-          <FormLabel>
-            <Typography variant="h5">
-              Em caso afirmativo, informe a data da inclusão do paciente no
-              desmame
-            </Typography>
-          </FormLabel>
-          <Field
-            component={TextField}
-            name={name}
-            type="date"
-            variant="outlined"
-          />
-        </FormGroup>
-      </Grid>
+      <FieldGrid
+        component={TextField}
+        label="Em caso afirmativo, informe a data da inclusão do paciente no desmame"
+        name={name}
+        type="date"
+        variant="outlined"
+      />
     ),
   };
 

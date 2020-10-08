@@ -199,11 +199,6 @@ const FieldComposerItem = props => {
           </FormLabel>
           <TextField
             contentEditable={false}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="start">l/min</InputAdornment>
-              )
-            }}
             type="date"
             value={value || ''}
             variant="outlined"
