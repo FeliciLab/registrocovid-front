@@ -14,7 +14,9 @@ import {
   Grid,
   InputLabel,
   Chip,
-  TextField as MuiTextField
+  TextField as MuiTextField,
+  FormGroup,
+  FormLabel
 
 } from '@material-ui/core';
 
@@ -36,7 +38,7 @@ import { Formik, Form, Field, FieldArray } from 'formik'
 import {
   TextField,
   RadioGroup,
-  CheckboxWithLabel
+  CheckboxWithLabel,
 } from 'formik-material-ui';
 import Diseases from './diseases';
 
@@ -302,8 +304,8 @@ const Comorbidities = () => {
 
   const handleAdd = () => {
     console.log(selectedField, selectedIds)
-    if(!selectedIds.includes(selectedField.id)){
-      const disease = 
+    if (!selectedIds.includes(selectedField.id)) {
+      const disease =
         <Diseases
           doencas={allDoencas.filter(d => d.tipo_doenca_id === selectedField.id)}
           header={selectedField.descricao}
@@ -350,13 +352,27 @@ const Comorbidities = () => {
           >
             {({ isSubmitting, values }) => (
               <Form component={FormControl}>
-                <div className={classes.titleWrapper}>
-                  <Typography variant="h3">Comorbidades / Condições clínicas de base</Typography>
+                <Grid
+                  className={classes.titleWrapper}
+                  container
+                >
                   <Grid
                     className={classes.actionSection}
                     item
+                    xs={6}
+                  >
+                    <Typography variant="h3">Comorbidades / Condições clínicas de base</Typography>
+                  </Grid> 
+                  <Grid
+                    item
+                    xs={3}
                   >
                     <PatientInfo />
+                  </Grid>
+                  <Grid
+                    item
+                    xs={3}
+                  >
                     <Button
                       className={classes.buttonSave}
                       color="secondary"
@@ -367,19 +383,23 @@ const Comorbidities = () => {
                         Salvar
                     </Button>
                   </Grid>
-                </div>
+                </Grid>
 
                 <Grid
-                  className={classes.content}
+                  className={classes.paper}
                   component={Paper}
                   container
                   spacing={2}
+                  xs={8}
                 >
                   <Grid
                     item
                     xs={12}
                   >
-                    <InputLabel htmlFor="chips">Selecione as doenças que o paciente apresenta</InputLabel>
+                    <InputLabel
+                      className={classes.label}
+                      htmlFor="chips"
+                    >Selecione as doenças que o paciente apresenta</InputLabel>
                     <div
                       className={classes.chipWrapper}
                       id="chips"
@@ -451,8 +471,14 @@ const Comorbidities = () => {
                     item
                     xs={12}
                   >
-                    <InputLabel htmlFor="diseaseTypeSelect">Acrescente outras doenças que o paciente apresenta</InputLabel>
-                    <Grid container>
+                    <InputLabel
+                      className={classes.label}
+                      htmlFor="diseaseTypeSelect"
+                    >Acrescente outras doenças que o paciente apresenta</InputLabel>
+                    <Grid 
+                      alignItems={'center'}
+                      container
+                    >
                       <Grid
                         item
                         xs={10}
@@ -485,7 +511,7 @@ const Comorbidities = () => {
                           className={classes.buttonAdd}
                           color="secondary"
                           disabled={!selectedField.id}
-                          onClick={() =>  handleAdd()}
+                          onClick={() => handleAdd()}
                           startIcon={<Add />}
                           type="button"
                           variant="contained"
@@ -501,11 +527,15 @@ const Comorbidities = () => {
                     item
                     xs={12}
                   >
-                    <InputLabel htmlFor="quimioterapia">Quimioterapia</InputLabel>
+                    <InputLabel
+                      className={classes.label}
+                      htmlFor="quimioterapia"
+                    >Quimioterapia</InputLabel>
                     <Field
                       component={RadioGroup}
                       id="quimioterapia"
                       name="quimioterapia"
+                      row
                     >
                       <FormControlLabel
                         control={<Radio />}
@@ -525,11 +555,15 @@ const Comorbidities = () => {
                     item
                     xs={12}
                   >
-                    <InputLabel htmlFor="transplantado">Transplantado</InputLabel>
+                    <InputLabel
+                      className={classes.label}
+                      htmlFor="transplantado"
+                    >Transplantado</InputLabel>
                     <Field
                       component={RadioGroup}
                       id="transplantado"
                       name="transplantado"
+                      row
                     >
                       <FormControlLabel
                         control={<Radio />}
@@ -550,7 +584,10 @@ const Comorbidities = () => {
                       item
                       xs={12}
                     >
-                      <InputLabel htmlFor="orgaos">Quais órgãos?</InputLabel>
+                      <InputLabel
+                        className={classes.label}
+                        htmlFor="orgaos"
+                      >Quais órgãos?</InputLabel>
                       <div id="orgaos">
                         <FieldArray
                           name={'orgaos'}
@@ -564,7 +601,7 @@ const Comorbidities = () => {
                                 type={'checkbox'}
                               />)
                             )
-                          ) 
+                          )
                           }
                         />
                       </div>
@@ -574,11 +611,15 @@ const Comorbidities = () => {
                     item
                     xs={12}
                   >
-                    <InputLabel htmlFor="corticoides">Faz uso crônico de corticóides?</InputLabel>
+                    <InputLabel
+                      className={classes.label}
+                      htmlFor="corticoides"
+                    >Faz uso crônico de corticóides?</InputLabel>
                     <Field
                       component={RadioGroup}
                       id="corticoides"
                       name="corticoides"
+                      row
                     >
                       <FormControlLabel
                         control={<Radio />}
@@ -599,7 +640,10 @@ const Comorbidities = () => {
                       item
                       xs={12}
                     >
-                      <InputLabel htmlFor="corticosteroides">Quais corticosteroides?</InputLabel>
+                      <InputLabel
+                        className={classes.label}
+                        htmlFor="corticosteroides"
+                      >Quais corticosteroides?</InputLabel>
                       <div id="corticosteroides">
                         <FieldArray
                           name={'corticosteroides'}
@@ -613,7 +657,7 @@ const Comorbidities = () => {
                                 type={'checkbox'}
                               />)
                             )
-                          ) 
+                          )
                           }
                         />
                       </div>
@@ -623,11 +667,15 @@ const Comorbidities = () => {
                     item
                     xs={12}
                   >
-                    <InputLabel htmlFor="gestacao">Gestação</InputLabel>
+                    <InputLabel
+                      className={classes.label}
+                      htmlFor="gestacao"
+                    >Gestação</InputLabel>
                     <Field
                       component={RadioGroup}
                       id="gestacao"
                       name="gestacao"
+                      row
                     >
                       <FormControlLabel
                         control={<Radio />}
@@ -648,7 +696,10 @@ const Comorbidities = () => {
                       item
                       xs={12}
                     >
-                      <InputLabel htmlFor="wGestacao">Há quantas semanas?</InputLabel>
+                      <InputLabel
+                        className={classes.label}
+                        htmlFor="wGestacao"
+                      >Há quantas semanas?</InputLabel>
                       <div id="wGestacao">
                         <Field
                           component={TextField}
@@ -665,11 +716,15 @@ const Comorbidities = () => {
                     item
                     xs={12}
                   >
-                    <InputLabel htmlFor="puerperio">Puerpério</InputLabel>
+                    <InputLabel
+                      className={classes.label}
+                      htmlFor="puerperio"
+                    >Puerpério</InputLabel>
                     <Field
                       component={RadioGroup}
                       id="puerperio"
                       name="puerperio"
+                      row
                     >
                       <FormControlLabel
                         control={<Radio />}
@@ -690,7 +745,10 @@ const Comorbidities = () => {
                       item
                       xs={12}
                     >
-                      <InputLabel htmlFor="wPuerperio">Há quantas semanas?</InputLabel>
+                      <InputLabel
+                        className={classes.label}
+                        htmlFor="wPuerperio"
+                      >Há quantas semanas?</InputLabel>
                       <div id="wPuerperio">
                         <Field
                           component={TextField}
@@ -701,137 +759,146 @@ const Comorbidities = () => {
                       </div>
                     </Grid>
                   )}
+                  <Grid
+                    item
+                    xs={12}
+                  >
+                    <FormGroup
+                      className={classes.control}
+                      component="fieldset"
+                    >
+                      <FormLabel
+                        className={classes.label}
+                        component="legend"
+                      >
+                          Outras condições
+                      </FormLabel>
+                      <div className={classes.buttonWrapper}>
+                        <MuiTextField
+                          className={classes.textFieldWithButton}
+                          label="Outras condições"
+                          onChange={event => {
+                            setOutraCondicao(event.target.value);
+                          }}
+                          variant="filled"
+                        />
+                        <Button
+                          className={classes.buttonAdd}
+                          color="secondary"
+                          disabled={visualization}
+                          onClick={() => {
+                            if (visualization || outraCondicao === '') {
+                              return;
+                            }
+
+                            const exists = outrasCondicoes.some(
+                              outraCondicao2 => outraCondicao2 === outraCondicao,
+                            );
+
+                            if (!exists) {
+                              setOutrasCondicoes(prevOutrasCondicoes => [
+                                ...prevOutrasCondicoes,
+                                outraCondicao,
+                              ]);
+                            }
+                          }}
+                          startIcon={<Add />}
+                          type="button"
+                          variant="contained"
+                        >
+                            Adicionar
+                        </Button>
+                      </div>
+                      <div className={classes.chipWrapper}>
+                        {outrasCondicoes &&
+                            outrasCondicoes.map((outraCondicao, index) => (
+                              <Chip
+                                color="primary"
+                                key={index}
+                                label={outraCondicao}
+                                onDelete={() => {
+                                  setOutrasCondicoes(
+                                    outrasCondicoes.filter(
+                                      outraCondicao2 => outraCondicao2 !== outraCondicao,
+                                    ),
+                                  );
+                                }}
+                              />
+                            ))}
+                      </div>
+                    </FormGroup>
+
+                  </Grid>
+                  <Grid
+                    item
+                    xs={12}
+                  >
+                    <FormGroup component="fieldset">
+                      <FormLabel
+                        className={classes.label}
+                        component="legend"
+                      >
+                        Medicações de uso contínuo
+                      </FormLabel>
+                      <div className={classes.buttonWrapper}>
+                        <MuiTextField
+                          className={classes.textFieldWithButton}
+                          label="Medicações de uso contínuo"
+                          onChange={event => {
+                            setMedicacao(event.target.value);
+                          }}
+                          variant="filled"
+                        />
+                        <Button
+                          className={classes.buttonAdd}
+                          color="secondary"
+                          disabled={visualization}
+                          onClick={() => {
+                            if (visualization || medicacao === '') {
+                              return;
+                            }
+                            const exists = medicacoes.some(
+                              medicacao2 => medicacao2 === medicacao,
+                            );
+                            if (!exists) {
+                              setMedicacoes(prevMedicacoes => [
+                                ...prevMedicacoes,
+                                medicacao,
+                              ]);
+                            }
+                          }}
+                          startIcon={<Add />}
+                          type="button"
+                          variant="contained"
+                        >
+                          Adicionar
+                        </Button>
+                      </div>
+                      <div className={classes.chipWrapper}>
+                        {medicacoes &&
+                          medicacoes.map((medicacao, index) => (
+                            <Chip
+                              color="primary"
+                              key={index}
+                              label={medicacao}
+                              onDelete={() => {
+                                setMedicacoes(
+                                  medicacoes.filter(
+                                    medicacao2 => medicacao2 !== medicacao,
+                                  ),
+                                );
+                              }}
+                            />
+                          ))}
+                      </div>
+                    </FormGroup>
+                  
+                  </Grid>
                 </Grid>
               </Form>
             )}
           </Formik>
         </div>
-
-      //   <FormGroup
-      //     className={classes.control}
-      //     component="fieldset"
-      //   >
-      //     <FormLabel
-      //       className={classes.label}
-      //       component="legend"
-      //     >
-      //         Outras condições
-      //     </FormLabel>
-      //     <div className={classes.buttonWrapper}>
-      //       <TextField
-      //         className={classes.textFieldWithButton}
-      //         label="Outras condições"
-      //         onChange={event => {
-      //           setOutraCondicao(event.target.value);
-      //         }}
-      //         variant="filled"
-      //       />
-      //       <Button
-      //         className={classes.buttonAdd}
-      //         color="secondary"
-      //         disabled={visualization}
-      //         onClick={() => {
-      //           if (visualization || outraCondicao === '') {
-      //             return;
-      //           }
-
-      //           const exists = outrasCondicoes.some(
-      //             outraCondicao2 => outraCondicao2 === outraCondicao,
-      //           );
-
-      //           if (!exists) {
-      //             setOutrasCondicoes(prevOutrasCondicoes => [
-      //               ...prevOutrasCondicoes,
-      //               outraCondicao,
-      //             ]);
-      //           }
-      //         }}
-      //         startIcon={<Add />}
-      //         type="button"
-      //         variant="contained"
-      //       >
-      //           Adicionar
-      //       </Button>
-      //     </div>
-      //     <div className={classes.chipWrapper}>
-      //       {outrasCondicoes &&
-      //         outrasCondicoes.map((outraCondicao, index) => (
-      //           <Chip
-      //             color="primary"
-      //             key={index}
-      //             label={outraCondicao}
-      //             onDelete={() => {
-      //               setOutrasCondicoes(
-      //                 outrasCondicoes.filter(
-      //                   outraCondicao2 => outraCondicao2 !== outraCondicao,
-      //                 ),
-      //               );
-      //             }}
-      //           />
-      //         ))}
-      //     </div>
-      //   </FormGroup>
-
-      //   <FormGroup component="fieldset">
-      //     <FormLabel
-      //       className={classes.label}
-      //       component="legend"
-      //     >
-      //         Medicações de uso contínuo
-      //     </FormLabel>
-      //     <div className={classes.buttonWrapper}>
-      //       <TextField
-      //         className={classes.textFieldWithButton}
-      //         label="Medicações de uso contínuo"
-      //         onChange={event => {
-      //           setMedicacao(event.target.value);
-      //         }}
-      //         variant="filled"
-      //       />
-      //       <Button
-      //         className={classes.buttonAdd}
-      //         color="secondary"
-      //         disabled={visualization}
-      //         onClick={() => {
-      //           if (visualization || medicacao === '') {
-      //             return;
-      //           }
-      //           const exists = medicacoes.some(
-      //             medicacao2 => medicacao2 === medicacao,
-      //           );
-      //           if (!exists) {
-      //             setMedicacoes(prevMedicacoes => [
-      //               ...prevMedicacoes,
-      //               medicacao,
-      //             ]);
-      //           }
-      //         }}
-      //         startIcon={<Add />}
-      //         type="button"
-      //         variant="contained"
-      //       >
-      //           Adicionar
-      //       </Button>
-      //     </div>
-      //     <div className={classes.chipWrapper}>
-      //       {medicacoes &&
-      //         medicacoes.map((medicacao, index) => (
-      //           <Chip
-      //             color="primary"
-      //             key={index}
-      //             label={medicacao}
-      //             onDelete={() => {
-      //               setMedicacoes(
-      //                 medicacoes.filter(
-      //                   medicacao2 => medicacao2 !== medicacao,
-      //                 ),
-      //               );
-      //             }}
-      //           />
-      //         ))}
-      //     </div>
-      //   </FormGroup>
-      // </Paper>
       )}
     </div>
   );
