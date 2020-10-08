@@ -46,8 +46,6 @@ const useStyles = makeStyles(theme => ({
 const RespiratorySuportItem = props => {
   const { suporteRespiratorio, descricao } = props;
 
-  console.table(suporteRespiratorio);
-
   const classes = useStyles();
 
   return (

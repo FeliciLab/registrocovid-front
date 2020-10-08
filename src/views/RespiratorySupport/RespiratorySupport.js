@@ -24,7 +24,6 @@ import RespiratorySuportFormList from './components/RespiratorySuportFormList';
 import RespiratorySuportItemList from './components/RespiratorySuportItemList';
 
 import schema from './schema';
-import { PrevJSON } from 'components';
 
 const initialValues = {
   newSuportesRespitatorios: [],
@@ -218,11 +217,6 @@ const RespiratorySupport = () => {
                   spacing={2}
                 >
                   <SelectRespiratorySuportType tipos={supportsTypes} />
-
-                  <PrevJSON
-                    data={values}
-                    name="Values.newSuportesRespitatorios"
-                  />
 
                   <RespiratorySuportFormList tipos={supportsTypes} />
 
