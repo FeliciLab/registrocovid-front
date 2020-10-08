@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -12,90 +12,75 @@ import {
   Typography,
 } from '@material-ui/core';
 
+const FieldGrid = ({ title, component: Component, type, value, ...rest }) => (
+  <Grid
+    item
+    xs={6}
+  >
+    <FormGroup>
+      <FormLabel>
+        <Typography variant="h5">{title}</Typography>
+      </FormLabel>
+      <Component
+        contentEditable={false}
+        type={type}
+        value={value}
+        {...rest}
+      />
+    </FormGroup>
+  </Grid>
+);
+
 // Ajudar na construcao de um item de Suporte respiratorio
 const FieldComposerItem = props => {
   const { name, value } = props;
 
+  console.table({ name, value });
+
   const fields = {
-    fluxo_o2: (
-      <Grid
-        item
-        xs={6}
-      >
-        <FormGroup>
-          <FormLabel>
-            <Typography variant="h5">Fluxo O₂</Typography>
-          </FormLabel>
-          <TextField
-            contentEditable={false}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="start">l/min</InputAdornment>
-              ),
-            }}
-            type="number"
-            value={value || ''}
-            variant="outlined"
-          />
-        </FormGroup>
-      </Grid>
-    ),
     data_inicio: (
-      <Grid
-        item
-        xs={6}
-      >
-        <FormGroup>
-          <FormLabel>
-            <Typography variant="h5">Inicio</Typography>
-          </FormLabel>
-          <TextField
-            contentEditable={false}
-            type="date"
-            value={value || ''}
-            variant="outlined"
-          />
-        </FormGroup>
-      </Grid>
+      <FieldGrid
+        component={TextField}
+        title="Inicio"
+        type="date"
+        value={value}
+        variant="outlined"
+      />
     ),
     data_termino: (
-      <Grid
-        item
-        xs={6}
-      >
-        <FormGroup>
-          <FormLabel>
-            <Typography variant="h5">Término</Typography>
-          </FormLabel>
-          <TextField
-            contentEditable={false}
-            type="date"
-            value={value || ''}
-            variant="outlined"
-          />
-        </FormGroup>
-      </Grid>
+      <FieldGrid
+        component={TextField}
+        title="Término"
+        type="date"
+        value={value}
+        variant="outlined"
+      />
+    ),
+    fluxo_o2: (
+      <FieldGrid
+        component={TextField}
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="start">l/min</InputAdornment>
+          ),
+        }}
+        title="Fluxo O₂"
+        type="number"
+        value={value || ''}
+        variant="outlined"
+      />
     ),
     concentracao_o2: (
-      <Grid
-        item
-        xs={6}
-      >
-        <FormGroup>
-          <FormLabel>
-            <Typography variant="h5">Concentração O₂</Typography>
-          </FormLabel>
-          <TextField
-            contentEditable={false}
-            InputProps={{
-              endAdornment: <InputAdornment position="start">%</InputAdornment>,
-            }}
-            type="number"
-            value={value || ''}
-            variant="outlined"
-          />
-        </FormGroup>
-      </Grid>
+      <FieldGrid
+        component={TextField}
+        InputProps={{
+          endAdornment: <InputAdornment position="start">%</InputAdornment>,
+        }}
+        title="Concentração O₂"
+        type="number"
+        value={value}
+        variant="outlined"
+      />
     ),
     menos_24h_vmi: (
       <Grid
@@ -268,4 +253,4 @@ FieldComposerItem.propTypes = {
   value: PropTypes.any,
 };
 
-export default FieldComposerItem;
+export default memo(FieldComposerItem);

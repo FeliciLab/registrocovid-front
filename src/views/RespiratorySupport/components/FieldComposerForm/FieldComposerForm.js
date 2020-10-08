@@ -4,22 +4,21 @@ import {
   FormLabel,
   Grid,
   InputAdornment,
-  Switch,
   Typography,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { Field } from 'formik';
-import { TextField } from 'formik-material-ui';
+import { TextField, Switch } from 'formik-material-ui';
 import React, { memo } from 'react';
 
-const FieldGrid = ({ label, component, type, name, ...rest }) => (
+const FieldGrid = ({ title, component, type, name, ...rest }) => (
   <Grid
     item
     xs={6}
   >
     <FormGroup>
       <FormLabel>
-        <Typography variant="h5">{label}</Typography>
+        <Typography variant="h5">{title}</Typography>
       </FormLabel>
       <Field
         component={component}
@@ -37,8 +36,8 @@ const FieldComposerForm = props => {
     data_inicio: (
       <FieldGrid
         component={TextField}
-        label="Inicio"
         name={name}
+        title="Inicio"
         type="date"
         variant="outlined"
       />
@@ -46,8 +45,8 @@ const FieldComposerForm = props => {
     data_termino: (
       <FieldGrid
         component={TextField}
-        label="Término"
         name={name}
+        title="Término"
         type="date"
         variant="outlined"
       />
@@ -58,8 +57,8 @@ const FieldComposerForm = props => {
         InputProps={{
           endAdornment: <InputAdornment position="start">l/min</InputAdornment>,
         }}
-        label="Fluxo O₂"
         name={name}
+        title="Fluxo O₂"
         type="number"
         variant="outlined"
       />
@@ -70,25 +69,36 @@ const FieldComposerForm = props => {
         InputProps={{
           endAdornment: <InputAdornment position="start">%</InputAdornment>,
         }}
-        label="Concentração O₂"
         name={name}
+        title="Concentração O₂"
         type="number"
         variant="outlined"
       />
     ),
     menos_24h_vmi: (
-      <FieldGrid
-        component={FormControlLabel}
-        control={
-          <Switch
-            color="primary"
-            type="checkbox"
-          />}
-        label="Paciente permaneceu menos de 24h em ventilação invasiva?"
-        name={name}
-        type="checkbox"
-        variant="outlined"
-      />
+      <Grid
+        item
+        xs={6}
+      >
+        <FormGroup>
+          <FormLabel>
+            <Typography variant="h5">
+            Paciente permaneceu menos de 24h em ventilação invasiva?
+            </Typography>
+          </FormLabel>
+          <FormControlLabel
+            control={
+              <Field
+                color="primary"
+                component={Switch}
+                type="checkbox"
+              />
+            }
+            label={<Typography variant="h5">Sim</Typography>}
+            name={name}
+          />
+        </FormGroup>
+      </Grid>
     ),
     fluxo_sangue: (
       <FieldGrid
@@ -96,8 +106,8 @@ const FieldComposerForm = props => {
         InputProps={{
           endAdornment: <InputAdornment position="start">l/min</InputAdornment>,
         }}
-        label="Fluxo de sangue"
         name={name}
+        title="Fluxo de sangue"
         type="number"
         variant="outlined"
       />
@@ -108,8 +118,8 @@ const FieldComposerForm = props => {
         InputProps={{
           endAdornment: <InputAdornment position="start">l/min</InputAdornment>,
         }}
-        label="Fluxo gasoso"
         name={name}
+        title="Fluxo gasoso"
         type="number"
         variant="outlined"
       />
@@ -120,8 +130,8 @@ const FieldComposerForm = props => {
         InputProps={{
           endAdornment: <InputAdornment position="start">l/min</InputAdornment>,
         }}
-        label="FiO₂"
         name={name}
+        title="FiO₂"
         type="number"
         variant="outlined"
       />
@@ -129,8 +139,8 @@ const FieldComposerForm = props => {
     data_pronacao: (
       <FieldGrid
         component={TextField}
-        label="Data de pronação"
         name={name}
+        title="Data de pronação"
         type="date"
         variant="outlined"
       />
@@ -143,8 +153,8 @@ const FieldComposerForm = props => {
             <InputAdornment position="start">hora(s)</InputAdornment>
           ),
         }}
-        label="Pronação"
         name={name}
+        title="Pronação"
         type="number"
         variant="outlined"
       />
@@ -152,8 +162,8 @@ const FieldComposerForm = props => {
     data_inclusao_desmame: (
       <FieldGrid
         component={TextField}
-        label="Em caso afirmativo, informe a data da inclusão do paciente no desmame"
         name={name}
+        title="Em caso afirmativo, informe a data da inclusão do paciente no desmame"
         type="date"
         variant="outlined"
       />

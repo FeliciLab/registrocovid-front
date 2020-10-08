@@ -24,6 +24,7 @@ import RespiratorySuportFormList from './components/RespiratorySuportFormList';
 import RespiratorySuportItemList from './components/RespiratorySuportItemList';
 
 import schema from './schema';
+import { PrevJSON } from 'components';
 
 const initialValues = {
   newSuportesRespitatorios: [],
@@ -190,7 +191,7 @@ const RespiratorySupport = () => {
             validateOnMount
             validationSchema={schema}
           >
-            {({ isSubmitting }) => (
+            {({ isSubmitting, values }) => (
               <Form component={FormControl}>
                 <div className={classes.titleWrapper}>
                   <Typography variant="h2">Suporte respiratório</Typography>
@@ -217,6 +218,11 @@ const RespiratorySupport = () => {
                   spacing={2}
                 >
                   <SelectRespiratorySuportType tipos={supportsTypes} />
+
+                  <PrevJSON
+                    data={values}
+                    name="Values.newSuportesRespitatorios"
+                  />
 
                   <RespiratorySuportFormList tipos={supportsTypes} />
 
