@@ -103,4 +103,4 @@ const NeurologicItem = ({ complicationData, separator }) => {
   );
 };
 
-export default NeurologicItem
+export default NeurologicItem;

@@ -1,55 +1,50 @@
-import React, {
-  useState,
-  useCallback,
-  useEffect,
-  useRef,
-  useMemo,
-} from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import {
   Typography,
   Button,
   CircularProgress,
-  Paper,
   Grid,
-  FormGroup,
-  FormLabel,
   FormControl,
-  Select,
-  MenuItem,
 } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
 
 import CustomBreadcrumbs from 'components/CustomBreadcrumbs';
 import PatientInfo from 'components/PatientInfo';
-import Form from './components/Form';
 
 import { useToast } from 'hooks/toast';
 import { usePatient } from 'context/PatientContext';
 
-import Records from './components';
-
 import api from 'services/api';
 
 import useStyles from './styles';
+import { Form, Formik } from 'formik';
+import SelectRespiratorySuportType from './components/SelectRespiratorySuportType';
+import RespiratorySuportFormList from './components/RespiratorySuportFormList';
+import RespiratorySuportItemList from './components/RespiratorySuportItemList';
+
+import schema from './schema';
+
+const initialValues = {
+  newSuportesRespitatorios: [],
+  tipoNewSuporteRespiratorioSelected: '',
+};
 
 const RespiratorySupport = () => {
   const classes = useStyles();
+
   const history = useHistory();
+
   const { addToast } = useToast();
+
   const { patient } = usePatient();
 
-  const formRef = useRef(null);
-  const selectedTratament = useRef();
-
   const [loading, setLoading] = useState(false);
+
   const [supportsTypes, setSupportsTypes] = useState([]);
   const [oldRecords, setOldRecords] = useState([]);
   const [pronacao, setPronacao] = useState([]);
   const [desmame, setDesmame] = useState([]);
-  const [newsRecords, setNewsRecords] = useState([]);
-  const [recordId, setRecordId] = useState(0);
 
   const handleInfos = useCallback(async () => {
     try {
@@ -63,17 +58,32 @@ const RespiratorySupport = () => {
       setSupportsTypes(supports.data);
 
       const tratamentoRecords = orderByDate(
-        patientRecords.data.tratamento_suporte,
+        patientRecords.data.suporte_respiratorio,
       );
+
       const pronacaoRecords = orderByDate(
         patientRecords.data.tratamento_pronacao,
       );
+
       const desmameRecords = orderByDate(
         patientRecords.data.tratamento_inclusao_desmame,
       );
+
       setOldRecords(tratamentoRecords);
-      setPronacao(pronacaoRecords);
-      setDesmame(desmameRecords);
+
+      setPronacao(
+        pronacaoRecords.map(item => {
+          item.tipo_suporte_id = 10; // Pronacao
+          return item;
+        }),
+      );
+
+      setDesmame(
+        desmameRecords.map(item => {
+          item.tipo_suporte_id = 11; // Desmame
+          return item;
+        }),
+      );
     } catch {
       addToast({
         type: 'error',
@@ -90,34 +100,48 @@ const RespiratorySupport = () => {
     handleInfos();
   }, [handleInfos]);
 
-  const handleSelect = event => {
-    selectedTratament.current = event.target.value;
-  };
+  const handleSubmit = useCallback(
+    async values => {
+      try {
+        const { newSuportesRespitatorios } = values;
 
-  const handleNewComplication = () => {
-    if (selectedTratament.current) {
-      const newTratament = {
-        id: recordId,
-        tratament: selectedTratament.current,
-      };
+        const newSuportesRespitatoriosSanitazed = newSuportesRespitatorios.map(
+          item => ({
+            tipo_suporte_id: Number(item.tipo_suporte_id),
+            fluxo_o2: item.fluxo_o2,
+            data_inicio: item.data_inicio,
+            data_termino: item.data_termino,
+            menos_24h_vmi: item.menos_24h_vmi,
+            concentracao_o2: item.concentracao_o2,
+            fluxo_sangue: item.fluxo_sangue,
+            fluxo_gasoso: item.fluxo_gasoso,
+            fio2: item.fio2,
+            data_pronacao: item.data_pronacao, // Pronacao
+            quantidade_horas: item.quantidade_horas, // Pronacao
+            data_inclusao_desmame: item.data_inclusao_desmame, // desmame
+          }),
+        );
 
-      setRecordId(oldState => oldState + 1);
-      setNewsRecords(oldState => [newTratament, ...oldState]);
-    }
-  };
+        await api.post(
+          `/pacientes/${patient.id}/suportes-respiratorios/`,
+          newSuportesRespitatoriosSanitazed,
+        );
 
-  const handleDelete = recordId => {
-    const updatedComplications = newsRecords.filter(
-      ({ id }) => id !== recordId,
-    );
-    setNewsRecords(updatedComplications);
+        addToast({
+          type: 'success',
+          message: 'Dados salvos com sucesso.',
+        });
 
-    formRef.current.setValues(recordId);
-  };
-
-  const handleSubmit = () => {
-    formRef.current.submit();
-  };
+        window.location.reload();
+      } catch (error) {
+        addToast({
+          type: 'error',
+          message: 'Erro ao tentar salvar as informações',
+        });
+      }
+    },
+    [patient.id, addToast],
+  );
 
   const orderByDate = array => {
     if (!array) {
@@ -141,19 +165,6 @@ const RespiratorySupport = () => {
     });
   };
 
-  const groupedOldRecords = useMemo(() => {
-    return oldRecords.reduce((acc, object) => {
-      let key = object['tipo_suporte_id'];
-
-      if (!acc[key]) {
-        acc[key] = [];
-      }
-      acc[key].push(object);
-
-      return acc;
-    }, {});
-  }, [oldRecords]);
-
   return (
     <div className={classes.root}>
       <div className={classes.header}>
@@ -168,165 +179,72 @@ const RespiratorySupport = () => {
           ]}
         />
       </div>
+      {loading ? (
+        <CircularProgress />
+      ) : (
+        <div className="container">
+          <Formik
+            enableReinitialize
+            initialValues={initialValues}
+            onSubmit={handleSubmit}
+            validateOnMount
+            validationSchema={schema}
+          >
+            {({ isSubmitting, values }) => (
+              <Form component={FormControl}>
+                <div className={classes.titleWrapper}>
+                  <Typography variant="h2">Suporte respiratório</Typography>
 
-      <div>
-        <div className={classes.titleWrapper}>
-          <Typography variant="h2">Suporte respiratório</Typography>
-
-          <div className={classes.rightContent}>
-            <PatientInfo />
-
-            <Button
-              className={classes.buttonSave}
-              color="secondary"
-              onClick={handleSubmit}
-              type="submit"
-              variant="contained"
-            >
-              Salvar
-            </Button>
-          </div>
-        </div>
-
-        {loading ? (
-          <CircularProgress />
-        ) : (
-          <div className="container">
-            <Grid
-              container
-              justify={'center'}
-            >
-              <Paper className={classes.centralPaper}>
-                <FormLabel>
-                  <Typography variant="h4">
-                    Escolher tipo de suporte ou procedimento:
-                  </Typography>
-                </FormLabel>
-
-                <div className={classes.headerForm}>
-                  <Grid
-                    item
-                    lg={8}
-                  >
-                    <FormGroup>
-                      <FormControl variant={'outlined'}>
-                        <Select
-                          className={classes.selectField}
-                          name="complication"
-                          onChange={handleSelect}
-                          value={selectedTratament.current}
-                        >
-                          <MenuItem
-                            disabled
-                            value={0}
-                          >
-                            Escolher
-                          </MenuItem>
-                          {supportsTypes.map(support => (
-                            <MenuItem
-                              key={String(support.id)}
-                              value={support.id}
-                            >
-                              {support.nome}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
-                    </FormGroup>
-                  </Grid>
-
-                  <Grid
-                    item
-                    lg={4}
-                  >
+                  <div className={classes.rightContent}>
+                    <PatientInfo />
                     <Button
                       className={classes.buttonSave}
                       color="secondary"
-                      onClick={handleNewComplication}
-                      startIcon={<AddIcon />}
-                      type="button"
+                      disabled={isSubmitting}
+                      type="submit"
                       variant="contained"
                     >
-                      Adicionar Ocorrência
+                      Salvar
                     </Button>
-                  </Grid>
+                  </div>
                 </div>
-
-                <Form
-                  className={classes.examsFormGroup}
-                  ref={formRef}
+                <Grid
+                  alignContent="center"
+                  alignItems="center"
+                  container
+                  direction="column"
+                  item
+                  spacing={2}
                 >
-                  {newsRecords.map(item => (
-                    <Records
-                      handleDelete={() => handleDelete(item.id)}
-                      id={item.id}
-                      isNew
-                      key={String(item.id)}
-                      newRecord={item.tratament}
-                      visible
+                  <SelectRespiratorySuportType tipos={supportsTypes} />
+
+                  <RespiratorySuportFormList tipos={supportsTypes} />
+
+                  {supportsTypes.map((tipo, index) => (
+                    <RespiratorySuportItemList
+                      descricao={tipo.nome}
+                      key={index}
+                      list={orderByDate(oldRecords).filter(
+                        item => tipo.id === item.tipo_suporte_id,
+                      )}
                     />
                   ))}
 
-                  {Object.entries(groupedOldRecords).map(element => {
-                    return [
-                      element[1].map(item => {
-                        return (
-                          <Records
-                            id={item.id}
-                            infos={item}
-                            isNew={false}
-                            key={String(item.id)}
-                            newRecord={item.tipo_suporte_id}
-                            visible
-                          />
-                        );
-                      }),
-                      <div
-                        className={classes.newExpPanel}
-                        key={String(Math.random())}
-                      />,
-                    ];
-                  })}
+                  <RespiratorySuportItemList
+                    descricao={'Proncacao'}
+                    list={orderByDate(pronacao)}
+                  />
 
-                  {[
-                    pronacao.map(item => (
-                      <Records
-                        id={item.id}
-                        infos={item}
-                        isNew={false}
-                        key={String(item.id)}
-                        newRecord={7}
-                        visible
-                      />
-                    )),
-                    <div
-                      className={classes.newExpPanel}
-                      key={String(Math.random())}
-                    />,
-                  ]}
-
-                  {[
-                    desmame.map(item => (
-                      <Records
-                        id={item.id}
-                        infos={item}
-                        isNew={false}
-                        key={String(item.id)}
-                        newRecord={8}
-                        visible
-                      />
-                    )),
-                    <div
-                      className={classes.newExpPanel}
-                      key={String(Math.random())}
-                    />,
-                  ]}
-                </Form>
-              </Paper>
-            </Grid>
-          </div>
-        )}
-      </div>
+                  <RespiratorySuportItemList
+                    descricao={'Inclusão em desmame da ventilação mecânica'}
+                    list={orderByDate(desmame)}
+                  />
+                </Grid>
+              </Form>
+            )}
+          </Formik>
+        </div>
+      )}
     </div>
   );
 };
