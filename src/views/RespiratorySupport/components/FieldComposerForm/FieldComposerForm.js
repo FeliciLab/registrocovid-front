@@ -128,7 +128,7 @@ const FieldComposerForm = props => {
       <FieldGrid
         component={TextField}
         InputProps={{
-          endAdornment: <InputAdornment position="start">l/min</InputAdornment>,
+          endAdornment: <InputAdornment position="start">%</InputAdornment>,
         }}
         name={name}
         title="FiO₂"
