@@ -168,31 +168,33 @@ const GeneralInfo = () => {
     handleInfos();
   }, [handleInfos]);
 
+  const links = patient.id ? (
+    <CustomBreadcrumbs
+      links={[
+        { label: 'Meus pacientes', route: '/meus-pacientes' },
+        { label: 'Categorias', route: '/categorias' },
+        {
+          label: 'Informações gerais',
+          route: '/categorias/informacoes-gerais',
+        },
+      ]}
+    />
+  ) : (
+    <CustomBreadcrumbs
+      links={[
+        { label: 'Meus pacientes', route: '/meus-pacientes' },
+        {
+          label: 'Informações gerais',
+          route: '/categorias/informacoes-gerais',
+        },
+      ]}
+    />
+  );
+
   return (
     <div className={classes.root}>
       <div className={classes.header}>
-        {patient.id ? (
-          <CustomBreadcrumbs
-            links={[
-              { label: 'Meus pacientes', route: '/meus-pacientes' },
-              { label: 'Categorias', route: '/categorias' },
-              {
-                label: 'Informações gerais',
-                route: '/categorias/informacoes-gerais',
-              },
-            ]}
-          />
-        ) : (
-          <CustomBreadcrumbs
-            links={[
-              { label: 'Meus pacientes', route: '/meus-pacientes' },
-              {
-                label: 'Informações gerais',
-                route: '/categorias/informacoes-gerais',
-              },
-            ]}
-          />
-        )}
+        {links}
       </div>
 
       <div className={classes.formWrapper}>
