@@ -171,7 +171,6 @@ const GeneralInfo = () => {
   return (
     <div className={classes.root}>
       <div className={classes.header}>
-        {console.log(patient)}
         {patient.id ? (
           <CustomBreadcrumbs
             links={[
