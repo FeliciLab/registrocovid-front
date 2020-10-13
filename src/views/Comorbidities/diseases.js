@@ -1,7 +1,7 @@
-import React, { useState, memo } from 'react'
+import React, { memo } from 'react'
 import PropTypes from 'prop-types'
-import { useFormikContext, Field, FieldArray } from 'formik'
-import { TextField, CheckboxWithLabel } from 'formik-material-ui'
+import { Field, FieldArray } from 'formik'
+import { CheckboxWithLabel } from 'formik-material-ui'
 import {
   Grid,
   Card,
@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core'
 
 const Diseases = (props) => {
-  console.log(props)
+  // const tipo_doenca = ['doenca_cardiaca', 'doenca_vascular_periferica', 'doenca_pulmonar_cronica', 'doenca_reumatologica', 'cancer', 'doenca_renal_cronica', 'doenca_hepatica_cronica', 'doenca_neurologica', 'doenca_tireoide', 'doenca_psiquiatrica'];
 
   return (
     <Grid
@@ -21,7 +21,7 @@ const Diseases = (props) => {
       <Card>
         <CardHeader
           title={props.header}
-          titleTypographyProps={{variant: 'h2'}}
+          titleTypographyProps={{ variant: 'h2' }}
         />
         <CardContent>
           <InputLabel htmlFor={props.header} >
@@ -44,14 +44,15 @@ const Diseases = (props) => {
           />
         </CardContent>
       </Card>
-      
+
     </Grid>
-      
+
   )
 }
 
 Diseases.defaultProps = {
   header: PropTypes.string.isRequired,
-  doencas: PropTypes.array.isRequired
+  doencas: PropTypes.array.isRequired,
+  type: PropTypes.number.isRequired
 }
 export default memo(Diseases);

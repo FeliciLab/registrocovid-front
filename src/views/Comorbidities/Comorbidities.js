@@ -32,8 +32,6 @@ import { useComorbidade } from 'context/ComorbidadesContext';
 import { usePatient } from 'context/PatientContext';
 import { useToast } from 'hooks/toast';
 
-import OutrasDoencasItem from './OutrasDoencasItem';
-
 import { Formik, Form, Field, FieldArray } from 'formik'
 import {
   TextField,
@@ -46,21 +44,6 @@ const Comorbidities = () => {
   const classes = useStyles();
   const history = useHistory();
 
-
-
-  const {
-    doencas,
-    orgaos,
-    corticosteroides,
-    addCard,
-    cards,
-    handleOrgaoId,
-    handleCorticosteroideId,
-    removeOrgaos,
-    removeCorticosteroides,
-    fetchDoencasAPI,
-  } = useComorbidade();
-
   const { patient } = usePatient();
 
   const { addToast } = useToast();
@@ -72,10 +55,6 @@ const Comorbidities = () => {
   const [selectedIds, setSelectedIds] = useState([]);
   const [diseases, setDiseases] = useState([]);
 
-  const [orgaosFromUser, setOrgaosFromUser] = useState([]);
-  const [doencasFromUser, setDoencasFromUser] = useState([]);
-  const [corticosteroidesFromUser, setCorticosteroidesFromUser] = useState([]);
-
   const [diabetes, setDiabetes] = useState(false);
   const [obesidade, setObesidade] = useState(false);
   const [hipertensao, setHipertensao] = useState(false);
@@ -83,15 +62,7 @@ const Comorbidities = () => {
   const [tuberculose, setTuberculose] = useState(false);
   const [neoplasia, setNeoplasia] = useState(false);
   const [quimioterapia, setQuimioterapia] = useState('');
-
-  const [transplantado, setTransplantado] = useState('');
-  const [corticosteroide, setCorticosteroide] = useState('');
-
-  const [gestacao, setGestacao] = useState('');
-  const [semanasGestacao, setSemanasGestacao] = useState(0);
-
-  const [puerperio, setPuerperio] = useState('');
-  const [semanasPuerperio, setSemanasPuerperio] = useState(0);
+  const [apiValues, setInitialValues] = useState({})
 
   const [outrasCondicoes, setOutrasCondicoes] = useState([]);
   const [medicacoes, setMedicacoes] = useState([]);
@@ -174,10 +145,6 @@ const Comorbidities = () => {
 
           const apiData = response.data;
 
-          setDoencasFromUser(apiData.doencas);
-          setCorticosteroidesFromUser(apiData.corticosteroides);
-          setOrgaosFromUser(apiData.orgaos);
-
           //chips
           setDiabetes(apiData.diabetes);
           setObesidade(apiData.obesidade);
@@ -187,41 +154,12 @@ const Comorbidities = () => {
           setNeoplasia(apiData.neoplasia);
           setQuimioterapia(apiData.quimioterapia);
 
-          setCorticosteroide(
-            apiData.corticosteroide === null
-              ? ''
-              : apiData.corticosteroide
-                ? 'sim'
-                : 'nao',
-          );
-          setTransplantado(
-            apiData.transplantado === null
-              ? ''
-              : apiData.transplantado
-                ? 'sim'
-                : 'nao',
-          );
-          setQuimioterapia(
-            apiData.quimioterapia === null
-              ? ''
-              : apiData.quimioterapia
-                ? 'sim'
-                : 'nao',
-          );
-          setGestacao(
-            apiData.gestacao === null ? '' : apiData.gestacao ? 'sim' : 'nao',
-          );
-          setSemanasGestacao(apiData.gestacao_semanas);
-          setPuerperio(
-            apiData.puerperio === null ? '' : apiData.puerperio ? 'sim' : 'nao',
-          );
-          setSemanasPuerperio(apiData.puerperio_semanas);
 
+          setInitialValues(apiData);
           setOutrasCondicoes(apiData.outras_condicoes);
           setMedicacoes(apiData.medicacoes);
 
-          // arrays de ids
-          fetchDoencasAPI(tiposDoenca, apiData.doencas, allDoencas);
+
         }
         setIsLoading(false);
       })
@@ -234,12 +172,13 @@ const Comorbidities = () => {
       });
     // eslint-disable-next-line
   }, []);
+  useEffect(() => {
+    console.log(apiValues);
+    console.log(initialValues);
+  }, [apiValues])
 
   const handleSubmit = async (values) => {
 
-    console.log(values);
-    console.log(allDoencas);
-    return
 
     if (visualization) {
       return;
@@ -253,34 +192,56 @@ const Comorbidities = () => {
       quimioterapia,
       HIV: hiv,
       tuberculose,
-      gestacao_semanas: semanasGestacao,
-      puerperio_semanas: semanasPuerperio,
-      doencas,
-      orgaos,
-      corticosteroides,
+      gestacao_semanas: values.gestacao_semanas,
+      puerperio_semanas: values.puerperio_semanas,
       outras_condicoes: outrasCondicoes,
       medicacoes,
     };
 
-    if (quimioterapia) {
-      submitData.quimioterapia = quimioterapia === 'sim';
-    }
+    Object.entries(values).forEach((entrie) => {
+      if (Array.isArray(entrie[1])) {
+        let array_values = [];
+        entrie[1].forEach((v, index) => v ? array_values.push(index + 1) : '');
+        submitData[`${entrie[0]}`] = array_values;
+      } else if (typeof entrie[1] === 'string') {
+        submitData[`${entrie[0]}`] = entrie[1] === 'sim' ? true : false
+      }
+    })
 
-    if (transplantado) {
-      submitData.transplantado = transplantado === 'sim';
-    }
-
-    if (gestacao) {
-      submitData.gestacao = gestacao === 'sim';
-    }
-
-    if (puerperio) {
-      submitData.puerperio = puerperio === 'sim';
-    }
-
-    if (corticosteroide) {
-      submitData.corticosteroide = corticosteroide === 'sim';
-    }
+    selectedIds.forEach(id => {
+      switch (id) {
+        case 1:
+          submitData.doenca_cardiaca = true;
+          break;
+        case 2:
+          submitData.doenca_vascular_periferica = true;
+          break;
+        case 3:
+          submitData.doenca_pulmonar_cronica = true;
+          break;
+        case 4:
+          submitData.doenca_reumatologica = true;
+          break;
+        case 5:
+          submitData.cancer = true;
+          break;
+        case 6:
+          submitData.doenca_renal_cronica = true;
+          break;
+        case 7:
+          submitData.doenca_hepatica_cronica = true;
+          break;
+        case 8:
+          submitData.doenca_neurologica = true;
+          break;
+        case 9:
+          submitData.doenca_tireoide = true;
+          break;
+        case 10:
+          submitData.doenca_psiquiatrica = true;
+          break;
+      }
+    });
 
     setIsSaving(true);
     try {
@@ -315,14 +276,28 @@ const Comorbidities = () => {
     }
   }
   const initialValues = {
-    quimioterapia: '',
-    transplantado: '',
-    corticoides: '',
-    gestacao: '',
-    puerperio: '',
-    orgaos: allOrgaos.map(() => false),
-    corticosteroides: allCorticosteroides.map(() => false),
-    doencas: allDoencas.map(() => false)
+    quimioterapia: apiValues.quimioterapia === true? 'sim' : apiValues.quimioterapia === false? 'nao' : '',
+    transplantado: apiValues.transplantado === true? 'sim' : apiValues.transplantado === false? 'nao' : '',
+    corticosteroide: apiValues.corticosteroide === true? 'sim' : apiValues.corticosteroide === false? 'nao' : '',
+    gestacao: apiValues.gestacao === true? 'sim' : apiValues.gestacao === false? 'nao' : '',
+    gestacao_semanas: apiValues.gestacao_semanas || '',
+    puerperio_semanas: apiValues.puerperio_semanas || '',
+    puerperio: apiValues.puerperio === true? 'sim' : apiValues.puerperio === false? 'nao' : '',
+
+    orgaos: allOrgaos.map(ao => apiValues.orgaos? apiValues.orgaos.some(or => or.id === ao.id) : false),
+    corticosteroides: allCorticosteroides.map(ac => apiValues.corticosteroides? apiValues.corticosteroides.some(co => co.id === ac.id) : false),
+    doencas: allDoencas.map(ad => apiValues.doencas? apiValues.doencas.some(doenca => doenca.id === ad.id) : false),
+
+    doenca_cardiaca: apiValues.doenca_cardiaca === true? 'sim' : apiValues.doenca_cardiaca === false? 'nao' : '',
+    doenca_vascular_periferica: apiValues.doenca_vascular_periferica === true? 'sim' : apiValues.doenca_vascular_periferica === false? 'nao' : '',
+    doenca_pulmonar_cronica: apiValues.doenca_pulmonar_cronica === true? 'sim' : apiValues.doenca_pulmonar_cronica === false? 'nao' : '',
+    doenca_reumatologica: apiValues.doenca_reumatologica === true? 'sim' : apiValues.doenca_reumatologica === false? 'nao' : '',
+    cancer: apiValues.cancer === true? 'sim' : apiValues.cancer === false? 'nao' : '',
+    doenca_renal_cronica: apiValues.doenca_renal_cronica === true? 'sim' : apiValues.doenca_renal_cronica === false? 'nao' : '',
+    doenca_hepatica_cronica: apiValues.doenca_hepatica_cronica === true? 'sim' : apiValues.doenca_hepatica_cronica === false? 'nao' : '',
+    doenca_neurologica: apiValues.doenca_neurologica === true? 'sim' : apiValues.doenca_neurologica === false? 'nao' : '',
+    doenca_tireoide: apiValues.doenca_tireoide === true? 'sim' : apiValues.doenca_tireoide === false? 'nao' : '',
+    doenca_psiquiatrica: apiValues.doenca_psiquiatrica === true? 'sim' : apiValues.doenca_psiquiatrica === false? 'nao' : ''
   }
 
   return (
@@ -362,7 +337,7 @@ const Comorbidities = () => {
                     xs={6}
                   >
                     <Typography variant="h3">Comorbidades / Condições clínicas de base</Typography>
-                  </Grid> 
+                  </Grid>
                   <Grid
                     item
                     xs={3}
@@ -475,7 +450,7 @@ const Comorbidities = () => {
                       className={classes.label}
                       htmlFor="diseaseTypeSelect"
                     >Acrescente outras doenças que o paciente apresenta</InputLabel>
-                    <Grid 
+                    <Grid
                       alignItems={'center'}
                       container
                     >
@@ -613,12 +588,12 @@ const Comorbidities = () => {
                   >
                     <InputLabel
                       className={classes.label}
-                      htmlFor="corticoides"
+                      htmlFor="corticosteroide"
                     >Faz uso crônico de corticóides?</InputLabel>
                     <Field
                       component={RadioGroup}
-                      id="corticoides"
-                      name="corticoides"
+                      id="corticosteroide"
+                      name="corticosteroide"
                       row
                     >
                       <FormControlLabel
@@ -635,7 +610,7 @@ const Comorbidities = () => {
                       />
                     </Field>
                   </Grid>
-                  {values.corticoides === 'sim' && (
+                  {values.corticosteroide === 'sim' && (
                     <Grid
                       item
                       xs={12}
@@ -698,13 +673,13 @@ const Comorbidities = () => {
                     >
                       <InputLabel
                         className={classes.label}
-                        htmlFor="wGestacao"
+                        htmlFor="gestacao_semanas"
                       >Há quantas semanas?</InputLabel>
-                      <div id="wGestacao">
+                      <div id="gestacao_semanas">
                         <Field
                           component={TextField}
                           fullWidth
-                          name={'wGestacao'}
+                          name={'gestacao_semanas'}
                           type={'number'}
                         />
                       </div>
@@ -747,13 +722,13 @@ const Comorbidities = () => {
                     >
                       <InputLabel
                         className={classes.label}
-                        htmlFor="wPuerperio"
+                        htmlFor="puerperio_semanas"
                       >Há quantas semanas?</InputLabel>
-                      <div id="wPuerperio">
+                      <div id="puerperio_semanas">
                         <Field
                           component={TextField}
                           fullWidth
-                          name={'wPuerperio'}
+                          name={'puerperio_semanas'}
                           type={'number'}
                         />
                       </div>
@@ -838,7 +813,7 @@ const Comorbidities = () => {
                         className={classes.label}
                         component="legend"
                       >
-                        Medicações de uso contínuo
+                          Medicações de uso contínuo
                       </FormLabel>
                       <div className={classes.buttonWrapper}>
                         <MuiTextField
@@ -871,28 +846,28 @@ const Comorbidities = () => {
                           type="button"
                           variant="contained"
                         >
-                          Adicionar
+                            Adicionar
                         </Button>
                       </div>
                       <div className={classes.chipWrapper}>
                         {medicacoes &&
-                          medicacoes.map((medicacao, index) => (
-                            <Chip
-                              color="primary"
-                              key={index}
-                              label={medicacao}
-                              onDelete={() => {
-                                setMedicacoes(
-                                  medicacoes.filter(
-                                    medicacao2 => medicacao2 !== medicacao,
-                                  ),
-                                );
-                              }}
-                            />
-                          ))}
+                            medicacoes.map((medicacao, index) => (
+                              <Chip
+                                color="primary"
+                                key={index}
+                                label={medicacao}
+                                onDelete={() => {
+                                  setMedicacoes(
+                                    medicacoes.filter(
+                                      medicacao2 => medicacao2 !== medicacao,
+                                    ),
+                                  );
+                                }}
+                              />
+                            ))}
                       </div>
                     </FormGroup>
-                  
+
                   </Grid>
                 </Grid>
               </Form>
