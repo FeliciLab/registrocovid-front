@@ -16,8 +16,7 @@ import {
   Chip,
   TextField as MuiTextField,
   FormGroup,
-  FormLabel
-
+  FormLabel,
 } from '@material-ui/core';
 
 import schema from './schema';
@@ -32,12 +31,8 @@ import { useComorbidade } from 'context/ComorbidadesContext';
 import { usePatient } from 'context/PatientContext';
 import { useToast } from 'hooks/toast';
 
-import { Formik, Form, Field, FieldArray } from 'formik'
-import {
-  TextField,
-  RadioGroup,
-  CheckboxWithLabel,
-} from 'formik-material-ui';
+import { Formik, Form, Field, FieldArray } from 'formik';
+import { TextField, RadioGroup, CheckboxWithLabel } from 'formik-material-ui';
 import Diseases from './diseases';
 
 const Comorbidities = () => {
@@ -62,7 +57,7 @@ const Comorbidities = () => {
   const [tuberculose, setTuberculose] = useState(false);
   const [neoplasia, setNeoplasia] = useState(false);
   const [quimioterapia, setQuimioterapia] = useState('');
-  const [apiValues, setInitialValues] = useState({})
+  const [apiValues, setInitialValues] = useState({});
 
   const [outrasCondicoes, setOutrasCondicoes] = useState([]);
   const [medicacoes, setMedicacoes] = useState([]);
@@ -154,12 +149,9 @@ const Comorbidities = () => {
           setNeoplasia(apiData.neoplasia);
           setQuimioterapia(apiData.quimioterapia);
 
-
           setInitialValues(apiData);
           setOutrasCondicoes(apiData.outras_condicoes);
           setMedicacoes(apiData.medicacoes);
-
-
         }
         setIsLoading(false);
       })
@@ -175,11 +167,9 @@ const Comorbidities = () => {
   useEffect(() => {
     console.log(apiValues);
     console.log(initialValues);
-  }, [apiValues])
+  }, [apiValues]);
 
-  const handleSubmit = async (values) => {
-
-
+  const handleSubmit = async values => {
     if (visualization) {
       return;
     }
@@ -198,15 +188,17 @@ const Comorbidities = () => {
       medicacoes,
     };
 
-    Object.entries(values).forEach((entrie) => {
+    Object.entries(values).forEach(entrie => {
       if (Array.isArray(entrie[1])) {
         let array_values = [];
-        entrie[1].forEach((v, index) => v ? array_values.push(index + 1) : '');
+        entrie[1].forEach((v, index) =>
+          v ? array_values.push(index + 1) : '',
+        );
         submitData[`${entrie[0]}`] = array_values;
       } else if (typeof entrie[1] === 'string') {
-        submitData[`${entrie[0]}`] = entrie[1] === 'sim' ? true : false
+        submitData[`${entrie[0]}`] = entrie[1] === 'sim' ? true : false;
       }
-    })
+    });
 
     selectedIds.forEach(id => {
       switch (id) {
@@ -264,41 +256,138 @@ const Comorbidities = () => {
   };
 
   const handleAdd = () => {
-    console.log(selectedField, selectedIds)
+    console.log(selectedField, selectedIds);
     if (!selectedIds.includes(selectedField.id)) {
-      const disease =
+      // const disease =
+      //   <Diseases
+      //     doencas={allDoencas.filter(d => d.tipo_doenca_id === selectedField.id)}
+      //     header={selectedField.descricao}
+      //   />
+
+      // Felipe eu não sei se era isso, porém eu fiz um filtro aqui. Não entendi
+      // direito o que você quis dizer
+      const disease = tiposDoenca.map(tipo => (
         <Diseases
-          doencas={allDoencas.filter(d => d.tipo_doenca_id === selectedField.id)}
-          header={selectedField.descricao}
+          doencas={allDoencas.filter(
+            d => d.tipo_doenca_id === tipo.id,
+          )}
+          header={tipo.descricao}
         />
-      setDiseases(old => [disease, ...old])
-      setSelectedIds(old => [...old, selectedField.id])
+      ));
+
+      setDiseases(old => [disease, ...old]);
+      setSelectedIds(old => [...old, selectedField.id]);
     }
-  }
+  };
   const initialValues = {
-    quimioterapia: apiValues.quimioterapia === true? 'sim' : apiValues.quimioterapia === false? 'nao' : '',
-    transplantado: apiValues.transplantado === true? 'sim' : apiValues.transplantado === false? 'nao' : '',
-    corticosteroide: apiValues.corticosteroide === true? 'sim' : apiValues.corticosteroide === false? 'nao' : '',
-    gestacao: apiValues.gestacao === true? 'sim' : apiValues.gestacao === false? 'nao' : '',
+    quimioterapia:
+      apiValues.quimioterapia === true
+        ? 'sim'
+        : apiValues.quimioterapia === false
+          ? 'nao'
+          : '',
+    transplantado:
+      apiValues.transplantado === true
+        ? 'sim'
+        : apiValues.transplantado === false
+          ? 'nao'
+          : '',
+    corticosteroide:
+      apiValues.corticosteroide === true
+        ? 'sim'
+        : apiValues.corticosteroide === false
+          ? 'nao'
+          : '',
+    gestacao:
+      apiValues.gestacao === true
+        ? 'sim'
+        : apiValues.gestacao === false
+          ? 'nao'
+          : '',
     gestacao_semanas: apiValues.gestacao_semanas || '',
     puerperio_semanas: apiValues.puerperio_semanas || '',
-    puerperio: apiValues.puerperio === true? 'sim' : apiValues.puerperio === false? 'nao' : '',
+    puerperio:
+      apiValues.puerperio === true
+        ? 'sim'
+        : apiValues.puerperio === false
+          ? 'nao'
+          : '',
 
-    orgaos: allOrgaos.map(ao => apiValues.orgaos? apiValues.orgaos.some(or => or.id === ao.id) : false),
-    corticosteroides: allCorticosteroides.map(ac => apiValues.corticosteroides? apiValues.corticosteroides.some(co => co.id === ac.id) : false),
-    doencas: allDoencas.map(ad => apiValues.doencas? apiValues.doencas.some(doenca => doenca.id === ad.id) : false),
+    orgaos: allOrgaos.map(ao =>
+      apiValues.orgaos ? apiValues.orgaos.some(or => or.id === ao.id) : false,
+    ),
+    corticosteroides: allCorticosteroides.map(ac =>
+      apiValues.corticosteroides
+        ? apiValues.corticosteroides.some(co => co.id === ac.id)
+        : false,
+    ),
+    doencas: allDoencas.map(ad =>
+      apiValues.doencas
+        ? apiValues.doencas.some(doenca => doenca.id === ad.id)
+        : false,
+    ),
 
-    doenca_cardiaca: apiValues.doenca_cardiaca === true? 'sim' : apiValues.doenca_cardiaca === false? 'nao' : '',
-    doenca_vascular_periferica: apiValues.doenca_vascular_periferica === true? 'sim' : apiValues.doenca_vascular_periferica === false? 'nao' : '',
-    doenca_pulmonar_cronica: apiValues.doenca_pulmonar_cronica === true? 'sim' : apiValues.doenca_pulmonar_cronica === false? 'nao' : '',
-    doenca_reumatologica: apiValues.doenca_reumatologica === true? 'sim' : apiValues.doenca_reumatologica === false? 'nao' : '',
-    cancer: apiValues.cancer === true? 'sim' : apiValues.cancer === false? 'nao' : '',
-    doenca_renal_cronica: apiValues.doenca_renal_cronica === true? 'sim' : apiValues.doenca_renal_cronica === false? 'nao' : '',
-    doenca_hepatica_cronica: apiValues.doenca_hepatica_cronica === true? 'sim' : apiValues.doenca_hepatica_cronica === false? 'nao' : '',
-    doenca_neurologica: apiValues.doenca_neurologica === true? 'sim' : apiValues.doenca_neurologica === false? 'nao' : '',
-    doenca_tireoide: apiValues.doenca_tireoide === true? 'sim' : apiValues.doenca_tireoide === false? 'nao' : '',
-    doenca_psiquiatrica: apiValues.doenca_psiquiatrica === true? 'sim' : apiValues.doenca_psiquiatrica === false? 'nao' : ''
-  }
+    doenca_cardiaca:
+      apiValues.doenca_cardiaca === true
+        ? 'sim'
+        : apiValues.doenca_cardiaca === false
+          ? 'nao'
+          : '',
+    doenca_vascular_periferica:
+      apiValues.doenca_vascular_periferica === true
+        ? 'sim'
+        : apiValues.doenca_vascular_periferica === false
+          ? 'nao'
+          : '',
+    doenca_pulmonar_cronica:
+      apiValues.doenca_pulmonar_cronica === true
+        ? 'sim'
+        : apiValues.doenca_pulmonar_cronica === false
+          ? 'nao'
+          : '',
+    doenca_reumatologica:
+      apiValues.doenca_reumatologica === true
+        ? 'sim'
+        : apiValues.doenca_reumatologica === false
+          ? 'nao'
+          : '',
+    cancer:
+      apiValues.cancer === true
+        ? 'sim'
+        : apiValues.cancer === false
+          ? 'nao'
+          : '',
+    doenca_renal_cronica:
+      apiValues.doenca_renal_cronica === true
+        ? 'sim'
+        : apiValues.doenca_renal_cronica === false
+          ? 'nao'
+          : '',
+    doenca_hepatica_cronica:
+      apiValues.doenca_hepatica_cronica === true
+        ? 'sim'
+        : apiValues.doenca_hepatica_cronica === false
+          ? 'nao'
+          : '',
+    doenca_neurologica:
+      apiValues.doenca_neurologica === true
+        ? 'sim'
+        : apiValues.doenca_neurologica === false
+          ? 'nao'
+          : '',
+    doenca_tireoide:
+      apiValues.doenca_tireoide === true
+        ? 'sim'
+        : apiValues.doenca_tireoide === false
+          ? 'nao'
+          : '',
+    doenca_psiquiatrica:
+      apiValues.doenca_psiquiatrica === true
+        ? 'sim'
+        : apiValues.doenca_psiquiatrica === false
+          ? 'nao'
+          : '',
+  };
 
   return (
     <div className={classes.root}>
@@ -336,7 +425,9 @@ const Comorbidities = () => {
                     item
                     xs={6}
                   >
-                    <Typography variant="h3">Comorbidades / Condições clínicas de base</Typography>
+                    <Typography variant="h3">
+                      Comorbidades / Condições clínicas de base
+                    </Typography>
                   </Grid>
                   <Grid
                     item
@@ -355,7 +446,7 @@ const Comorbidities = () => {
                       type="submit"
                       variant="contained"
                     >
-                        Salvar
+                      Salvar
                     </Button>
                   </Grid>
                 </Grid>
@@ -374,7 +465,9 @@ const Comorbidities = () => {
                     <InputLabel
                       className={classes.label}
                       htmlFor="chips"
-                    >Selecione as doenças que o paciente apresenta</InputLabel>
+                    >
+                      Selecione as doenças que o paciente apresenta
+                    </InputLabel>
                     <div
                       className={classes.chipWrapper}
                       id="chips"
@@ -449,7 +542,9 @@ const Comorbidities = () => {
                     <InputLabel
                       className={classes.label}
                       htmlFor="diseaseTypeSelect"
-                    >Acrescente outras doenças que o paciente apresenta</InputLabel>
+                    >
+                      Acrescente outras doenças que o paciente apresenta
+                    </InputLabel>
                     <Grid
                       alignItems={'center'}
                       container
@@ -491,10 +586,9 @@ const Comorbidities = () => {
                           type="button"
                           variant="contained"
                         >
-                            Adicionar
+                          Adicionar
                         </Button>
                       </Grid>
-
                     </Grid>
                   </Grid>
                   {diseases}
@@ -505,7 +599,9 @@ const Comorbidities = () => {
                     <InputLabel
                       className={classes.label}
                       htmlFor="quimioterapia"
-                    >Quimioterapia</InputLabel>
+                    >
+                      Quimioterapia
+                    </InputLabel>
                     <Field
                       component={RadioGroup}
                       id="quimioterapia"
@@ -533,7 +629,9 @@ const Comorbidities = () => {
                     <InputLabel
                       className={classes.label}
                       htmlFor="transplantado"
-                    >Transplantado</InputLabel>
+                    >
+                      Transplantado
+                    </InputLabel>
                     <Field
                       component={RadioGroup}
                       id="transplantado"
@@ -562,21 +660,22 @@ const Comorbidities = () => {
                       <InputLabel
                         className={classes.label}
                         htmlFor="orgaos"
-                      >Quais órgãos?</InputLabel>
+                      >
+                        Quais órgãos?
+                      </InputLabel>
                       <div id="orgaos">
                         <FieldArray
                           name={'orgaos'}
-                          render={() => (
-                            allOrgaos.map((orgao, index) =>
-                              (<Field
-                                Label={{ label: orgao.descricao }}
+                          render={() =>
+                            allOrgaos.map((orgao, index) => (
+                              <Field
                                 component={CheckboxWithLabel}
                                 key={index}
+                                Label={{ label: orgao.descricao }}
                                 name={`orgaos.${orgao.id - 1}`}
                                 type={'checkbox'}
-                              />)
-                            )
-                          )
+                              />
+                            ))
                           }
                         />
                       </div>
@@ -589,7 +688,9 @@ const Comorbidities = () => {
                     <InputLabel
                       className={classes.label}
                       htmlFor="corticosteroide"
-                    >Faz uso crônico de corticóides?</InputLabel>
+                    >
+                      Faz uso crônico de corticóides?
+                    </InputLabel>
                     <Field
                       component={RadioGroup}
                       id="corticosteroide"
@@ -618,21 +719,25 @@ const Comorbidities = () => {
                       <InputLabel
                         className={classes.label}
                         htmlFor="corticosteroides"
-                      >Quais corticosteroides?</InputLabel>
+                      >
+                        Quais corticosteroides?
+                      </InputLabel>
                       <div id="corticosteroides">
                         <FieldArray
                           name={'corticosteroides'}
-                          render={() => (
-                            allCorticosteroides.map((corticosteroide, index) =>
-                              (<Field
-                                Label={{ label: corticosteroide.descricao }}
-                                component={CheckboxWithLabel}
-                                key={index}
-                                name={`corticosteroides.${corticosteroide.id - 1}`}
-                                type={'checkbox'}
-                              />)
+                          render={() =>
+                            allCorticosteroides.map(
+                              (corticosteroide, index) => (
+                                <Field
+                                  component={CheckboxWithLabel}
+                                  key={index}
+                                  Label={{ label: corticosteroide.descricao }}
+                                  name={`corticosteroides.${corticosteroide.id -
+                                    1}`}
+                                  type={'checkbox'}
+                                />
+                              ),
                             )
-                          )
                           }
                         />
                       </div>
@@ -645,7 +750,9 @@ const Comorbidities = () => {
                     <InputLabel
                       className={classes.label}
                       htmlFor="gestacao"
-                    >Gestação</InputLabel>
+                    >
+                      Gestação
+                    </InputLabel>
                     <Field
                       component={RadioGroup}
                       id="gestacao"
@@ -674,7 +781,9 @@ const Comorbidities = () => {
                       <InputLabel
                         className={classes.label}
                         htmlFor="gestacao_semanas"
-                      >Há quantas semanas?</InputLabel>
+                      >
+                        Há quantas semanas?
+                      </InputLabel>
                       <div id="gestacao_semanas">
                         <Field
                           component={TextField}
@@ -686,7 +795,6 @@ const Comorbidities = () => {
                     </Grid>
                   )}
 
-
                   <Grid
                     item
                     xs={12}
@@ -694,7 +802,9 @@ const Comorbidities = () => {
                     <InputLabel
                       className={classes.label}
                       htmlFor="puerperio"
-                    >Puerpério</InputLabel>
+                    >
+                      Puerpério
+                    </InputLabel>
                     <Field
                       component={RadioGroup}
                       id="puerperio"
@@ -723,7 +833,9 @@ const Comorbidities = () => {
                       <InputLabel
                         className={classes.label}
                         htmlFor="puerperio_semanas"
-                      >Há quantas semanas?</InputLabel>
+                      >
+                        Há quantas semanas?
+                      </InputLabel>
                       <div id="puerperio_semanas">
                         <Field
                           component={TextField}
@@ -746,7 +858,7 @@ const Comorbidities = () => {
                         className={classes.label}
                         component="legend"
                       >
-                          Outras condições
+                        Outras condições
                       </FormLabel>
                       <div className={classes.buttonWrapper}>
                         <MuiTextField
@@ -767,7 +879,8 @@ const Comorbidities = () => {
                             }
 
                             const exists = outrasCondicoes.some(
-                              outraCondicao2 => outraCondicao2 === outraCondicao,
+                              outraCondicao2 =>
+                                outraCondicao2 === outraCondicao,
                             );
 
                             if (!exists) {
@@ -781,28 +894,28 @@ const Comorbidities = () => {
                           type="button"
                           variant="contained"
                         >
-                            Adicionar
+                          Adicionar
                         </Button>
                       </div>
                       <div className={classes.chipWrapper}>
                         {outrasCondicoes &&
-                            outrasCondicoes.map((outraCondicao, index) => (
-                              <Chip
-                                color="primary"
-                                key={index}
-                                label={outraCondicao}
-                                onDelete={() => {
-                                  setOutrasCondicoes(
-                                    outrasCondicoes.filter(
-                                      outraCondicao2 => outraCondicao2 !== outraCondicao,
-                                    ),
-                                  );
-                                }}
-                              />
-                            ))}
+                          outrasCondicoes.map((outraCondicao, index) => (
+                            <Chip
+                              color="primary"
+                              key={index}
+                              label={outraCondicao}
+                              onDelete={() => {
+                                setOutrasCondicoes(
+                                  outrasCondicoes.filter(
+                                    outraCondicao2 =>
+                                      outraCondicao2 !== outraCondicao,
+                                  ),
+                                );
+                              }}
+                            />
+                          ))}
                       </div>
                     </FormGroup>
-
                   </Grid>
                   <Grid
                     item
@@ -813,7 +926,7 @@ const Comorbidities = () => {
                         className={classes.label}
                         component="legend"
                       >
-                          Medicações de uso contínuo
+                        Medicações de uso contínuo
                       </FormLabel>
                       <div className={classes.buttonWrapper}>
                         <MuiTextField
@@ -846,28 +959,27 @@ const Comorbidities = () => {
                           type="button"
                           variant="contained"
                         >
-                            Adicionar
+                          Adicionar
                         </Button>
                       </div>
                       <div className={classes.chipWrapper}>
                         {medicacoes &&
-                            medicacoes.map((medicacao, index) => (
-                              <Chip
-                                color="primary"
-                                key={index}
-                                label={medicacao}
-                                onDelete={() => {
-                                  setMedicacoes(
-                                    medicacoes.filter(
-                                      medicacao2 => medicacao2 !== medicacao,
-                                    ),
-                                  );
-                                }}
-                              />
-                            ))}
+                          medicacoes.map((medicacao, index) => (
+                            <Chip
+                              color="primary"
+                              key={index}
+                              label={medicacao}
+                              onDelete={() => {
+                                setMedicacoes(
+                                  medicacoes.filter(
+                                    medicacao2 => medicacao2 !== medicacao,
+                                  ),
+                                );
+                              }}
+                            />
+                          ))}
                       </div>
                     </FormGroup>
-
                   </Grid>
                 </Grid>
               </Form>
