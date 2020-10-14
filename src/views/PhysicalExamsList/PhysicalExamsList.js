@@ -75,7 +75,8 @@ const PhysicalExamsList = () => {
             color="secondary"
             onClick={() => handleNavigate('/categorias/exame-fisico')}
             type="submit"
-            variant="contained">
+            variant="contained"
+          >
             <AddIcon fontSize="small" />
             INSERIR NOVA OCORRÊNCIA
           </Button>
@@ -91,7 +92,8 @@ const PhysicalExamsList = () => {
               alignItems="center"
               className={classes.mainGrid}
               container
-              justify="center">
+              justify="center"
+            >
               <NotToShowImg label="Nenhum Exame Encontrado" />
             </Grid>
           </>
@@ -101,11 +103,15 @@ const PhysicalExamsList = () => {
             <TableContainer
               component={Paper}
               elevation={2}
-              style={{ marginTop: 10 }}>
+              style={{ marginTop: 10 }}
+            >
               <Table size="small">
                 <TableHead>
                   <TableRow>
-                    <TableCell className={classes.tableCellHead} colSpan={2}>
+                    <TableCell
+                      className={classes.tableCellHead}
+                      colSpan={2}
+                    >
                       Data de Evolução
                     </TableCell>
                   </TableRow>
@@ -117,8 +123,12 @@ const PhysicalExamsList = () => {
                       key={exam.id}
                       onClick={() =>
                         handleNavigate(`/categorias/exame-fisico/${exam.id}`)
-                      }>
-                      <TableCell component="th" scope="row">
+                      }
+                    >
+                      <TableCell
+                        component="th"
+                        scope="row"
+                      >
                         {formatDate(exam.data_evolucao)}
                       </TableCell>
                       <TableCell align="right">

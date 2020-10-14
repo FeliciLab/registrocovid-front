@@ -11,7 +11,7 @@
     "test:nowatch": "NODE_ICU_DATA=node_modules/full-icu react-scripts test --watchAll=false  --env jest-environment-jsdom-fourteen",
     "eject": "react-scripts eject",
     "server": "json-server -p 4000 -d 500 dbfake.json",
-    "lint": "yarn run eslint src --ext js --fix"
+    "lint": "eslint src --ext js --fix"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -61,6 +61,7 @@
     "yup": "^0.29.1"
   },
   "devDependencies": {
+    "@types/testing-library__jest-dom": "^5.9.4",
     "eslint": "^6.6.0",
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "^7.12.4",

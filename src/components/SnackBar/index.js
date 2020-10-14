@@ -7,11 +7,15 @@ import MuiAlert from '@material-ui/lab/Alert';
 import { useToast } from 'hooks/toast';
 
 function Alert(props) {
-  return <MuiAlert
-    elevation={6}
-    variant="filled"
-    {...props}
-         />;
+  return (
+    <>
+      <MuiAlert
+        elevation={6}
+        variant="filled"
+        {...props}
+      />
+    </>
+  );
 }
 
 const Toast = ({ toast }) => {
