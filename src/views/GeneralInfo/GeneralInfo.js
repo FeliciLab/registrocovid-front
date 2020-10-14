@@ -22,6 +22,7 @@ import { useToast } from 'hooks/toast';
 import { usePatient } from 'context/PatientContext';
 import api from 'services/api';
 import formatDate from 'helpers/formatDate';
+import { PrevJSON } from 'components';
 
 const loadInitialValues = patient => {
   let initialValues = {
@@ -34,6 +35,7 @@ const loadInitialValues = patient => {
     tipo_suport_respiratorio: '',
     reinternacao: false,
     chegou_traqueostomizado: false,
+    data_inicio_sintomas: '', // usado apenas para as validations
   };
 
   if (patient && patient.prontuario) {
@@ -54,6 +56,7 @@ const loadInitialValues = patient => {
           ? patient.tipo_suporte_respiratorios[0].id
           : '',
       chegou_traqueostomizado: patient.chegou_traqueostomizado,
+      data_inicio_sintomas: patient.data_inicio_sintomas,
     };
   }
 
@@ -63,6 +66,9 @@ const loadInitialValues = patient => {
 const GeneralInfo = () => {
   const { addToast } = useToast();
   const { patient, addPatient } = usePatient();
+
+  const { data_inicio_sintomas } = patient;
+
   const history = useHistory();
   const classes = useStyles();
 
@@ -168,29 +174,27 @@ const GeneralInfo = () => {
     handleInfos();
   }, [handleInfos]);
 
-  const links = patient.id ? ([
-    { label: 'Meus pacientes', route: '/meus-pacientes' },
-    { label: 'Categorias', route: '/categorias' },
-    {
-      label: 'Informações gerais',
-      route: '/categorias/informacoes-gerais',
-    },
-  ]
-  ) : ([
-    { label: 'Meus pacientes', route: '/meus-pacientes' },
-    {
-      label: 'Informações gerais',
-      route: '/categorias/informacoes-gerais',
-    },
-  ]
-  );
+  const links = patient.id
+    ? [
+      { label: 'Meus pacientes', route: '/meus-pacientes' },
+      { label: 'Categorias', route: '/categorias' },
+      {
+        label: 'Informações gerais',
+        route: '/categorias/informacoes-gerais',
+      },
+    ]
+    : [
+      { label: 'Meus pacientes', route: '/meus-pacientes' },
+      {
+        label: 'Informações gerais',
+        route: '/categorias/informacoes-gerais',
+      },
+    ];
 
   return (
     <div className={classes.root}>
       <div className={classes.header}>
-        <CustomBreadcrumbs
-          links={links}
-        />
+        <CustomBreadcrumbs links={links} />
       </div>
 
       <div className={classes.formWrapper}>
@@ -200,7 +204,7 @@ const GeneralInfo = () => {
           validateOnMount
           validationSchema={schema}
         >
-          {({ values, isSubmitting }) => (
+          {({ values, isSubmitting, errors }) => (
             <Form component={FormControl}>
               <div className={classes.titleWrapper}>
                 <Typography variant="h1">Informações Gerais</Typography>
@@ -227,6 +231,18 @@ const GeneralInfo = () => {
                   lg={8}
                   spacing={2}
                 >
+                  {/* TODO: Remover depois */}
+                  <PrevJSON
+                    data={errors}
+                    name={'errors'}
+                  />
+
+                  {/* TODO: Remover depois */}
+                  <PrevJSON
+                    data={values}
+                    name={'values'}
+                  />
+
                   {/* prontuario */}
                   <Grid
                     item
