@@ -11,8 +11,6 @@ import {
 } from '@material-ui/core'
 
 const Diseases = (props) => {
-  // const tipo_doenca = ['doenca_cardiaca', 'doenca_vascular_periferica', 'doenca_pulmonar_cronica', 'doenca_reumatologica', 'cancer', 'doenca_renal_cronica', 'doenca_hepatica_cronica', 'doenca_neurologica', 'doenca_tireoide', 'doenca_psiquiatrica'];
-
   return (
     <Grid
       item

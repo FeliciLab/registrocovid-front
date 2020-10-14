@@ -27,7 +27,6 @@ import PatientInfo from 'components/PatientInfo';
 import useStyles from './styles';
 import CustomBreadcrumbs from 'components/CustomBreadcrumbs';
 
-import { useComorbidade } from 'context/ComorbidadesContext';
 import { usePatient } from 'context/PatientContext';
 import { useToast } from 'hooks/toast';
 
@@ -162,11 +161,17 @@ const Comorbidities = () => {
             'Ocorreu um erro ao carregar suas informações, por favor tente novamente.',
         });
       });
-    // eslint-disable-next-line
   }, []);
+
   useEffect(() => {
-    console.log(apiValues);
-    console.log(initialValues);
+    const tipoDoencas = tiposDoenca.filter(td => apiValues.doencas.some( ad => ad.tipo_doenca_id === td.id));
+    const disease = tipoDoencas.map( (td, index) => (<Diseases
+      doencas={allDoencas.filter(d => d.tipo_doenca_id === td.id)}
+      header={td.descricao}
+      key={index}
+    />));
+    setDiseases(disease);
+
   }, [apiValues]);
 
   const handleSubmit = async values => {
@@ -182,11 +187,12 @@ const Comorbidities = () => {
       quimioterapia,
       HIV: hiv,
       tuberculose,
-      gestacao_semanas: values.gestacao_semanas,
-      puerperio_semanas: values.puerperio_semanas,
       outras_condicoes: outrasCondicoes,
       medicacoes,
     };
+
+    if(values.gestacao_semanas) submitData.gestacao_semanas = values.gestacao_semanas;
+    if(values.puerperio_semanas) submitData.puerperio_semanas = values.puerperio_semanas;
 
     Object.entries(values).forEach(entrie => {
       if (Array.isArray(entrie[1])) {
@@ -196,7 +202,8 @@ const Comorbidities = () => {
         );
         submitData[`${entrie[0]}`] = array_values;
       } else if (typeof entrie[1] === 'string') {
-        submitData[`${entrie[0]}`] = entrie[1] === 'sim' ? true : false;
+        if(entrie[1])
+          submitData[`${entrie[0]}`] = entrie[1] === 'sim';
       }
     });
 
@@ -256,25 +263,12 @@ const Comorbidities = () => {
   };
 
   const handleAdd = () => {
-    console.log(selectedField, selectedIds);
     if (!selectedIds.includes(selectedField.id)) {
-      // const disease =
-      //   <Diseases
-      //     doencas={allDoencas.filter(d => d.tipo_doenca_id === selectedField.id)}
-      //     header={selectedField.descricao}
-      //   />
-
-      // Felipe eu não sei se era isso, porém eu fiz um filtro aqui. Não entendi
-      // direito o que você quis dizer
-      const disease = tiposDoenca.map(tipo => (
+      const disease =
         <Diseases
-          doencas={allDoencas.filter(
-            d => d.tipo_doenca_id === tipo.id,
-          )}
-          header={tipo.descricao}
+          doencas={allDoencas.filter(d => d.tipo_doenca_id === selectedField.id)}
+          header={selectedField.descricao}
         />
-      ));
-
       setDiseases(old => [disease, ...old]);
       setSelectedIds(old => [...old, selectedField.id]);
     }
@@ -442,7 +436,7 @@ const Comorbidities = () => {
                     <Button
                       className={classes.buttonSave}
                       color="secondary"
-                      disabled={isSubmitting}
+                      disabled={isSubmitting || isSaving || Object.keys(apiValues).length > 0}
                       type="submit"
                       variant="contained"
                     >
@@ -455,6 +449,7 @@ const Comorbidities = () => {
                   className={classes.paper}
                   component={Paper}
                   container
+                  item
                   spacing={2}
                   xs={8}
                 >
@@ -580,7 +575,7 @@ const Comorbidities = () => {
                         <Button
                           className={classes.buttonAdd}
                           color="secondary"
-                          disabled={!selectedField.id}
+                          disabled={!selectedField.id || Object.keys(apiValues).length > 0}
                           onClick={() => handleAdd()}
                           startIcon={<Add />}
                           type="button"
@@ -669,9 +664,9 @@ const Comorbidities = () => {
                           render={() =>
                             allOrgaos.map((orgao, index) => (
                               <Field
+                                Label={{ label: orgao.descricao }}
                                 component={CheckboxWithLabel}
                                 key={index}
-                                Label={{ label: orgao.descricao }}
                                 name={`orgaos.${orgao.id - 1}`}
                                 type={'checkbox'}
                               />
@@ -729,9 +724,9 @@ const Comorbidities = () => {
                             allCorticosteroides.map(
                               (corticosteroide, index) => (
                                 <Field
+                                  Label={{ label: corticosteroide.descricao }}
                                   component={CheckboxWithLabel}
                                   key={index}
-                                  Label={{ label: corticosteroide.descricao }}
                                   name={`corticosteroides.${corticosteroide.id -
                                     1}`}
                                   type={'checkbox'}
