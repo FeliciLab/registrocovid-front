@@ -54,11 +54,11 @@ const IRASForm = ({ index, remove, children }) => {
               <Typography variant="h5">Descrição da infecção</Typography>
             </FormLabel>
             <Field
+              as={TextField}
+              className={classes.field}
               InputLabelProps={{
                 shrink: true,
               }}
-              as={TextField}
-              className={classes.field}
               name={`newIRASs.${index}.descricao`}
               onChange={handleChange}
               type="text"
@@ -85,9 +85,6 @@ const IRASForm = ({ index, remove, children }) => {
               <Typography variant="h5">Ocorrência</Typography>
             </FormLabel>
             <Field
-              InputLabelProps={{
-                shrink: true,
-              }}
               as={TextField}
               className={classes.field}
               error={
@@ -96,6 +93,9 @@ const IRASForm = ({ index, remove, children }) => {
                 !!errors.newIRASs[index]?.data
               }
               helperText={<ErrorMessage name={`newIRASs.${index}.data`} />}
+              InputLabelProps={{
+                shrink: true,
+              }}
               label="Data"
               name={`newIRASs.${index}.data`}
               onChange={handleChange}

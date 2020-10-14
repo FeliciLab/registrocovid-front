@@ -32,15 +32,18 @@ const UTIForm = ({ index, remove }) => {
       component={Card}
       item
     >
-      <FormLabel className={classes.formLabel}>
-        <Typography variant="h3">UTI</Typography>
+      <div className={classes.formLabel}>
+        <Typography variant="h3">Admissão na Unidade de Terapia Intensiva (UTI)</Typography>
         <IconButton
           aria-label="delete"
           onClick={() => remove(index)}
         >
-          <DeleteIcon fontSize="small" />
+          <DeleteIcon
+            fontSize="small"
+            
+          />
         </IconButton>
-      </FormLabel>
+      </div>
 
       <Grid
         className={classes.fieldFormUTI}
@@ -55,18 +58,18 @@ const UTIForm = ({ index, remove }) => {
           <ErrorMessage
             color="error"
             component={Typography}
-            name={`newsComplicacoes.${index}.glasglow_admissao_uti`}
+            name={`newsComplicacoes.${index}.glasgow_admissao_uti`}
             variant="caption"
           />
 
           <Field
             as={TextField}
             className={classes.textField}
-            name={`newsComplicacoes.${index}.glasglow_admissao_uti`}
+            name={`newsComplicacoes.${index}.glasgow_admissao_uti`}
             onChange={handleChange}
             select
             type="text"
-            value={values.newsComplicacoes[index].glasglow_admissao_uti}
+            value={values.newsComplicacoes[index].glasgow_admissao_uti}
             variant="outlined"
           >
             {new Array(13).fill('').map((_, index) => (
@@ -95,15 +98,12 @@ const UTIForm = ({ index, remove }) => {
 
               <Typography
                 className={classes.UTIFormLabelSubtitle}
-                variant="p"
+                variant="body1"
               >
                 Data
               </Typography>
             </FormLabel>
             <Field
-              InputLabelProps={{
-                shrink: true,
-              }}
               as={TextField}
               className={classes.dateField}
               error={
@@ -118,6 +118,9 @@ const UTIForm = ({ index, remove }) => {
                   ? errors.newsComplicacoes[index]?.data
                   : ''
               }
+              InputLabelProps={{
+                shrink: true,
+              }}
               name={`newsComplicacoes[${index}].data`}
               onChange={handleChange}
               type="date"
@@ -134,15 +137,12 @@ const UTIForm = ({ index, remove }) => {
 
               <Typography
                 className={classes.UTIFormLabelSubtitle}
-                variant="p"
+                variant="body1"
               >
                 Data
               </Typography>
             </FormLabel>
             <Field
-              InputLabelProps={{
-                shrink: true,
-              }}
               as={TextField}
               className={classes.dateField}
               error={
@@ -157,6 +157,9 @@ const UTIForm = ({ index, remove }) => {
                   ? errors.newsComplicacoes[index]?.data_termino
                   : ''
               }
+              InputLabelProps={{
+                shrink: true,
+              }}
               name={`newsComplicacoes[${index}].data_termino`}
               onChange={handleChange}
               type="date"

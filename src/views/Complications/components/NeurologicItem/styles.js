@@ -27,7 +27,6 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
   },
   headingLabel: {
-    width: '30%',
     marginRight: '15px',
   },
   headerCardDeleteButton: {

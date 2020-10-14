@@ -1,21 +1,37 @@
 import * as Yup from 'yup';
 
-import mapValues from 'lodash/mapValues';
-
-const schema = Yup.lazy(obj =>
-  Yup.object(
-    mapValues(obj, (_, key) => {
-      if (key.includes('data')) {
-        return Yup.date().required('Campo Obrigatório');
-      }
-      if (key.includes('parametro')) {
-        return Yup.number().positive('Parâmetro deve ser maior do que 0');
-      }
-      if (key.includes('quantidade_horas')) {
-        return Yup.number().positive('Parâmetro deve ser maior do que 0');
-      }
-    })
-  )
-);
+const schema = Yup.object().shape({
+  newSuportesRespitatorios: Yup.array().of(
+    Yup.object().shape({
+      tipo_suporte_id: Yup.string(),
+      data_inicio: Yup.string().when('tipo_suporte_id', (tipo, schema) =>
+        ['1', '2', '3', '4', '5', '6', '7', '8', '9'].some(
+          item => item === tipo,
+        )
+          ? schema.required('Campo obrigatório')
+          : schema,
+      ),
+      data_termino: Yup.string().when('tipo_suporte_id', (tipo, schema) =>
+        ['1', '2', '3', '4', '5', '6', '7', '8', '9'].some(
+          item => item === tipo,
+        )
+          ? schema.required('Campo obrigatório')
+          : schema,
+      ),
+      data_pronacao: Yup.string().when('tipo_suporte_id', (tipo, schema) =>
+        ['10'].some(item => item === tipo)
+          ? schema.required('Campo obrigatório')
+          : schema,
+      ),
+      data_inclusao_desmame: Yup.string().when(
+        'tipo_suporte_id',
+        (tipo, schema) =>
+          ['11'].some(item => item === tipo)
+            ? schema.required('Campo obrigatório')
+            : schema,
+      ),
+    }),
+  ),
+});
 
 export default schema;

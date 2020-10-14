@@ -64,6 +64,7 @@ const ComplicationsList = ({ complicacoes }) => {
                   } else if (complicacao.tipo_complicacao_id === 13) {
                     return (
                       <NeurologicForm
+                        complicationData={complicacao}
                         index={index}
                         key={index}
                         remove={remove}
@@ -143,7 +144,7 @@ ComplicationsList.propTypes = {
       data: PropTypes.string,
       data_termino: PropTypes.string,
       menos_24h_uti: PropTypes.bool,
-      glasglow_admissao_uti: PropTypes.number,
+      glasgow_admissao_uti: PropTypes.number,
     }),
   ).isRequired,
 };
