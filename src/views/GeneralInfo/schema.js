@@ -24,6 +24,7 @@ const schema = Yup.object().shape({
         : schema,
     ),
   data_inicio_sintomas: Yup.date(),
+  data_ultimo_desfecho: Yup.date(),
 });
 
 export default schema;

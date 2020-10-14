@@ -36,6 +36,7 @@ const loadInitialValues = patient => {
     reinternacao: false,
     chegou_traqueostomizado: false,
     data_inicio_sintomas: '', // usado apenas para as validations
+    data_ultimo_desfecho: '', // usado apenas para as validations
   };
 
   if (patient && patient.prontuario) {
@@ -56,7 +57,8 @@ const loadInitialValues = patient => {
           ? patient.tipo_suporte_respiratorios[0].id
           : '',
       chegou_traqueostomizado: patient.chegou_traqueostomizado,
-      data_inicio_sintomas: patient.data_inicio_sintomas,
+      data_inicio_sintomas: patient.data_inicio_sintomas, // usado apenas para as validations
+      data_ultimo_desfecho: '', // usado apenas para as validations
     };
   }
 
@@ -65,9 +67,8 @@ const loadInitialValues = patient => {
 
 const GeneralInfo = () => {
   const { addToast } = useToast();
-  const { patient, addPatient } = usePatient();
 
-  const { data_inicio_sintomas } = patient;
+  const { patient, addPatient } = usePatient();
 
   const history = useHistory();
   const classes = useStyles();
@@ -75,6 +76,7 @@ const GeneralInfo = () => {
   const [loading, setLoading] = useState(false);
   const [instituicoes, setInstituicoes] = useState([]);
   const [tiposSuporteRespiratorio, setTiposSuporteRespiratorio] = useState([]);
+  const [dataUltimoDesfecho, setDataUltimoDesfecho] = useState('');
 
   const handleInfos = useCallback(async () => {
     try {
@@ -91,6 +93,19 @@ const GeneralInfo = () => {
           [1, 2, 3, 4, 7].some(id => id === tipo.id),
         ),
       );
+
+      // TODO: verificar se isso é realmente necessário
+      if (patient.id) {
+        const responseDataUltimoDesfecho = await api.get(
+          `pacientes/${patient.id}/desfecho`,
+        );
+
+        setDataUltimoDesfecho(
+          responseDataUltimoDesfecho.data.desfechos.map(
+            desfecho => desfecho.data,
+          ).sort((a, b) => (a - b)),
+        );
+      }
     } catch (error) {
       addToast({
         type: 'error',
