@@ -22,6 +22,14 @@ const schema = Yup.object().shape({
           'Deve ser posterior ou igual a data do início dos sintomas (Categoria Sintomas iniciais da COVID-19)',
         )
         : schema,
+    )
+    .when('data_ultimo_desfecho', (data, schema) =>
+      data
+        ? schema.max(
+          data,
+          'Deve ser anterior a data do último desfecho (Categoria Desfecho)',
+        )
+        : schema,
     ),
   data_inicio_sintomas: Yup.date(),
   data_ultimo_desfecho: Yup.date(),
