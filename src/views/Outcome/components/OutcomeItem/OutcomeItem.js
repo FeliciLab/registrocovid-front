@@ -306,7 +306,7 @@ const OutcomeItem = props => {
                 <RadioGroup
                   className={classes.field}
                   row
-                  value={desfecho.tipo_autocuidado.id.toString()}
+                  value={desfecho.tipo_autocuidado?.id.toString()}
                 >
                   {tiposAutoCuidados.map(tipo => (
                     <FormControlLabel

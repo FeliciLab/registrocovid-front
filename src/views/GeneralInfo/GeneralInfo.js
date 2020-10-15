@@ -24,7 +24,7 @@ import api from 'services/api';
 import formatDate from 'helpers/formatDate';
 import { PrevJSON } from 'components';
 
-const loadInitialValues = patient => {
+const loadInitialValues = (patient, dataUltimoDesfecho) => {
   let initialValues = {
     prontuario: '',
     data_internacao: '',
@@ -36,7 +36,7 @@ const loadInitialValues = patient => {
     reinternacao: false,
     chegou_traqueostomizado: false,
     data_inicio_sintomas: '', // usado apenas para as validations
-    data_ultimo_desfecho: '', // usado apenas para as validations
+    data_ultimo_desfecho: dataUltimoDesfecho, // usado apenas para as validations
   };
 
   if (patient && patient.prontuario) {
@@ -58,7 +58,7 @@ const loadInitialValues = patient => {
           : '',
       chegou_traqueostomizado: patient.chegou_traqueostomizado,
       data_inicio_sintomas: patient.data_inicio_sintomas, // usado apenas para as validations
-      data_ultimo_desfecho: '', // usado apenas para as validations
+      data_ultimo_desfecho: dataUltimoDesfecho, // usado apenas para as validations
     };
   }
 
@@ -100,11 +100,23 @@ const GeneralInfo = () => {
           `pacientes/${patient.id}/desfecho`,
         );
 
+        const { desfechos } = responseDataUltimoDesfecho.data;
+
+        const datasDesfechos = desfechos.map(desfecho => desfecho.data);
+
         setDataUltimoDesfecho(
-          responseDataUltimoDesfecho.data.desfechos.map(
-            desfecho => desfecho.data,
-          ).sort((a, b) => (a - b)),
+          datasDesfechos.sort((a, b) => {
+            return (
+              Number(b.split('-').join('')) - Number(a.split('-').join(''))
+            );
+          })[0],
         );
+
+        // setDataUltimoDesfecho(
+        //   responseDataUltimoDesfecho.data.desfechos.map(
+        //     desfecho => desfecho.data,
+        //   ).sort((a, b) => (a - b)),
+        // );
       }
     } catch (error) {
       addToast({
@@ -214,7 +226,7 @@ const GeneralInfo = () => {
 
       <div className={classes.formWrapper}>
         <Formik
-          initialValues={loadInitialValues(patient)}
+          initialValues={loadInitialValues(patient, dataUltimoDesfecho)}
           onSubmit={handleSubmit}
           validateOnMount
           validationSchema={schema}
