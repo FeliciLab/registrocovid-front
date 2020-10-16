@@ -20,7 +20,6 @@ const useStyles = makeStyles(theme => ({
   buttonSave: {
     width: '258px',
     height: '48px',
-    marginLeft: theme.spacing(3),
   },
   buttonAdd: {
     width: '124px',
