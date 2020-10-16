@@ -22,7 +22,6 @@ import { useToast } from 'hooks/toast';
 import { usePatient } from 'context/PatientContext';
 import api from 'services/api';
 import formatDate from 'helpers/formatDate';
-import { PrevJSON } from 'components';
 import getDataUltimoDesfecho from 'helpers/getDataUltimoDesfecho';
 
 const loadInitialValues = (patient, dataUltimoDesfecho) => {
@@ -244,18 +243,6 @@ const GeneralInfo = () => {
                   lg={8}
                   spacing={2}
                 >
-                  {/* TODO: Remover depois */}
-                  <PrevJSON
-                    data={errors}
-                    name={'errors'}
-                  />
-
-                  {/* TODO: Remover depois */}
-                  <PrevJSON
-                    data={values}
-                    name={'values'}
-                  />
-
                   {/* prontuario */}
                   <Grid
                     item
