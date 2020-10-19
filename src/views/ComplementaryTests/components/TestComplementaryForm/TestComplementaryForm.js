@@ -81,7 +81,7 @@ const TestComplementaryForm = props => {
               component={TextField}
               multiline
               name={`newComplementaryTests.${index}.resultado`}
-              rows={4}
+              rows={3}
               type="text"
               variant="outlined"
             />
