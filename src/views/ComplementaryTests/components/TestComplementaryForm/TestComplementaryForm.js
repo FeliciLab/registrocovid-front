@@ -45,34 +45,13 @@ const TestComplementaryForm = props => {
       <Grid
         className={classes.formWraper}
         container
+        direction="column"
         spacing={1}
       >
-        {/* resultado */}
-        <Grid
-          className={classes.fieldWraper}
-          item
-          md={6}
-          xs={12}
-        >
-          <FormGroup>
-            <FormLabel>
-              <Typography variant="h4">Resultado</Typography>
-            </FormLabel>
-            <Field
-              className={classes.field}
-              component={TextField}
-              name={`newComplementaryTests.${index}.resultado`}
-              type="text"
-              variant="outlined"
-            />
-          </FormGroup>
-        </Grid>
         {/* data */}
         <Grid
           className={classes.fieldWraper}
           item
-          md={6}
-          xs={12}
         >
           <FormGroup>
             <FormLabel>
@@ -83,6 +62,27 @@ const TestComplementaryForm = props => {
               component={TextField}
               name={`newComplementaryTests.${index}.data`}
               type="date"
+              variant="outlined"
+            />
+          </FormGroup>
+        </Grid>
+
+        {/* resultado */}
+        <Grid
+          className={classes.fieldWraper}
+          item
+        >
+          <FormGroup>
+            <FormLabel>
+              <Typography variant="h4">Resultado</Typography>
+            </FormLabel>
+            <Field
+              className={classes.field}
+              component={TextField}
+              multiline
+              name={`newComplementaryTests.${index}.resultado`}
+              rows={4}
+              type="text"
               variant="outlined"
             />
           </FormGroup>
