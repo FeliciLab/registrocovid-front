@@ -11,7 +11,9 @@ const schema = object().shape({
       }),
       descricao: string().when('tipo_complicacao_id', {
         is: '13',
-        then: string().required('Campo obrigatório'),
+        then: string()
+          .required('Campo obrigatório')
+          .max(1000, 'Máximo de 1000 caracteres'),
       }),
       menos_24h_uti: boolean().when('tipo_complicacao_id', {
         is: '1',
