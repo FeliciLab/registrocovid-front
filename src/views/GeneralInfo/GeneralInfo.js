@@ -22,7 +22,6 @@ import { useToast } from 'hooks/toast';
 import { usePatient } from 'context/PatientContext';
 import api from 'services/api';
 import formatDate from 'helpers/formatDate';
-import getDataUltimoDesfecho from 'helpers/getDataUltimoDesfecho';
 
 const loadInitialValues = (patient, dataUltimoDesfecho) => {
   let initialValues = {
@@ -95,21 +94,27 @@ const GeneralInfo = () => {
       );
 
       if (patient.id) {
-        const responseDataUltimoDesfecho = await api.get(
-          `pacientes/${patient.id}/desfecho`,
+        const responseUltimoDesfecho = await api.get(
+          `pacientes/${patient.id}/desfecho/ultimo`,
         );
 
-        const { desfechos } = responseDataUltimoDesfecho.data;
+        const { desfecho } = responseUltimoDesfecho.data;
 
-        setDataUltimoDesfecho(getDataUltimoDesfecho(desfechos));
+        // TODO: remover depois
+        console.log(desfecho);
+        if (desfecho)
+          setDataUltimoDesfecho(desfecho.data);
       }
     } catch (error) {
+      // TODO: remover depois
+
+      console.error(error);
       addToast({
         type: 'error',
         message: 'Erro ao tentar carregar informações, tente novamente',
       });
 
-      history.goBack();
+      // history.goBack();
     } finally {
       setLoading(false);
     }
