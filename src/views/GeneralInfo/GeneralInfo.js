@@ -100,21 +100,16 @@ const GeneralInfo = () => {
 
         const { desfecho } = responseUltimoDesfecho.data;
 
-        // TODO: remover depois
-        console.log(desfecho);
-        if (desfecho)
-          setDataUltimoDesfecho(desfecho.data);
+        if (desfecho) setDataUltimoDesfecho(desfecho.data);
       }
     } catch (error) {
-      // TODO: remover depois
-
       console.error(error);
       addToast({
         type: 'error',
         message: 'Erro ao tentar carregar informações, tente novamente',
       });
 
-      // history.goBack();
+      history.goBack();
     } finally {
       setLoading(false);
     }
