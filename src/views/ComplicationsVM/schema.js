@@ -20,9 +20,7 @@ const schema = Yup.lazy(obj =>
       }
       // Outras
       if (key.includes('descricao') && key.includes('outros')) {
-        return Yup.string()
-          .required('Campo Obrigatório')
-          .max(1000, 'Máximo de 1000 caracteres');
+        return Yup.string().required('Campo Obrigatório');
       }
     }),
   ),
