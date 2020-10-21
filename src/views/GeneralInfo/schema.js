@@ -5,7 +5,9 @@ const schema = Yup.object().shape({
     .min(0, 'Número de prontuário inválido (apenas números positivos)')
     .integer('Número de prontuário inválido (apenas números inteiros)')
     .required('Campo obrigatório'),
-  data_internacao: Yup.date().required('Campo obrigatório'),
+  data_internacao: Yup.date()
+    .required('Campo obrigatório')
+    .min('01/01/2020', 'Deve ser posterior ou igual à 01/01/2020'),
   data_atendimento: Yup.date()
     .when('data_internacao', (data, schema) =>
       data
