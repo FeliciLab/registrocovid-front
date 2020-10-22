@@ -67,8 +67,7 @@ function Hemodialise() {
         type: 'error',
         message: 'Erro ao tentar carregar informações, tente novamente',
       });
-      console.log(error);
-      // history.goBack();
+      history.goBack();
     } finally {
       setLoading(false);
     }
