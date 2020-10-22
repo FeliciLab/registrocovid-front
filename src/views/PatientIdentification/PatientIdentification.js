@@ -18,7 +18,7 @@ import {
   Radio,
   Button,
 } from '@material-ui/core';
-import { TextMaskPhone } from 'components';
+import { PrevJSON, TextMaskPhone } from 'components';
 import PatientInfo from 'components/PatientInfo';
 import api from 'services/api';
 import { useParams, useHistory } from 'react-router-dom';
@@ -319,6 +319,16 @@ const PatientIdentification = () => {
             setFieldValue,
           }) => (
             <Form component={FormControl}>
+              <div>
+                <PrevJSON
+                  data={errors}
+                  name="Erros"
+                />
+                <PrevJSON
+                  data={values}
+                  name="Values"
+                />
+              </div>
               <div className={classes.titleWrapper}>
                 <Typography variant="h1">Identificação do paciente</Typography>
 

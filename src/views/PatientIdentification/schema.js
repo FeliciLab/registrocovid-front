@@ -8,8 +8,10 @@ const schema = Yup.object().shape({
   telefone_celular: Yup.string(),
   telefone_do_trabalho: Yup.string(),
   telefone_de_vizinho: Yup.string(),
-  sexo: Yup.string(),
-  data_nascimento: Yup.string(),
+  sexo: Yup.string()
+    .required('Campo obrigatório')
+    .notOneOf(['0'], 'Campo obrigatório'),
+  data_nascimento: Yup.string().required('Campo obrigatório'),
   estado_nascimento_id: Yup.string(),
   cor_id: Yup.number(),
   estado_civil_id: Yup.number(),
