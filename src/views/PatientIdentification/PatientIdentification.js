@@ -18,7 +18,7 @@ import {
   Radio,
   Button,
 } from '@material-ui/core';
-import { PrevJSON, TextMaskPhone } from 'components';
+import { TextMaskPhone } from 'components';
 import PatientInfo from 'components/PatientInfo';
 import api from 'services/api';
 import { useParams, useHistory } from 'react-router-dom';
@@ -34,6 +34,9 @@ const PatientIdentification = () => {
 
   // buscando o paciente pelo contexto
   const { patient } = usePatient();
+
+  // usados para validar dados
+  const { data_internacao, data_inicio_sintomas } = patient;
 
   let patientId = id ? id : patient.id;
 
@@ -57,6 +60,9 @@ const PatientIdentification = () => {
     qtd_pessoas_domicilio: '0',
     municipios: [],
     isPrevSaved: false,
+    data_internacao: data_internacao || '',
+    data_ultimo_desfecho: '',
+    data_inicio_sintomas: data_inicio_sintomas || '',
   });
 
   // Buscando a Lista de Estados
@@ -112,6 +118,25 @@ const PatientIdentification = () => {
       setBairros(response.data);
     })();
   }, []);
+
+  // Buscando a data do ultimo desfecho
+  useEffect(() => {
+    api
+      .get(`pacientes/${patientId}/desfecho/ultimo`)
+      .then(response => {
+        const { desfecho } = response.data;
+        if (desfecho.data) {
+          // muda apenas o valor de data_ultimo_desfecho
+          setinItialValues(old => ({
+            ...old,
+            data_ultimo_desfecho: desfecho.data,
+          }));
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, [patientId]);
 
   const handleInfos = useCallback(async () => {
     try {
@@ -319,16 +344,6 @@ const PatientIdentification = () => {
             setFieldValue,
           }) => (
             <Form component={FormControl}>
-              <div>
-                <PrevJSON
-                  data={errors}
-                  name="Erros"
-                />
-                <PrevJSON
-                  data={values}
-                  name="Values"
-                />
-              </div>
               <div className={classes.titleWrapper}>
                 <Typography variant="h1">Identificação do paciente</Typography>
 
