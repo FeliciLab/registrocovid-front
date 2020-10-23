@@ -12,7 +12,7 @@ export { default as Complications } from './Complications';
 export { default as InitialSymptoms } from './InitialSymptoms';
 export { default as Comorbidities } from './Comorbidities';
 export { default as PhysicalExamsList } from './PhysicalExamsList';
-export { default as SupportTreatment } from './ SupportTreatment';
+export { default as Hemodialise } from './Hemodialise';
 export { default as ComplementaryTests } from './ComplementaryTests';
 export { default as Outcome } from './Outcome';
 export { default as RelatedInfections } from './RelatedInfections';

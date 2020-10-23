@@ -19,8 +19,8 @@ import schema from './schema';
 import PatientInfo from 'components/PatientInfo';
 import { useToast } from 'hooks/toast';
 import { useHistory } from 'react-router-dom';
-import SupportTreatmentItem from './components/SupportTreatmentItem';
-import SupportTreatmentForm from './components/SupportTreatmentForm';
+import HemodialiseItem from './components/HemodialiseItem';
+import HemodialiseForm from './components/HemodialiseForm';
 import api from 'services/api';
 
 // Valores iniciais
@@ -31,7 +31,7 @@ const initialValues = {
   frequencia_hemodialise: '',
 };
 
-function SupportTreatment() {
+function Hemodialise() {
   const classes = useStyles();
 
   const { addToast } = useToast();
@@ -50,7 +50,7 @@ function SupportTreatment() {
   } = usePatient();
 
   // Buscando os dados no backend
-  const handleSupportTreatments = useCallback(async id => {
+  const handleHemodialises = useCallback(async id => {
     try {
       setLoading(true);
 
@@ -95,8 +95,8 @@ function SupportTreatment() {
   );
 
   useEffect(() => {
-    handleSupportTreatments(id);
-  }, [id, handleSupportTreatments]);
+    handleHemodialises(id);
+  }, [id, handleHemodialises]);
 
   return (
     <div className={classes.root}>
@@ -107,7 +107,7 @@ function SupportTreatment() {
             { label: 'Categorias', route: '/categorias' },
             {
               label: 'Hemodiálise',
-              route: '/categorias/tratamento-suporte/',
+              route: '/categorias/hemodialise/',
             },
           ]}
         />
@@ -148,9 +148,9 @@ function SupportTreatment() {
                     container
                   >
                     {isPrevValue ? (
-                      <SupportTreatmentItem tratamento={tratamento} />
+                      <HemodialiseItem tratamento={tratamento} />
                     ) : (
-                      <SupportTreatmentForm />
+                      <HemodialiseForm />
                     )}
                   </Grid>
 
@@ -166,4 +166,4 @@ function SupportTreatment() {
   );
 }
 
-export default SupportTreatment;
+export default Hemodialise;
