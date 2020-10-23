@@ -46,10 +46,6 @@ const ListPatients = () => {
     ],
   });
 
-
-  // TODO: remover depois
-  if (data) console.log(data);
-
   const handleNavigation = () => {
     history.push('/categorias/informacoes-gerais');
     addPatient({});

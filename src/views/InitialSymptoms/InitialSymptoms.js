@@ -30,7 +30,6 @@ import api from 'services/api';
 import useStyles from './styles';
 import CustomBreadcrumbs from 'components/CustomBreadcrumbs';
 import PatientInfo from 'components/PatientInfo';
-import { PrevJSON } from 'components';
 
 // Card, RadioButton, Field --> date, Chip, Grid para responsividade
 
@@ -42,8 +41,6 @@ const InitialSymptoms = () => {
     data_nascimento,
     data_atendimento_referencia,
   } = patient;
-  // TODO: remover depois
-  console.log('patient: ', patient);
 
   const history = useHistory();
 
@@ -104,7 +101,7 @@ const InitialSymptoms = () => {
         setDataUltimoDesfecho(ultimoDesfecho.data);
       })
       .catch(error => {});
-  }, []);
+  }, [patient.id]);
 
   const handleClickChip = async sintomaId => {
     const exists = selectedSintomas.some(
@@ -205,13 +202,6 @@ const InitialSymptoms = () => {
       >
         {({ values, handleChange, dirty, errors, touched }) => (
           <Form component={FormControl}>
-            <div>
-              {/* TODO: remover depois */}
-              <PrevJSON
-                data={values}
-                name="Values"
-              />
-            </div>
             <div className={classes.titleWrapper}>
               <Typography variant="h1">Sintomas Iniciais</Typography>
 
