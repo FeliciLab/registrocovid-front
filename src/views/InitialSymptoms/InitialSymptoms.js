@@ -30,13 +30,18 @@ import api from 'services/api';
 import useStyles from './styles';
 import CustomBreadcrumbs from 'components/CustomBreadcrumbs';
 import PatientInfo from 'components/PatientInfo';
+import { PrevJSON } from 'components';
 
 // Card, RadioButton, Field --> date, Chip, Grid para responsividade
 
 const InitialSymptoms = () => {
   const { patient, addPatient } = usePatient();
 
-  const { data_internacao, data_nascimento } = patient;
+  const {
+    data_internacao,
+    data_nascimento,
+    data_atendimento_referencia,
+  } = patient;
   // TODO: remover depois
   console.log('patient: ', patient);
 
@@ -45,6 +50,7 @@ const InitialSymptoms = () => {
   const { addToast } = useToast();
   const classes = useStyles();
 
+  const [dataUltimoDesfecho, setDataUltimoDesfecho] = useState('');
   const [selectedSintomas, setSelectedSintomas] = useState([]);
   const [selectedSintomasHasChanged, setSelectedSintomasHasChanged] = useState(
     false,
@@ -88,6 +94,17 @@ const InitialSymptoms = () => {
       setSelectedSintomasHasChanged(!checkHasNotChanged);
     }
   }, [selectedSintomas, patient.sintomas]);
+
+  // buscando a data do ultimo desfecho
+  useEffect(() => {
+    api
+      .get(`/pacientes/${patient.id}/desfecho/ultimo`)
+      .then(response => {
+        const { data: ultimoDesfecho } = response;
+        setDataUltimoDesfecho(ultimoDesfecho.data);
+      })
+      .catch(error => {});
+  }, []);
 
   const handleClickChip = async sintomaId => {
     const exists = selectedSintomas.some(
@@ -180,12 +197,21 @@ const InitialSymptoms = () => {
           data_inicio_sintomas: patient.data_inicio_sintomas,
           data_internacao, // usado para validações
           data_nascimento, // usado para validações
+          data_ultimo_desfecho: dataUltimoDesfecho, // usado para validações
+          data_atendimento_referencia, // usado para validações
         }}
         onSubmit={handleSubmit}
         validationSchema={schema}
       >
         {({ values, handleChange, dirty, errors, touched }) => (
           <Form component={FormControl}>
+            <div>
+              {/* TODO: remover depois */}
+              <PrevJSON
+                data={values}
+                name="Values"
+              />
+            </div>
             <div className={classes.titleWrapper}>
               <Typography variant="h1">Sintomas Iniciais</Typography>
 
