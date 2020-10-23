@@ -17,9 +17,10 @@ import {
   CircularProgress,
 } from '@material-ui/core';
 
+import schema from './schema';
 import { useHistory } from 'react-router-dom';
 
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 
 import { useToast } from 'hooks/toast';
 import { usePatient } from 'context/PatientContext';
@@ -175,8 +176,9 @@ const InitialSymptoms = () => {
           data_inicio_sintomas: patient.data_inicio_sintomas,
         }}
         onSubmit={handleSubmit}
+        validationSchema={schema}
       >
-        {({ values, handleChange, dirty }) => (
+        {({ values, handleChange, dirty, errors, touched }) => (
           <Form component={FormControl}>
             <div className={classes.titleWrapper}>
               <Typography variant="h1">Sintomas Iniciais</Typography>
@@ -290,6 +292,11 @@ const InitialSymptoms = () => {
                     </FormLabel>
                     <Field
                       as={TextField}
+                      error={
+                        errors.data_inicio_sintomas &&
+                        touched.data_inicio_sintomas
+                      }
+                      helperText={<ErrorMessage name="data_inicio_sintomas" />}
                       InputLabelProps={{
                         shrink: true,
                       }}
