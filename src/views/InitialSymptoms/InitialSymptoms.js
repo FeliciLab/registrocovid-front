@@ -36,6 +36,10 @@ import PatientInfo from 'components/PatientInfo';
 const InitialSymptoms = () => {
   const { patient, addPatient } = usePatient();
 
+  const { data_internacao, data_nascimento } = patient;
+  // TODO: remover depois
+  console.log('patient: ', patient);
+
   const history = useHistory();
 
   const { addToast } = useToast();
@@ -174,6 +178,8 @@ const InitialSymptoms = () => {
                 : 'suspect'
               : '',
           data_inicio_sintomas: patient.data_inicio_sintomas,
+          data_internacao, // usado para validações
+          data_nascimento, // usado para validações
         }}
         onSubmit={handleSubmit}
         validationSchema={schema}

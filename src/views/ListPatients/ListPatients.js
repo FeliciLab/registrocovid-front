@@ -38,14 +38,17 @@ const ListPatients = () => {
           paciente = {
             ...paciente,
             data_internacao: paciente.data_internacao,
-            created_at: formatDate(paciente.created_at)
+            created_at: formatDate(paciente.created_at),
           }
-
           return paciente;
         });
       }
     ],
   });
+
+
+  // TODO: remover depois
+  if (data) console.log(data);
 
   const handleNavigation = () => {
     history.push('/categorias/informacoes-gerais');
