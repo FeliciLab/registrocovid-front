@@ -103,7 +103,6 @@ const GeneralInfo = () => {
         if (desfecho) setDataUltimoDesfecho(desfecho.data);
       }
     } catch (error) {
-      console.error(error);
       addToast({
         type: 'error',
         message: 'Erro ao tentar carregar informações, tente novamente',
