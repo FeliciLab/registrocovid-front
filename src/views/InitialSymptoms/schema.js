@@ -1,9 +1,13 @@
 import * as Yup from 'yup';
 
+const milissegundos_por_dia = 1000 * 60 * 60 * 24;
+
 const schema = Yup.object().shape({
   data_atendimento_referencia: Yup.date(),
   data_nascimento: Yup.date(),
-  data_ultimo_desfecho: Yup.date(),
+  data_ultimo_desfecho: Yup.date().transform(
+    value => new Date(value.getTime() - milissegundos_por_dia),
+  ),
   data_inicio_sintomas: Yup.date()
     .required('Campo obrigatório')
     .max(new Date(), 'Deve ser anterior ou igual a data de hoje')

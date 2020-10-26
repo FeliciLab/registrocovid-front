@@ -30,6 +30,7 @@ import api from 'services/api';
 import useStyles from './styles';
 import CustomBreadcrumbs from 'components/CustomBreadcrumbs';
 import PatientInfo from 'components/PatientInfo';
+import { PrevJSON } from 'components';
 
 // Card, RadioButton, Field --> date, Chip, Grid para responsividade
 
@@ -97,8 +98,9 @@ const InitialSymptoms = () => {
     api
       .get(`/pacientes/${patient.id}/desfecho/ultimo`)
       .then(response => {
-        const { data: ultimoDesfecho } = response;
-        setDataUltimoDesfecho(ultimoDesfecho.data);
+        const { data } = response;
+        console.log(data.desfecho.data);
+        setDataUltimoDesfecho(data.desfecho.data);
       })
       .catch(error => {});
   }, [patient.id]);
@@ -184,6 +186,7 @@ const InitialSymptoms = () => {
         />
       </div>
       <Formik
+        enableReinitialize
         initialValues={{
           caso_confirmado:
             patient.caso_confirmado !== null
@@ -191,11 +194,11 @@ const InitialSymptoms = () => {
                 ? 'confirmed'
                 : 'suspect'
               : '',
-          data_inicio_sintomas: patient.data_inicio_sintomas,
-          data_internacao, // usado para validações
-          data_nascimento, // usado para validações
+          data_inicio_sintomas: patient.data_inicio_sintomas || '',
+          data_internacao: data_internacao || '', // usado para validações
+          data_nascimento: data_nascimento || '', // usado para validações
           data_ultimo_desfecho: dataUltimoDesfecho, // usado para validações
-          data_atendimento_referencia, // usado para validações
+          data_atendimento_referencia: data_atendimento_referencia || '', // usado para validações
         }}
         onSubmit={handleSubmit}
         validationSchema={schema}
@@ -218,6 +221,18 @@ const InitialSymptoms = () => {
                 </Button>
               </div>
             </div>
+
+            <div>
+              <PrevJSON
+                data={values}
+                name="Values"
+              />
+              <PrevJSON
+                data={dataUltimoDesfecho}
+                name="dataUltimoDesfecho"
+              />
+            </div>
+
             <Grid container>
               <Grid
                 item
