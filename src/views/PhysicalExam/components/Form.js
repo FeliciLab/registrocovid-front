@@ -33,7 +33,6 @@ const schema = Yup.object().shape({
   altura: Yup.number()
     .integer('Altura deve ser dada em centimetros')
     .positive('Altura deve ser positiva'),
-  ascultura_pulmonar: Yup.string().max(191, 'Tamanho máximo é 120'),
 });
 
 const Form = forwardRef((props, ref) => {
