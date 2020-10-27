@@ -125,12 +125,14 @@ const TesteRTPCRItem = ({ teste }) => {
               <Typography variant="h4">Data de resultado RT-PCR</Typography>
             </FormLabel>
             <TextField
+              contentEditable={false}
               InputLabelProps={{
                 shrink: true,
               }}
-              contentEditable={false}
               type="date"
-              value={teste.data_resultado | ''}
+              value={teste.data_resultado
+                ? teste.data_resultado
+                : ''}
             />
           </FormGroup>
         </Grid>

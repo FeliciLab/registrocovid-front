@@ -46,34 +46,11 @@ const TestComplementaryItem = ({ teste, descricao }) => {
         className={classes.accordionDetails}
         component={AccordionDetails}
         container
+        direction="column"
         spacing={1}
       >
-        {/* resultado */}
-        <Grid
-          item
-          md={6}
-          xs={12}
-        >
-          <FormGroup>
-            <FormLabel>
-              <Typography variant="h4">Resultado</Typography>
-            </FormLabel>
-            <TextField
-              as={TextField}
-              className={classes.field}
-              type="text"
-              value={teste.resultado}
-              variant="outlined"
-            />
-          </FormGroup>
-        </Grid>
-
         {/* data */}
-        <Grid
-          item
-          md={6}
-          xs={12}
-        >
+        <Grid item>
           <FormGroup>
             <FormLabel>
               <Typography variant="h4">Data</Typography>
@@ -83,6 +60,24 @@ const TestComplementaryItem = ({ teste, descricao }) => {
               contentEditable={false}
               type="date"
               value={teste.data}
+              variant="outlined"
+            />
+          </FormGroup>
+        </Grid>
+
+        {/* resultado */}
+        <Grid item>
+          <FormGroup>
+            <FormLabel>
+              <Typography variant="h4">Resultado</Typography>
+            </FormLabel>
+            <TextField
+              as={TextField}
+              className={classes.field}
+              multiline
+              rows={3}
+              type="text"
+              value={teste.resultado}
               variant="outlined"
             />
           </FormGroup>

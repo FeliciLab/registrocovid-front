@@ -33,7 +33,6 @@ const schema = Yup.object().shape({
   altura: Yup.number()
     .integer('Altura deve ser dada em centimetros')
     .positive('Altura deve ser positiva'),
-  ascultura_pulmonar: Yup.string().max(191, 'Tamanho máximo é 120'),
 });
 
 const Form = forwardRef((props, ref) => {
@@ -126,9 +125,6 @@ const Form = forwardRef((props, ref) => {
                     <Typography variant="h5">Data de evolução</Typography>
                   </FormLabel>
                   <TextField
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
                     className={classes.dateField}
                     error={
                       formik.errors.data_evolucao &&
@@ -140,6 +136,9 @@ const Form = forwardRef((props, ref) => {
                         ? formik.errors.data_evolucao
                         : null
                     }
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
                     label="Data de evolução"
                     name="data_evolucao"
                     onBlur={formik.handleBlur}

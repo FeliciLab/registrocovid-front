@@ -37,12 +37,7 @@ const OutcomeObitoForm = props => {
     handleTiposCuiPale();
   }, [handleTiposCuiPale]);
 
-  const {
-    values,
-    handleChange,
-    errors,
-    touched
-  } = useFormikContext();
+  const { values, handleChange, errors, touched } = useFormikContext();
 
   return (
     <Grid
@@ -78,9 +73,6 @@ const OutcomeObitoForm = props => {
               <Typography variant="h5">Data de óbito</Typography>
             </FormLabel>
             <Field
-              InputLabelProps={{
-                shrink: true,
-              }}
               as={TextField}
               className={classes.field}
               error={
@@ -89,6 +81,9 @@ const OutcomeObitoForm = props => {
                 !!errors.newDesfechos[index]?.data
               }
               helperText={<ErrorMessage name={`newDesfechos.${index}.data`} />}
+              InputLabelProps={{
+                shrink: true,
+              }}
               label="Data"
               name={`newDesfechos.${index}.data`}
               onChange={handleChange}
@@ -106,7 +101,8 @@ const OutcomeObitoForm = props => {
         >
           <FormLabel>
             <Typography variant="h5">
-              O óbito ocorreu em menos de 24h após a data da internação?
+              O óbito ocorreu em menos de 24h após a data da internação
+              hospitalar?
             </Typography>
             <Field
               as={FormControlLabel}
@@ -136,7 +132,8 @@ const OutcomeObitoForm = props => {
         >
           <FormLabel>
             <Typography variant="h5">
-              O paciente estava em ventilação mecânica na ocasião do óbito?
+              O paciente estava em ventilação mecânica invasiva na ocasião do
+              óbito?
             </Typography>
             <Field
               as={FormControlLabel}
@@ -166,7 +163,8 @@ const OutcomeObitoForm = props => {
         >
           <FormLabel>
             <Typography variant="h5">
-              O paciente estava na UTI na ocasião do óbito?
+              O paciente estava na Unidade de Terapia Intensiva (UTI) na ocasião
+              do óbito?
             </Typography>
             <Field
               as={FormControlLabel}
@@ -198,10 +196,12 @@ const OutcomeObitoForm = props => {
             <FormLabel>
               <Typography variant="h5">Causa do óbito</Typography>
             </FormLabel>
-
             <FastField
               as={TextField}
               className={classes.field}
+              helperText={
+                <ErrorMessage name={`newDesfechos.${index}.causa_obito`} />
+              }
               label="Descreva a causa"
               name={`newDesfechos.${index}.causa_obito`}
               onChange={handleChange}
@@ -221,7 +221,7 @@ const OutcomeObitoForm = props => {
           <FormGroup>
             <FormLabel>
               <Typography variant="h5">
-                Paciente encontrava-se em cuidados paliativos?
+                Paciente sob cuidados paliativos (CP)?
               </Typography>
             </FormLabel>
             <ErrorMessage

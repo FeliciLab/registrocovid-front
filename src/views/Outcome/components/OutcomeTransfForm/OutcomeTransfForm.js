@@ -81,9 +81,6 @@ const OutcomeTransfForm = props => {
             </Typography>
           </FormLabel>
           <Field
-            InputLabelProps={{
-              shrink: true,
-            }}
             as={TextField}
             className={classes.field}
             error={
@@ -92,6 +89,9 @@ const OutcomeTransfForm = props => {
               !!errors.newDesfechos[index]?.data
             }
             helperText={<ErrorMessage name={`newDesfechos.${index}.data`} />}
+            InputLabelProps={{
+              shrink: true,
+            }}
             label="Data"
             name={`newDesfechos.${index}.data`}
             onChange={handleChange}
@@ -144,7 +144,7 @@ const OutcomeTransfForm = props => {
         <FormGroup>
           <FormLabel>
             <Typography variant="h5">
-              Paciente encontrava-se em cuidados paliativos?
+              Paciente sob cuidados paliativos (CP)?
             </Typography>
           </FormLabel>
           <ErrorMessage
