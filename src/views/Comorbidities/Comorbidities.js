@@ -159,7 +159,7 @@ const Comorbidities = () => {
             'Ocorreu um erro ao carregar suas informações, por favor tente novamente.',
         });
       });
-  }, [addToast, patient.id]);
+  }, []);
 
   useEffect(() => {
     const tipoDoencas = tiposDoenca.filter(td =>
