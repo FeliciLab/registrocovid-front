@@ -33,10 +33,10 @@ const schema = Yup.object().shape({
     )
     .required('Campo obrigatório'),
   data_internacao: Yup.date(),
-  data_ultimo_desfecho: Yup.date().transform(
+  data_ultimo_desfecho: Yup.date(),
+  data_inicio_sintomas: Yup.date().transform(
     value => new Date(value.getTime() - milissegundos_por_dia),
   ),
-  data_inicio_sintomas: Yup.date(),
 });
 
 export default schema;
