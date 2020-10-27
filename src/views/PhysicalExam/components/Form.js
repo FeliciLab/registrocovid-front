@@ -25,7 +25,24 @@ import api from 'services/api';
 import useStyles from '../styles';
 
 const schema = Yup.object().shape({
-  data_evolucao: Yup.date().required('Campo Obrigatório'),
+  data_evolucao: Yup.date()
+    .required('Campo Obrigatório')
+    .when('data_internacao', (data, schema) =>
+      data
+        ? schema.min(
+          data,
+          'Deve ser anterior ou igual a data de internação (Categoria Informações Gerais)',
+        )
+        : schema,
+    )
+    .when('data_inicio_sintomas', (data, schema) =>
+      data
+        ? schema.min(
+          data,
+          'Deve ser posterior ou igual a data do início dos sintomas (Categoria Sintomas iniciais da COVID-19)',
+        )
+        : schema,
+    ),
   frequencia_respiratoria: Yup.number().integer('Valor deve ser inteiro'),
   pressao_sistolica: Yup.number().integer('Valor deve ser inteiro'),
   pressao_diastolica: Yup.number().integer('Valor deve ser inteiro'),
@@ -33,6 +50,7 @@ const schema = Yup.object().shape({
   altura: Yup.number()
     .integer('Altura deve ser dada em centimetros')
     .positive('Altura deve ser positiva'),
+  data_internacao: Yup.date(),
 });
 
 const Form = forwardRef((props, ref) => {
@@ -41,6 +59,8 @@ const Form = forwardRef((props, ref) => {
   const history = useHistory();
   const { addToast } = useToast();
   const { patient } = usePatient();
+  const { data_internacao } = patient;
+  const { data_inicio_sintomas } = patient;
 
   const handleSubmit = async values => {
     try {
@@ -89,6 +109,8 @@ const Form = forwardRef((props, ref) => {
       ascultura_pulmonar: physicalExam.ascultura_pulmonar || '',
       oximetria: physicalExam.oximetria || '',
       escala_glasgow: physicalExam.escala_glasgow || 0,
+      data_internacao: data_internacao || '',
+      data_inicio_sintomas: data_inicio_sintomas || '',
     },
     onSubmit: handleSubmit,
     validationSchema: schema,
