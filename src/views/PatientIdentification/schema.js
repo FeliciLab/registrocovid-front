@@ -1,5 +1,7 @@
 import * as Yup from 'yup';
 
+const milissegundos_por_dia = 1000 * 60 * 60 * 24;
+
 const schema = Yup.object().shape({
   sexo: Yup.string()
     .required('Campo obrigatório')
@@ -7,7 +9,10 @@ const schema = Yup.object().shape({
   data_nascimento: Yup.date()
     .when('data_internacao', (data, schema) =>
       data
-        ? schema.max(data, 'Deve ser anterior ou igual a data de internação')
+        ? schema.max(
+          data,
+          'Deve ser anterior ou igual a data de internação (Categoria Informações Gerais)',
+        )
         : schema,
     )
     .when('data_ultimo_desfecho', (data, schema) =>
@@ -28,7 +33,9 @@ const schema = Yup.object().shape({
     )
     .required('Campo obrigatório'),
   data_internacao: Yup.date(),
-  data_ultimo_desfecho: Yup.date(),
+  data_ultimo_desfecho: Yup.date().transform(
+    value => new Date(value.getTime() - milissegundos_por_dia),
+  ),
   data_inicio_sintomas: Yup.date(),
 });
 
