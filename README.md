@@ -1,5 +1,7 @@
 # Registro Covid - Front
 
+![Logo](.github/images/logo.svg)
+
 Interface para gerenciamento dos dados do registroCOVID.
 
 ## Ferramentas Utilizadas
