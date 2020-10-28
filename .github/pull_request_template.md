@@ -19,7 +19,7 @@ Descreva a solução proposta.
 - [ ] Labels
 - [ ] Linked issues
 
-## Informações adicionaris
+## Informações adicionais
 
 - Info 1
 - Info 2
