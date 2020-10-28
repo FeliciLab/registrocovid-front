@@ -12,6 +12,13 @@ Descreva a causa do problema.
 
 Descreva a solução proposta.
 
+## Checklist
+
+- [ ] Reviewers
+- [ ] Assignees
+- [ ] Labels
+- [ ] Linked issues
+
 ## Informações adicionaris
 
 - Info 1
