@@ -1,5 +1,5 @@
 /* eslint-disable indent */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import DoneIcon from '@material-ui/icons/Done';
 import {
   Typography,
@@ -35,18 +35,21 @@ import { PrevJSON } from 'components';
 // Card, RadioButton, Field --> date, Chip, Grid para responsividade
 
 const InitialSymptoms = () => {
-  const { patient, addPatient } = usePatient();
+  const classes = useStyles();
 
-  const {
-    data_internacao,
-    data_nascimento,
-    data_atendimento_referencia,
-  } = patient;
+  const { patient, addPatient } = usePatient();
 
   const history = useHistory();
 
   const { addToast } = useToast();
-  const classes = useStyles();
+
+  // informações do paciente. usados para validações dos values
+  const [dataInternacao, setDataInternacao] = useState('');
+  const [dataNascimento, setDataNascimento] = useState('');
+  const [dataAtendimentoReferencia, setDataAtendimentoReferencia] = useState(
+    '',
+  );
+  const [dataInicioSintomas, setDataInicioSintomas] = useState('');
 
   const [dataUltimoDesfecho, setDataUltimoDesfecho] = useState('');
   const [selectedSintomas, setSelectedSintomas] = useState([]);
@@ -57,6 +60,27 @@ const InitialSymptoms = () => {
 
   const [isFetching, setIsFetching] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+
+  const handleInfoPatient = useCallback(() => {
+    api
+      .get(`/pacientes/${patient.id}`)
+      .then(response => {
+        setDataInternacao(response.data.data_internacao);
+        setDataNascimento(response.data.data_nascimento);
+        setDataAtendimentoReferencia(response.data.data_atendimento_referencia);
+        setDataInicioSintomas(response.data.data_inicio_sintomas);
+      })
+      .catch(error => {
+        addToast({
+          type: 'error',
+          message:
+            'Ocorreu um erro ao carregar as informações do paciente, por favor tente novamente',
+        });
+      });
+  }, [addToast, patient.id]);
+
+  // carregando as informações do paciente
+  useEffect(handleInfoPatient, []);
 
   useEffect(() => {
     setIsFetching(true);
@@ -99,6 +123,7 @@ const InitialSymptoms = () => {
       .get(`/pacientes/${patient.id}/desfecho/ultimo`)
       .then(response => {
         const { data } = response;
+        // TODO: remover depois
         console.log(data.desfecho.data);
         setDataUltimoDesfecho(data.desfecho.data);
       })
@@ -194,11 +219,11 @@ const InitialSymptoms = () => {
                 ? 'confirmed'
                 : 'suspect'
               : '',
-          data_inicio_sintomas: patient.data_inicio_sintomas || '',
-          data_internacao: data_internacao || '', // usado para validações
-          data_nascimento: data_nascimento || '', // usado para validações
-          data_ultimo_desfecho: dataUltimoDesfecho, // usado para validações
-          data_atendimento_referencia: data_atendimento_referencia || '', // usado para validações
+          data_inicio_sintomas: dataInicioSintomas || '',
+          data_internacao: dataInternacao || '', // usado para validações
+          data_nascimento: dataNascimento || '', // usado para validações
+          data_ultimo_desfecho: dataUltimoDesfecho || '', // usado para validações
+          data_atendimento_referencia: dataAtendimentoReferencia || '', // usado para validações
         }}
         onSubmit={handleSubmit}
         validationSchema={schema}
@@ -288,7 +313,7 @@ const InitialSymptoms = () => {
                       {isFetching ? (
                         <CircularProgress />
                       ) : (
-                        sintomasListagem?.map(sintomaListagem =>
+                        sintomasListagem?.map((sintomaListagem, index) =>
                           selectedSintomas?.some(
                             idSintoma => idSintoma === sintomaListagem.id,
                           ) ? (
@@ -296,7 +321,7 @@ const InitialSymptoms = () => {
                               clickable
                               color="primary"
                               icon={<DoneIcon />}
-                              key={sintomaListagem.id}
+                              key={index}
                               label={sintomaListagem.nome}
                               onClick={() =>
                                 handleClickChip(sintomaListagem.id)
@@ -305,7 +330,7 @@ const InitialSymptoms = () => {
                           ) : (
                             <Chip
                               clickable
-                              key={sintomaListagem.id}
+                              key={index}
                               label={sintomaListagem.nome}
                               onClick={() =>
                                 handleClickChip(sintomaListagem.id)
