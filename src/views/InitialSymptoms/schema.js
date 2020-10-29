@@ -8,16 +8,11 @@ const schema = Yup.object().shape({
   data_ultimo_desfecho: Yup.date().transform(
     value => new Date(value.getTime() - milissegundos_por_dia),
   ),
+  data_inicio_ano: Yup.date().default('01/01/2020'),
+  data_hoje: Yup.date(new Date()),
   data_inicio_sintomas: Yup.date()
     .required('Campo obrigatório')
-    .when('data_internacao', (data, schema) =>
-      data
-        ? schema.max(
-          data,
-          'Deve ser anterior ou igual a data de internação (Categoria Informações Gerais)',
-        )
-        : schema,
-    )
+    .min(Yup.ref('data_inicio_ano'), 'Deve ser posterior ou igual à 01/01/2020')
     .when('data_nascimento', (data, schema) =>
       data
         ? schema.min(
@@ -26,6 +21,7 @@ const schema = Yup.object().shape({
         )
         : schema,
     )
+    .max(Yup.ref('data_hoje'), 'Deve ser anterior ou igual a data de hoje')
     .when('data_ultimo_desfecho', (data, schema) =>
       data
         ? schema.max(
@@ -42,8 +38,14 @@ const schema = Yup.object().shape({
         )
         : schema,
     )
-    .max(new Date(), 'Deve ser anterior ou igual a data de hoje')
-    .min('01/01/2020', 'Deve ser posterior ou igual à 01/01/2020'),
+    .when('data_internacao', (data, schema) =>
+      data
+        ? schema.max(
+          data,
+          'Deve ser anterior ou igual a data de internação (Categoria Informações Gerais)',
+        )
+        : schema,
+    ),
 });
 
 export default schema;
