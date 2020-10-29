@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
-import formatDate from 'helpers/formatDate';
+
+const milissegundos_por_dia = 1000 * 60 * 60 * 24;
 
 const schema = Yup.object().shape({
   prontuario: Yup.number()
@@ -48,7 +49,9 @@ const schema = Yup.object().shape({
       })}`,
     ),
   data_inicio_sintomas: Yup.date(),
-  data_ultimo_desfecho: Yup.date(),
+  data_ultimo_desfecho: Yup.date().transform(
+    value => new Date(value.getTime() - milissegundos_por_dia),
+  ),
 });
 
 export default schema;
