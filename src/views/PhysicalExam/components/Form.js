@@ -1,4 +1,4 @@
-import React, { useImperativeHandle, forwardRef } from 'react';
+import React, { useState, useEffect, useImperativeHandle, forwardRef } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import {
@@ -17,8 +17,12 @@ import {
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
+
 import { useToast } from 'hooks/toast';
 import { usePatient } from 'context/PatientContext';
+import { getLastOutcome } from '../../../services/lastOutcome';
+
+import getTodaysDate from './getTodaysDate'
 
 import api from 'services/api';
 
@@ -27,19 +31,43 @@ import useStyles from '../styles';
 const schema = Yup.object().shape({
   data_evolucao: Yup.date()
     .required('Campo Obrigatório')
-    .when('data_internacao', (data, schema) =>
-      data
-        ? schema.min(
-          data,
-          'Deve ser anterior ou igual a data de internação (Categoria Informações Gerais)',
-        )
-        : schema,
-    )
     .when('data_inicio_sintomas', (data, schema) =>
       data
         ? schema.min(
           data,
           'Deve ser posterior ou igual a data do início dos sintomas (Categoria Sintomas iniciais da COVID-19)',
+        )
+        : schema,
+    )
+    .when('data_ultimo_desfecho', (data, schema) =>
+      data
+        ? schema.max(
+          data,
+          'Data de evolução: Deve ser anterior ou igual a data do último desfecho (Categoria Desfecho).',
+        )
+        : schema,
+    )
+    .when('data_minima', (data, schema) =>
+      data
+        ? schema.min(
+          data,
+          'Data de evolução: Deve ser posterior ou igual a 01/01/2020.',
+        )
+        : schema,
+    )
+    .when('data_hoje', (data, schema) =>
+      data
+        ? schema.max(
+          data,
+          'Data de evolução: Deve ser anterior ou igual a data de hoje (formato dd/mm/aaaa).',
+        )
+        : schema,
+    )
+    .when('data_internacao', (data, schema) =>
+      data
+        ? schema.min(
+          data,
+          'Deve ser anterior ou igual a data de internação (Categoria Informações Gerais)',
         )
         : schema,
     ),
@@ -61,6 +89,29 @@ const Form = forwardRef((props, ref) => {
   const { patient } = usePatient();
   const { data_internacao } = patient;
   const { data_inicio_sintomas } = patient;
+  const [lastOutcome, setLastOutcome] = useState({});
+  const data_ultimo_desfecho = lastOutcome;
+  const data_minima = '2020-01-01';
+  const data_hoje = getTodaysDate();
+
+  console.log(data_internacao)
+
+  useEffect(() => {
+    if (patient.id) {
+      getLastOutcome(patient.id)
+        .then(response => {
+          response.data.message ?
+            setLastOutcome() :
+            setLastOutcome(response.data.desfecho.data);
+        })
+        .catch(err => {
+          addToast({
+            type: 'error',
+            message: err.message,
+          });
+        })
+    }
+  }, []);
 
   const handleSubmit = async values => {
     try {
@@ -111,6 +162,9 @@ const Form = forwardRef((props, ref) => {
       escala_glasgow: physicalExam.escala_glasgow || 0,
       data_internacao: data_internacao || '',
       data_inicio_sintomas: data_inicio_sintomas || '',
+      data_ultimo_desfecho: data_ultimo_desfecho || '',
+      data_minima: data_minima || '',
+      data_hoje: data_hoje || '',
     },
     onSubmit: handleSubmit,
     validationSchema: schema,
