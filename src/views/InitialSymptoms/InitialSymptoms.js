@@ -43,15 +43,9 @@ const InitialSymptoms = () => {
 
   const { addToast } = useToast();
 
-  // informações do paciente. usados para validações dos values
+  // usados para validações
   const [dataInternacao, setDataInternacao] = useState('');
-  const [dataNascimento, setDataNascimento] = useState('');
-  const [dataAtendimentoReferencia, setDataAtendimentoReferencia] = useState(
-    '',
-  );
-  const [dataInicioSintomas, setDataInicioSintomas] = useState('');
 
-  const [dataUltimoDesfecho, setDataUltimoDesfecho] = useState('');
   const [selectedSintomas, setSelectedSintomas] = useState([]);
   const [selectedSintomasHasChanged, setSelectedSintomasHasChanged] = useState(
     false,
@@ -66,9 +60,6 @@ const InitialSymptoms = () => {
       .get(`/pacientes/${patient.id}`)
       .then(response => {
         setDataInternacao(response.data.data_internacao);
-        setDataNascimento(response.data.data_nascimento);
-        setDataAtendimentoReferencia(response.data.data_atendimento_referencia);
-        setDataInicioSintomas(response.data.data_inicio_sintomas);
       })
       .catch(error => {
         addToast({
@@ -116,19 +107,6 @@ const InitialSymptoms = () => {
       setSelectedSintomasHasChanged(!checkHasNotChanged);
     }
   }, [selectedSintomas, patient.sintomas]);
-
-  // buscando a data do ultimo desfecho
-  useEffect(() => {
-    api
-      .get(`/pacientes/${patient.id}/desfecho/ultimo`)
-      .then(response => {
-        const { data } = response;
-        // TODO: remover depois
-        console.log(data.desfecho.data);
-        setDataUltimoDesfecho(data.desfecho.data);
-      })
-      .catch(error => {});
-  }, [patient.id]);
 
   const handleClickChip = async sintomaId => {
     const exists = selectedSintomas.some(
@@ -219,11 +197,7 @@ const InitialSymptoms = () => {
                 ? 'confirmed'
                 : 'suspect'
               : '',
-          data_inicio_sintomas: dataInicioSintomas || '',
-          data_internacao: dataInternacao || '', // usado para validações
-          data_nascimento: dataNascimento || '', // usado para validações
-          data_ultimo_desfecho: dataUltimoDesfecho || '', // usado para validações
-          data_atendimento_referencia: dataAtendimentoReferencia || '', // usado para validações
+          data_internacao: dataInternacao || '',
         }}
         onSubmit={handleSubmit}
         validationSchema={schema}
@@ -251,10 +225,6 @@ const InitialSymptoms = () => {
               <PrevJSON
                 data={values}
                 name="Values"
-              />
-              <PrevJSON
-                data={dataUltimoDesfecho}
-                name="dataUltimoDesfecho"
               />
             </div>
 
