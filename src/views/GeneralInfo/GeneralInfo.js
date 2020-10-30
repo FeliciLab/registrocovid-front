@@ -23,7 +23,7 @@ import { usePatient } from 'context/PatientContext';
 import api from 'services/api';
 import formatDate from 'helpers/formatDate';
 
-const loadInitialValues = patient => {
+const loadInitialValues = (patient, dataUltimoDesfecho) => {
   let initialValues = {
     prontuario: '',
     data_internacao: '',
@@ -34,6 +34,8 @@ const loadInitialValues = patient => {
     tipo_suport_respiratorio: '',
     reinternacao: false,
     chegou_traqueostomizado: false,
+    data_inicio_sintomas: '', // usado apenas para as validations
+    data_ultimo_desfecho: dataUltimoDesfecho, // usado apenas para as validations
   };
 
   if (patient && patient.prontuario) {
@@ -54,6 +56,8 @@ const loadInitialValues = patient => {
           ? patient.tipo_suporte_respiratorios[0].id
           : '',
       chegou_traqueostomizado: patient.chegou_traqueostomizado,
+      data_inicio_sintomas: patient.data_inicio_sintomas, // usado apenas para as validations
+      data_ultimo_desfecho: dataUltimoDesfecho, // usado apenas para as validations
     };
   }
 
@@ -62,13 +66,16 @@ const loadInitialValues = patient => {
 
 const GeneralInfo = () => {
   const { addToast } = useToast();
+
   const { patient, addPatient } = usePatient();
+
   const history = useHistory();
   const classes = useStyles();
 
   const [loading, setLoading] = useState(false);
   const [instituicoes, setInstituicoes] = useState([]);
   const [tiposSuporteRespiratorio, setTiposSuporteRespiratorio] = useState([]);
+  const [dataUltimoDesfecho, setDataUltimoDesfecho] = useState('');
 
   const handleInfos = useCallback(async () => {
     try {
@@ -85,7 +92,18 @@ const GeneralInfo = () => {
           [1, 2, 3, 4, 7].some(id => id === tipo.id),
         ),
       );
+
+      if (patient.id) {
+        const responseUltimoDesfecho = await api.get(
+          `pacientes/${patient.id}/desfecho/ultimo`,
+        );
+
+        const { desfecho } = responseUltimoDesfecho.data;
+
+        if (desfecho) setDataUltimoDesfecho(desfecho.data);
+      }
     } catch (error) {
+      console.error(error);
       addToast({
         type: 'error',
         message: 'Erro ao tentar carregar informações, tente novamente',
@@ -95,7 +113,7 @@ const GeneralInfo = () => {
     } finally {
       setLoading(false);
     }
-  }, [addToast, history]);
+  }, [addToast, history, patient.id]);
 
   const handleSubmit = async values => {
     let patient = {
@@ -168,57 +186,55 @@ const GeneralInfo = () => {
     handleInfos();
   }, [handleInfos]);
 
-  const links = patient.id ? ([
-    { label: 'Meus pacientes', route: '/meus-pacientes' },
-    { label: 'Categorias', route: '/categorias' },
-    {
-      label: 'Informações gerais',
-      route: '/categorias/informacoes-gerais',
-    },
-  ]
-  ) : ([
-    { label: 'Meus pacientes', route: '/meus-pacientes' },
-    {
-      label: 'Informações gerais',
-      route: '/categorias/informacoes-gerais',
-    },
-  ]
-  );
+  const links = patient.id
+    ? [
+      { label: 'Meus pacientes', route: '/meus-pacientes' },
+      { label: 'Categorias', route: '/categorias' },
+      {
+        label: 'Informações gerais',
+        route: '/categorias/informacoes-gerais',
+      },
+    ]
+    : [
+      { label: 'Meus pacientes', route: '/meus-pacientes' },
+      {
+        label: 'Informações gerais',
+        route: '/categorias/informacoes-gerais',
+      },
+    ];
 
   return (
     <div className={classes.root}>
       <div className={classes.header}>
-        <CustomBreadcrumbs
-          links={links}
-        />
+        <CustomBreadcrumbs links={links} />
       </div>
 
       <div className={classes.formWrapper}>
-        <Formik
-          initialValues={loadInitialValues(patient)}
-          onSubmit={handleSubmit}
-          validateOnMount
-          validationSchema={schema}
-        >
-          {({ values, isSubmitting }) => (
-            <Form component={FormControl}>
-              <div className={classes.titleWrapper}>
-                <Typography variant="h1">Informações Gerais</Typography>
+        {loading ? (
+          <CircularProgress />
+        ) : (
+          <Formik
+            initialValues={loadInitialValues(patient, dataUltimoDesfecho)}
+            onSubmit={handleSubmit}
+            validateOnMount
+            validationSchema={schema}
+          >
+            {({ values, isSubmitting, errors }) => (
+              <Form component={FormControl}>
+                <div className={classes.titleWrapper}>
+                  <Typography variant="h1">Informações Gerais</Typography>
 
-                <Button
-                  className={classes.buttonSave}
-                  color="secondary"
-                  disabled={!!patient.prontuario || isSubmitting}
-                  type="submit"
-                  variant="contained"
-                >
-                  Salvar
-                </Button>
-              </div>
+                  <Button
+                    className={classes.buttonSave}
+                    color="secondary"
+                    disabled={!!patient.prontuario || isSubmitting}
+                    type="submit"
+                    variant="contained"
+                  >
+                    Salvar
+                  </Button>
+                </div>
 
-              {loading ? (
-                <CircularProgress />
-              ) : (
                 <Grid
                   className={classes.card}
                   component={Card}
@@ -448,10 +464,10 @@ const GeneralInfo = () => {
                     />
                   </Grid>
                 </Grid>
-              )}
-            </Form>
-          )}
-        </Formik>
+              </Form>
+            )}
+          </Formik>
+        )}
       </div>
     </div>
   );

@@ -1,21 +1,42 @@
 import * as Yup from 'yup';
 
+const milissegundos_por_dia = 1000 * 60 * 60 * 24;
+
 const schema = Yup.object().shape({
-  municipio_id: Yup.number(),
-  bairro_id: Yup.number(),
-  estado_id: Yup.number(),
-  telefone_de_casa: Yup.string(),
-  telefone_celular: Yup.string(),
-  telefone_do_trabalho: Yup.string(),
-  telefone_de_vizinho: Yup.string(),
-  sexo: Yup.string(),
-  data_nascimento: Yup.string(),
-  estado_nascimento_id: Yup.string(),
-  cor_id: Yup.number(),
-  estado_civil_id: Yup.number(),
-  escolaridade_id: Yup.number(),
-  atividade_profissional_id: Yup.number(),
-  qtd_pessoas_domicilio: Yup.number(),
+  sexo: Yup.string()
+    .required('Campo obrigatório')
+    .notOneOf(['0'], 'Campo obrigatório'),
+  data_nascimento: Yup.date()
+    .when('data_internacao', (data, schema) =>
+      data
+        ? schema.max(
+          data,
+          'Deve ser anterior ou igual a data de internação (Categoria Informações Gerais)',
+        )
+        : schema,
+    )
+    .when('data_ultimo_desfecho', (data, schema) =>
+      data
+        ? schema.max(
+          data,
+          'Deve ser anterior ou igual a data do último desfecho (Categoria Desfecho)',
+        )
+        : schema,
+    )
+    .when('data_inicio_sintomas', (data, schema) =>
+      data
+        ? schema.max(
+          data,
+          'Deve ser anterior a data do início dos sintomas (Categoria Sintomas iniciais da COVID-19)',
+        )
+        : schema,
+    )
+    .required('Campo obrigatório'),
+  data_internacao: Yup.date(),
+  data_ultimo_desfecho: Yup.date(),
+  data_inicio_sintomas: Yup.date().transform(
+    value => new Date(value.getTime() - milissegundos_por_dia),
+  ),
 });
 
 export default schema;

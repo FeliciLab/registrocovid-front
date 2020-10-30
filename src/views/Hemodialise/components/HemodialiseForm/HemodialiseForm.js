@@ -8,7 +8,7 @@ import {
   Card,
   TextField,
 } from '@material-ui/core';
-import { useFormikContext, Field } from 'formik';
+import { useFormikContext, Field, ErrorMessage } from 'formik';
 import useStyles from './styles';
 
 function HemodialiseForm() {
@@ -109,6 +109,7 @@ function HemodialiseForm() {
             <Field
               as={TextField}
               className={classes.field}
+              helperText={<ErrorMessage name="motivo_hemodialise" />}
               InputLabelProps={{
                 shrink: true,
               }}

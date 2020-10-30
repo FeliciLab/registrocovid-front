@@ -159,7 +159,7 @@ const Comorbidities = () => {
             'Ocorreu um erro ao carregar suas informações, por favor tente novamente.',
         });
       });
-  }, []);
+  }, [addToast, patient.id]);
 
   useEffect(() => {
     const tipoDoencas = tiposDoenca.filter(td =>
@@ -173,7 +173,7 @@ const Comorbidities = () => {
       />
     ));
     setDiseases(disease);
-  }, [apiValues]);
+  }, [apiValues, allDoencas, tiposDoenca]);
 
   const handleSubmit = async values => {
     if (visualization) {
@@ -240,6 +240,8 @@ const Comorbidities = () => {
           break;
         case 10:
           submitData.doenca_psiquiatrica = true;
+          break;
+        default:
           break;
       }
     });
