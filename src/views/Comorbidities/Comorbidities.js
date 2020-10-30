@@ -159,7 +159,7 @@ const Comorbidities = () => {
             'Ocorreu um erro ao carregar suas informações, por favor tente novamente.',
         });
       });
-  }, [addToast, patient.id]);
+  }, []);
 
   useEffect(() => {
     const tipoDoencas = tiposDoenca.filter(td =>
@@ -192,10 +192,12 @@ const Comorbidities = () => {
       medicacoes,
     };
 
-    if (values.gestacao_semanas)
+    if (values.gestacao_semanas) {
       submitData.gestacao_semanas = values.gestacao_semanas;
-    if (values.puerperio_semanas)
+    }
+    if (values.puerperio_semanas) {
       submitData.puerperio_semanas = values.puerperio_semanas;
+    }
 
     Object.entries(values).forEach(entrie => {
       if (Array.isArray(entrie[1])) {

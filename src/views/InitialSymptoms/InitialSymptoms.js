@@ -30,7 +30,6 @@ import api from 'services/api';
 import useStyles from './styles';
 import CustomBreadcrumbs from 'components/CustomBreadcrumbs';
 import PatientInfo from 'components/PatientInfo';
-import { PrevJSON } from 'components';
 
 // Card, RadioButton, Field --> date, Chip, Grid para responsividade
 
