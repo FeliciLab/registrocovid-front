@@ -23,7 +23,7 @@ import { usePatient } from 'context/PatientContext';
 import api from 'services/api';
 import formatDate from 'helpers/formatDate';
 
-const loadInitialValues = (patient, dataUltimoDesfecho) => {
+const loadInitialValues = patient => {
   let initialValues = {
     prontuario: '',
     data_internacao: '',
@@ -34,8 +34,6 @@ const loadInitialValues = (patient, dataUltimoDesfecho) => {
     tipo_suport_respiratorio: '',
     reinternacao: false,
     chegou_traqueostomizado: false,
-    data_inicio_sintomas: '', // usado apenas para as validations
-    data_ultimo_desfecho: dataUltimoDesfecho, // usado apenas para as validations
   };
 
   if (patient && patient.prontuario) {
@@ -56,8 +54,6 @@ const loadInitialValues = (patient, dataUltimoDesfecho) => {
           ? patient.tipo_suporte_respiratorios[0].id
           : '',
       chegou_traqueostomizado: patient.chegou_traqueostomizado,
-      data_inicio_sintomas: patient.data_inicio_sintomas, // usado apenas para as validations
-      data_ultimo_desfecho: dataUltimoDesfecho, // usado apenas para as validations
     };
   }
 
@@ -75,7 +71,6 @@ const GeneralInfo = () => {
   const [loading, setLoading] = useState(false);
   const [instituicoes, setInstituicoes] = useState([]);
   const [tiposSuporteRespiratorio, setTiposSuporteRespiratorio] = useState([]);
-  const [dataUltimoDesfecho, setDataUltimoDesfecho] = useState('');
 
   const handleInfos = useCallback(async () => {
     try {
@@ -92,16 +87,6 @@ const GeneralInfo = () => {
           [1, 2, 3, 4, 7].some(id => id === tipo.id),
         ),
       );
-
-      if (patient.id) {
-        const responseUltimoDesfecho = await api.get(
-          `pacientes/${patient.id}/desfecho/ultimo`,
-        );
-
-        const { desfecho } = responseUltimoDesfecho.data;
-
-        if (desfecho) setDataUltimoDesfecho(desfecho.data);
-      }
     } catch (error) {
       addToast({
         type: 'error',
@@ -213,7 +198,7 @@ const GeneralInfo = () => {
           <CircularProgress />
         ) : (
           <Formik
-            initialValues={loadInitialValues(patient, dataUltimoDesfecho)}
+            initialValues={loadInitialValues(patient)}
             onSubmit={handleSubmit}
             validateOnMount
             validationSchema={schema}
