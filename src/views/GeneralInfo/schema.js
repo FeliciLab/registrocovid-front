@@ -1,5 +1,4 @@
 import * as Yup from 'yup';
-import formatDate from 'helpers/formatDate';
 
 const schema = Yup.object().shape({
   prontuario: Yup.number()

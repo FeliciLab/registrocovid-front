@@ -97,7 +97,7 @@ const GeneralInfo = () => {
     } finally {
       setLoading(false);
     }
-  }, [addToast, history, patient.id]);
+  }, [addToast, history]);
 
   const handleSubmit = async values => {
     let patient = {
