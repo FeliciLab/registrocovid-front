@@ -45,6 +45,7 @@ const InitialSymptoms = () => {
 
   // usados para validações
   const [dataInternacao, setDataInternacao] = useState('');
+  const [dataInicioSintomas, setDataInicioSintomas] = useState('');
 
   const [selectedSintomas, setSelectedSintomas] = useState([]);
   const [selectedSintomasHasChanged, setSelectedSintomasHasChanged] = useState(
@@ -60,6 +61,7 @@ const InitialSymptoms = () => {
       .get(`/pacientes/${patient.id}`)
       .then(response => {
         setDataInternacao(response.data.data_internacao);
+        setDataInicioSintomas(response.data.data_inicio_sintomas);
       })
       .catch(error => {
         addToast({
@@ -198,6 +200,7 @@ const InitialSymptoms = () => {
                 : 'suspect'
               : '',
           data_internacao: dataInternacao || '',
+          data_inicio_sintomas: dataInicioSintomas || '',
         }}
         onSubmit={handleSubmit}
         validationSchema={schema}
@@ -219,13 +222,6 @@ const InitialSymptoms = () => {
                   {isSaving ? 'Salvando...' : 'Salvar'}
                 </Button>
               </div>
-            </div>
-
-            <div>
-              <PrevJSON
-                data={values}
-                name="Values"
-              />
             </div>
 
             <Grid container>
