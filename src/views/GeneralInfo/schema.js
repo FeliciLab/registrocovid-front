@@ -21,8 +21,8 @@ const schema = Yup.object().shape({
     .min('01/01/2020', 'Deve ser posterior ou igual à 01/01/2020')
     .max(
       Yup.ref('data_internacao'),
-      'Deve ser anterior ou igual a Data de internação',
-    ),
+      'Deve ser anterior ou igual a data de internação',
+    )
 });
 
 export default schema;

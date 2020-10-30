@@ -1,19 +1,20 @@
 import React, { memo } from 'react';
 
-import PropTypes from 'prop-types';
 import {
-  Typography,
   Grid,
-  FormGroup,
   FormLabel,
-  TextField,
+  Typography,
+  FormGroup,
   Card,
+  TextField,
 } from '@material-ui/core';
-
+import { useFormikContext, Field, ErrorMessage } from 'formik';
 import useStyles from './styles';
 
-function SupportTreatmentItem({ tratamento }) {
+function HemodialiseForm() {
   const classes = useStyles();
+
+  const { values, handleChange, errors, touched } = useFormikContext();
 
   return (
     <Grid
@@ -33,7 +34,7 @@ function SupportTreatmentItem({ tratamento }) {
       >
         {/* data_inicio */}
         <Grid
-          className={classes.field}
+          className={classes.fieldWraper}
           item
           sm={6}
         >
@@ -41,22 +42,28 @@ function SupportTreatmentItem({ tratamento }) {
             <FormLabel>
               <Typography variant="h5">Primeira Sessão</Typography>
             </FormLabel>
-            <TextField
+            <Field
+              as={TextField}
+              className={classes.field}
+              error={errors.data_inicio && touched.data_inicio}
+              helperText={
+                errors.data_inicio && touched.data_inicio && errors.data_inicio
+              }
               InputLabelProps={{
                 shrink: true,
               }}
-              className={classes.field}
-              contentEditable={false}
               label="Data"
+              name="data_inicio"
+              onChange={handleChange}
               type="date"
-              value={tratamento.data_inicio}
+              value={values.data_inicio}
             />
           </FormGroup>
         </Grid>
 
         {/* data_termino */}
         <Grid
-          className={classes.field}
+          className={classes.fieldWraper}
           item
           sm={6}
         >
@@ -64,22 +71,34 @@ function SupportTreatmentItem({ tratamento }) {
             <FormLabel>
               <Typography variant="h5">Última Sessão</Typography>
             </FormLabel>
-            <TextField
+            <Field
+              as={TextField}
+              className={classes.field}
+              error={
+                errors.data_termino &&
+                touched.data_termino &&
+                !!errors.data_termino
+              }
+              helperText={
+                errors.data_termino &&
+                touched.data_termino &&
+                errors.data_termino
+              }
               InputLabelProps={{
                 shrink: true,
               }}
-              className={classes.field}
-              contentEditable={false}
               label="Data"
+              name="data_termino"
+              onChange={handleChange}
               type="date"
-              value={tratamento.data_termino}
+              value={values.data_termino}
             />
           </FormGroup>
         </Grid>
 
         {/* motivo_hemodialise */}
         <Grid
-          className={classes.fieldData}
+          className={classes.fieldWraper}
           item
           sm={12}
         >
@@ -87,14 +106,17 @@ function SupportTreatmentItem({ tratamento }) {
             <FormLabel>
               <Typography variant="h5">Motivo</Typography>
             </FormLabel>
-            <TextField
+            <Field
+              as={TextField}
+              className={classes.field}
+              helperText={<ErrorMessage name="motivo_hemodialise" />}
               InputLabelProps={{
                 shrink: true,
               }}
-              className={classes.field}
-              contentEditable={false}
+              name="motivo_hemodialise"
+              onChange={handleChange}
               type="text"
-              value={tratamento.motivo_hemodialise || ''}
+              value={values.motivo_hemodialise}
               variant="outlined"
             />
           </FormGroup>
@@ -102,7 +124,7 @@ function SupportTreatmentItem({ tratamento }) {
 
         {/* frequencia_hemodialise */}
         <Grid
-          className={classes.fieldData}
+          className={classes.fieldWraper}
           item
           sm={12}
         >
@@ -110,14 +132,16 @@ function SupportTreatmentItem({ tratamento }) {
             <FormLabel>
               <Typography variant="h5">Frequência</Typography>
             </FormLabel>
-            <TextField
+            <Field
+              as={TextField}
+              className={classes.field}
               InputLabelProps={{
                 shrink: true,
               }}
-              className={classes.field}
-              contentEditable={false}
+              name="frequencia_hemodialise"
+              onChange={handleChange}
               type="text"
-              value={tratamento.frequencia_hemodialise || ''}
+              value={values.frequencia_hemodialise}
               variant="outlined"
             />
           </FormGroup>
@@ -127,16 +151,4 @@ function SupportTreatmentItem({ tratamento }) {
   );
 }
 
-SupportTreatmentItem.propTypes = {
-  className: PropTypes.string,
-  tratamento: PropTypes.exact({
-    id: PropTypes.number,
-    data_inicio: PropTypes.string,
-    data_termino: PropTypes.string,
-    hemodialise: PropTypes.bool,
-    motivo_hemodialise: PropTypes.string,
-    frequencia_hemodialise: PropTypes.string,
-  }).isRequired,
-};
-
-export default memo(SupportTreatmentItem);
+export default memo(HemodialiseForm);
