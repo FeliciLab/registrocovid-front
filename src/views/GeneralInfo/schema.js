@@ -20,8 +20,7 @@ const schema = Yup.object().shape({
       Yup.ref('data_internacao'),
       'Deve ser anterior ou igual a data de internação',
     )
-    .min('01/01/2020', 'Deve ser posterior ou igual à 01/01/2020'),    
-  data_inicio_sintomas: Yup.date(),
+    .min('01/01/2020', 'Deve ser posterior ou igual à 01/01/2020'),
 });
 
 export default schema;
