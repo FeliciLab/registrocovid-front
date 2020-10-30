@@ -22,8 +22,8 @@ const schema = Yup.lazy(obj =>
       if (key.includes('descricao') && key.includes('outros')) {
         return Yup.string().required('Campo Obrigatório');
       }
-    })
-  )
+    }),
+  ),
 );
 
 export default schema;

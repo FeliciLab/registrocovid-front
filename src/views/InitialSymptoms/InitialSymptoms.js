@@ -1,5 +1,5 @@
 /* eslint-disable indent */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import DoneIcon from '@material-ui/icons/Done';
 import {
   Typography,
@@ -17,9 +17,10 @@ import {
   CircularProgress,
 } from '@material-ui/core';
 
+import schema from './schema';
 import { useHistory } from 'react-router-dom';
 
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 
 import { useToast } from 'hooks/toast';
 import { usePatient } from 'context/PatientContext';
@@ -29,16 +30,22 @@ import api from 'services/api';
 import useStyles from './styles';
 import CustomBreadcrumbs from 'components/CustomBreadcrumbs';
 import PatientInfo from 'components/PatientInfo';
+import { PrevJSON } from 'components';
 
 // Card, RadioButton, Field --> date, Chip, Grid para responsividade
 
 const InitialSymptoms = () => {
+  const classes = useStyles();
+
   const { patient, addPatient } = usePatient();
 
   const history = useHistory();
 
   const { addToast } = useToast();
-  const classes = useStyles();
+
+  // usados para validações
+  const [dataInternacao, setDataInternacao] = useState('');
+  const [dataInicioSintomas, setDataInicioSintomas] = useState('');
 
   const [selectedSintomas, setSelectedSintomas] = useState([]);
   const [selectedSintomasHasChanged, setSelectedSintomasHasChanged] = useState(
@@ -48,6 +55,25 @@ const InitialSymptoms = () => {
 
   const [isFetching, setIsFetching] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+
+  const handleInfoPatient = useCallback(() => {
+    api
+      .get(`/pacientes/${patient.id}`)
+      .then(response => {
+        setDataInternacao(response.data.data_internacao);
+        setDataInicioSintomas(response.data.data_inicio_sintomas);
+      })
+      .catch(error => {
+        addToast({
+          type: 'error',
+          message:
+            'Ocorreu um erro ao carregar as informações do paciente, por favor tente novamente',
+        });
+      });
+  }, [addToast, patient.id]);
+
+  // carregando as informações do paciente
+  useEffect(handleInfoPatient, []);
 
   useEffect(() => {
     setIsFetching(true);
@@ -165,6 +191,7 @@ const InitialSymptoms = () => {
         />
       </div>
       <Formik
+        enableReinitialize
         initialValues={{
           caso_confirmado:
             patient.caso_confirmado !== null
@@ -172,11 +199,13 @@ const InitialSymptoms = () => {
                 ? 'confirmed'
                 : 'suspect'
               : '',
-          data_inicio_sintomas: patient.data_inicio_sintomas,
+          data_internacao: dataInternacao || '',
+          data_inicio_sintomas: dataInicioSintomas || '',
         }}
         onSubmit={handleSubmit}
+        validationSchema={schema}
       >
-        {({ values, handleChange, dirty }) => (
+        {({ values, handleChange, dirty, errors, touched }) => (
           <Form component={FormControl}>
             <div className={classes.titleWrapper}>
               <Typography variant="h1">Sintomas Iniciais</Typography>
@@ -194,6 +223,7 @@ const InitialSymptoms = () => {
                 </Button>
               </div>
             </div>
+
             <Grid container>
               <Grid
                 item
@@ -249,7 +279,7 @@ const InitialSymptoms = () => {
                       {isFetching ? (
                         <CircularProgress />
                       ) : (
-                        sintomasListagem?.map(sintomaListagem =>
+                        sintomasListagem?.map((sintomaListagem, index) =>
                           selectedSintomas?.some(
                             idSintoma => idSintoma === sintomaListagem.id,
                           ) ? (
@@ -257,7 +287,7 @@ const InitialSymptoms = () => {
                               clickable
                               color="primary"
                               icon={<DoneIcon />}
-                              key={sintomaListagem.id}
+                              key={index}
                               label={sintomaListagem.nome}
                               onClick={() =>
                                 handleClickChip(sintomaListagem.id)
@@ -266,7 +296,7 @@ const InitialSymptoms = () => {
                           ) : (
                             <Chip
                               clickable
-                              key={sintomaListagem.id}
+                              key={index}
                               label={sintomaListagem.nome}
                               onClick={() =>
                                 handleClickChip(sintomaListagem.id)
@@ -290,6 +320,11 @@ const InitialSymptoms = () => {
                     </FormLabel>
                     <Field
                       as={TextField}
+                      error={
+                        errors.data_inicio_sintomas &&
+                        touched.data_inicio_sintomas
+                      }
+                      helperText={<ErrorMessage name="data_inicio_sintomas" />}
                       InputLabelProps={{
                         shrink: true,
                       }}

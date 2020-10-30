@@ -130,7 +130,9 @@ const TesteRTPCRItem = ({ teste }) => {
                 shrink: true,
               }}
               type="date"
-              value={teste.data_resultado | ''}
+              value={teste.data_resultado
+                ? teste.data_resultado
+                : ''}
             />
           </FormGroup>
         </Grid>
