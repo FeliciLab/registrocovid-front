@@ -31,27 +31,11 @@ import useStyles from '../styles';
 const schema = Yup.object().shape({
   data_evolucao: Yup.date()
     .required('Campo Obrigatório')
-    .when('data_inicio_sintomas', (data, schema) =>
+    .when('data_internacao', (data, schema) =>
       data
         ? schema.min(
           data,
-          'Deve ser posterior ou igual a data do início dos sintomas (Categoria Sintomas iniciais da COVID-19)',
-        )
-        : schema,
-    )
-    .when('data_ultimo_desfecho', (data, schema) =>
-      data
-        ? schema.max(
-          data,
-          'Data de evolução: Deve ser anterior ou igual a data do último desfecho (Categoria Desfecho).',
-        )
-        : schema,
-    )
-    .when('data_minima', (data, schema) =>
-      data
-        ? schema.min(
-          data,
-          'Data de evolução: Deve ser posterior ou igual a 01/01/2020.',
+          'Deve ser anterior ou igual a data de internação (Categoria Informações Gerais)',
         )
         : schema,
     )
@@ -63,11 +47,11 @@ const schema = Yup.object().shape({
         )
         : schema,
     )
-    .when('data_internacao', (data, schema) =>
+    .when('data_ultimo_desfecho', (data, schema) =>
       data
-        ? schema.min(
+        ? schema.max(
           data,
-          'Deve ser anterior ou igual a data de internação (Categoria Informações Gerais)',
+          'Data de evolução: Deve ser anterior ou igual a data do último desfecho (Categoria Desfecho).',
         )
         : schema,
     ),
@@ -93,8 +77,6 @@ const Form = forwardRef((props, ref) => {
   const data_ultimo_desfecho = lastOutcome;
   const data_minima = '2020-01-01';
   const data_hoje = getTodaysDate();
-
-  console.log(data_internacao)
 
   useEffect(() => {
     if (patient.id) {
