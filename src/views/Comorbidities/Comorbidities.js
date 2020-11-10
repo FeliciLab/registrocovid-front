@@ -70,49 +70,53 @@ const Comorbidities = () => {
 
   const [visualization, setVisualization] = useState(true);
 
-  useEffect(() => {
-    setIsLoading(true);
+  const showToast = ({type, message}) => {
+    return addToast({
+      type: type || 'error',
+      message:
+        message || 'Ocorreu um erro ao carregar suas informações, por favor tente novamente.',
+    });
+  }
 
-    api
+  const getTiposDoencas = () => {
+    return api
       .get('/tipos-doencas')
       .then(response => {
         setTiposDoenca(response.data);
       })
-      .catch(() => {
-        addToast({
-          type: 'error',
-          message:
-            'Ocorreu um erro ao carregar os tipos de doenças, por favor tente novamente.',
-        });
-      });
+      .catch(() => showToast({
+        message: 'Ocorreu um erro ao carregar os tipos de doenças, por favor tente novamente.'
+      }));
+  }
 
-    api
+  const getCorticosteroides = () => {
+    return api
       .get('/corticosteroides')
       .then(response => {
         setAllCorticosteroides(response.data);
       })
-      .catch(() => {
-        addToast({
-          type: 'error',
-          message:
-            'Ocorreu um erro ao carregar os corticosteroides, por favor tente novamente.',
-        });
-      });
+      .catch(() => showToast({
+          message: 'Ocorreu um erro ao carregar os corticosteroides, por favor tente novamente.'
+      }))
+  }
 
-    api
-      .get('/orgaos')
-      .then(response => {
-        setAllOrgaos(response.data);
-      })
-      .catch(() => {
-        addToast({
-          type: 'error',
-          message:
-            'Ocorreu um erro ao carregar os orgaos, por favor tente novamente.',
-        });
+  const getOrgaos = () => {
+    return api
+    .get('/orgaos')
+    .then(response => {
+      setAllOrgaos(response.data);
+    })
+    .catch(() => {
+      addToast({
+        type: 'error',
+        message:
+          'Ocorreu um erro ao carregar os orgaos, por favor tente novamente.',
       });
+    });
+  }
 
-    api
+  const getDoencas = () => {
+    return api
       .get('/doencas')
       .then(response => {
         setAllDoencas(response.data);
@@ -124,42 +128,51 @@ const Comorbidities = () => {
             'Ocorreu um erro ao carregar as doenças, por favor tente novamente.',
         });
       });
+  }
 
-    api
-      .get(`/pacientes/${patient.id}/comorbidades`)
+  const handleEffects = () => {
+    setIsLoading(true);
+    getTiposDoencas()
+    getCorticosteroides()
+    getOrgaos()
+    getDoencas()
+  }
+
+  useEffect(handleEffects(), []);
+
+  const setDatas = (apiData) => {
+    setInitialValues(apiData);
+
+    setDiabetes(apiData.diabetes);
+    setObesidade(apiData.obesidade);
+    setHipertensao(apiData.hipertensao);
+    setHiv(apiData.HIV);
+    setTuberculose(apiData.tuberculose);
+    setNeoplasia(apiData.neoplasia);
+    setQuimioterapia(apiData.quimioterapia);
+
+    setOutrasCondicoes(apiData.outras_condicoes);
+    setMedicacoes(apiData.medicacoes);
+  }
+
+  const buscarPacienteComorbidades = () => {
+    api.get(`/pacientes/${patient.id}/comorbidades`)
       .then(response => {
         if (response.status === 204) {
           setVisualization(false);
           setIsLoading(false);
           return;
-        } else {
-          setVisualization(true);
-
-          const apiData = response.data;
-
-          //chips
-          setDiabetes(apiData.diabetes);
-          setObesidade(apiData.obesidade);
-          setHipertensao(apiData.hipertensao);
-          setHiv(apiData.HIV);
-          setTuberculose(apiData.tuberculose);
-          setNeoplasia(apiData.neoplasia);
-          setQuimioterapia(apiData.quimioterapia);
-
-          setInitialValues(apiData);
-          setOutrasCondicoes(apiData.outras_condicoes);
-          setMedicacoes(apiData.medicacoes);
         }
+        setVisualization(true);
+        setDatas(response.data)
         setIsLoading(false);
       })
-      .catch(() => {
-        addToast({
-          type: 'error',
-          message:
-            'Ocorreu um erro ao carregar suas informações, por favor tente novamente.',
-        });
-      });
-  }, []);
+      .catch(showToast({
+          message: 'Ocorreu um erro ao carregar suas informações, por favor tente novamente.',
+      }))
+  }
+
+  useEffect(buscarPacienteComorbidades(), [patient.id])
 
   useEffect(() => {
     const tipoDoencas = tiposDoenca.filter(td =>
