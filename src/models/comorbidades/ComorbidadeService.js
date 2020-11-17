@@ -129,17 +129,17 @@ const mapCampoModel = (dados) => {
 }
 
 const definirTiposDoencasParaForm = (dados) => {
-  dados.tipos_doencas = []
+  dados.tipo_doencas = []
   if (!Object.prototype.hasOwnProperty.call(dados, 'doencas') && dados.doencas.length === 0) {
     return dados
   }
 
-  dados.doencas.forEach(doenca => {
+  for (let doenca of dados.doencas) {
     const tipo = ComorbidadeModel.mapCamposComorbidadesTipoDoencas.find(tipo => tipo.idTipoDoenca === doenca.tipo_doenca_id)
-    if (tipo && !dados.tipos_doencas.find(d => d.idTipoDoenca === tipo.idTipoDoenca)) {
-      dados.tipo_doencas = [...dados.tipos_doencas, { ...tipo, id: tipo.idTipoDoenca }]
+    if (tipo && !dados.tipo_doencas.find(d => d.id === tipo.idTipoDoenca)) {
+      dados.tipo_doencas = [...dados.tipo_doencas, { ...tipo, id: tipo.idTipoDoenca }]
     }
-  })
+  }
 
   return dados
 }
