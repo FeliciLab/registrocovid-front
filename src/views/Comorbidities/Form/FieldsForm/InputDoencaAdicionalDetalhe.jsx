@@ -34,6 +34,10 @@ const InputDoencaAdicionalDetalhe = (props) => {
     removerDoencas()
   }
 
+  if (doencas.length === 0) {
+    return <></>
+  }
+
   return (
     <Card>
       <CardContent>

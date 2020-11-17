@@ -28,14 +28,14 @@ const CheckboxLabel = (props) => {
         <FieldArray
           name={name}
           render={() => opcoes.map((opcao) => (
-              <Field
-                component={CheckboxWithLabel}
-                key={randomIndex()}
-                Label={{ label: opcao.descricao }}
-                name={`${name}.${opcao.id}`}
-                type={'checkbox'}
-              />
-            )
+            <Field
+              component={CheckboxWithLabel}
+              key={randomIndex()}
+              Label={{ label: opcao.descricao }}
+              name={`${name}.${opcao.id}`}
+              type={'checkbox'}
+            />
+          )
           )}
         />
       </div>
@@ -47,10 +47,7 @@ CheckboxLabel.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   classes: PropTypes.instanceOf(Object).isRequired,
-  opcoes: PropTypes.shape({
-    descricao: PropTypes.string.isRequired,
-    id: PropTypes.number.isRequired
-  })
+  opcoes: PropTypes.instanceOf(Array)
 }
 
 export default CheckboxLabel

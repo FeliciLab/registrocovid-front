@@ -17,7 +17,7 @@ const InputDoencas = () => {
     { id: 'diabetes', label: 'Diabetes' },
     { id: 'obesidade', label: 'Obesidade' },
     { id: 'hipertensao', label: 'Hipertensão' },
-    { id: 'hiv', label: 'HIV Positivo' },
+    { id: 'HIV', label: 'HIV Positivo' },
     { id: 'tuberculose', label: 'Tuberculose' }
   ];
 
@@ -37,7 +37,7 @@ const InputDoencas = () => {
         className={classes.chipWrapper}
         id="chips"
       >
-        {doencas.map(({id, label}) => (
+        {doencas.map(({ id, label }) => (
           <Chip
             key={randomIndex()}
             color={getColorChip(id)}

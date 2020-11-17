@@ -1,8 +1,15 @@
+const modelRelationshipManyToMany = {
+  doencas: [],
+  orgaos: [],
+  corticosteroides: []
+}
+
 const model = {
   id: '',
   paciente_id: '',
   diabetes: false,
   obesidade: false,
+  hipertensao: false,
   doenca_cardiaca: false,
   doenca_vascular_periferica: false,
   doenca_pulmonar_cronica: false,
@@ -24,7 +31,8 @@ const model = {
   outras_condicoes: [],
   medicacoes: [],
   created_at: new Date(),
-  updated_at: new Date()
+  updated_at: new Date(),
+  ...modelRelationshipManyToMany
 }
 
 const mapCamposComorbidadesTipoDoencas = [
@@ -92,5 +100,6 @@ const getCampoComorbidadePorIdTipoDoenca = (id) => {
 export default {
   model,
   mapCamposComorbidadesTipoDoencas,
-  getCampoComorbidadePorIdTipoDoenca
+  getCampoComorbidadePorIdTipoDoenca,
+  modelRelationshipManyToMany
 }

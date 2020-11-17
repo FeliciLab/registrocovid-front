@@ -1,17 +1,27 @@
 import React, { useEffect, useState } from 'react'
+import { useFormikContext } from 'formik'
 import CheckboxLabel from 'components/Forms/CheckboxLabel'
 import DatasRequests from 'services/requests/datasRequests'
+import setDefaultCheckboxValues from 'helpers/defaultCheckboxValues'
 
-const InputCorticosteroidesDetalhes = ({classes}) => {
+const InputCorticosteroidesDetalhes = ({ classes }) => {
   const [corticosteroides, setCorticosteroides] = useState([])
+  const { values, setFieldValue } = useFormikContext()
 
   const handleEffect = () => {
     DatasRequests.buscarCorticosteroides()
-      .then(result => setCorticosteroides([...result]))
+      .then(result => {
+        setCorticosteroides([...result])
+        setDefaultCheckboxValues(
+          [...result],
+          values.corticosteroides || [],
+          'corticosteroides',
+          setFieldValue
+        )
+      })
   }
-  useEffect(() => {
-    handleEffect()
-  }, [])
+
+  useEffect(handleEffect, [])
 
   return (
     <CheckboxLabel

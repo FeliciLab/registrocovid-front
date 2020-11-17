@@ -1,16 +1,24 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import useStyles from 'views/Comorbidities/styles';
 import {
   Grid,
   Typography,
   Button
 } from '@material-ui/core';
+import { useFormikContext } from 'formik'
+import PatientInfo from 'components/PatientInfo';
+import { validarCamposFormularioParaSalvar } from 'models/comorbidades/ComorbidadeService'
 
-const FormHeaderComorbidade = ({ desabilitarBotaoSalvar }) => {
-  // botaoSalvar =  isSubmitting || isSaving || Object.keys(apiValues).length > 0
-  desabilitarBotaoSalvar = true
-  
+const FormHeaderComorbidade = () => {
+  const { isSubmitting, isValid, values } = useFormikContext()
+  const [valido, setValido] = useState(false)
   const classes = useStyles();
+
+  useEffect(() => {
+    setValido(
+      !isSubmitting && isValid && validarCamposFormularioParaSalvar(values)
+    )
+  }, [values, isValid, isSubmitting])
 
   return (
     <>
@@ -31,7 +39,7 @@ const FormHeaderComorbidade = ({ desabilitarBotaoSalvar }) => {
           item
           xs={3}
         >
-          {/* <PatientInfo /> */}
+          <PatientInfo />
         </Grid>
         <Grid
           item
@@ -40,7 +48,7 @@ const FormHeaderComorbidade = ({ desabilitarBotaoSalvar }) => {
           <Button
             className={classes.buttonSave}
             color="secondary"
-            disabled={desabilitarBotaoSalvar}
+            disabled={!valido}
             type="submit"
             variant="contained"
           >

@@ -8,27 +8,32 @@ import {
 import InputDoencaAdicionalDetalhe from 'views/Comorbidities/Form/FieldsForm/InputDoencaAdicionalDetalhe'
 import DatasRequests from 'services/requests/datasRequests'
 import randomIndex from 'helpers/randomIndex'
+import setDefaultCheckboxValues from 'helpers/defaultCheckboxValues'
 
 const InputDoencasAdicionaisDetalhes = () => {
   const [listaDoencas, setListaDoencas] = useState([])
-  const { values } = useFormikContext()
+  const { setFieldValue, values } = useFormikContext()
 
   const handleEffect = () => {
     DatasRequests.buscarDoencas()
       .then(result => {
         setListaDoencas([...result])
+        setDefaultCheckboxValues(
+          [...result], values.doencas || [],
+          'doencas',
+          setFieldValue
+        )
       })
   }
 
-  useEffect(() => {
-    handleEffect()
-  }, [])
+  useEffect(handleEffect, [])
 
   const getDoencas = (tipoDoenca) => {
-    return listaDoencas.filter((item) => item.tipo_doenca_id === tipoDoenca.id)
+    const doencas = listaDoencas.filter((item) => item.tipo_doenca_id === tipoDoenca.id)
+    return [...doencas]
   }
 
-  if (listaDoencas.length === 0 || (values && (!values.tipo_doencas || (values.tipo_doencas &&  values.tipo_doencas.length <= 0)))) {
+  if (listaDoencas.length === 0 || (values && (!values.tipo_doencas || (values.tipo_doencas && values.tipo_doencas.length <= 0)))) {
     return (<></>);
   }
 

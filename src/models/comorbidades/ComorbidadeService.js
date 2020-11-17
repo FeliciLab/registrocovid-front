@@ -1,100 +1,166 @@
 import api from 'services/api'
+import ComorbidadeModel from 'models/comorbidades/ComorbidadeModel'
 
-export const submitFormComorbidade = (values) => {
-  console.log(values)
+/** Funções para validação do formulário */
+const validarCamposBoleanos = (campos) => {
+  const camposBooleanos = [
+    'diabetes',
+    'obesidade',
+    'hipertensao',
+    'doenca_cardiaca',
+    'doenca_vascular_periferica',
+    'doenca_pulmonar_cronica',
+    'doenca_reumatologica',
+    'neoplasia',
+    'quimioterapia',
+    'HIV',
+    'transplantado',
+    'corticosteroide',
+    'doenca_autoimune',
+    'doenca_renal_cronica',
+    'doenca_hepatica_cronica',
+    'doenca_neurologica',
+    'tuberculose',
+    'gestacao',
+    'puerperio'
+  ]
 
-  const handleSubmit = async values => {
-    const submitData = {
-      diabetes: '',
-      obesidade: '',
-      hipertensao: '',
-      neoplasia: '',
-      quimioterapia: '',
-      HIV: 'hiv',
-      tuberculose: '',
-      outras_condicoes: 'outrasCondicoes',
-      medicacoes: '',
-    };
+  return camposBooleanos.find(item => campos[item] === true || campos[item] === 'sim')
+}
 
-    if (values.gestacao_semanas) {
-      submitData.gestacao_semanas = values.gestacao_semanas;
+const validarCamposLista = campos => {
+  const camposListas = ['outras_condicoes', 'medicacoes']
+  return camposListas.find(item => campos[item] && campos[item].length > 0)
+}
+
+export const validarCamposFormularioParaSalvar = (campos) => {
+  return validarCamposBoleanos(campos) !== undefined || validarCamposLista(campos) !== undefined
+}
+/** *** **/
+
+/** Funções auxiliares para envio e recebimento dos dados do formulário */
+const formatarSimNaoParaBooleano = (dados, toModel) => {
+  const camposConverter = [
+    'quimioterapia',
+    'transplantado',
+    'corticosteroide',
+    'gestacao',
+    'puerperio'
+  ]
+
+  for (let campo of camposConverter) {
+    if (!Object.prototype.hasOwnProperty.call(dados, campo)) {
+      continue
     }
-    if (values.puerperio_semanas) {
-      submitData.puerperio_semanas = values.puerperio_semanas;
+
+    if (toModel) {
+      dados[campo] = dados[campo] ? 'sim' : 'nao'
+      continue
     }
 
-    Object.entries(values).forEach(entrie => {
-      if (Array.isArray(entrie[1])) {
-        let array_values = [];
-        entrie[1].forEach((v, index) =>
-          v ? array_values.push(index + 1) : '',
-        );
-        submitData[`${entrie[0]}`] = array_values;
-      } else if (typeof entrie[1] === 'string') {
-        if (entrie[1]) submitData[`${entrie[0]}`] = entrie[1] === 'sim';
-      }
-    });
+    dados[campo] = dados[campo] === 'sim'
+  }
 
-//  MAPEIA O TIPO DE DOENCA NO CAMPO BOLEANO DA COMORBIDADE
-    ['selectedIds'].forEach(id => {
-      switch (id) {
-        case 1:
-          submitData.doenca_cardiaca = true;
-          break;
-        case 2:
-          submitData.doenca_vascular_periferica = true;
-          break;
-        case 3:
-          submitData.doenca_pulmonar_cronica = true;
-          break;
-        case 4:
-          submitData.doenca_reumatologica = true;
-          break;
-        case 5:
-          submitData.cancer = true;
-          break;
-        case 6:
-          submitData.doenca_renal_cronica = true;
-          break;
-        case 7:
-          submitData.doenca_hepatica_cronica = true;
-          break;
-        case 8:
-          submitData.doenca_neurologica = true;
-          break;
-        case 9:
-          submitData.doenca_tireoide = true;
-          break;
-        case 10:
-          submitData.doenca_psiquiatrica = true;
-          break;
-        default:
-          break;
-      }
-    });
+  return dados
+}
 
-    // setIsSaving(true);
-    try {
-      await api.post(`/pacientes/patient.id/comorbidades`, submitData);
+const formatarCamposNumericos = (dados) => {
+  if (dados.gestacao && dados.gestacao_semanas < 0) {
+    dados.gestacao_semanas = dados.gestacao_semanas < 0
+      ? 0
+      : parseInt(dados.gestacao_semanas)
+  }
 
-      // addToast({
-      //   type: 'success',
-      //   message: 'Dados salvos com sucesso',
-      // });
-      // setIsSaving(false);
-      // history.push('/categorias');
-    } catch (err) {
-      // addToast({
-      //   type: 'error',
-      //   message:
-      //     'Ocorreu um erro ao salvar os dados, por favor tente novamente',
-      // });
-      // setIsSaving(false);
+  if (dados.puerperio && dados.puerperio_semanas < 0) {
+    dados.puerperio_semanas = dados.puerperio_semanas < 0
+      ? 0
+      : parseInt(dados.puerperio_semanas)
+  }
+
+  return dados
+}
+
+const formatarMatrizCheckboxParaMatrizDeIds = (dados, toModel) => {
+  for (let relationship of Object.keys(ComorbidadeModel.modelRelationshipManyToMany)) {
+    if (!dados[relationship] || !Object.prototype.hasOwnProperty.call(dados, relationship)) {
+      continue
     }
-  };
 
+    if (toModel) {
+      dados[relationship] = dados[relationship]
+        .reduce((acc, curr) => {
+          if (acc.length < curr.id) {
+            for (let tamanho = acc.length; tamanho <= curr.id; tamanho++) {
+              acc.push(false)
+            }
+          }
+
+          acc[curr.id] = true
+          return acc;
+        }, [])
+
+      continue
+    }
+
+    dados[relationship] = dados[relationship]
+      .reduce((acc, curr, index) => {
+        if (curr) {
+          acc.push(index)
+        }
+        return acc
+      }, [])
+  }
+
+  return dados
+}
+
+const mapCampoModel = (dados) => {
+  const model = {}
+  for (let field of Object.keys(ComorbidadeModel.model)) {
+    if (!Object.prototype.hasOwnProperty.call(dados, field)) continue
+    model[field] = dados[field]
+  }
+
+  if (model.id === '') {
+    delete model.id
+  }
+
+  return model
+}
+
+const definirTiposDoencasParaForm = (dados) => {
+  dados.tipos_doencas = []
+  if (!Object.prototype.hasOwnProperty.call(dados, 'doencas') && dados.doencas.length === 0) {
+    return dados
+  }
+
+  dados.doencas.forEach(doenca => {
+    const tipo = ComorbidadeModel.mapCamposComorbidadesTipoDoencas.find(tipo => tipo.idTipoDoenca === doenca.tipo_doenca_id)
+    if (tipo && !dados.tipos_doencas.find(d => d.idTipoDoenca === tipo.idTipoDoenca)) {
+      dados.tipo_doencas = [...dados.tipos_doencas, { ...tipo, id: tipo.idTipoDoenca }]
+    }
+  })
+
+  return dados
+}
+
+const converterRequisicaoParaModelo = (dados) => {
+  dados = { ...definirTiposDoencasParaForm(dados) }
+  dados = { ...formatarSimNaoParaBooleano(dados, true) }
+  dados = { ...formatarMatrizCheckboxParaMatrizDeIds(dados, true) }
+  return dados
+}
+
+export const submitFormComorbidade = (dados) => {
+  dados = { ...formatarSimNaoParaBooleano(dados) }
+  dados = { ...formatarCamposNumericos(dados) }
+  dados = { ...formatarMatrizCheckboxParaMatrizDeIds(dados) }
+  dados = { ...mapCampoModel(dados) }
+  return api.post(`/pacientes/${dados.paciente_id}/comorbidades`, dados)
 }
 
 export default {
-  submitFormComorbidade
+  submitFormComorbidade,
+  validarCamposFormularioParaSalvar,
+  converterRequisicaoParaModelo
 }

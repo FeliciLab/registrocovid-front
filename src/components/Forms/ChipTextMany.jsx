@@ -57,6 +57,7 @@ const ChipTextMany = ({
     }
 
     setFieldValue(name, [...old, text])
+    setText('')
   }
 
   return (
