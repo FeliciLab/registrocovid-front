@@ -62,7 +62,9 @@ const loadInitialValues = patient => {
 
 const GeneralInfo = () => {
   const { addToast } = useToast();
+
   const { patient, addPatient } = usePatient();
+
   const history = useHistory();
   const classes = useStyles();
 
@@ -168,57 +170,55 @@ const GeneralInfo = () => {
     handleInfos();
   }, [handleInfos]);
 
-  const links = patient.id ? ([
-    { label: 'Meus pacientes', route: '/meus-pacientes' },
-    { label: 'Categorias', route: '/categorias' },
-    {
-      label: 'Informações gerais',
-      route: '/categorias/informacoes-gerais',
-    },
-  ]
-  ) : ([
-    { label: 'Meus pacientes', route: '/meus-pacientes' },
-    {
-      label: 'Informações gerais',
-      route: '/categorias/informacoes-gerais',
-    },
-  ]
-  );
+  const links = patient.id
+    ? [
+      { label: 'Meus pacientes', route: '/meus-pacientes' },
+      { label: 'Categorias', route: '/categorias' },
+      {
+        label: 'Informações gerais',
+        route: '/categorias/informacoes-gerais',
+      },
+    ]
+    : [
+      { label: 'Meus pacientes', route: '/meus-pacientes' },
+      {
+        label: 'Informações gerais',
+        route: '/categorias/informacoes-gerais',
+      },
+    ];
 
   return (
     <div className={classes.root}>
       <div className={classes.header}>
-        <CustomBreadcrumbs
-          links={links}
-        />
+        <CustomBreadcrumbs links={links} />
       </div>
 
       <div className={classes.formWrapper}>
-        <Formik
-          initialValues={loadInitialValues(patient)}
-          onSubmit={handleSubmit}
-          validateOnMount
-          validationSchema={schema}
-        >
-          {({ values, isSubmitting }) => (
-            <Form component={FormControl}>
-              <div className={classes.titleWrapper}>
-                <Typography variant="h1">Informações Gerais</Typography>
+        {loading ? (
+          <CircularProgress />
+        ) : (
+          <Formik
+            initialValues={loadInitialValues(patient)}
+            onSubmit={handleSubmit}
+            validateOnMount
+            validationSchema={schema}
+          >
+            {({ values, isSubmitting, errors }) => (
+              <Form component={FormControl}>
+                <div className={classes.titleWrapper}>
+                  <Typography variant="h1">Informações Gerais</Typography>
 
-                <Button
-                  className={classes.buttonSave}
-                  color="secondary"
-                  disabled={!!patient.prontuario || isSubmitting}
-                  type="submit"
-                  variant="contained"
-                >
-                  Salvar
-                </Button>
-              </div>
+                  <Button
+                    className={classes.buttonSave}
+                    color="secondary"
+                    disabled={!!patient.prontuario || isSubmitting}
+                    type="submit"
+                    variant="contained"
+                  >
+                    Salvar
+                  </Button>
+                </div>
 
-              {loading ? (
-                <CircularProgress />
-              ) : (
                 <Grid
                   className={classes.card}
                   component={Card}
@@ -448,10 +448,10 @@ const GeneralInfo = () => {
                     />
                   </Grid>
                 </Grid>
-              )}
-            </Form>
-          )}
-        </Formik>
+              </Form>
+            )}
+          </Formik>
+        )}
       </div>
     </div>
   );

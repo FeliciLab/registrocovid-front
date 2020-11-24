@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
     width: '200px',
     height: '48px',
   },
-  supportTreatmentContainer: {
+  HemodialiseContainer: {
     display: 'flex',
     flexDirection: 'column',
     padding: theme.spacing(2),

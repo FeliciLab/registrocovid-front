@@ -167,7 +167,6 @@ const RelatedInfections = () => {
 
                   <IRASFormList />
 
-                  {/* TODO: falta colocar o ordenação por data */}
                   {tiposIRAS.map(tipo => (
                     <IRASList
                       irasList={iras

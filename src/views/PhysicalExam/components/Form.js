@@ -33,7 +33,7 @@ const schema = Yup.object().shape({
   altura: Yup.number()
     .integer('Altura deve ser dada em centimetros')
     .positive('Altura deve ser positiva'),
-  ascultura_pulmonar: Yup.string().max(191, 'Tamanho máximo é 120'),
+  ausculta_pulmonar: Yup.string().max(191, 'Tamanho máximo é 120'),
 });
 
 const Form = forwardRef((props, ref) => {
@@ -54,7 +54,7 @@ const Form = forwardRef((props, ref) => {
         pressao_sistolica: values.pressao_sistolica || undefined,
         pressao_diastolica: values.pressao_diastolica || undefined,
         frequencia_cardiaca: values.frequencia_cardiaca || undefined,
-        ascultura_pulmonar: values.ascultura_pulmonar || undefined,
+        ausculta_pulmonar: values.ausculta_pulmonar || undefined,
         oximetria: values.oximetria || undefined,
         escala_glasgow: values.escala_glasgow || undefined,
       };
@@ -87,7 +87,7 @@ const Form = forwardRef((props, ref) => {
       pressao_sistolica: physicalExam.pressao_sistolica || '',
       pressao_diastolica: physicalExam.pressao_diastolica || '',
       frequencia_cardiaca: physicalExam.frequencia_cardiaca || '',
-      ascultura_pulmonar: physicalExam.ascultura_pulmonar || '',
+      ausculta_pulmonar: physicalExam.ausculta_pulmonar || '',
       oximetria: physicalExam.oximetria || '',
       escala_glasgow: physicalExam.escala_glasgow || 0,
     },
@@ -383,21 +383,21 @@ const Form = forwardRef((props, ref) => {
                       <TextField
                         className={classes.dateField}
                         error={
-                          formik.errors.ascultura_pulmonar &&
-                          formik.touched.ascultura_pulmonar
+                          formik.errors.ausculta_pulmonar &&
+                          formik.touched.ausculta_pulmonar
                         }
                         helperText={
-                          formik.errors.ascultura_pulmonar &&
-                          formik.touched.ascultura_pulmonar
-                            ? formik.errors.ascultura_pulmonar
+                          formik.errors.ausculta_pulmonar &&
+                          formik.touched.ausculta_pulmonar
+                            ? formik.errors.ausculta_pulmonar
                             : null
                         }
                         label="Ausculta pulmonar"
-                        name="ascultura_pulmonar"
+                        name="ausculta_pulmonar"
                         onBlur={formik.handleBlur}
                         onChange={formik.handleChange}
                         type="text"
-                        value={formik.values.ascultura_pulmonar}
+                        value={formik.values.ausculta_pulmonar}
                         variant={'outlined'}
                       />
                     </FormGroup>

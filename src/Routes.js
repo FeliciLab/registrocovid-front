@@ -18,7 +18,7 @@ import {
   InitialSymptoms as InitialSymptomsView,
   Comorbidities as ComorbiditiesView,
   PhysicalExamsList as PhysicalExamsListView,
-  SupportTreatment as SupportTreatmentView,
+  Hemodialise as HemodialiseView,
   ComplementaryTests as ComplementaryTestsView,
   Outcome as OutcomeView,
   RelatedInfections as RelatedInfectionsView,
@@ -147,11 +147,11 @@ const Routes = () => {
         path="/categorias/identificacao-paciente/:id"
       />
       <RouteWithLayout
-        component={SupportTreatmentView}
+        component={HemodialiseView}
         exact
         isPrivate
         layout={MainLayout}
-        path="/categorias/tratamento-suporte/"
+        path="/categorias/hemodialise/"
       />
       <RouteWithLayout
         component={ComplementaryTestsView}

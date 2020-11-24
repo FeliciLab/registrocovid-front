@@ -8,6 +8,8 @@ const schema = Yup.object().shape({
     }),
   ),
   tipoNewTesteSelected: Yup.string(),
+  gestacao_semanas: Yup.number().min(0),
+  puerperio_semanas: Yup.number().min(0)
 });
 
 export default schema;
