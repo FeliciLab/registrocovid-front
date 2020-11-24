@@ -4,7 +4,6 @@ import { useHistory } from 'react-router-dom';
 import { useAxios } from 'hooks/axios';
 import { usePatient } from 'context/PatientContext';
 import PatientInfo from 'components/PatientInfo';
-import CustomBreadcrumbs from 'components/CustomBreadcrumbs';
 import formatDate from '../../helpers/formatDate';
 
 // Icons
@@ -26,6 +25,7 @@ import {
   Grid,
 } from '@material-ui/core';
 import { NotToShowImg } from 'components';
+import PhysicalExamsListBreadcrumbs from './PhysicalExamsListBreadcrumbs';
 
 const PhysicalExamsList = () => {
   const { patient } = usePatient();
@@ -52,16 +52,7 @@ const PhysicalExamsList = () => {
   return (
     <div className={classes.root}>
       <div className={classes.header}>
-        <CustomBreadcrumbs
-          links={[
-            { label: 'Meus pacientes', route: '/meus-pacientes' },
-            { label: 'Categorias', route: '/categorias' },
-            {
-              label: 'Lista de evoluções',
-              route: '/categorias/lista-exame-fisico',
-            },
-          ]}
-        />
+        <PhysicalExamsListBreadcrumbs />
       </div>
       <div className={classes.titleWrapper}>
         <Typography variant="h3">

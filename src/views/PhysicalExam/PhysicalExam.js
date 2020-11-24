@@ -1,17 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouteMatch } from 'react-router-dom';
-
 import { Typography, Button, CircularProgress } from '@material-ui/core';
-
 import { getPhysicalExam } from '../../services/physicalExam';
-import CustomBreadcrumbs from 'components/CustomBreadcrumbs';
 import PatientInfo from 'components/PatientInfo';
 import Form from './components/Form';
-
 import { useToast } from 'hooks/toast';
 import { usePatient } from 'context/PatientContext';
-
 import useStyles from './styles';
+import PhysicalExamBreadcrumbs from './PhysicalExamBreadcrumbs';
 
 const PhysicalExam = () => {
   const classes = useStyles();
@@ -59,17 +55,7 @@ const PhysicalExam = () => {
   return (
     <div className={classes.root}>
       <div className={classes.header}>
-        <CustomBreadcrumbs
-          links={[
-            { label: 'Meus pacientes', route: '/meus-pacientes' },
-            { label: 'Categorias', route: '/categorias' },
-            {
-              label: 'Lista de evoluções',
-              route: '/categorias/lista-exame-fisico',
-            },
-            { label: 'Exame Físico', route: '/categorias/exame-fisico' },
-          ]}
-        />
+        <PhysicalExamBreadcrumbs />
       </div>
 
       <div>
