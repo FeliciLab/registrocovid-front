@@ -1,8 +1,8 @@
 const modelRelationshipManyToMany = {
   doencas: [],
   orgaos: [],
-  corticosteroides: []
-}
+  corticosteroides: [],
+};
 
 const model = {
   id: '',
@@ -32,74 +32,76 @@ const model = {
   medicacoes: [],
   created_at: new Date(),
   updated_at: new Date(),
-  ...modelRelationshipManyToMany
-}
+  ...modelRelationshipManyToMany,
+};
 
 const mapCamposComorbidadesTipoDoencas = [
   {
     idTipoDoenca: 1,
     campoComorbidade: 'doenca_cardiaca',
-    descricao: 'Doença cardíaca'
+    descricao: 'Doença cardíaca',
   },
   {
     idTipoDoenca: 2,
     campoComorbidade: 'doenca_vascular_periferica',
-    descricao: 'Doença vascular periférica'
+    descricao: 'Doença vascular periférica',
   },
   {
     campoComorbidade: 'doenca_pulmonar_cronica',
     idTipoDoenca: 3,
-    descricao: 'Doença pulmonar'
+    descricao: 'Doença pulmonar',
   },
   {
     campoComorbidade: 'doenca_reumatologica',
     iidTipoDoenca: 4,
-    descricao: 'Doença reumatológica / autoimune'
+    descricao: 'Doença reumatológica / autoimune',
   },
   {
     campoComorbidade: 'cancer',
     idTipoDoenca: 5,
-    descricao: 'Câncer'
+    descricao: 'Câncer',
   },
   {
     campoComorbidade: 'doenca_renal_cronica',
     idTipoDoenca: 6,
-    descricao: 'Doença renal crônica'
+    descricao: 'Doença renal crônica',
   },
   {
     campoComorbidade: 'doenca_hepatica_cronica',
     idTipoDoenca: 7,
-    descricao: 'Doença hepática crônica'
+    descricao: 'Doença hepática crônica',
   },
   {
     campoComorbidade: 'doenca_neurologica',
     idTipoDoenca: 8,
-    descricao: 'Doença neurológica'
+    descricao: 'Doença neurológica',
   },
   {
     campoComorbidade: 'doenca_tireoide',
     idTipoDoenca: 9,
-    descricao: 'Doença da tireoide'
+    descricao: 'Doença da tireoide',
   },
   {
     campoComorbidade: 'doenca_psiquiatrica',
     idTipoDoenca: 10,
-    descricao: 'Doença psiquiátrica'
-  }
-]
+    descricao: 'Doença psiquiátrica',
+  },
+];
 
-const getCampoComorbidadePorIdTipoDoenca = (id) => {
-  const campo = mapCamposComorbidadesTipoDoencas.find(item => item.idTipoDoenca === id)
+const getCampoComorbidadePorIdTipoDoenca = id => {
+  const campo = mapCamposComorbidadesTipoDoencas.find(
+    item => item.idTipoDoenca === id,
+  );
   if (!campo) {
-    return false
+    return false;
   }
 
-  return campo.campoComorbidade
-}
+  return campo.campoComorbidade;
+};
 
 export default {
   model,
   mapCamposComorbidadesTipoDoencas,
   getCampoComorbidadePorIdTipoDoenca,
-  modelRelationshipManyToMany
-}
+  modelRelationshipManyToMany,
+};

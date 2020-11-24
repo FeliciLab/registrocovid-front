@@ -17,3 +17,4 @@ export { default as ComplementaryTests } from './ComplementaryTests';
 export { default as Outcome } from './Outcome';
 export { default as RelatedInfections } from './RelatedInfections';
 export { default as RespiratorySupport } from './RespiratorySupport';
+export { default as DailyEvolution } from './DailyEvolution';
