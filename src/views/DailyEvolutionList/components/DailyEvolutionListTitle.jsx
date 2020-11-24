@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Grid, Typography } from '@material-ui/core';
+import { Button, Typography } from '@material-ui/core';
 import PatientInfo from 'components/PatientInfo';
 import AddIcon from '@material-ui/icons/Add';
 import { useHistory } from 'react-router-dom';
