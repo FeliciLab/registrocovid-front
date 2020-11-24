@@ -53,6 +53,11 @@ const Categories = () => {
   const secondaryForm = useMemo(() => {
     return [
       {
+        id: 10,
+        label: 'Evolução Diária',
+        url: 'categorias/evolucao-diaria-list',
+      },
+      {
         id: 1,
         label: 'Exame físico (admissão e evolução diária)',
         url: 'categorias/lista-exame-fisico',
