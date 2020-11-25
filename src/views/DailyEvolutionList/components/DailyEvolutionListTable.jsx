@@ -13,6 +13,8 @@ import { makeStyles } from '@material-ui/styles';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import { useHistory } from 'react-router-dom';
 import palette from 'theme/palette';
+import PropTypes from 'prop-types';
+import formatDate from 'helpers/formatDate';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -66,7 +68,7 @@ const DailyEvolutionListTable = props => {
                 component="th"
                 scope="row"
               >
-                {exam.data_evolucao}
+                {formatDate(exam.data_evolucao)}
               </TableCell>
               <TableCell align="right">
                 <Button color="inherit">
@@ -79,6 +81,28 @@ const DailyEvolutionListTable = props => {
       </Table>
     </TableContainer>
   );
+};
+
+DailyEvolutionListTable.propTypes = {
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      paciente_id: PropTypes.number.isRequired,
+      data_evolucao: PropTypes.string.isRequired,
+      temperatura: PropTypes.string.isRequired,
+      frequencia_respiratoria: PropTypes.number.isRequired,
+      peso: PropTypes.string.isRequired,
+      altura: PropTypes.number.isRequired,
+      pressao_sistolica: PropTypes.number.isRequired,
+      pressao_diastolica: PropTypes.number.isRequired,
+      frequencia_cardiaca: PropTypes.number.isRequired,
+      ascultura_pulmonar: PropTypes.string,
+      oximetria: PropTypes.string.isRequired,
+      escala_glasgow: PropTypes.number.isRequired,
+      created_at: PropTypes.string.isRequired,
+      updated_at: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
 };
 
 export default DailyEvolutionListTable;

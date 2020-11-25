@@ -20,7 +20,7 @@ const DailyEvolutionList = () => {
     
     // TODO: remover isso depois 
     console.log(response);
-    
+
     setEvolucoesDiarias(response);
   }, [patient.id]);
 
@@ -39,6 +39,7 @@ const DailyEvolutionList = () => {
       />
       <DailyEvolutionListTable data={evolucoesDiarias}/>
     </div>
+
   );
 };
 
