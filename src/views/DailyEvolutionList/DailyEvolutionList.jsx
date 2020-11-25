@@ -17,7 +17,10 @@ const DailyEvolutionList = () => {
 
   const handleFecthEvolucoesDiarias = useCallback(async () => {
     const response = await buscarEvolucoesDiarias(patient.id);
+    
+    // TODO: remover isso depois 
     console.log(response);
+    
     setEvolucoesDiarias(response);
   }, [patient.id]);
 

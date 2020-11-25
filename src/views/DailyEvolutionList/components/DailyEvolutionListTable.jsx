@@ -12,6 +12,7 @@ import {
 import { makeStyles } from '@material-ui/styles';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import { useHistory } from 'react-router-dom';
+import palette from 'theme/palette';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -21,6 +22,13 @@ const useStyles = makeStyles(() => ({
   },
   rigthWrapper: {
     display: 'flex',
+  },
+  tableCellHead: {},
+  tableRowExamDate: {
+    '&:hover': {
+      cursor: 'pointer',
+      backgroundColor: palette.secondary.light,
+    },
   },
 }));
 
@@ -42,12 +50,7 @@ const DailyEvolutionListTable = props => {
       <Table size="small">
         <TableHead>
           <TableRow>
-            <TableCell
-              className={classes.tableCellHead}
-              colSpan={2}
-            >
-              Data de Evolução
-            </TableCell>
+            <TableCell colSpan={2}>Data de Evolução</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
