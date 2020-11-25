@@ -6,6 +6,7 @@ import { buscarEvolucoesDiarias } from 'services/requests/datasRequests';
 import { Typography } from '@material-ui/core';
 import { usePatient } from 'context/PatientContext';
 import { PrevJSON } from 'components';
+import DailyEvolutionListTable from './components/DailyEvolutionListTable';
 
 const DailyEvolutionList = () => {
   const classes = useStyles();
@@ -33,6 +34,7 @@ const DailyEvolutionList = () => {
         data={evolucoesDiarias}
         name="evolucoesDiarias"
       />
+      <DailyEvolutionListTable data={evolucoesDiarias}/>
     </div>
   );
 };
