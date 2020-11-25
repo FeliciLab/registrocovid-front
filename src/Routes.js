@@ -24,6 +24,7 @@ import {
   RelatedInfections as RelatedInfectionsView,
   RespiratorySupport as RespiratorySupportView,
   DailyEvolutionList as DailyEvolutionListView,
+  DailyEvolution as DailyEvolutionView,
 } from './views';
 import PatientIdentification from 'views/PatientIdentification';
 
@@ -180,14 +181,21 @@ const Routes = () => {
         exact
         isPrivate
         layout={MainLayout}
-        path="/categorias/suporte-respiratorio"
+        path="/categorias/suporte-respiratorio/"
       />
       <RouteWithLayout
         component={DailyEvolutionListView}
         exact
         isPrivate
         layout={MainLayout}
-        path="/categorias/evolucao-diaria-list"
+        path="/categorias/evolucao-diaria-list/"
+      />
+      <RouteWithLayout
+        component={DailyEvolutionView}
+        exact
+        isPrivate
+        layout={MainLayout}
+        path="/categorias/evolucao-diaria/:id"
       />
       <RouteWithLayout
         component={NotFoundView}

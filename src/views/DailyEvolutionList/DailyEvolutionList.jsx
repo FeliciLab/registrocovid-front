@@ -16,12 +16,13 @@ const DailyEvolutionList = () => {
   const [evolucoesDiarias, setEvolucoesDiarias] = useState([]);
 
   const handleFecthEvolucoesDiarias = useCallback(async () => {
-    const response = await buscarEvolucoesDiarias(patient.id);
-    
-    // TODO: remover isso depois 
-    console.log(response);
-
-    setEvolucoesDiarias(response);
+    try {
+      const response = await buscarEvolucoesDiarias(patient.id);
+      setEvolucoesDiarias(response);
+    } catch (error) {
+      // TODO: melhor isso aqui
+      console.log(error);
+    }
   }, [patient.id]);
 
   useEffect(() => {
@@ -37,9 +38,8 @@ const DailyEvolutionList = () => {
         data={evolucoesDiarias}
         name="evolucoesDiarias"
       />
-      <DailyEvolutionListTable data={evolucoesDiarias}/>
+      <DailyEvolutionListTable data={evolucoesDiarias} />
     </div>
-
   );
 };
 
