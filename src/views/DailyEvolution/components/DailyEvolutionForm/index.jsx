@@ -3,6 +3,7 @@ import { PrevJSON } from 'components';
 import { Form, Formik } from 'formik';
 import React, { forwardRef, useImperativeHandle } from 'react';
 import FieldsBlock from './FieldsBlock';
+import schema from './schema';
 
 const initialValues = {
   data_evolucao: '',
@@ -36,7 +37,7 @@ const DailyEvolutionForm = (props, ref) => {
       initialValues={initialValues}
       onSubmit={handleSubmit}
       validateOnMount
-      // validationSchema={schema}
+      validationSchema={schema}
     >
       {({ isSubmitting, values }) => (
         <Form component={FormControl}>
