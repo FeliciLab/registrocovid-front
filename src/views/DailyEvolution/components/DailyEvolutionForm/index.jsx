@@ -19,6 +19,7 @@ const initialValues = {
   oximetria: '',
   escala_glasgow: 1,
   tipo_suporte_selected: 0,
+  newSuportesRespitatorios: [],
 };
 
 const DailyEvolutionForm = (props, ref) => {

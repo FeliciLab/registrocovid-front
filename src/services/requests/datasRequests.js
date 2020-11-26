@@ -18,6 +18,9 @@ export const buscarOrgaos = () =>
 export const buscarEvolucoesDiarias = id =>
   api.get(`/pacientes/${id}/evolucoes-diarias`).then(response => response.data);
 
+export const buscarTiposSuporteRespiratorio = () =>
+  api.get('/suportes-respiratorios').then(response => response.data);
+
 export default {
   buscarComorbidade,
   buscarTiposDoencas,
@@ -25,4 +28,5 @@ export default {
   buscarDoencas,
   buscarOrgaos,
   buscarEvolucoesDiarias,
+  buscarTiposSuporteRespiratorio,
 };

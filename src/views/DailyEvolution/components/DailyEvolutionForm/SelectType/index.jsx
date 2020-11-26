@@ -10,20 +10,51 @@ import {
   Typography,
 } from '@material-ui/core';
 import { TextField } from 'formik-material-ui';
+import { buscarTiposSuporteRespiratorio } from 'services/requests/datasRequests';
 
 const SelectType = () => {
-  // TOTO: buscar os tipos
   const [tipos, setTipos] = useState([{ id: 1, descricao: 'algum tipo' }]);
 
-  const { values, handleChange, setFieldValue } = useFormikContext();
+  const {
+    values,
+    // handleChange,
+    setFieldValue,
+  } = useFormikContext();
 
-  const handleFetchTiposData = useCallback(() => {
-    console.log('handleFetchTiposData');
+  const handleFetchTiposData = useCallback(async () => {
+    try {
+      const response = await buscarTiposSuporteRespiratorio();
+      console.log(response);
+      setTipos(response);
+    } catch (error) {
+      // TODO: melhorar isso aqui
+      console.log(error);
+    }
   }, []);
 
   const handleAdd = useCallback(() => {
-    console.log('handleAdd');
-  }, []);
+    setFieldValue('newSuportesRespitatorios', [
+      ...values.newSuportesRespitatorios,
+      {
+        tipo_suporte_id: values.tipo_suporte_selected,
+        fluxo_o2: '',
+        data_inicio: '',
+        data_termino: '',
+        menos_24h_vmi: '',
+        concentracao_o2: '',
+        fluxo_sangue: '',
+        fluxo_gasoso: '',
+        fio2: '',
+        data_pronacao: '', // Pronacao
+        quantidade_horas: '', // Pronacao
+        data_inclusao_desmame: '', // Desmane
+      },
+    ]);
+  }, [
+    setFieldValue,
+    values.newSuportesRespitatorios,
+    values.tipo_suporte_selected,
+  ]);
 
   useEffect(() => {
     handleFetchTiposData();
@@ -60,7 +91,7 @@ const SelectType = () => {
                 key={tipo.id}
                 value={tipo.id}
               >
-                {tipo.descricao}
+                {tipo.nome}
               </MenuItem>
             ))}
           </Field>
@@ -74,7 +105,7 @@ const SelectType = () => {
           startIcon={<AddIcon />}
           variant="contained"
         >
-            ADICIONAR OCORRÊNCIA
+          ADICIONAR OCORRÊNCIA
         </Button>
       </Grid>
     </Grid>
