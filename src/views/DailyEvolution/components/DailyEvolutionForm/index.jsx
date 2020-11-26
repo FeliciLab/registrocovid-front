@@ -4,6 +4,7 @@ import { Form, Formik } from 'formik';
 import React, { forwardRef, useImperativeHandle } from 'react';
 import FieldsBlock from './FieldsBlock';
 import schema from './schema';
+import SelectType from './SelectType';
 
 const initialValues = {
   data_evolucao: '',
@@ -17,6 +18,7 @@ const initialValues = {
   ausculta_pulmonar: '',
   oximetria: '',
   escala_glasgow: 1,
+  tipo_suporte_selected: 0,
 };
 
 const DailyEvolutionForm = (props, ref) => {
@@ -47,6 +49,7 @@ const DailyEvolutionForm = (props, ref) => {
             spacing={2}
           >
             <FieldsBlock />
+            <SelectType />
           </Grid>
           {/* TODO: remover isso depois */}
           <PrevJSON
