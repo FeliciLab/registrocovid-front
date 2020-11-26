@@ -1,15 +1,8 @@
-import {
-  Card,
-  FormControl,
-  FormGroup,
-  FormLabel,
-  Grid,
-  Typography,
-} from '@material-ui/core';
+import { Card, FormControl, Grid } from '@material-ui/core';
 import { PrevJSON } from 'components';
-import { Field, Form, Formik } from 'formik';
-import { TextField } from 'formik-material-ui';
+import { Form, Formik } from 'formik';
 import React, { forwardRef, useImperativeHandle } from 'react';
+import FieldsBlock from './FieldsBlock';
 
 const initialValues = {
   data_evolucao: '',
@@ -22,7 +15,7 @@ const initialValues = {
   frequencia_cardiaca: '',
   ausculta_pulmonar: '',
   oximetria: '',
-  escala_glasgow: 0,
+  escala_glasgow: 1,
 };
 
 const DailyEvolutionForm = (props, ref) => {
@@ -47,70 +40,18 @@ const DailyEvolutionForm = (props, ref) => {
     >
       {({ isSubmitting, values }) => (
         <Form component={FormControl}>
-          {/* TODO: remover isso */}
-          <PrevJSON
-            data={values}
-            name="Values"
-          />
           <Grid
             component={Card}
             container
             spacing={2}
           >
-            {/* data_evolucao */}
-            <Grid
-              item
-              xs={12}
-            >
-              <FormGroup>
-                <FormLabel>
-                  <Typography variant="h4">Data de evolução*</Typography>
-                </FormLabel>
-                <Field
-                  component={TextField}
-                  name="data_evolucao"
-                  type="date"
-                />
-              </FormGroup>
-            </Grid>
-
-            {/* temperatura */}
-            <Grid
-              item 
-              xs={6}
-            >
-              <FormGroup>
-                <FormLabel>
-                  <Typography variant="h4">Data de evolução*</Typography>
-                </FormLabel>
-                <Field
-                  component={TextField}
-                  name="temperatura"
-                  type="number"
-                  variant="outlined"
-                />
-              </FormGroup>
-            </Grid>
-
-            {/* temperatura */}
-            <Grid
-              item 
-              xs={6}
-            >
-              <FormGroup>
-                <FormLabel>
-                  <Typography variant="h4">Data de evolução*</Typography>
-                </FormLabel>
-                <Field
-                  component={TextField}
-                  name="temperatura"
-                  type="number"
-                  variant="outlined"
-                />
-              </FormGroup>
-            </Grid>
+            <FieldsBlock />
           </Grid>
-          
+          {/* TODO: remover isso depois */}
+          <PrevJSON
+            data={values}
+            name="Values"
+          />
         </Form>
       )}
     </Formik>
