@@ -69,6 +69,7 @@ const SelectType = () => {
         Escolher tipo de suporte ou procedimento:
       </Grid>
       <Grid
+        alignItems="center"
         container
         item
         spacing={2}
