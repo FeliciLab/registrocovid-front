@@ -1,7 +1,9 @@
+import React, { forwardRef, useEffect, useImperativeHandle, useState, useCallback } from 'react';
 import { Card, FormControl, Grid } from '@material-ui/core';
 import { PrevJSON } from 'components';
 import { Form, Formik } from 'formik';
-import React, { forwardRef, useImperativeHandle } from 'react';
+import { buscarTiposSuporteRespiratorio } from 'services/requests/datasRequests';
+import RespiratorySuportFormList from '../RespiratorySuportFormList/RespiratorySuportFormList';
 import FieldsBlock from './FieldsBlock';
 import schema from './schema';
 import SelectType from './SelectType';
@@ -23,10 +25,25 @@ const initialValues = {
 };
 
 const DailyEvolutionForm = (props, ref) => {
+  const [tiposSuporteRespiratorio, setTiposSuporteRespiratorio] = useState([]);
   // TODO: implementar
   const handleSubmit = () => {
     console.log('DailyEvolutionForm.handleSubmit');
   };
+
+  const handleFetchTiposSuporteRespiratorio = useCallback(async () => {
+    try {
+      const response = await buscarTiposSuporteRespiratorio();
+      setTiposSuporteRespiratorio(response);
+    } catch (error) {
+      // TODO: melhorar isso aqui
+      console.log(error);
+    }
+  }, []);
+
+  useEffect(() => {
+    handleFetchTiposSuporteRespiratorio();
+  }, [handleFetchTiposSuporteRespiratorio]);
 
   useImperativeHandle(ref, () => {
     return {
@@ -51,6 +68,7 @@ const DailyEvolutionForm = (props, ref) => {
           >
             <FieldsBlock />
             <SelectType />
+            <RespiratorySuportFormList tipos={tiposSuporteRespiratorio} />
           </Grid>
           {/* TODO: remover isso depois */}
           <PrevJSON
