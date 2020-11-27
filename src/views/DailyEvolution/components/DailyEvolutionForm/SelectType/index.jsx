@@ -63,7 +63,7 @@ const SelectType = porps => {
       >
         <Grid
           item
-          xs={8}
+          xs={7}
         >
           <FormGroup>
             <Field
@@ -92,7 +92,7 @@ const SelectType = porps => {
         </Grid>
         <Grid
           item
-          xs={4}
+          xs={5}
         >
           <Button
             className={classes.buttonAddType}

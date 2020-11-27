@@ -18,9 +18,9 @@ const DailyEvolution = () => {
 
   // TODO: implementar aqui passando o handleImperative do onSubmit do From
   const handleSubmit = useCallback(() => {
-    console.log('DailyEvolution.handleSubmit')
+    console.log('DailyEvolution.handleSubmit');
     formRef.current.handleSubmit();
-  }, [])
+  }, []);
 
   return (
     <div className={classes.root}>

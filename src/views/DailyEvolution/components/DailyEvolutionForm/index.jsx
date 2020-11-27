@@ -1,4 +1,10 @@
-import React, { forwardRef, useEffect, useImperativeHandle, useState, useCallback } from 'react';
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useState,
+  useCallback,
+} from 'react';
 import { Card, FormControl, Grid } from '@material-ui/core';
 import { Form, Formik } from 'formik';
 import { buscarTiposSuporteRespiratorio } from 'services/requests/datasRequests';
@@ -6,6 +12,7 @@ import RespiratorySuportFormList from './RespiratorySuportFormList';
 import FieldsBlock from './FieldsBlock';
 import schema from './schema';
 import SelectType from './SelectType';
+import { makeStyles } from '@material-ui/styles';
 
 const initialValues = {
   data_evolucao: '',
@@ -23,7 +30,20 @@ const initialValues = {
   newSuportesRespitatorios: [],
 };
 
+const useStyles = makeStyles(() => ({
+  contentForm: {
+    maxWidth: '684px',
+  },
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+}));
+
 const DailyEvolutionForm = (props, ref) => {
+  const classes = useStyles();
+
   const [tiposSuporteRespiratorio, setTiposSuporteRespiratorio] = useState([]);
   // TODO: implementar
   const handleSubmit = () => {
@@ -59,14 +79,18 @@ const DailyEvolutionForm = (props, ref) => {
       validationSchema={schema}
     >
       {({ isSubmitting, values }) => (
-        <Form component={FormControl}>
+        <Form
+          className={classes.form}
+          component={FormControl}
+        >
           <Grid
+            className={classes.contentForm}
             component={Card}
             container
             spacing={2}
           >
             <FieldsBlock />
-            <SelectType tipos={tiposSuporteRespiratorio}/>
+            <SelectType tipos={tiposSuporteRespiratorio} />
             <RespiratorySuportFormList tipos={tiposSuporteRespiratorio} />
           </Grid>
         </Form>

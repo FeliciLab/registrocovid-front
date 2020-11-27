@@ -20,6 +20,7 @@ const useStyles = makeStyles(theme => ({
   buttonAddType: {
     width: '258px',
     height: '50px',
+    fontSize: '14px',
   },
 }));
 

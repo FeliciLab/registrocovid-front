@@ -10,13 +10,15 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    marginBottom: theme.spacing(2),
   },
   rightContent: {
     display: 'flex',
+    alignItems: 'center',
   },
   buttonSave: {
     width: '258px',
-    // height: '48px', // acho que fica melhor assim
+    height: '48px',
   },
 }));
 
