@@ -29,7 +29,7 @@ const RespiratorySuportForm = props => {
       {/* Catéter nasal de baixo fluxo
         Catéter nasal de alto fluxo
         Máscara com reservatório */}
-      {['1', '2', '4'].some(id => tipo === id) && (
+      {[1, 2, 4].some(id => tipo === id) && (
         <Grid
           container
           item
@@ -50,7 +50,7 @@ const RespiratorySuportForm = props => {
         </Grid>
       )}
       {/* Máscara de Venturi */}
-      {['3'].some(id => tipo === id) && (
+      {[3].some(id => tipo === id) && (
         <Grid
           container
           item
@@ -77,7 +77,7 @@ const RespiratorySuportForm = props => {
       {/* Ventilação mecânica não invasiva (VNI)
         Intubação Orotraqueal
         Traqueostomia */}
-      {['5', '7', '8'].some(id => tipo === id) && (
+      {[5, 7, 8].some(id => tipo === id) && (
         <Grid
           container
           item
@@ -94,7 +94,7 @@ const RespiratorySuportForm = props => {
         </Grid>
       )}
       {/* Ventilação mecânica invasiva */}
-      {['6'].some(id => tipo === id) && (
+      {[6].some(id => tipo === id) && (
         <Grid
           container
           item
@@ -115,7 +115,7 @@ const RespiratorySuportForm = props => {
         </Grid>
       )}
       {/* Oxigenação por membrana extracorpórea (ECMO) */}
-      {['9'].some(id => tipo === id) && (
+      {[9].some(id => tipo === id) && (
         <Grid
           container
           item
@@ -144,7 +144,7 @@ const RespiratorySuportForm = props => {
         </Grid>
       )}
       {/* Pronação */}
-      {['10'].some(id => tipo === id) && (
+      {[10].some(id => tipo === id) && (
         <Grid
           container
           item
@@ -161,7 +161,7 @@ const RespiratorySuportForm = props => {
         </Grid>
       )}
       {/* Inclusão em desmame da ventilação mecânica */}
-      {['11'].some(id => tipo === id) && (
+      {[11].some(id => tipo === id) && (
         <Grid
           container
           item

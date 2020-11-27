@@ -1,5 +1,4 @@
 import { makeStyles } from '@material-ui/styles';
-import { PrevJSON } from 'components';
 import { FieldArray, useFormikContext } from 'formik';
 import React from 'react';
 import RespiratorySuportForm from '../RespiratorySuportForm/RespiratorySuportForm';
@@ -23,29 +22,25 @@ const RespiratorySuportFormList = props => {
   return (
     <FieldArray name="newSuportesRespitatorios">
       {({ remove }) => (
-        <PrevJSON
-          data={tipos}
-          name="Tipo de suporte respiratório"
-        />
-        // <div className={classes.root}>
-        //   {values.newSuportesRespitatorios &&
-        //     values.newSuportesRespitatorios.length > 0 &&
-        //     values.newSuportesRespitatorios
-        //       .map((item, index) => (
-        //         <RespiratorySuportForm
-        //           descricao={
-        //             tipos.filter(
-        //               tipo => tipo.id.toString() === item.tipo_suporte_id,
-        //             )[0].nome
-        //           }
-        //           index={index}
-        //           key={index}
-        //           remove={remove}
-        //           tipo={item.tipo_suporte_id}
-        //         />
-        //       ))
-        //       .reverse()}
-        // </div>
+        <div className={classes.root}>
+          {values.newSuportesRespitatorios &&
+            values.newSuportesRespitatorios.length > 0 &&
+            values.newSuportesRespitatorios
+              .map((item, index) => (
+                <RespiratorySuportForm
+                  descricao={
+                    tipos.filter(
+                      tipo => tipo.id === item.tipo_suporte_id,
+                    )[0].nome
+                  }
+                  index={index}
+                  key={index}
+                  remove={remove}
+                  tipo={item.tipo_suporte_id}
+                />
+              ))
+              .reverse()}
+        </div>
       )}
     </FieldArray>
   );

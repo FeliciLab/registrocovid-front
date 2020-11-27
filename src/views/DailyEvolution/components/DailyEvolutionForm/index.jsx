@@ -1,6 +1,5 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useState, useCallback } from 'react';
 import { Card, FormControl, Grid } from '@material-ui/core';
-import { PrevJSON } from 'components';
 import { Form, Formik } from 'formik';
 import { buscarTiposSuporteRespiratorio } from 'services/requests/datasRequests';
 import RespiratorySuportFormList from '../RespiratorySuportFormList/RespiratorySuportFormList';
@@ -67,14 +66,9 @@ const DailyEvolutionForm = (props, ref) => {
             spacing={2}
           >
             <FieldsBlock />
-            <SelectType />
+            <SelectType tipos={tiposSuporteRespiratorio}/>
             <RespiratorySuportFormList tipos={tiposSuporteRespiratorio} />
           </Grid>
-          {/* TODO: remover isso depois */}
-          <PrevJSON
-            data={values}
-            name="Values"
-          />
         </Form>
       )}
     </Formik>

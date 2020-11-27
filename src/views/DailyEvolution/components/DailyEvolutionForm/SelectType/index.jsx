@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect, memo } from 'react';
+import React, { useCallback, memo } from 'react';
 import AddIcon from '@material-ui/icons/Add';
 import { Field, useFormikContext } from 'formik';
 import {
@@ -9,23 +9,14 @@ import {
   Typography,
 } from '@material-ui/core';
 import { TextField } from 'formik-material-ui';
-import { buscarTiposSuporteRespiratorio } from 'services/requests/datasRequests';
 import useStyles from './styles';
 
-const SelectType = () => {
-  const classes = useStyles();
-  const [tipos, setTipos] = useState([]);
-  const { values, setFieldValue } = useFormikContext();
+const SelectType = porps => {
+  const { tipos } = porps;
 
-  const handleFetchTiposData = useCallback(async () => {
-    try {
-      const response = await buscarTiposSuporteRespiratorio();
-      setTipos(response);
-    } catch (error) {
-      // TODO: melhorar isso aqui
-      console.log(error);
-    }
-  }, []);
+  const classes = useStyles();
+
+  const { values, setFieldValue } = useFormikContext();
 
   const handleAdd = useCallback(() => {
     setFieldValue('newSuportesRespitatorios', [
@@ -50,10 +41,6 @@ const SelectType = () => {
     values.newSuportesRespitatorios,
     values.tipo_suporte_selected,
   ]);
-
-  useEffect(() => {
-    handleFetchTiposData();
-  }, [handleFetchTiposData]);
 
   return (
     <Grid
