@@ -36,14 +36,6 @@ const RespiratorySuportForm = props => {
           spacing={2}
         >
           <FieldComposerForm
-            field="data_inicio"
-            name={`newSuportesRespitatorios.${index}.data_inicio`}
-          />
-          <FieldComposerForm
-            field="data_termino"
-            name={`newSuportesRespitatorios.${index}.data_termino`}
-          />
-          <FieldComposerForm
             field="fluxo_o2"
             name={`newSuportesRespitatorios.${index}.fluxo_o2`}
           />
@@ -56,14 +48,6 @@ const RespiratorySuportForm = props => {
           item
           spacing={2}
         >
-          <FieldComposerForm
-            field="data_inicio"
-            name={`newSuportesRespitatorios.${index}.data_inicio`}
-          />
-          <FieldComposerForm
-            field="data_termino"
-            name={`newSuportesRespitatorios.${index}.data_termino`}
-          />
           <FieldComposerForm
             field="fluxo_o2"
             name={`newSuportesRespitatorios.${index}.fluxo_o2`}
@@ -82,16 +66,7 @@ const RespiratorySuportForm = props => {
           container
           item
           spacing={2}
-        >
-          <FieldComposerForm
-            field="data_inicio"
-            name={`newSuportesRespitatorios.${index}.data_inicio`}
-          />
-          <FieldComposerForm
-            field="data_termino"
-            name={`newSuportesRespitatorios.${index}.data_termino`}
-          />
-        </Grid>
+        />
       )}
       {/* Ventilação mecânica invasiva */}
       {[6].some(id => tipo === id) && (
@@ -100,14 +75,6 @@ const RespiratorySuportForm = props => {
           item
           spacing={2}
         >
-          <FieldComposerForm
-            field="data_inicio"
-            name={`newSuportesRespitatorios.${index}.data_inicio`}
-          />
-          <FieldComposerForm
-            field="data_termino"
-            name={`newSuportesRespitatorios.${index}.data_termino`}
-          />
           <FieldComposerForm
             field="menos_24h_vmi"
             name={`newSuportesRespitatorios.${index}.menos_24h_vmi`}
@@ -121,14 +88,6 @@ const RespiratorySuportForm = props => {
           item
           spacing={2}
         >
-          <FieldComposerForm
-            field="data_inicio"
-            name={`newSuportesRespitatorios.${index}.data_inicio`}
-          />
-          <FieldComposerForm
-            field="data_termino"
-            name={`newSuportesRespitatorios.${index}.data_termino`}
-          />
           <FieldComposerForm
             field="fluxo_sangue"
             name={`newSuportesRespitatorios.${index}.fluxo_sangue`}

@@ -2,7 +2,7 @@ import React, { forwardRef, useEffect, useImperativeHandle, useState, useCallbac
 import { Card, FormControl, Grid } from '@material-ui/core';
 import { Form, Formik } from 'formik';
 import { buscarTiposSuporteRespiratorio } from 'services/requests/datasRequests';
-import RespiratorySuportFormList from '../RespiratorySuportFormList/RespiratorySuportFormList';
+import RespiratorySuportFormList from './RespiratorySuportFormList';
 import FieldsBlock from './FieldsBlock';
 import schema from './schema';
 import SelectType from './SelectType';

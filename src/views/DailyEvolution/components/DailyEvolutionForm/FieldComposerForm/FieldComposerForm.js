@@ -83,7 +83,7 @@ const FieldComposerForm = props => {
         <FormGroup>
           <FormLabel>
             <Typography variant="h5">
-            Paciente permaneceu menos de 24h em ventilação invasiva?
+              Paciente permaneceu menos de 24h em ventilação invasiva?
             </Typography>
           </FormLabel>
           <FormControlLabel
