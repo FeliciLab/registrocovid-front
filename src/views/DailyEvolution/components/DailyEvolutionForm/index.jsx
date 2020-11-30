@@ -12,7 +12,7 @@ import RespiratorySuportFormList from './RespiratorySuportFormList';
 import FieldsBlock from './FieldsBlock';
 import schema from './schema';
 import SelectType from './SelectType';
-import { makeStyles } from '@material-ui/styles';
+import useStyles from './styles';
 
 const initialValues = {
   data_evolucao: '',
@@ -30,25 +30,10 @@ const initialValues = {
   newSuportesRespitatorios: [],
 };
 
-const useStyles = makeStyles(() => ({
-  contentForm: {
-    maxWidth: '684px',
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-}));
-
 const DailyEvolutionForm = (props, ref) => {
   const classes = useStyles();
 
   const [tiposSuporteRespiratorio, setTiposSuporteRespiratorio] = useState([]);
-  // TODO: implementar
-  const handleSubmit = () => {
-    console.log('DailyEvolutionForm.handleSubmit');
-  };
 
   const handleFetchTiposSuporteRespiratorio = useCallback(async () => {
     try {
@@ -64,11 +49,12 @@ const DailyEvolutionForm = (props, ref) => {
     handleFetchTiposSuporteRespiratorio();
   }, [handleFetchTiposSuporteRespiratorio]);
 
-  useImperativeHandle(ref, () => {
-    return {
-      handleSubmit,
-    };
-  });
+  // TODO: implementar
+  const handleSubmit = async values => {
+    console.log('DailyEvolutionForm.handleSubmit', values);
+  };
+
+  useImperativeHandle(ref, () => ({ handleSubmit }));
 
   return (
     <Formik

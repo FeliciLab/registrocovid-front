@@ -44,6 +44,7 @@ const PhysicalExam = () => {
   };
 
   const hasExam = Object.entries(physicalExam).length !== 0;
+
   const shouldDisableButton = disable => {
     setDisableButton(disable);
   };

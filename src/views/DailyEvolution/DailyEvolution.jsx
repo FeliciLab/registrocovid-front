@@ -14,7 +14,7 @@ const DailyEvolution = () => {
   const formRef = useRef(null);
 
   /// TODO: saber ainda o que vou fazer com isso
-  const disableButton = false;
+  const disableSaveButton = false;
 
   // TODO: implementar aqui passando o handleImperative do onSubmit do From
   const handleSubmit = useCallback(() => {
@@ -33,7 +33,7 @@ const DailyEvolution = () => {
             <Button
               className={classes.buttonSave}
               color="secondary"
-              disabled={disableButton}
+              disabled={disableSaveButton}
               onClick={handleSubmit}
               type="submit"
               variant="contained"
