@@ -13,7 +13,7 @@ import range from 'helpers/range'
 
 const variant = 'h5';
 
-const escalaGlasgowRange = range(1, 15);
+const escalaGlasgowRange = range(3, 15);
 
 const FieldsBlock = () => {
   return (

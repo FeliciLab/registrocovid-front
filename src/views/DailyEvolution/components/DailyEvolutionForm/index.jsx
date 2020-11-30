@@ -14,6 +14,10 @@ import FieldsBlock from './FieldsBlock';
 import schema from './schema';
 import SelectType from './SelectType';
 import useStyles from './styles';
+import api from 'services/api';
+import { usePatient } from 'context/PatientContext';
+import { useToast } from 'hooks/toast';
+import { useHistory } from 'react-router-dom';
 
 const initialValues = {
   data_evolucao: '',
@@ -26,7 +30,7 @@ const initialValues = {
   frequencia_cardiaca: '',
   ausculta_pulmonar: '',
   oximetria: '',
-  escala_glasgow: 1,
+  escala_glasgow: 3,
   tipo_suporte_selected: 0,
   newSuportesRespitatorios: [],
 };
@@ -34,9 +38,15 @@ const initialValues = {
 const DailyEvolutionForm = (props, ref) => {
   const classes = useStyles();
 
+  const { patient } = usePatient();
+
+  const { addToast } = useToast();
+
+  const history = useHistory();
+
   const [tiposSuporteRespiratorio, setTiposSuporteRespiratorio] = useState([]);
 
-  const formikRef = useRef(null); 
+  const formikRef = useRef(null);
 
   const handleFetchTiposSuporteRespiratorio = useCallback(async () => {
     try {
@@ -54,10 +64,41 @@ const DailyEvolutionForm = (props, ref) => {
 
   // TODO: implementar
   const handleSubmit = async values => {
-    console.log('DailyEvolutionForm.handleSubmit', values);
+    const jsonToSend = {
+      data_evolucao: values.data_evolucao,
+      temperatura: values.temperatura || undefined,
+      frequencia_respiratoria: values.frequencia_respiratoria || undefined,
+      peso: values.peso || undefined,
+      altura: values.altura || undefined,
+      pressao_sistolica: values.pressao_sistolica || undefined,
+      pressao_diastolica: values.pressao_diastolica || undefined,
+      frequencia_cardiaca: values.frequencia_cardiaca || undefined,
+      ausculta_pulmonar: values.ausculta_pulmonar || undefined,
+      oximetria: values.oximetria || undefined,
+      escala_glasgow: values.escala_glasgow || undefined,
+    };
+    const evolucoesDiariasPromose = api.post(`/pacientes/${patient.id}/evolucoes-diarias`, jsonToSend);
+
+
+    // try {
+    //   await api.post(`/pacientes/${patient.id}/evolucoes-diarias`, jsonToSend);
+    //   addToast({
+    //     type: 'success',
+    //     message: 'Dados salvos com sucesso',
+    //   });
+
+    //   history.push('/categorias/lista-exame-fisico');
+    // } catch {
+    //   addToast({
+    //     type: 'error',
+    //     message: 'Erro ao tentar registrar exame físico, tente novamente',
+    //   });
+    // }
   };
 
-  useImperativeHandle(ref, () => ({ handleSubmit: formikRef.current.handleSubmit }));
+  useImperativeHandle(ref, () => ({
+    handleSubmit: formikRef.current.handleSubmit,
+  }));
 
   return (
     <Formik
