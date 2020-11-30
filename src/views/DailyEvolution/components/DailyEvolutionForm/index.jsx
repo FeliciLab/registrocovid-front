@@ -4,6 +4,7 @@ import React, {
   useImperativeHandle,
   useState,
   useCallback,
+  useRef,
 } from 'react';
 import { Card, FormControl, Grid } from '@material-ui/core';
 import { Form, Formik } from 'formik';
@@ -35,6 +36,8 @@ const DailyEvolutionForm = (props, ref) => {
 
   const [tiposSuporteRespiratorio, setTiposSuporteRespiratorio] = useState([]);
 
+  const formikRef = useRef(null); 
+
   const handleFetchTiposSuporteRespiratorio = useCallback(async () => {
     try {
       const response = await buscarTiposSuporteRespiratorio();
@@ -54,12 +57,13 @@ const DailyEvolutionForm = (props, ref) => {
     console.log('DailyEvolutionForm.handleSubmit', values);
   };
 
-  useImperativeHandle(ref, () => ({ handleSubmit }));
+  useImperativeHandle(ref, () => ({ handleSubmit: formikRef.current.handleSubmit }));
 
   return (
     <Formik
       enableReinitialize
       initialValues={initialValues}
+      innerRef={formikRef}
       onSubmit={handleSubmit}
       validateOnMount
       validationSchema={schema}
