@@ -5,7 +5,6 @@ import DailyEvolutionListTitle from './components/DailyEvolutionListTitle';
 import { buscarEvolucoesDiarias } from 'services/requests/datasRequests';
 import { Typography } from '@material-ui/core';
 import { usePatient } from 'context/PatientContext';
-import { PrevJSON } from 'components';
 import DailyEvolutionListTable from './components/DailyEvolutionListTable';
 
 const DailyEvolutionList = () => {
@@ -34,10 +33,6 @@ const DailyEvolutionList = () => {
       <DailyEvolutionListBreadcrumbs />
       <DailyEvolutionListTitle />
       <Typography variant="h4">Lista de evoluções</Typography>
-      <PrevJSON
-        data={evolucoesDiarias}
-        name="evolucoesDiarias"
-      />
       <DailyEvolutionListTable data={evolucoesDiarias} />
     </div>
   );
