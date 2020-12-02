@@ -61,7 +61,7 @@ const DailyEvolutionListTable = props => {
               className={classes.tableRowExamDate}
               key={exam.id}
               onClick={() =>
-                history.push(`/categorias/evolucao-diaria/${exam.id}`)
+                history.push(`/categorias/evolucao-diaria/${exam.id}?date=${exam.data_evolucao}`)
               }
             >
               <TableCell

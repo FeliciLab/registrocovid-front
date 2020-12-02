@@ -7,7 +7,10 @@ import useStyles from './styles';
 import DailyEvolutionForm from './components/DailyEvolutionForm';
 import useQuery from 'hooks/useQuery';
 import RespiratorySuportItemList from './components/RespiratorySuportItemList';
-import { buscarTiposSuporteRespiratorio } from 'services/requests/datasRequests';
+import {
+  buscarTiposSuporteRespiratorio,
+  buscarSuportesRespiratorios,
+} from 'services/requests/datasRequests';
 
 const DailyEvolution = () => {
   const classes = useStyles();
@@ -15,22 +18,34 @@ const DailyEvolution = () => {
   const { id } = useParams();
 
   const query = useQuery();
-
-  // TODO: melhorar isso aqui
   const date = query.get('date');
 
-  console.log(date, 'date');
-
+  // ref para o Fomulário
   const formRef = useRef(null);
 
   /// TODO: saber ainda o que vou fazer com isso
   const disableSaveButton = false;
 
-  const tipoSuportesRespiratorios = useState([]);
+  const [tiposSuportesRespiratorios, setTiposSuportesRespiratorios] = useState(
+    [],
+  );
 
-  const handleFetchTipoSuportesRespiratorios = useCallback(async () => {
+  const handleFetchTiposSuportesRespiratorios = useCallback(async () => {
+    try {
+      const response = await buscarSuportesRespiratorios(id, date);
+      setTiposSuportesRespiratorios.set(response);
+      console.log(response);
+    } catch (error) {
+      // TODO: melhorar isso aqui
+      console.log(error);
+    }
+  }, [id, date]);
+
+  // TODO: colocar aqui para buscar peli id o paciente e pela data
+  const handleFetchSuportesRespiratorios = useCallback(async () => {
     try {
       const response = await buscarTiposSuporteRespiratorio();
+      setTiposSuportesRespiratorios.set(response);
       console.log(response);
     } catch (error) {
       // TODO: melhorar isso aqui
@@ -43,8 +58,12 @@ const DailyEvolution = () => {
   }, []);
 
   useEffect(() => {
-    handleFetchTipoSuportesRespiratorios();
-  }, [handleFetchTipoSuportesRespiratorios]);
+    handleFetchTiposSuportesRespiratorios();
+  }, [handleFetchTiposSuportesRespiratorios]);
+
+  useEffect(() => {
+    handleFetchSuportesRespiratorios();
+  }, [handleFetchSuportesRespiratorios]);
 
   return (
     <div className={classes.root}>
@@ -67,12 +86,14 @@ const DailyEvolution = () => {
           </div>
         </div>
         <DailyEvolutionForm ref={formRef} />
-        
-        {/* TODO: mostrar aqui pelo listar por tipo */}
-        <RespiratorySuportItemList
-          descricao="Teste"
-          list={[]}
-        />
+
+        {tiposSuportesRespiratorios.map((tipo, index) => (
+          <RespiratorySuportItemList
+            descricao="Teste"
+            key={index}
+            list={[]}
+          />
+        ))}
       </div>
     </div>
   );
