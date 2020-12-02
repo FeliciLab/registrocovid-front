@@ -60,8 +60,8 @@ CardInfo.propTypes = {
       label: PropTypes.string,
       description: PropTypes.string,
     }),
-  ),
-  title: PropTypes.string,
+  ).isRequired,
+  title: PropTypes.string.isRequired,
 };
 
 export default CardInfo;
