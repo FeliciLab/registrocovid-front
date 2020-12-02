@@ -1,6 +1,23 @@
 import React, { forwardRef, useEffect, useImperativeHandle } from 'react';
-import { Card, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, Radio, RadioGroup, Typography } from '@material-ui/core';
-import { cardInfoEtilismoItens, cardInfoTabagismoItens, tabagismoOptions } from 'views/PersonalHistory/statics';
+import {
+  Card,
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  FormGroup,
+  FormLabel,
+  Grid,
+  Radio,
+  RadioGroup,
+  Typography,
+} from '@material-ui/core';
+import {
+  cardInfoEtilismoItens,
+  cardInfoTabagismoItens,
+  tabagismoOptions,
+  etilismoOptions,
+  drogasOptions,
+} from 'views/PersonalHistory/statics';
 import CardInfo from '../CardInfo';
 import useStyles from './styles';
 import { useHistory } from 'react-router-dom';
@@ -10,14 +27,14 @@ import api from 'services/api';
 import { useFormik } from 'formik';
 
 const PersonalHistoryForm = (props, ref) => {
-  const { patientHistory, usoDrogas, drogas, onChange } = props;
-  
+  const { patientHistory, drogas, onChange } = props;
+
   const classes = useStyles();
-  
+
   const history = useHistory();
-  
+
   const { addToast } = useToast();
-  
+
   const { patient } = usePatient();
 
   const handleSubmit = async values => {
@@ -76,15 +93,9 @@ const PersonalHistoryForm = (props, ref) => {
     onSubmit: handleSubmit,
   });
 
-  useImperativeHandle(
-    ref,
-    () => {
-      return {
-        submit: formik.handleSubmit,
-      };
-    },
-    [formik.handleSubmit],
-  );
+  useImperativeHandle(ref, () => ({ submit: formik.handleSubmit }), [
+    formik.handleSubmit,
+  ]);
 
   function shallowEqual(object1, object2) {
     const keys1 = Object.keys(object1);
@@ -144,7 +155,7 @@ const PersonalHistoryForm = (props, ref) => {
                       control={
                         <Radio
                           onChange={formik.handleChange}
-                          value="true"
+                          value={String(item.id)}
                         />
                       }
                       key={item.id}
@@ -174,7 +185,7 @@ const PersonalHistoryForm = (props, ref) => {
                   name="situacao_uso_drogas_id"
                   value={formik.values.situacao_uso_drogas_id}
                 >
-                  {usoDrogas.map(item => (
+                  {drogasOptions.map(item => (
                     <FormControlLabel
                       control={
                         <Radio
@@ -183,7 +194,7 @@ const PersonalHistoryForm = (props, ref) => {
                         />
                       }
                       key={String(item.id)}
-                      label={item.descricao}
+                      label={item.name}
                     />
                   ))}
                 </RadioGroup>
@@ -253,24 +264,18 @@ const PersonalHistoryForm = (props, ref) => {
                   name="etilismo"
                   value={formik.values.etilismo}
                 >
-                  <FormControlLabel
-                    control={
-                      <Radio
-                        onChange={formik.handleChange}
-                        value="true"
-                      />
-                    }
-                    label="Etilista / Ex- etilista"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Radio
-                        onChange={formik.handleChange}
-                        value="false"
-                      />
-                    }
-                    label="Não etilista"
-                  />
+                  {etilismoOptions.map(item => (
+                    <FormControlLabel
+                      control={
+                        <Radio
+                          onChange={formik.handleChange}
+                          value={String(item.id)}
+                        />
+                      }
+                      key={item.id}
+                      label={item.name}
+                    />
+                  ))}
                 </RadioGroup>
               </FormControl>
             </Grid>
