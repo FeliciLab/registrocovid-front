@@ -8,11 +8,9 @@ import React, {
 } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import CloseIcon from '@material-ui/icons/Close';
 import {
   Typography,
   Button,
-  IconButton,
   Card,
   Grid,
   FormControl,
@@ -36,6 +34,7 @@ import { usePatient } from 'context/PatientContext';
 import api from 'services/api';
 
 import useStyles from './styles';
+import CardInfo from './components/CardInfo';
 
 const PersonalHistory = () => {
   const classes = useStyles();
@@ -459,52 +458,4 @@ const Form = forwardRef((props, ref) => {
   );
 });
 
-function CardInfo({ title, items }) {
-  const classes = useStyles();
 
-  const [showCard, setShowCard] = useState(true);
-
-  if (!showCard) {
-    return null;
-  }
-
-  return (
-    <Card className={classes.cardInfo}>
-      <div className={classes.titleContainer}>
-        <Typography
-          className={classes.title}
-          variant="subtitle1"
-        >
-          {title}
-        </Typography>
-
-        <IconButton
-          aria-label="delete"
-          onClick={() => setShowCard(state => !state)}
-        >
-          <CloseIcon fontSize="small" />
-        </IconButton>
-      </div>
-
-      {items.map((item, index) => (
-        <div
-          key={index}
-          style={{ display: 'flex', flexDirection: 'row' }}
-        >
-          <Typography
-            className={classes.label}
-            variant="subtitle1"
-          >
-            {item.label}
-          </Typography>
-          <Typography
-            className={classes.description}
-            variant="subtitle1"
-          >
-            {item.description}
-          </Typography>
-        </div>
-      ))}
-    </Card>
-  );
-}
