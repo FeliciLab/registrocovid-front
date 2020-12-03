@@ -42,22 +42,22 @@ export const customBreadcrumbsLinks = [
 ];
 
 export const tabagismoOptions = [
-  { id: 1, name: 'Fumante' },
-  { id: 2, name: 'Ex-Fumante' },
-  { id: 3, name: 'Não Fumante' },
-  { id: 4, name: 'Não Informado' },
+  { id: 1, descricao: 'Fumante' },
+  { id: 2, descricao: 'Ex-Fumante' },
+  { id: 3, descricao: 'Não Fumante' },
+  { id: 4, descricao: 'Não Informado' },
 ];
 
 export const etilismoOptions = [
-  { id: 1, name: 'Etilista' },
-  { id: 2, name: 'Ex-etilista' },
-  { id: 3, name: 'Não Etilista' },
-  { id: 4, name: 'Não Informado' },
+  { id: 1, descricao: 'Etilista' },
+  { id: 2, descricao: 'Ex-etilista' },
+  { id: 3, descricao: 'Não Etilista' },
+  { id: 4, descricao: 'Não Informado' },
 ];
 
 export const drogasOptions = [
-  { id: 1, name: 'É usuário' },
-  { id: 2, name: 'Ex-usuário' },
-  { id: 3, name: 'Nunca usou Drogas' },
-  { id: 4, name: 'Não Informado' },
+  { id: 1, descricao: 'É usuário' },
+  { id: 2, descricao: 'Ex-usuário' },
+  { id: 3, descricao: 'Nunca usou Drogas' },
+  { id: 4, descricao: 'Não Informado' },
 ];
