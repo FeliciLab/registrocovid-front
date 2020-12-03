@@ -9,6 +9,11 @@ import api from 'services/api';
 import useStyles from './styles';
 import { customBreadcrumbsLinks } from './statics';
 import PersonalHistoryForm from './components/PersonalHistoryForm';
+import {
+  buscarTiposSitucaoUsoDrogas,
+  buscarDrogas,
+  buscarHistoricoPaciente,
+} from 'services/requests/datasRequests';
 
 const PersonalHistory = () => {
   const classes = useStyles();
@@ -27,7 +32,7 @@ const PersonalHistory = () => {
 
   const [patientHistory, setPatientHistory] = useState({});
 
-  const [usoDrogas, setUsoDrogas] = useState([]);
+  const [tiposSitucaoUsoDrogas, setTiposSitucaoUsoDrogas] = useState([]);
 
   const [drogas, setDrogas] = useState([]);
 
@@ -35,24 +40,20 @@ const PersonalHistory = () => {
     try {
       setLoading(true);
 
-      const responseUsoDrogas = await api.get('/situacao-uso-drogas');
-      setUsoDrogas(responseUsoDrogas.data);
+      const responseTiposSitucaoUsoDrogas = await buscarTiposSitucaoUsoDrogas();
+      setTiposSitucaoUsoDrogas(responseTiposSitucaoUsoDrogas);
 
-      const responseDrogas = await api.get('/drogas');
-      setDrogas(responseDrogas.data);
+      const responseDrogas = await buscarDrogas();
+      setDrogas(responseDrogas);
 
-      const responseHistory = await api.get(
-        `/pacientes/${patient.id}/historico`,
-      );
-
-      setPatientHistory(responseHistory.data);
+      const responseHistory = await buscarHistoricoPaciente(patient.id);
+      setPatientHistory(responseHistory);
     } catch (err) {
       if (err.response.status === 404) return null;
       addToast({
         type: 'error',
         message: 'Erro ao tentar carregar informações, tente novamente',
       });
-
       history.goBack();
     } finally {
       setLoading(false);
@@ -81,7 +82,7 @@ const PersonalHistory = () => {
 
       <div>
         <div className={classes.titleWrapper}>
-          <Typography variant="h1">História Pessoal</Typography>
+          <Typography variant="h2">História Pessoal</Typography>
 
           <div className={classes.rightContent}>
             <PatientInfo />
@@ -107,7 +108,7 @@ const PersonalHistory = () => {
             onChange={bool => handleChange(bool)}
             patientHistory={patientHistory}
             ref={formRef}
-            usoDrogas={usoDrogas}
+            tiposSitucaoUsoDrogas={tiposSitucaoUsoDrogas}
           />
         )}
       </div>
