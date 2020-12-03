@@ -1,7 +1,7 @@
-import React, { 
-  forwardRef, 
-  // useEffect, 
-  // useImperativeHandle 
+import React, {
+  forwardRef,
+  // useEffect,
+  // useImperativeHandle
 } from 'react';
 import { FormControl, Grid } from '@material-ui/core';
 import {
@@ -12,12 +12,13 @@ import {
   drogasOptions,
 } from 'views/PersonalHistory/statics';
 import CardInfo from '../CardInfo';
-// import useStyles from './styles';
+import useStyles from './styles';
 import { useHistory } from 'react-router-dom';
 import { useToast } from 'hooks/toast';
 // import { usePatient } from 'context/PatientContext';
 import { Form, Formik } from 'formik';
 import GenericRadioGroup from 'components/Forms/GenericRadioGroup';
+import CheckboxLabel from 'components/Forms/CheckboxLabel';
 
 const initialValues = {
   tabagismo: '',
@@ -27,9 +28,13 @@ const initialValues = {
 };
 
 const PersonalHistoryForm = (props, ref) => {
-  // const { patientHistory, drogas, onChange } = props;
+  const {
+    // patientHistory,
+    drogas,
+    // onChange
+  } = props;
 
-  // const classes = useStyles();
+  const classes = useStyles();
 
   const history = useHistory();
 
@@ -179,6 +184,15 @@ const PersonalHistoryForm = (props, ref) => {
               <CardInfo
                 items={cardInfoEtilismoItens}
                 title="Classificação do etilismo segundo OMS:"
+              />
+            </Grid>
+
+            <Grid item>
+              <CheckboxLabel
+                classes={classes.formGroup}
+                label="Drogas"
+                name="drogasUsadas"
+                opcoes={drogas}
               />
             </Grid>
 
