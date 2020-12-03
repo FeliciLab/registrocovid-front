@@ -1,16 +1,9 @@
-import React, { forwardRef, useEffect, useImperativeHandle } from 'react';
-import {
-  Card,
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  FormGroup,
-  FormLabel,
-  Grid,
-  InputLabel,
-  Radio,
-  Typography,
-} from '@material-ui/core';
+import React, { 
+  forwardRef, 
+  // useEffect, 
+  // useImperativeHandle 
+} from 'react';
+import { FormControl, Grid } from '@material-ui/core';
 import {
   cardInfoEtilismoItens,
   cardInfoTabagismoItens,
@@ -19,34 +12,30 @@ import {
   drogasOptions,
 } from 'views/PersonalHistory/statics';
 import CardInfo from '../CardInfo';
-import useStyles from './styles';
+// import useStyles from './styles';
 import { useHistory } from 'react-router-dom';
 import { useToast } from 'hooks/toast';
-import { usePatient } from 'context/PatientContext';
-import api from 'services/api';
-import { Field, Form, Formik } from 'formik';
-import { TextField, RadioGroup } from 'formik-material-ui';
-import { PrevJSON } from 'components';
+// import { usePatient } from 'context/PatientContext';
+import { Form, Formik } from 'formik';
 import GenericRadioGroup from 'components/Forms/GenericRadioGroup';
 
 const initialValues = {
   tabagismo: '',
-  drogasLicitas: '',
   drogasIlicitas: '',
   drogasUsadas: [],
   etilismo: '',
 };
 
 const PersonalHistoryForm = (props, ref) => {
-  const { patientHistory, drogas, onChange } = props;
+  // const { patientHistory, drogas, onChange } = props;
 
-  const classes = useStyles();
+  // const classes = useStyles();
 
   const history = useHistory();
 
   const { addToast } = useToast();
 
-  const { patient } = usePatient();
+  // const { patient } = usePatient();
 
   const handleSubmit = async values => {
     try {
@@ -108,22 +97,22 @@ const PersonalHistoryForm = (props, ref) => {
   //   formik.handleSubmit,
   // ]);
 
-  function shallowEqual(object1, object2) {
-    const keys1 = Object.keys(object1);
-    const keys2 = Object.keys(object2);
+  // function shallowEqual(object1, object2) {
+  //   const keys1 = Object.keys(object1);
+  //   const keys2 = Object.keys(object2);
 
-    if (keys1.length !== keys2.length) {
-      return false;
-    }
+  //   if (keys1.length !== keys2.length) {
+  //     return false;
+  //   }
 
-    for (let key of keys1) {
-      if (object1[key] !== object2[key]) {
-        return false;
-      }
-    }
+  //   for (let key of keys1) {
+  //     if (object1[key] !== object2[key]) {
+  //       return false;
+  //     }
+  //   }
 
-    return true;
-  }
+  //   return true;
+  // }
 
   // useEffect(() => {
   //   onChange(shallowEqual(formik.values, formik.initialValues));
@@ -151,19 +140,17 @@ const PersonalHistoryForm = (props, ref) => {
     >
       {({ values, isSubmitting }) => (
         <Form component={FormControl}>
-          <Grid container>
+          <Grid
+            container
+            spacing={2}
+          >
             <Grid item>
               <CardInfo
                 items={cardInfoTabagismoItens}
                 title="Classificação do tabagismo segundo OMS:"
               />
             </Grid>
-            <Grid item>
-              <CardInfo
-                items={cardInfoEtilismoItens}
-                title="Classificação do etilismo segundo OMS:"
-              />
-            </Grid>
+
             {/* tabagismo */}
             <Grid
               item
@@ -176,18 +163,6 @@ const PersonalHistoryForm = (props, ref) => {
               />
             </Grid>
 
-            {/* drogasLicitas */}
-            <Grid
-              item
-              xs={12}
-            >
-              <GenericRadioGroup
-                itens={drogasOptions}
-                label="Drogas Licitas"
-                name="drogasLicitas"
-              />
-            </Grid>
-
             {/* drogasIlicitas */}
             <Grid
               item
@@ -195,8 +170,27 @@ const PersonalHistoryForm = (props, ref) => {
             >
               <GenericRadioGroup
                 itens={drogasOptions}
-                label="Drogas Ilicitas"
+                label="Em relação ao uso de drogas ilícitas, em que opção você se enquadra?"
                 name="drogasIlicitas"
+              />
+            </Grid>
+
+            <Grid item>
+              <CardInfo
+                items={cardInfoEtilismoItens}
+                title="Classificação do etilismo segundo OMS:"
+              />
+            </Grid>
+
+            {/* etilismoOptions */}
+            <Grid
+              item
+              xs={12}
+            >
+              <GenericRadioGroup
+                itens={etilismoOptions}
+                label="Etilismo"
+                name="etilismo"
               />
             </Grid>
           </Grid>

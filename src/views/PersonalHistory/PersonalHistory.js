@@ -5,7 +5,7 @@ import CustomBreadcrumbs from 'components/CustomBreadcrumbs';
 import PatientInfo from 'components/PatientInfo';
 import { useToast } from 'hooks/toast';
 import { usePatient } from 'context/PatientContext';
-import api from 'services/api';
+// import api from 'services/api';
 import useStyles from './styles';
 import { customBreadcrumbsLinks } from './statics';
 import PersonalHistoryForm from './components/PersonalHistoryForm';
