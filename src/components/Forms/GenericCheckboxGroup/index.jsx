@@ -9,7 +9,7 @@ const GenericCheckboxGroup = props => {
   return (
     <>
       <InputLabel htmlFor={name}>
-        <Typography variant="h5">{label}</Typography>
+        <Typography variant="h4">{label}</Typography>
       </InputLabel>
       <FieldArray
         name={name}

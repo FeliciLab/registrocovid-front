@@ -26,7 +26,7 @@ const PersonalHistory = () => {
 
   const formRef = useRef(null);
 
-  const [buttonDisabled, setButtonDisabled] = useState(true);
+  const [buttonDisabled, setButtonDisabled] = useState(false);
 
   const [loading, setLoading] = useState(false);
 
@@ -64,6 +64,7 @@ const PersonalHistory = () => {
     handleInfos();
   }, [handleInfos]);
 
+  // Puxando o submit do component filho (diretamente o Formik)
   const handleSubmit = () => {
     formRef.current.submit();
   };

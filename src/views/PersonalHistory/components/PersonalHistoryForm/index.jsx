@@ -1,7 +1,8 @@
 import React, {
   forwardRef,
+  useRef,
   // useEffect,
-  // useImperativeHandle
+  useImperativeHandle,
 } from 'react';
 import { FormControl, Grid } from '@material-ui/core';
 import {
@@ -9,40 +10,47 @@ import {
   cardInfoTabagismoItens,
   tabagismoOptions,
   etilismoOptions,
-  drogasOptions,
 } from 'views/PersonalHistory/statics';
 import CardInfo from '../CardInfo';
-import useStyles from './styles';
+// import useStyles from './styles';
 import { useHistory } from 'react-router-dom';
 import { useToast } from 'hooks/toast';
 // import { usePatient } from 'context/PatientContext';
 import { Form, Formik } from 'formik';
 import GenericRadioGroup from 'components/Forms/GenericRadioGroup';
-import CheckboxLabel from 'components/Forms/CheckboxLabel';
+import GenericCheckboxGroup from 'components/Forms/GenericCheckboxGroup';
 
+// TODO: melhorar esse valor inicial
 const initialValues = {
-  tabagismo: '',
-  drogasIlicitas: '',
-  drogasUsadas: [],
-  etilismo: '',
+  situacao_tabagismo_id: '',
+  situacao_uso_drogas_id: '',
+  drogas: [false, false, false, false],
+  situacao_etilismo_id: '',
 };
 
 const PersonalHistoryForm = (props, ref) => {
   const {
     // patientHistory,
     drogas,
+    tiposSitucaoUsoDrogas,
     // onChange
   } = props;
 
-  const classes = useStyles();
+  // TODO: remover depois
+  console.log(tiposSitucaoUsoDrogas);
+
+  // const classes = useStyles();
 
   const history = useHistory();
+
+  const refFormik = useRef(null);
 
   const { addToast } = useToast();
 
   // const { patient } = usePatient();
 
   const handleSubmit = async values => {
+    console.log(values);
     try {
       // const historico = {};
       // values.situacao_uso_drogas_id
@@ -79,6 +87,12 @@ const PersonalHistoryForm = (props, ref) => {
     }
   };
 
+  useImperativeHandle(
+    ref,
+    () => ({ submit: refFormik.current.handleSubmit }),
+    [],
+  );
+
   // const formik = useFormik({
   //   initialValues: {
   //     tabagismo:
@@ -97,10 +111,6 @@ const PersonalHistoryForm = (props, ref) => {
   //   },
   //   onSubmit: handleSubmit,
   // });
-
-  // useImperativeHandle(ref, () => ({ submit: formik.handleSubmit }), [
-  //   formik.handleSubmit,
-  // ]);
 
   // function shallowEqual(object1, object2) {
   //   const keys1 = Object.keys(object1);
@@ -123,25 +133,12 @@ const PersonalHistoryForm = (props, ref) => {
   //   onChange(shallowEqual(formik.values, formik.initialValues));
   // }, [formik.values, formik.initialValues, onChange]);
 
-  // <Formik
-  //     enableReinitialize
-  //     initialValues={initValues}
-  //     onSubmit={handleSubmit}
-  //     validateOnMount
-  //     validationSchema={validationSchema}
-  //   >
-  //     <Form component={FormControl}>
-  //       <FormHeaderComorbidade />
-  //       <FormBodyComorbidade />
-  //     </Form>
-  //   </Formik>
-
   return (
     <Formik
       enableReinitialize
       initialValues={initialValues}
+      innerRef={refFormik} // usar para mandar o método onSubmit para o component pai
       onSubmit={handleSubmit}
-      validateOnMount
     >
       {({ values, isSubmitting }) => (
         <Form component={FormControl}>
@@ -155,8 +152,6 @@ const PersonalHistoryForm = (props, ref) => {
                 title="Classificação do tabagismo segundo OMS:"
               />
             </Grid>
-
-            {/* tabagismo */}
             <Grid
               item
               xs={12}
@@ -164,19 +159,17 @@ const PersonalHistoryForm = (props, ref) => {
               <GenericRadioGroup
                 itens={tabagismoOptions}
                 label="Tabagismo"
-                name="tabagismo"
+                name="situacao_tabagismo_id"
               />
             </Grid>
-
-            {/* drogasIlicitas */}
             <Grid
               item
               xs={12}
             >
               <GenericRadioGroup
-                itens={drogasOptions}
+                itens={tiposSitucaoUsoDrogas}
                 label="Em relação ao uso de drogas ilícitas, em que opção você se enquadra?"
-                name="drogasIlicitas"
+                name="situacao_uso_drogas_id"
               />
             </Grid>
 
@@ -188,15 +181,14 @@ const PersonalHistoryForm = (props, ref) => {
             </Grid>
 
             <Grid item>
-              <CheckboxLabel
-                classes={classes.formGroup}
+              <GenericCheckboxGroup
                 label="Drogas"
                 name="drogasUsadas"
                 opcoes={drogas}
               />
             </Grid>
 
-            {/* etilismoOptions */}
+            {/* situacao_etilismo_id */}
             <Grid
               item
               xs={12}
@@ -204,177 +196,13 @@ const PersonalHistoryForm = (props, ref) => {
               <GenericRadioGroup
                 itens={etilismoOptions}
                 label="Etilismo"
-                name="etilismo"
+                name="situacao_etilismo_id"
               />
             </Grid>
           </Grid>
         </Form>
       )}
     </Formik>
-    // <form onSubmit={formik.handleSubmit}>
-    //   <div className={classes.formContainer}>
-    //     <Card className={classes.form}>
-    //       <Grid
-    //         container
-    //         spacing={2}
-    //       >
-    //         <Grid
-    //           item
-    //           sm={12}
-    //         >
-    //           <CardInfo
-    //             items={cardInfoTabagismoItens}
-    //             title="Classificação do tabagismo segundo OMS:"
-    //           />
-    //         </Grid>
-    //         <Grid
-    //           item
-    //           sm={12}
-    //         >
-    //           <FormControl
-    //             className={classes.formGroup}
-    //             component="fieldset"
-    //           >
-    //             <FormLabel>
-    //               <Typography variant="h4">Tabagismo</Typography>
-    //             </FormLabel>
-    //             <RadioGroup
-    //               name="tabagismo"
-    //               value={formik.values.tabagismo}
-    //             >
-    //               {tabagismoOptions.map(item => (
-    //                 <FormControlLabel
-    //                   control={
-    //                     <Radio
-    //                       onChange={formik.handleChange}
-    //                       value={String(item.id)}
-    //                     />
-    //                   }
-    //                   key={item.id}
-    //                   label={item.name}
-    //                 />
-    //               ))}
-    //             </RadioGroup>
-    //           </FormControl>
-    //         </Grid>
-
-  //         <Grid
-  //           item
-  //           sm={12}
-  //         >
-  //           <FormControl
-  //             className={classes.formGroup}
-  //             component="fieldset"
-  //           >
-  //             <FormLabel>
-  //               <Typography variant="h4">
-  //                 Em relação ao uso de drogas ilícitas, em que opção você se
-  //                 enquadra?
-  //               </Typography>
-  //             </FormLabel>
-
-  //             <RadioGroup
-  //               name="situacao_uso_drogas_id"
-  //               value={formik.values.situacao_uso_drogas_id}
-  //             >
-  //               {drogasOptions.map(item => (
-  //                 <FormControlLabel
-  //                   control={
-  //                     <Radio
-  //                       onChange={formik.handleChange}
-  //                       value={String(item.id)}
-  //                     />
-  //                   }
-  //                   key={String(item.id)}
-  //                   label={item.name}
-  //                 />
-  //               ))}
-  //             </RadioGroup>
-  //           </FormControl>
-  //         </Grid>
-
-  //         <Grid
-  //           item
-  //           sm={12}
-  //         >
-  //           <FormControl
-  //             className={classes.formGroup}
-  //             component="fieldset"
-  //           >
-  //             <FormLabel>
-  //               <Typography variant="h4">
-  //                 Em caso de uso de drogas (atual ou ex-usuário), descrever
-  //                 quais drogas
-  //               </Typography>
-  //             </FormLabel>
-
-  //             <FormGroup
-  //               name="drogas"
-  //               value={formik.values.drogas}
-  //             >
-  //               {drogas.map(item => (
-  //                 <FormControlLabel
-  //                   control={
-  //                     <Checkbox
-  //                       checked={formik.initialValues.drogas?.includes(
-  //                         item.id,
-  //                       )}
-  //                       onChange={formik.handleChange}
-  //                       value={item.id}
-  //                     />
-  //                   }
-  //                   key={String(item.id)}
-  //                   label={item.descricao}
-  //                   name="drogas"
-  //                 />
-  //               ))}
-  //             </FormGroup>
-  //           </FormControl>
-  //         </Grid>
-
-  //         <Grid
-  //           item
-  //           sm={12}
-  //         >
-  //           <CardInfo
-  //             items={cardInfoEtilismoItens}
-  //             title="Classificação do etilismo segundo OMS:"
-  //           />
-  //         </Grid>
-  //         <Grid
-  //           item
-  //           sm={12}
-  //         >
-  //           <FormControl
-  //             className={classes.formGroup}
-  //             component="fieldset"
-  //           >
-  //             <FormLabel>
-  //               <Typography variant="h4">Etilismo</Typography>
-  //             </FormLabel>
-  //             <RadioGroup
-  //               name="etilismo"
-  //               value={formik.values.etilismo}
-  //             >
-  //               {etilismoOptions.map(item => (
-  //                 <FormControlLabel
-  //                   control={
-  //                     <Radio
-  //                       onChange={formik.handleChange}
-  //                       value={String(item.id)}
-  //                     />
-  //                   }
-  //                   key={item.id}
-  //                   label={item.name}
-  //                 />
-  //               ))}
-  //             </RadioGroup>
-  //           </FormControl>
-  //         </Grid>
-  //       </Grid>
-  //     </Card>
-  //   </div>
-  // </form>
   );
 };
 
