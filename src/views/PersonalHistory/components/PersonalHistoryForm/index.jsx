@@ -24,7 +24,7 @@ import GenericCheckboxGroup from 'components/Forms/GenericCheckboxGroup';
 const initialValues = {
   situacao_tabagismo_id: '',
   situacao_uso_drogas_id: '',
-  drogas: [false, false, false, false],
+  drogas: [],
   situacao_etilismo_id: '',
 };
 

@@ -18,10 +18,16 @@ export const buscarOrgaos = () =>
 export const buscarTiposSitucaoUsoDrogas = () =>
   api.get('/situacao-uso-drogas').then(response => response.data);
 
+export const buscarTiposSitucaoTabagismo = () =>
+  api.get('/situacao-tabagismo').then(response => response.data);
+
+export const buscarTiposSitucaoEtilismo = () =>
+  api.get('/situacao-etilismo').then(response => response.data);
+
 export const buscarDrogas = () =>
   api.get('/drogas').then(response => response.data);
 
-export const buscarHistoricoPaciente = (patienteId) =>
+export const buscarHistoricoPaciente = patienteId =>
   api.get(`/pacientes/${patienteId}/historico`).then(response => response.data);
 
 export default {
@@ -33,4 +39,6 @@ export default {
   buscarTiposSitucaoUsoDrogas,
   buscarDrogas,
   buscarHistoricoPaciente,
+  buscarTiposSitucaoTabagismo,
+  buscarTiposSitucaoEtilismo,
 };
