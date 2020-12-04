@@ -30,6 +30,10 @@ export const buscarDrogas = () =>
 export const buscarHistoricoPaciente = patienteId =>
   api.get(`/pacientes/${patienteId}/historico`).then(response => response.data);
 
+export const criarHistoricoPaciente = (patienteId, values) =>
+  api.post(`/pacientes/${patienteId}/historico`, values).then(response => response.data);
+
+
 export default {
   buscarComorbidade,
   buscarTiposDoencas,

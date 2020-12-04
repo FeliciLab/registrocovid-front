@@ -5,19 +5,23 @@ import { CheckboxWithLabel } from 'formik-material-ui';
 import PropTypes from 'prop-types';
 
 const GenericCheckboxGroup = props => {
-  const { label, name, opcoes } = props;
+  const { label, name, opcoes, ...rest } = props;
+
+  console.log(opcoes)
+
   return (
     <>
       <InputLabel htmlFor={name}>
         <Typography variant="h4">{label}</Typography>
       </InputLabel>
       <FieldArray
+        {...rest}
         name={name}
         render={() =>
-          opcoes.map((opcao, index) => (
+          opcoes.map(opcao => (
             <Field
               component={CheckboxWithLabel}
-              key={index}
+              key={opcao.id}
               Label={{ label: opcao.descricao }}
               name={`${name}.${opcao.id}`}
               type={'checkbox'}

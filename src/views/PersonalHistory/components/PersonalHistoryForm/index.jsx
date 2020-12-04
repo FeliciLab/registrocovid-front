@@ -1,8 +1,4 @@
-import React, {
-  forwardRef,
-  useRef,
-  useImperativeHandle,
-} from 'react';
+import React, { forwardRef, useRef, useImperativeHandle } from 'react';
 import { FormControl, Grid } from '@material-ui/core';
 import {
   cardInfoEtilismoItens,
@@ -16,6 +12,7 @@ import { Form, Formik } from 'formik';
 import GenericRadioGroup from 'components/Forms/GenericRadioGroup';
 import GenericCheckboxGroup from 'components/Forms/GenericCheckboxGroup';
 import api from 'services/api';
+import { isEmpty } from 'underscore';
 
 const PersonalHistoryForm = (props, ref) => {
   const {
@@ -39,44 +36,53 @@ const PersonalHistoryForm = (props, ref) => {
 
   const { patient } = usePatient();
 
-  const initialValues = {
-    situacao_tabagismo_id: String(patientHistory.situacao_tabagismo_id) || '',
-    situacao_uso_drogas_id: String(patientHistory.situacao_uso_drogas_id) || '',
-    drogas: [], // TODO: Ajeitar isso
-    situacao_etilismo_id: String(patientHistory.situacao_etilismo_id) || '',
-  };
-
+  const initialValues = isEmpty(patientHistory)
+    ? {
+      situacao_tabagismo_id: '',
+      situacao_uso_drogas_id: '',
+      drogas: {},
+      situacao_etilismo_id: '',
+    }
+    : {
+      situacao_tabagismo_id: String(patientHistory.situacao_tabagismo_id),
+      situacao_uso_drogas_id: String(patientHistory.situacao_uso_drogas_id),
+      drogas: patientHistory.drogas.reduce(
+        (acc, curr) => ({ ...acc, [curr.id]: true }),
+        {},
+      ),
+      situacao_etilismo_id: String(patientHistory.situacao_etilismo_id),
+    };
+    
   const handleSubmit = async values => {
-    console.log(values);
     try {
-      // const historico = {};
-      // values.situacao_uso_drogas_id
-      //   ? (historico.situacao_uso_drogas_id = Number(
-      //     values.situacao_uso_drogas_id,
-      //   ))
-      //   : (historico.situacao_uso_drogas_id = undefined);
-      // values.drogas
-      //   ? (historico.drogas = values.drogas)
-      //   : (historico.drogas = undefined);
-      // values.tabagismo
-      //   ? values.tabagismo === 'true'
-      //     ? (historico.tabagismo = true)
-      //     : (historico.tabagismo = false)
-      //   : (historico.tabagismo = undefined);
-      // values.etilismo
-      //   ? values.etilismo === 'true'
-      //     ? (historico.etilismo = true)
-      //     : (historico.etilismo = false)
-      //   : (historico.etilismo = undefined);
-      await api.post(`/pacientes/${patient.id}/historico`, values);
+      // TODO: remover depois os consoles.log
+      console.log('values.drogas', values.drogas);
+      console.log(
+        'Object.entries(values.drogas)',
+        Object.entries(values.drogas),
+      );
+
+      const selectedDrogasIds = Object.entries(values.drogas).map(elem =>
+        elem[1] ? Number(elem[0]) : null,
+      );
+
+      console.log(
+        Object.entries(values.drogas).map(elem =>
+          elem[1] ? Number(elem[0]) : null,
+        ),
+      );
+
+      await api.post(`/pacientes/${patient.id}/historico`, {
+        ...values,
+        drogas: selectedDrogasIds,
+      });
 
       addToast({
         type: 'success',
         message: 'Dados salvos com sucesso',
       });
-      history.push('/categorias');
+      // history.push('/categorias');
     } catch (err) {
-      console.log(err);
       addToast({
         type: 'error',
         message: 'Erro ao tentar registrar história pessoal, tente novamente',
@@ -89,42 +95,6 @@ const PersonalHistoryForm = (props, ref) => {
     () => ({ submit: refFormik.current.handleSubmit }),
     [],
   );
-
-  // const formik = useFormik({
-  //   initialValues: {
-  //     tabagismo:
-  //       patientHistory.tabagismo != null
-  //         ? patientHistory.tabagismo.toString()
-  //         : '',
-  //     situacao_uso_drogas_id:
-  //       patientHistory.situacao_uso_drogas_id != null
-  //         ? patientHistory.situacao_uso_drogas_id.toString()
-  //         : '',
-  //     drogas: patientHistory.drogas?.map(droga => droga.id),
-  //     etilismo:
-  //       patientHistory.etilismo != null
-  //         ? patientHistory.etilismo.toString()
-  //         : '',
-  //   },
-  //   onSubmit: handleSubmit,
-  // });
-
-  // function shallowEqual(object1, object2) {
-  //   const keys1 = Object.keys(object1);
-  //   const keys2 = Object.keys(object2);
-
-  //   if (keys1.length !== keys2.length) {
-  //     return false;
-  //   }
-
-  //   for (let key of keys1) {
-  //     if (object1[key] !== object2[key]) {
-  //       return false;
-  //     }
-  //   }
-
-  //   return true;
-  // }
 
   return (
     <Formik
@@ -176,7 +146,7 @@ const PersonalHistoryForm = (props, ref) => {
             <Grid item>
               <GenericCheckboxGroup
                 label="Drogas"
-                name="drogasUsadas"
+                name="drogas"
                 opcoes={drogas}
               />
             </Grid>

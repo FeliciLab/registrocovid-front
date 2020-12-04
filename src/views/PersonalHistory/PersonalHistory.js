@@ -37,9 +37,8 @@ const PersonalHistory = () => {
   const [drogas, setDrogas] = useState([]);
 
   const handleInfos = useCallback(async () => {
+    setLoading(true);
     try {
-      setLoading(true);
-
       const responseTiposSitucaoTabagismo = await buscarTiposSitucaoTabagismo();
       setTiposSitucaoTabagismo(responseTiposSitucaoTabagismo);
 
