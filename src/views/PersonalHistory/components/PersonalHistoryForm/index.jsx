@@ -1,43 +1,33 @@
 import React, {
   forwardRef,
   useRef,
-  // useEffect,
   useImperativeHandle,
 } from 'react';
 import { FormControl, Grid } from '@material-ui/core';
 import {
   cardInfoEtilismoItens,
   cardInfoTabagismoItens,
-  tabagismoOptions,
-  etilismoOptions,
 } from 'views/PersonalHistory/statics';
 import CardInfo from '../CardInfo';
-// import useStyles from './styles';
 import { useHistory } from 'react-router-dom';
 import { useToast } from 'hooks/toast';
-// import { usePatient } from 'context/PatientContext';
+import { usePatient } from 'context/PatientContext';
 import { Form, Formik } from 'formik';
 import GenericRadioGroup from 'components/Forms/GenericRadioGroup';
 import GenericCheckboxGroup from 'components/Forms/GenericCheckboxGroup';
-
-// TODO: melhorar esse valor inicial
-const initialValues = {
-  situacao_tabagismo_id: '',
-  situacao_uso_drogas_id: '',
-  drogas: [],
-  situacao_etilismo_id: '',
-};
+import api from 'services/api';
 
 const PersonalHistoryForm = (props, ref) => {
   const {
-    // patientHistory,
+    patientHistory,
     drogas,
+    tiposSitucaoEtilismo,
+    tiposSitucaoTabagismo,
     tiposSitucaoUsoDrogas,
-    // onChange
   } = props;
 
-  // TODO: remover depois
-  console.log(tiposSitucaoUsoDrogas);
+  // TODO: remover isso depois
+  console.log(patientHistory);
 
   // const classes = useStyles();
 
@@ -47,7 +37,14 @@ const PersonalHistoryForm = (props, ref) => {
 
   const { addToast } = useToast();
 
-  // const { patient } = usePatient();
+  const { patient } = usePatient();
+
+  const initialValues = {
+    situacao_tabagismo_id: String(patientHistory.situacao_tabagismo_id) || '',
+    situacao_uso_drogas_id: String(patientHistory.situacao_uso_drogas_id) || '',
+    drogas: [], // TODO: Ajeitar isso
+    situacao_etilismo_id: String(patientHistory.situacao_etilismo_id) || '',
+  };
 
   const handleSubmit = async values => {
     console.log(values);
@@ -71,7 +68,7 @@ const PersonalHistoryForm = (props, ref) => {
       //     ? (historico.etilismo = true)
       //     : (historico.etilismo = false)
       //   : (historico.etilismo = undefined);
-      // await api.post(`/pacientes/${patient.id}/historico`, historico);
+      await api.post(`/pacientes/${patient.id}/historico`, values);
 
       addToast({
         type: 'success',
@@ -129,10 +126,6 @@ const PersonalHistoryForm = (props, ref) => {
   //   return true;
   // }
 
-  // useEffect(() => {
-  //   onChange(shallowEqual(formik.values, formik.initialValues));
-  // }, [formik.values, formik.initialValues, onChange]);
-
   return (
     <Formik
       enableReinitialize
@@ -157,7 +150,7 @@ const PersonalHistoryForm = (props, ref) => {
               xs={12}
             >
               <GenericRadioGroup
-                itens={tabagismoOptions}
+                itens={tiposSitucaoTabagismo}
                 label="Tabagismo"
                 name="situacao_tabagismo_id"
               />
@@ -187,14 +180,12 @@ const PersonalHistoryForm = (props, ref) => {
                 opcoes={drogas}
               />
             </Grid>
-
-            {/* situacao_etilismo_id */}
             <Grid
               item
               xs={12}
             >
               <GenericRadioGroup
-                itens={etilismoOptions}
+                itens={tiposSitucaoEtilismo}
                 label="Etilismo"
                 name="situacao_etilismo_id"
               />

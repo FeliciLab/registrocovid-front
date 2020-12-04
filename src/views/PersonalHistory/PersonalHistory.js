@@ -5,7 +5,6 @@ import CustomBreadcrumbs from 'components/CustomBreadcrumbs';
 import PatientInfo from 'components/PatientInfo';
 import { useToast } from 'hooks/toast';
 import { usePatient } from 'context/PatientContext';
-// import api from 'services/api';
 import useStyles from './styles';
 import { customBreadcrumbsLinks } from './statics';
 import PersonalHistoryForm from './components/PersonalHistoryForm';
@@ -13,6 +12,8 @@ import {
   buscarTiposSitucaoUsoDrogas,
   buscarDrogas,
   buscarHistoricoPaciente,
+  buscarTiposSitucaoEtilismo,
+  buscarTiposSitucaoTabagismo,
 } from 'services/requests/datasRequests';
 
 const PersonalHistory = () => {
@@ -26,19 +27,24 @@ const PersonalHistory = () => {
 
   const formRef = useRef(null);
 
-  const [buttonDisabled, setButtonDisabled] = useState(false);
-
   const [loading, setLoading] = useState(false);
 
   const [patientHistory, setPatientHistory] = useState({});
 
+  const [tiposSitucaoTabagismo, setTiposSitucaoTabagismo] = useState([]);
+  const [tiposSitucaoEtilismo, setTiposSitucaoEtilismo] = useState([]);
   const [tiposSitucaoUsoDrogas, setTiposSitucaoUsoDrogas] = useState([]);
-
   const [drogas, setDrogas] = useState([]);
 
   const handleInfos = useCallback(async () => {
     try {
       setLoading(true);
+
+      const responseTiposSitucaoTabagismo = await buscarTiposSitucaoTabagismo();
+      setTiposSitucaoTabagismo(responseTiposSitucaoTabagismo);
+
+      const responseTiposSitucaoEtilismo = await buscarTiposSitucaoEtilismo();
+      setTiposSitucaoEtilismo(responseTiposSitucaoEtilismo);
 
       const responseTiposSitucaoUsoDrogas = await buscarTiposSitucaoUsoDrogas();
       setTiposSitucaoUsoDrogas(responseTiposSitucaoUsoDrogas);
@@ -69,12 +75,6 @@ const PersonalHistory = () => {
     formRef.current.submit();
   };
 
-  const handleChange = bool => {
-    if (Object.keys(patientHistory).length === 0) {
-      setButtonDisabled(bool);
-    }
-  };
-
   return (
     <div className={classes.root}>
       <div className={classes.header}>
@@ -91,7 +91,7 @@ const PersonalHistory = () => {
             <Button
               className={classes.buttonSave}
               color="secondary"
-              disabled={buttonDisabled}
+              disabled={!!patientHistory}
               onClick={handleSubmit}
               type="submit"
               variant="contained"
@@ -106,9 +106,11 @@ const PersonalHistory = () => {
         ) : (
           <PersonalHistoryForm
             drogas={drogas}
-            onChange={bool => handleChange(bool)}
+            editable={!!patientHistory} // passando o editável para o caso das informções já existirem
             patientHistory={patientHistory}
             ref={formRef}
+            tiposSitucaoEtilismo={tiposSitucaoEtilismo}
+            tiposSitucaoTabagismo={tiposSitucaoTabagismo}
             tiposSitucaoUsoDrogas={tiposSitucaoUsoDrogas}
           />
         )}
