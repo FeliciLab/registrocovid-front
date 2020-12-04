@@ -23,9 +23,6 @@ const PersonalHistoryForm = (props, ref) => {
     tiposSitucaoUsoDrogas,
   } = props;
 
-  // TODO: remover isso depois
-  console.log(patientHistory);
-
   // const classes = useStyles();
 
   const history = useHistory();
@@ -52,24 +49,11 @@ const PersonalHistoryForm = (props, ref) => {
       ),
       situacao_etilismo_id: String(patientHistory.situacao_etilismo_id),
     };
-    
+
   const handleSubmit = async values => {
     try {
-      // TODO: remover depois os consoles.log
-      console.log('values.drogas', values.drogas);
-      console.log(
-        'Object.entries(values.drogas)',
-        Object.entries(values.drogas),
-      );
-
       const selectedDrogasIds = Object.entries(values.drogas).map(elem =>
         elem[1] ? Number(elem[0]) : null,
-      );
-
-      console.log(
-        Object.entries(values.drogas).map(elem =>
-          elem[1] ? Number(elem[0]) : null,
-        ),
       );
 
       await api.post(`/pacientes/${patient.id}/historico`, {
@@ -81,7 +65,7 @@ const PersonalHistoryForm = (props, ref) => {
         type: 'success',
         message: 'Dados salvos com sucesso',
       });
-      // history.push('/categorias');
+      history.push('/categorias');
     } catch (err) {
       addToast({
         type: 'error',

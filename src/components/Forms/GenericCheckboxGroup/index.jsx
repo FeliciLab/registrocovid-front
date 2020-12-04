@@ -7,8 +7,6 @@ import PropTypes from 'prop-types';
 const GenericCheckboxGroup = props => {
   const { label, name, opcoes, ...rest } = props;
 
-  console.log(opcoes)
-
   return (
     <>
       <InputLabel htmlFor={name}>
