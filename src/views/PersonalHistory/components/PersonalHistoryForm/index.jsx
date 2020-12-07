@@ -133,7 +133,10 @@ const PersonalHistoryForm = (props, ref) => {
               />
             </Grid>
 
-            <Grid item>
+            <Grid
+              item 
+              xs={12}
+            >
               <CardInfo
                 items={cardInfoEtilismoItens}
                 title="Classificação do etilismo segundo OMS:"

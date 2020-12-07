@@ -7,11 +7,7 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
   },
   form: {
-    backgroundColor: '#fff',
     maxWidth: '864px',
-  },
-  formGroup: {
-    marginBottom: 24,
   },
 }));
 

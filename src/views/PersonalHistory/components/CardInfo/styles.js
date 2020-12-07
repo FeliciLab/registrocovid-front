@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/styles';
 const useStyles = makeStyles(theme => ({
   cardInfo: {
     padding: theme.spacing(2),
-    maxWidth: 570,
+    // maxWidth: 570,
     marginBottom: 10,
   },
   title: {
