@@ -1,5 +1,5 @@
 import React, { forwardRef, useRef, useImperativeHandle } from 'react';
-import { FormControl, Grid } from '@material-ui/core';
+import { FormControl, Grid, Card } from '@material-ui/core';
 import {
   cardInfoEtilismoItens,
   cardInfoTabagismoItens,
@@ -13,6 +13,7 @@ import GenericRadioGroup from 'components/Forms/GenericRadioGroup';
 import GenericCheckboxGroup from 'components/Forms/GenericCheckboxGroup';
 import api from 'services/api';
 import { isEmpty } from 'underscore';
+import useStyles from './styles';
 
 const PersonalHistoryForm = (props, ref) => {
   const {
@@ -23,7 +24,7 @@ const PersonalHistoryForm = (props, ref) => {
     tiposSitucaoUsoDrogas,
   } = props;
 
-  // const classes = useStyles();
+  const classes = useStyles();
 
   const history = useHistory();
 
@@ -88,21 +89,24 @@ const PersonalHistoryForm = (props, ref) => {
       onSubmit={handleSubmit}
     >
       {({ values, isSubmitting }) => (
-        <Form component={FormControl}>
+        <Form
+          className={classes.formContainer}
+          component={FormControl}
+        >
           <Grid
+            className={classes.form}
+            component={Card}
             container
-            spacing={2}
+            spacing={4}
           >
-            <Grid item>
-              <CardInfo
-                items={cardInfoTabagismoItens}
-                title="Classificação do tabagismo segundo OMS:"
-              />
-            </Grid>
             <Grid
               item
               xs={12}
             >
+              <CardInfo
+                items={cardInfoTabagismoItens}
+                title="Classificação do tabagismo segundo OMS:"
+              />
               <GenericRadioGroup
                 itens={tiposSitucaoTabagismo}
                 label="Tabagismo"
@@ -125,9 +129,6 @@ const PersonalHistoryForm = (props, ref) => {
                 items={cardInfoEtilismoItens}
                 title="Classificação do etilismo segundo OMS:"
               />
-            </Grid>
-
-            <Grid item>
               <GenericCheckboxGroup
                 label="Drogas"
                 name="drogas"

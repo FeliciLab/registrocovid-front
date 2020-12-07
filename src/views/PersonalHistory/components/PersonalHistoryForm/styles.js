@@ -8,11 +8,7 @@ const useStyles = makeStyles(theme => ({
   },
   form: {
     backgroundColor: '#fff',
-    width: 864,
-    minHeight: 800,
-    marginTop: 40,
-    paddingLeft: 40,
-    paddingTop: 24,
+    maxWidth: '864px',
   },
   formGroup: {
     marginBottom: 24,
