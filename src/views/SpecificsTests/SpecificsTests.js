@@ -21,6 +21,7 @@ import { useToast } from 'hooks/toast';
 import PatientInfo from 'components/PatientInfo';
 import { usePatient } from 'context/PatientContext';
 import TesteFormList from './components/TesteFormList';
+import EmptyRTPCRError from 'errors/EmptyRTPCRError';
 
 // Valores iniciais
 const initialValues = {
@@ -77,6 +78,17 @@ const SpecificsTests = () => {
 
   const handleSubmit = async ({ newsTestes }) => {
     try {
+      // Verificando pre submit
+      newsTestes.forEach(item => {
+        if (
+          item.tipo_teste === 'RTPCR' &&
+          !item.data_coleta &&
+          !item.resultado
+        ) {
+          throw new EmptyRTPCRError('Que mensagem mostrar aqui???');
+        }
+      });
+
       // sanitizando os dasos de novos testes para o envio
       const newsTestesSanitized = newsTestes.map(test =>
         test.tipo_teste === 'RTPCR'
@@ -100,7 +112,7 @@ const SpecificsTests = () => {
       // tentando salvar mas sem nada para enviar.
       if (newsTestesPromises.length === 0) {
         addToast({
-          type: 'warning',
+          type: 'error',
           message: 'Nada para salvar.',
         });
         return;
@@ -116,7 +128,17 @@ const SpecificsTests = () => {
 
       window.location.reload();
     } catch (err) {
-      console.log(err);
+      if (err instanceof EmptyRTPCRError) {
+        addToast({
+          type: 'warning',
+          message: err.message,
+        });
+      } else {
+        addToast({
+          type: 'error',
+          message: 'Algo de errado aconteceu',
+        });
+      }
     }
   };
 
