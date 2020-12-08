@@ -1,24 +1,23 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
-import { useFormikContext } from 'formik'
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { useFormikContext } from 'formik';
 import {
   TextField,
   FormGroup,
   Chip,
   FormLabel,
-  Button
-} from '@material-ui/core'
-import Add from '@material-ui/icons/Add'
-import randomIndex from 'helpers/randomIndex'
-
+  Button,
+} from '@material-ui/core';
+import Add from '@material-ui/icons/Add';
+import randomIndex from 'helpers/randomIndex';
 
 const ChipsTexts = ({ name }) => {
-  const { setFieldValue, values } = useFormikContext()
+  const { setFieldValue, values } = useFormikContext();
 
-  const handleRemove = (item) => {
-    const old = values[name] || [item]
-    setFieldValue(name, [...old.filter(value => value !== item)])
-  }
+  const handleRemove = item => {
+    const old = values[name] || [item];
+    setFieldValue(name, [...old.filter(value => value !== item)]);
+  };
 
   return (
     <>
@@ -31,39 +30,38 @@ const ChipsTexts = ({ name }) => {
         />
       ))}
     </>
-  )
-}
+  );
+};
 
 ChipsTexts.propTypes = {
-  name: PropTypes.string.isRequired
-}
+  name: PropTypes.string.isRequired,
+};
 
-const ChipTextMany = ({
-  classes,
-  name,
-  label
-}) => {
-  const {
-    setFieldValue,
-    values
-  } = useFormikContext()
+const ChipTextMany = ({ classes, name, label }) => {
+  const { setFieldValue, values } = useFormikContext();
 
-  const [text, setText] = useState('')
+  const [text, setText] = useState('');
 
   const handleAdd = () => {
-    const old = values[name] || []
+    const old = values[name] || [];
     if (old.find(item => item === text)) {
-      return
+      return;
     }
 
-    setFieldValue(name, [...old, text])
-    setText('')
-  }
+    setFieldValue(name, [...old, text]);
+    setText('');
+  };
 
   return (
     <>
-      <FormGroup className={classes.control} component="fieldset">
-        <FormLabel className={classes.label} component="legend">
+      <FormGroup
+        className={classes.control}
+        component="fieldset"
+      >
+        <FormLabel
+          className={classes.label}
+          component="legend"
+        >
           {label}
         </FormLabel>
 
@@ -71,14 +69,15 @@ const ChipTextMany = ({
           <TextField
             className={classes.textFieldWithButton}
             label={label}
-            value={text}
             onChange={({ target }) => setText(target.value)}
+            value={text}
             variant="filled"
           />
 
           <Button
             className={classes.buttonAdd}
             color="secondary"
+            disabled
             onClick={() => handleAdd()}
             startIcon={<Add />}
             type="button"
@@ -89,17 +88,15 @@ const ChipTextMany = ({
         </div>
       </FormGroup>
 
-      <div className={classes.chipWrapper}>
-        {<ChipsTexts name={name} />}
-      </div>
+      <div className={classes.chipWrapper}>{<ChipsTexts name={name} />}</div>
     </>
-  )
-}
+  );
+};
 
 ChipTextMany.propTypes = {
-  name: PropTypes.string.isRequired,
+  classes: PropTypes.instanceOf(Object).isRequired,
   label: PropTypes.string.isRequired,
-  classes: PropTypes.instanceOf(Object).isRequired
-}
+  name: PropTypes.string.isRequired,
+};
 
-export default ChipTextMany
+export default ChipTextMany;
