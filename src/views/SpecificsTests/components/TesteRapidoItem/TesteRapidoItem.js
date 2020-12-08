@@ -38,10 +38,10 @@ const TesteRapidoItem = ({ teste }) => {
           </Typography>
           <Typography variant="caption">
             Data da coleta:{' '}
-            {teste.data_realizacao
+            {teste.data_realizacao ? (teste.data_realizacao
               .split('-')
               .reverse()
-              .join('/')}
+              .join('/')):('não cadastrada')}
           </Typography>
         </div>
       </AccordionSummary>
