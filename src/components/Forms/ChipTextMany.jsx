@@ -77,7 +77,6 @@ const ChipTextMany = ({ classes, name, label }) => {
           <Button
             className={classes.buttonAdd}
             color="secondary"
-            disabled
             onClick={() => handleAdd()}
             startIcon={<Add />}
             type="button"
