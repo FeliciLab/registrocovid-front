@@ -60,8 +60,6 @@ const SpecificsTests = () => {
         setexamesPCR(exames => [...exames, ...exames_pcr]);
         setExamesTesteRapido(exames => [...exames, ...exames_teste_rapido]);
       } catch (err) {
-        // TODO: remover depois
-        console.log(err);
         addToast({
           type: 'error',
           message: 'Algo inesperado aconteceu. Tente novamente.',
@@ -82,14 +80,12 @@ const SpecificsTests = () => {
     try {
       // Verificando pre submit
       newsTestes.forEach(item => {
-        if (
-          item.tipo_teste === 'RTPCR' &&
-          !item.data_coleta &&
-          !item.resultado
-        ) {
-          throw new EmptyRTPCRError(
-            'Não foi possível salvar pois campos obrigatórios não foram informados',
-          );
+        if (item.tipo_teste === 'RTPCR') {
+          if (!item.data_coleta && !item.sitio_tipo) {
+            throw new EmptyRTPCRError(
+              'Não foi possível salvar pois campos obrigatórios não foram informados',
+            );
+          }
         }
       });
 

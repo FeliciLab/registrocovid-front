@@ -66,7 +66,13 @@ const TesteRTPCRItem = ({ teste }) => {
             Teste RT-PCR
           </Typography>
           <Typography variant="caption">
-            Data da coleta: {teste.data_coleta.split('-').reverse().join('/')}
+            Data da coleta:{' '}
+            {teste.data_coleta
+              ? teste.data_coleta
+                .split('-')
+                .reverse()
+                .join('/')
+              : 'não cadastrada'}
           </Typography>
         </div>
       </AccordionSummary>
@@ -130,9 +136,7 @@ const TesteRTPCRItem = ({ teste }) => {
                 shrink: true,
               }}
               type="date"
-              value={teste.data_resultado
-                ? teste.data_resultado
-                : ''}
+              value={teste.data_resultado ? teste.data_resultado : ''}
             />
           </FormGroup>
         </Grid>
