@@ -12,8 +12,8 @@ import { Form, Formik } from 'formik';
 import GenericRadioGroup from 'components/Forms/GenericRadioGroup';
 import GenericCheckboxGroup from 'components/Forms/GenericCheckboxGroup';
 import api from 'services/api';
-import { isEmpty } from 'underscore';
 import useStyles from './styles';
+import { getInitialValuesPersonalHistoryForm } from 'models/personalHistory/PersonalHistoryService';
 
 const PersonalHistoryForm = (props, ref) => {
   const {
@@ -34,22 +34,7 @@ const PersonalHistoryForm = (props, ref) => {
 
   const { patient } = usePatient();
 
-  const initialValues = isEmpty(patientHistory)
-    ? {
-      situacao_tabagismo_id: '',
-      situacao_uso_drogas_id: '',
-      drogas: {},
-      situacao_etilismo_id: '',
-    }
-    : {
-      situacao_tabagismo_id: String(patientHistory.situacao_tabagismo_id),
-      situacao_uso_drogas_id: String(patientHistory.situacao_uso_drogas_id),
-      drogas: patientHistory.drogas.reduce(
-        (acc, curr) => ({ ...acc, [curr.id]: true }),
-        {},
-      ),
-      situacao_etilismo_id: String(patientHistory.situacao_etilismo_id),
-    };
+  const initialValues = getInitialValuesPersonalHistoryForm(patientHistory);
 
   const handleSubmit = async values => {
     try {
@@ -134,7 +119,7 @@ const PersonalHistoryForm = (props, ref) => {
             </Grid>
 
             <Grid
-              item 
+              item
               xs={12}
             >
               <CardInfo
