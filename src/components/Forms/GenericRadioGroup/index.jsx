@@ -8,6 +8,7 @@ import {
 import { Field } from 'formik';
 import { RadioGroup } from 'formik-material-ui';
 import PropTypes from 'prop-types';
+import randomIndex from 'helpers/randomIndex';
 
 const GenericRadioGroup = props => {
   const { itens, label, name, ...rest } = props;
@@ -25,7 +26,7 @@ const GenericRadioGroup = props => {
         {itens.map(item => (
           <FormControlLabel
             control={<Radio />}
-            key={item.id}
+            key={randomIndex()}
             label={item.descricao}
             value={String(item.id)}
           />
