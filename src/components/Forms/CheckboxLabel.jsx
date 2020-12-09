@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { InputLabel } from '@material-ui/core';
 import { Field, FieldArray } from 'formik';
 import { CheckboxWithLabel } from 'formik-material-ui';
+import randomIndex from 'helpers/randomIndex';
 
 const CheckboxLabel = props => {
   const { classes, label, name, opcoes } = props;
@@ -20,10 +21,10 @@ const CheckboxLabel = props => {
         <FieldArray
           name={name}
           render={() =>
-            opcoes.map((opcao, index) => (
+            opcoes.map((opcao) => (
               <Field
                 component={CheckboxWithLabel}
-                key={index}
+                key={randomIndex()}
                 Label={{ label: opcao.descricao }}
                 name={`${name}.${opcao.id}`}
                 type={'checkbox'}

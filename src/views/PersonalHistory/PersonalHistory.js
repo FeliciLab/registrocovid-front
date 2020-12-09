@@ -100,8 +100,6 @@ const PersonalHistory = () => {
           </div>
         </div>
 
-
-
         {loading ? (
           <CircularProgress />
         ) : (
@@ -115,7 +113,6 @@ const PersonalHistory = () => {
             tiposSitucaoUsoDrogas={tiposSitucaoUsoDrogas}
           />
         )}
-
       </div>
     </div>
   );
