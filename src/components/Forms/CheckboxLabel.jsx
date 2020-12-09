@@ -21,7 +21,7 @@ const CheckboxLabel = props => {
         <FieldArray
           name={name}
           render={() =>
-            opcoes.map((opcao) => (
+            opcoes.map(opcao => (
               <Field
                 component={CheckboxWithLabel}
                 key={randomIndex()}
@@ -43,5 +43,7 @@ CheckboxLabel.propTypes = {
   name: PropTypes.string.isRequired,
   opcoes: PropTypes.instanceOf(Array),
 };
+
+CheckboxLabel.defaultProps = { opcoes: [] };
 
 export default CheckboxLabel;
