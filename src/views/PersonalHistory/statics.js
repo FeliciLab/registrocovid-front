@@ -1,17 +1,19 @@
 export const cardInfoTabagismoItens = [
   {
-    label: 'Etilista:',
-    description:
-      'consumo de pelo menos 1 unidade (ver abaixo) de qualquer bebida alcoólica por dia no último ano',
+    label: 'Fumante Diário:',
+    description: '1 cigarro ao dia por no mínimo 1 mês',
   },
   {
-    label: 'Ex-etilista:',
-    description:
-      'já consumiu bebida alcoólica, mas parou de consumir no último ano',
+    label: 'Fumante ocasional:',
+    description: 'menos de 1 cigarro por dia por no mínimo 1 mês',
   },
   {
-    label: 'Não etilista:',
-    description: 'nunca consumiu bebida alcoólica na frequência de etilista',
+    label: 'Ex-fumante:',
+    description: 'parou de fumar há pelo menos 1 mês',
+  },
+  {
+    label: 'Não fumante:',
+    description: 'nunca fumaram ou fumam há menos de 1 mês',
   },
 ];
 
@@ -39,25 +41,4 @@ export const customBreadcrumbsLinks = [
     label: 'História Pessoal',
     route: '/categorias/historia-pessoal',
   },
-];
-
-export const tabagismoOptions = [
-  { id: 1, descricao: 'Fumante' },
-  { id: 2, descricao: 'Ex-Fumante' },
-  { id: 3, descricao: 'Não Fumante' },
-  { id: 4, descricao: 'Não Informado' },
-];
-
-export const etilismoOptions = [
-  { id: 1, descricao: 'Etilista' },
-  { id: 2, descricao: 'Ex-etilista' },
-  { id: 3, descricao: 'Não Etilista' },
-  { id: 4, descricao: 'Não Informado' },
-];
-
-export const drogasOptions = [
-  { id: 1, descricao: 'É usuário' },
-  { id: 2, descricao: 'Ex-usuário' },
-  { id: 3, descricao: 'Nunca usou Drogas' },
-  { id: 4, descricao: 'Não Informado' },
 ];
