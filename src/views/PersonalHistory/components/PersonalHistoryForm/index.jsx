@@ -13,7 +13,10 @@ import GenericRadioGroup from 'components/Forms/GenericRadioGroup';
 import GenericCheckboxGroup from 'components/Forms/GenericCheckboxGroup';
 import api from 'services/api';
 import useStyles from './styles';
-import { getInitialValuesPersonalHistoryForm } from 'models/personalHistory/PersonalHistoryService';
+import {
+  getInitialValuesPersonalHistoryForm,
+  postPatientHistory,
+} from 'models/personalHistory/PersonalHistoryService';
 
 const PersonalHistoryForm = (props, ref) => {
   const {
@@ -38,24 +41,7 @@ const PersonalHistoryForm = (props, ref) => {
 
   const handleSubmit = async values => {
     try {
-      // pegando as drogas seleciondas
-      const selectedDrogasIds = Object.entries(values.drogas).map(elem =>
-        elem[1] ? Number(elem[0]) : null,
-      );
-
-      // Sanitizando o values antes de enviar para a request
-      const valuesSanitized = Object.keys(values).reduce((acc, curr) => {
-        if (values[curr] !== '') {
-          return { ...acc, [curr]: values[curr] };
-        }
-        return acc;
-      }, {});
-
-      await api.post(`/pacientes/${patient.id}/historico`, {
-        ...valuesSanitized,
-        drogas: selectedDrogasIds,
-      });
-
+      postPatientHistory(values, patient.id);
       addToast({
         type: 'success',
         message: 'Dados salvos com sucesso',

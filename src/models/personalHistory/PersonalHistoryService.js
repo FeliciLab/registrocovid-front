@@ -1,3 +1,4 @@
+import api from 'services/api';
 import { isEmpty } from 'underscore';
 
 export const getInitialValuesPersonalHistoryForm = patientHistory => {
@@ -17,4 +18,24 @@ export const getInitialValuesPersonalHistoryForm = patientHistory => {
       ),
       situacao_etilismo_id: String(patientHistory.situacao_etilismo_id),
     };
+};
+
+const getSelectedDrogasIds = values =>
+  Object.entries(values.drogas).map(elem => (elem[1] ? Number(elem[0]) : null));
+
+const getValuesSanitized = values =>
+  Object.keys(values).reduce((acc, curr) => {
+    if (values[curr] !== '') {
+      return { ...acc, [curr]: values[curr] };
+    }
+    return acc;
+  }, {});
+
+export const postPatientHistory = async (values, patientId) => {
+  const selectedDrogasIds = getSelectedDrogasIds(values);
+  const valuesSanitized = getValuesSanitized(values);
+  await api.post(`/pacientes/${patientId}/historico`, {
+    ...valuesSanitized,
+    drogas: selectedDrogasIds,
+  });
 };
