@@ -22,6 +22,7 @@ import PatientInfo from 'components/PatientInfo';
 import { usePatient } from 'context/PatientContext';
 import TesteFormList from './components/TesteFormList';
 import EmptyRTPCRError from 'errors/EmptyRTPCRError';
+import { postSpecificTests } from 'models/specificsTests/SpecificsTestsService';
 
 // Valores iniciais
 const initialValues = {
@@ -78,36 +79,7 @@ const SpecificsTests = () => {
 
   const handleSubmit = async ({ newsTestes }) => {
     try {
-      // Verificando pre submit
-      newsTestes.forEach(item => {
-        if (item.tipo_teste === 'RTPCR') {
-          if (!item.data_coleta && !item.sitio_tipo) {
-            throw new EmptyRTPCRError(
-              'Não foi possível salvar pois campos obrigatórios não foram informados',
-            );
-          }
-        }
-      });
-
-      // sanitizando os dasos de novos testes para o envio
-      const newsTestesSanitized = newsTestes.map(test =>
-        test.tipo_teste === 'RTPCR'
-          ? {
-            data_coleta: test.data_coleta,
-            sitio_tipo_id: test.sitio_tipo,
-            data_resultado: test.data_resultado,
-            rt_pcr_resultado_id: test.rt_pcr_resultado,
-          }
-          : {
-            data_realizacao: test.data_realizacao,
-            resultado: test.resultado === 'true' ? true : false,
-          },
-      );
-
-      // criando as promises
-      const newsTestesPromises = newsTestesSanitized.map(test =>
-        api.post(`/pacientes/${id}/exames-laboratoriais`, test),
-      );
+      const newsTestesPromises = postSpecificTests(newsTestes, patient.id);
 
       // tentando salvar mas sem nada para enviar.
       if (newsTestesPromises.length === 0) {
@@ -128,17 +100,10 @@ const SpecificsTests = () => {
 
       window.location.reload();
     } catch (err) {
-      if (err instanceof EmptyRTPCRError) {
-        addToast({
-          type: 'warning',
-          message: err.message,
-        });
-      } else {
-        addToast({
-          type: 'error',
-          message: 'Algo de errado aconteceu',
-        });
-      }
+      addToast({
+        type: 'error',
+        message: 'Algo de errado aconteceu',
+      });
     }
   };
 
