@@ -11,11 +11,17 @@ import {
   buscarTiposSuporteRespiratorio,
   buscarSuportesRespiratorios,
 } from 'services/requests/datasRequests';
+import { useToast } from 'hooks/toast';
+import { usePatient } from 'context/PatientContext';
 
 const DailyEvolution = () => {
   const classes = useStyles();
 
-  const { id } = useParams();
+  const { id } = useParams(); // esse é o id da Evolução Diária
+
+  const { patient } = usePatient(); // dados do paciente
+
+  const { addToast } = useToast();
 
   const query = useQuery();
   const date = query.get('date');
@@ -23,35 +29,45 @@ const DailyEvolution = () => {
   // ref para o Fomulário
   const formRef = useRef(null);
 
-  /// TODO: saber ainda o que vou fazer com isso
-  const disableSaveButton = false;
+  const disableSaveButton = !!date;
 
   const [tiposSuportesRespiratorios, setTiposSuportesRespiratorios] = useState(
     [],
   );
 
+  const [suportesRespiratorios, setSuportesRespiratorios] = useState([]);
+  const [desmames, setDesmames] = useState([]);
+  const [pronacoes, setPronacoes] = useState([]);
+
   const handleFetchTiposSuportesRespiratorios = useCallback(async () => {
     try {
-      const response = await buscarSuportesRespiratorios(id, date);
-      setTiposSuportesRespiratorios.set(response);
-      console.log(response);
+      const response = await buscarTiposSuporteRespiratorio();
+      setTiposSuportesRespiratorios(response);
     } catch (error) {
-      // TODO: melhorar isso aqui
       console.log(error);
+      addToast({
+        type: 'error',
+        message: 'Erro ao tentar carregar os tipos de Suporte Respiratório',
+      });
     }
-  }, [id, date]);
+  }, [addToast]);
 
-  // TODO: colocar aqui para buscar peli id o paciente e pela data
   const handleFetchSuportesRespiratorios = useCallback(async () => {
     try {
-      const response = await buscarTiposSuporteRespiratorio();
-      setTiposSuportesRespiratorios.set(response);
+      const response = await buscarSuportesRespiratorios(patient.id);
+      console.log(response);
+      setTiposSuportesRespiratorios(response.suporte_respiratorio);
+      setDesmames(response.tratamento_inclusao_desmame);
+      setPronacoes(response.tratamento_pronacao);
       console.log(response);
     } catch (error) {
-      // TODO: melhorar isso aqui
       console.log(error);
+      addToast({
+        type: 'error',
+        message: 'Erro ao tentar carregar os tipos de Suporte Respiratório',
+      });
     }
-  }, []);
+  }, [id, addToast]);
 
   const handleSubmit = useCallback(() => {
     formRef.current.handleSubmit();
@@ -85,15 +101,28 @@ const DailyEvolution = () => {
             </Button>
           </div>
         </div>
-        <DailyEvolutionForm ref={formRef} />
+        <DailyEvolutionForm
+          ref={formRef}
+          tiposSuportesRespiratorios={tiposSuportesRespiratorios}
+        />
 
         {tiposSuportesRespiratorios.map((tipo, index) => (
           <RespiratorySuportItemList
             descricao="Teste"
             key={index}
-            list={[]}
+            list={suportesRespiratorios}
           />
         ))}
+
+        <RespiratorySuportItemList
+          descricao="Pronação"
+          list={pronacoes}
+        />
+
+        <RespiratorySuportItemList
+          descricao="Desmames"
+          list={desmames}
+        />
       </div>
     </div>
   );

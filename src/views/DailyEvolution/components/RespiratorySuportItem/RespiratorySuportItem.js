@@ -26,6 +26,9 @@ function getData(suporteRespiratorio) {
       // outros tipos
       aux = suporteRespiratorio.data_inicio;
   }
+
+  if(!aux) aux = 'Data não informada'
+
   return aux
     .split('-')
     .reverse()

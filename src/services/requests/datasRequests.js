@@ -23,7 +23,7 @@ export const buscarTiposSuporteRespiratorio = () =>
 
 export const buscarSuportesRespiratorios = (patientId, date) => {
   return api
-    .get(`/pacientes/${patientId}/tratamento-suporte/`)
+    .get(`/pacientes/${patientId}/suportes-respiratorios`)
     .then(response => response.data);
 }
 

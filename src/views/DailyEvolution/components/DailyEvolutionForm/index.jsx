@@ -1,11 +1,4 @@
-import React, {
-  forwardRef,
-  useEffect,
-  useImperativeHandle,
-  useState,
-  useCallback,
-  useRef,
-} from 'react';
+import React, { forwardRef, useImperativeHandle, useRef } from 'react';
 import { Card, FormControl, Grid } from '@material-ui/core';
 import { Form, Formik } from 'formik';
 import { buscarTiposSuporteRespiratorio } from 'services/requests/datasRequests';
@@ -36,6 +29,8 @@ const initialValues = {
 };
 
 const DailyEvolutionForm = (props, ref) => {
+  const { tiposSuportesRespiratorios } = props;
+
   const classes = useStyles();
 
   const { patient } = usePatient();
@@ -44,23 +39,7 @@ const DailyEvolutionForm = (props, ref) => {
 
   const history = useHistory();
 
-  const [tiposSuporteRespiratorio, setTiposSuporteRespiratorio] = useState([]);
-
   const formikRef = useRef(null);
-
-  const handleFetchTiposSuporteRespiratorio = useCallback(async () => {
-    try {
-      const response = await buscarTiposSuporteRespiratorio();
-      setTiposSuporteRespiratorio(response);
-    } catch (error) {
-      // TODO: melhorar isso aqui
-      console.log(error);
-    }
-  }, []);
-
-  useEffect(() => {
-    handleFetchTiposSuporteRespiratorio();
-  }, [handleFetchTiposSuporteRespiratorio]);
 
   // TODO: implementar
   const handleSubmit = async values => {
@@ -77,8 +56,10 @@ const DailyEvolutionForm = (props, ref) => {
       oximetria: values.oximetria || undefined,
       escala_glasgow: values.escala_glasgow || undefined,
     };
-    const evolucoesDiariasPromose = api.post(`/pacientes/${patient.id}/evolucoes-diarias`, jsonToSend);
-
+    const evolucoesDiariasPromose = api.post(
+      `/pacientes/${patient.id}/evolucoes-diarias`,
+      jsonToSend,
+    );
 
     // try {
     //   await api.post(`/pacientes/${patient.id}/evolucoes-diarias`, jsonToSend);
@@ -121,8 +102,8 @@ const DailyEvolutionForm = (props, ref) => {
             spacing={2}
           >
             <FieldsBlock />
-            <SelectType tipos={tiposSuporteRespiratorio} />
-            <RespiratorySuportFormList tipos={tiposSuporteRespiratorio} />
+            <SelectType tipos={tiposSuportesRespiratorios} />
+            <RespiratorySuportFormList tipos={tiposSuportesRespiratorios} />
           </Grid>
         </Form>
       )}
