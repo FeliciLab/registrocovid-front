@@ -41,7 +41,7 @@ const PersonalHistoryForm = (props, ref) => {
 
   const handleSubmit = async values => {
     try {
-      postPatientHistory(values, patient.id);
+      await postPatientHistory(values, patient.id);
       addToast({
         type: 'success',
         message: 'Dados salvos com sucesso',
