@@ -145,7 +145,7 @@ const RespiratorySuportItem = props => {
             />
           </Grid>
         )}
-        {/* Pronaão */}
+        {/* Pronação */}
         {[10].some(id => suporteRespiratorio.tipo_suporte_id === id) && (
           <Grid
             container
@@ -162,7 +162,7 @@ const RespiratorySuportItem = props => {
             />
           </Grid>
         )}
-        {/* Pronação */}
+        {/* Desmame */}
         {[11].some(id => suporteRespiratorio.tipo_suporte_id === id) && (
           <Grid
             container
