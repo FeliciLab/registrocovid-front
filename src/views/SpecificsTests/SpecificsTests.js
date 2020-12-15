@@ -1,5 +1,4 @@
 import React, { useState, useCallback, useEffect } from 'react';
-
 import useStyles from './styles';
 import { CustomBreadcrumbs, NotToShowImg } from 'components';
 import { useParams, useHistory } from 'react-router-dom';
@@ -21,7 +20,6 @@ import { useToast } from 'hooks/toast';
 import PatientInfo from 'components/PatientInfo';
 import { usePatient } from 'context/PatientContext';
 import TesteFormList from './components/TesteFormList';
-import EmptyRTPCRError from 'errors/EmptyRTPCRError';
 import { postSpecificTests } from 'models/specificsTests/SpecificsTestsService';
 
 // Valores iniciais

@@ -2,7 +2,7 @@ import * as Yup from 'yup';
 
 function chaveComposta(value) {
   if (value.tipo_teste === 'RTPCR') {
-    return value.data_coleta || value.sitio_tipo;
+    return value.data_resultado || value.rt_pcr_resultado;
   } else {
     return true;
   }
@@ -20,6 +20,8 @@ const schema = Yup.object().shape({
         ),
         // TODO: voltando as coisas aqui para um teste
         data_coleta: Yup.date(),
+        data_resultado: Yup.date(),
+        rt_pcr_resultado: Yup.string(),
         sitio_tipo: Yup.string(),
       })
       .test(
