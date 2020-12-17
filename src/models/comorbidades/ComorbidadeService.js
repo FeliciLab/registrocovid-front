@@ -26,13 +26,19 @@ const validarCamposBoleanos = campos => {
   ];
 
   return camposBooleanos.find(
-    item => campos[item] === true || campos[item] === 'sim',
+    item =>
+      campos[item] === true || campos[item] === 'sim' || campos[item] === 'nao',
   );
 };
 
 const validarCamposLista = campos => {
-  const camposListas = ['outras_condicoes', 'medicacoes'];
-  return camposListas.find(item => campos[item] && campos[item].length > 0);
+  const camposListas = ['outras_condicoes', 'medicacoes', 'doencas'];
+  return camposListas.find(
+    item =>
+      campos[item] &&
+      campos[item].length > 0 &&
+      campos[item].some(elem => elem === true),
+  );
 };
 
 export const validarCamposFormularioParaSalvar = campos => {

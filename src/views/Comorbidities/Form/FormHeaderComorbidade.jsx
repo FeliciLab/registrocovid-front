@@ -3,7 +3,7 @@ import useStyles from 'views/Comorbidities/styles';
 import { Grid, Typography, Button } from '@material-ui/core';
 import { useFormikContext } from 'formik';
 import PatientInfo from 'components/PatientInfo';
-// import { validarCamposFormularioParaSalvar } from 'models/comorbidades/ComorbidadeService';
+import { validarCamposFormularioParaSalvar } from 'models/comorbidades/ComorbidadeService';
 
 const FormHeaderComorbidade = () => {
   const { isSubmitting, isValid, values } = useFormikContext();
@@ -11,7 +11,9 @@ const FormHeaderComorbidade = () => {
   const classes = useStyles();
 
   useEffect(() => {
-    setValido(!isSubmitting && isValid);
+    setValido(
+      !isSubmitting && isValid && validarCamposFormularioParaSalvar(values),
+    );
   }, [values, isValid, isSubmitting]);
 
   return (
