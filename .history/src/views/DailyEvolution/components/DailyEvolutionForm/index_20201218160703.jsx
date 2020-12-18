@@ -56,23 +56,26 @@ const DailyEvolutionForm = (props, ref) => {
       oximetria: values.oximetria || undefined,
       escala_glasgow: values.escala_glasgow || undefined,
     };
-    try {
-      await api.post(
-        `/pacientes/${patient.id}/evolucoes-diarias`,
-        jsonToSend,
-      );
-      await api.post(`/pacientes/${patient.id}/evolucoes-diarias`, jsonToSend);
-      addToast({
-        type: 'success',
-        message: 'Dados salvos com sucesso',
-      });
-      history.push('/categorias/evolucao-diaria-list/');
-    } catch {
-      addToast({
-        type: 'error',
-        message: 'Erro ao tentar registrar exame físico, tente novamente',
-      });
-    }
+    const evolucoesDiariasPromose = api.post(
+      `/pacientes/${patient.id}/evolucoes-diarias`,
+      jsonToSend,
+    );
+
+    // try {
+    //   await api.post(`/pacientes/${patient.id}/evolucoes-diarias`, jsonToSend);
+    //   addToast({
+    //     type: 'success',
+    //     message: 'Dados salvos com sucesso',
+    //   });
+
+    //   history.push('/categorias/lista-exame-fisico');
+    // } catch {
+    //   addToast({
+    //     type: 'error',
+    //     message: 'Erro ao tentar registrar exame físico, tente novamente',
+    //   });
+    // }
+    history.push('/categorias/evolucao-diaria-list');
   };
 
   useImperativeHandle(ref, () => ({

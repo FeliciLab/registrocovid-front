@@ -26,7 +26,6 @@ const RespiratorySuportItemList = props => {
       component={Card}
       container
       item
-      spacing={2}
     >
       {list.map((item, index) => (
         <RespiratorySuportItem

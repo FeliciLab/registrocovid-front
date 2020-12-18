@@ -31,10 +31,11 @@ export const buscarSuportesRespiratorios = (patientId, date) =>
     .get(`/pacientes/${patientId}/suportes-respiratorios`)
     .then(response => response.data);
 
-export const createEvolucaoDiaria = (patientId, content) =>
-  api
+export const createEvolucaoDiaria = (patientId, content) => {
+  return api
     .post(`/pacientes/${patientId}/evolucoes-diarias`, content)
     .then(response => response.data);
+};
 
 export default {
   buscarComorbidade,

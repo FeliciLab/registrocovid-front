@@ -23,10 +23,13 @@ const DailyEvolution = () => {
 
   const { addToast } = useToast();
 
+  const query = useQuery();
+  const date = query.get('date');
+
   // ref para o Fomulário
   const formRef = useRef(null);
 
-  const disableSaveButton = !!id;
+  const disableSaveButton = !!date;
 
   const [tiposSuportesRespiratorios, setTiposSuportesRespiratorios] = useState(
     [],
@@ -53,9 +56,6 @@ const DailyEvolution = () => {
     formRef.current.handleSubmit();
   }, []);
 
-  useEffect(() => {
-    handleFetchTiposSuportesRespiratorios();
-  }, [handleFetchTiposSuportesRespiratorios])
 
   return (
     <div className={classes.root}>
@@ -84,7 +84,7 @@ const DailyEvolution = () => {
 
         {tiposSuportesRespiratorios.map((tipo, index) => (
           <RespiratorySuportItemList
-            descricao={tipo.descricao}
+            descricao="Teste"
             key={index}
             list={suportesRespiratorios}
           />

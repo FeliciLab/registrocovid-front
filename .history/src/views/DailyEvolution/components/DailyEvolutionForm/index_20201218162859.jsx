@@ -56,17 +56,19 @@ const DailyEvolutionForm = (props, ref) => {
       oximetria: values.oximetria || undefined,
       escala_glasgow: values.escala_glasgow || undefined,
     };
+    const evolucoesDiariasPromose = api.post(
+      `/pacientes/${patient.id}/evolucoes-diarias`,
+      jsonToSend,
+    );
+
     try {
-      await api.post(
-        `/pacientes/${patient.id}/evolucoes-diarias`,
-        jsonToSend,
-      );
       await api.post(`/pacientes/${patient.id}/evolucoes-diarias`, jsonToSend);
       addToast({
         type: 'success',
         message: 'Dados salvos com sucesso',
       });
       history.push('/categorias/evolucao-diaria-list/');
+
     } catch {
       addToast({
         type: 'error',

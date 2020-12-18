@@ -23,10 +23,13 @@ const DailyEvolution = () => {
 
   const { addToast } = useToast();
 
+  const query = useQuery();
+  const date = query.get('date');
+
   // ref para o Fomulário
   const formRef = useRef(null);
 
-  const disableSaveButton = !!id;
+  const disableSaveButton = !!date;
 
   const [tiposSuportesRespiratorios, setTiposSuportesRespiratorios] = useState(
     [],
@@ -49,13 +52,35 @@ const DailyEvolution = () => {
     }
   }, [addToast]);
 
+  const handleFetchSuportesRespiratorios = useCallback(async () => {
+    try {
+      const response = await buscarSuportesRespiratorios(patient.id);
+      console.log(response);
+      setTiposSuportesRespiratorios(response.suporte_respiratorio);
+      setDesmames([]);
+      setPronacoes([]);
+      // setDesmames(response.tratamento_inclusao_desmame);
+      // setPronacoes(response.tratamento_pronacao);
+    } catch (error) {
+      console.log(error);
+      addToast({
+        type: 'error',
+        message: 'Erro ao tentar carregar os tipos de Suporte Respiratório',
+      });
+    }
+  }, [id, addToast]);
+
   const handleSubmit = useCallback(() => {
     formRef.current.handleSubmit();
   }, []);
 
   useEffect(() => {
     handleFetchTiposSuportesRespiratorios();
-  }, [handleFetchTiposSuportesRespiratorios])
+  }, [handleFetchTiposSuportesRespiratorios]);
+
+  useEffect(() => {
+    handleFetchSuportesRespiratorios();
+  }, [handleFetchSuportesRespiratorios]);
 
   return (
     <div className={classes.root}>
@@ -84,7 +109,7 @@ const DailyEvolution = () => {
 
         {tiposSuportesRespiratorios.map((tipo, index) => (
           <RespiratorySuportItemList
-            descricao={tipo.descricao}
+            descricao="Teste"
             key={index}
             list={suportesRespiratorios}
           />

@@ -57,7 +57,7 @@ const DailyEvolutionForm = (props, ref) => {
       escala_glasgow: values.escala_glasgow || undefined,
     };
     try {
-      await api.post(
+      const evolucoesDiariasPromose = api.post(
         `/pacientes/${patient.id}/evolucoes-diarias`,
         jsonToSend,
       );

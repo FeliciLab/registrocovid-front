@@ -22,11 +22,10 @@ const DailyEvolution = () => {
   const { patient } = usePatient(); // dados do paciente
 
   const { addToast } = useToast();
-
   // ref para o Fomulário
   const formRef = useRef(null);
 
-  const disableSaveButton = !!id;
+  const disableSaveButton = !!date;
 
   const [tiposSuportesRespiratorios, setTiposSuportesRespiratorios] = useState(
     [],

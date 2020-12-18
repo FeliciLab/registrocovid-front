@@ -33,7 +33,7 @@ const DailyEvolutionListTitle = () => {
           className={classes.buttonSave}
           color="secondary"
           onClick={() =>
-            history.push('/categorias/evolucao-diaria/')
+            history.push(`/categorias/evolucao-diaria/${patient.id}`)
           }
           startIcon={<AddIcon />}
           variant="contained"

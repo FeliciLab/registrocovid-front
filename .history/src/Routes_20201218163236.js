@@ -195,7 +195,7 @@ const Routes = () => {
         exact
         isPrivate
         layout={MainLayout}
-        path="/categorias/evolucao-diaria/"
+        path="/categorias/evolucao-diaria/:id"
       />
       <RouteWithLayout
         component={DailyEvolutionView}

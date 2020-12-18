@@ -195,13 +195,6 @@ const Routes = () => {
         exact
         isPrivate
         layout={MainLayout}
-        path="/categorias/evolucao-diaria/"
-      />
-      <RouteWithLayout
-        component={DailyEvolutionView}
-        exact
-        isPrivate
-        layout={MainLayout}
         path="/categorias/evolucao-diaria/:id"
       />
       <RouteWithLayout
