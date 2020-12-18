@@ -56,12 +56,13 @@ const DailyEvolutionForm = (props, ref) => {
       oximetria: values.oximetria || undefined,
       escala_glasgow: values.escala_glasgow || undefined,
     };
+    
     try {
-      await api.post(
-        `/pacientes/${patient.id}/evolucoes-diarias`,
-        jsonToSend,
-      );
       await api.post(`/pacientes/${patient.id}/evolucoes-diarias`, jsonToSend);
+      const promises = values.newSuportesRespitatorios.map(elem =>
+        api.post(`/pacientes/${patient.id}/suportes-respiratorios`, elem),
+      );
+      await Promise.all(promises);
       addToast({
         type: 'success',
         message: 'Dados salvos com sucesso',

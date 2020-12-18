@@ -14,6 +14,8 @@
 # server fake
 dbfake.json
 
+/.history
+
 # misc
 .DS_Store
 /.env

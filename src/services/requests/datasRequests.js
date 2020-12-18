@@ -26,7 +26,7 @@ export const buscarEvolucaoDiariaById = (idPaciente, idEvolucao) =>
 export const buscarTiposSuporteRespiratorio = () =>
   api.get('/suportes-respiratorios').then(response => response.data);
 
-export const buscarSuportesRespiratorios = (patientId, date) =>
+export const buscarSuportesRespiratorios = (patientId) =>
   api
     .get(`/pacientes/${patientId}/suportes-respiratorios`)
     .then(response => response.data);

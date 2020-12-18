@@ -23,7 +23,6 @@ const DailyEvolution = () => {
 
   const { addToast } = useToast();
 
-  // ref para o Fomulário
   const formRef = useRef(null);
 
   const disableSaveButton = !!id;
@@ -33,6 +32,7 @@ const DailyEvolution = () => {
   );
 
   const [suportesRespiratorios, setSuportesRespiratorios] = useState([]);
+
   const [desmames, setDesmames] = useState([]);
   const [pronacoes, setPronacoes] = useState([]);
 
@@ -49,13 +49,33 @@ const DailyEvolution = () => {
     }
   }, [addToast]);
 
+  // TODO: testando aqui as coisas.
+  const handleFetchSuportesRespiratorios = useCallback(async () => {
+    try {
+      const response = await buscarSuportesRespiratorios(patient.id);
+      console.log(response);
+      setSuportesRespiratorios(response.suporte_respiratorio);
+      setPronacoes(response.tratamento_pronacao);
+      setDesmames(response.tratamento_inclusao_desmame);
+    } catch (error) {
+      console.log(error);
+      addToast({
+        type: 'error',
+        message: 'Erro ao tentar carregar os tipos de Suporte Respiratório',
+      });
+    }
+  }, [addToast]);
+
   const handleSubmit = useCallback(() => {
     formRef.current.handleSubmit();
   }, []);
 
   useEffect(() => {
+    if (id) {
+      handleFetchSuportesRespiratorios();
+    }
     handleFetchTiposSuportesRespiratorios();
-  }, [handleFetchTiposSuportesRespiratorios])
+  }, [handleFetchTiposSuportesRespiratorios, handleFetchSuportesRespiratorios]);
 
   return (
     <div className={classes.root}>
@@ -100,6 +120,7 @@ const DailyEvolution = () => {
           list={desmames}
         />
       </div>
+      <pre>{JSON.stringify(suportesRespiratorios, null, 2)}</pre>
     </div>
   );
 };
