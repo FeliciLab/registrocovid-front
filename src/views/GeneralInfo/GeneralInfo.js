@@ -26,6 +26,7 @@ import GenericNumberField from 'components/Forms/GenericNumberField';
 import GenericDateField from 'components/Forms/GenericDateField';
 import GenericSelectField from 'components/Forms/GenericSelectField';
 import GenericSwitchField from 'components/Forms/GenericSwitchField';
+import Gasometria from './components/Gasometria';
 
 const GeneralInfo = () => {
   const { addToast } = useToast();
@@ -227,8 +228,6 @@ const GeneralInfo = () => {
                       paciente"
                     />
                   </Grid>
-
-                  {/* suporte_respiratorio */}
                   <Grid
                     item
                     xs={12}
@@ -255,6 +254,13 @@ const GeneralInfo = () => {
                       </GenericSelectField>
                     </FormGroup>
                   </Grid>
+                  <Grid
+                    container
+                    item
+                  >
+                    <Gasometria />
+                  </Grid>
+
                   <Grid
                     container
                     item
