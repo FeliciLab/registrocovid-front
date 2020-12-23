@@ -1,14 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import useStyles from './styles';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form } from 'formik';
 import CustomBreadcrumbs from 'components/CustomBreadcrumbs';
-import { Switch, TextField } from 'formik-material-ui';
 import {
   Typography,
   Button,
-  FormLabel,
-  FormControlLabel,
   FormControl,
   FormGroup,
   Grid,
@@ -28,6 +25,7 @@ import {
 import GenericNumberField from 'components/Forms/GenericNumberField';
 import GenericDateField from 'components/Forms/GenericDateField';
 import GenericSelectField from 'components/Forms/GenericSelectField';
+import GenericSwitchField from 'components/Forms/GenericSwitchField';
 
 const GeneralInfo = () => {
   const { addToast } = useToast();
@@ -236,23 +234,10 @@ const GeneralInfo = () => {
                     xs={12}
                   >
                     <FormGroup>
-                      <FormControlLabel
-                        control={
-                          <Field
-                            color="primary"
-                            component={Switch}
-                            name="suporte_respiratorio"
-                            type="checkbox"
-                          />
-                        }
-                        label={
-                          <Typography variant="h4">
-                            Paciente chegou com suplementação de oxigênio?
-                          </Typography>
-                        }
+                      <GenericSwitchField
+                        label="Paciente chegou com suplementação de oxigênio?"
+                        name="suporte_respiratorio"
                       />
-                      {/* tipo_suport_respiratorio */}
-
                       <GenericSelectField
                         disabled={!values.suporte_respiratorio}
                         label="Tipo suporte respiratorio"
@@ -270,48 +255,24 @@ const GeneralInfo = () => {
                       </GenericSelectField>
                     </FormGroup>
                   </Grid>
-
-                  {/* chegou_traqueostomizado */}
                   <Grid
                     container
                     item
                     xs={12}
                   >
-                    <FormControlLabel
-                      control={
-                        <Field
-                          color="primary"
-                          component={Switch}
-                          name="chegou_traqueostomizado"
-                          type="checkbox"
-                        />
-                      }
-                      label={
-                        <Typography variant="h4">
-                          Paciente chegou traqueostomizado?
-                        </Typography>
-                      }
+                    <GenericSwitchField
+                      label="Paciente chegou traqueostomizado?"
+                      name="chegou_traqueostomizado"
                     />
                   </Grid>
-
-                  {/* reinternacao */}
                   <Grid
                     container
                     item
                     xs={12}
                   >
-                    <FormControlLabel
-                      control={
-                        <Field
-                          color="primary"
-                          component={Switch}
-                          name="reinternacao"
-                          type="checkbox"
-                        />
-                      }
-                      label={
-                        <Typography variant="h4">Reinternação?</Typography>
-                      }
+                    <GenericSwitchField
+                      label="Reinternação?"
+                      name="reinternacao"
                     />
                   </Grid>
                 </Grid>
