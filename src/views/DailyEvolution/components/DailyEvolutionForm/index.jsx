@@ -44,7 +44,7 @@ const DailyEvolutionForm = (props, ref) => {
   // TODO: implementar
   const handleSubmit = async values => {
     const jsonToSend = {
-      data_evolucao: values.data_evolucao,
+      data_evolucao: values.data_evolucao || undefined,
       temperatura: values.temperatura || undefined,
       frequencia_respiratoria: values.frequencia_respiratoria || undefined,
       peso: values.peso || undefined,
@@ -103,6 +103,9 @@ const DailyEvolutionForm = (props, ref) => {
             <FieldsBlock />
             <SelectType tipos={tiposSuportesRespiratorios} />
             <RespiratorySuportFormList tipos={tiposSuportesRespiratorios} />
+          </Grid>
+          <Grid item>
+            <pre>{JSON.stringify(values.newSuportesRespitatorios, null, 2)}</pre>
           </Grid>
         </Form>
       )}
