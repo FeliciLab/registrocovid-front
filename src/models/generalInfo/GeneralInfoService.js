@@ -1,6 +1,7 @@
-const { default: api } = require('services/api');
+import formatDate from 'helpers/formatDate';
+import api from 'services/api';
 
-const loadInitialValues = patient => {
+export const loadInitialValues = patient => {
   let initialValues = {
     prontuario: '',
     data_internacao: '',
@@ -37,7 +38,7 @@ const loadInitialValues = patient => {
   return initialValues;
 };
 
-const postGeneralInfo = async values => {
+export const postGeneralInfo = async values => {
   let patient = {
     prontuario: values.prontuario,
     data_internacao: values.data_internacao,
@@ -79,6 +80,6 @@ const postGeneralInfo = async values => {
     tipo_suporte_respiratorios: [{ id: values.tipo_suport_respiratorio }],
     chegou_traqueostomizado: values.chegou_traqueostomizado,
   };
-}
 
-export default { loadInitialValues, postGeneralInfo };
+  return complementaryResponsePatient;
+};

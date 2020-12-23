@@ -21,9 +21,11 @@ import schema from './schema';
 import { useToast } from 'hooks/toast';
 import { usePatient } from 'context/PatientContext';
 import api from 'services/api';
-import formatDate from 'helpers/formatDate';
-import loadInitialValues from 'models/generalInfo/GeneralInfoService';
-import postGeneralInfo from 'models/generalInfo/GeneralInfoService';
+import {
+  loadInitialValues,
+  postGeneralInfo,
+} from 'models/generalInfo/GeneralInfoService';
+import GenericNumberField from 'components/Forms/GenericNumberField';
 
 const GeneralInfo = () => {
   const { addToast } = useToast();
@@ -66,7 +68,7 @@ const GeneralInfo = () => {
 
   const handleSubmit = async values => {
     try {
-      await postGeneralInfo(values);
+      const complementaryResponsePatient = await postGeneralInfo(values);
 
       addToast({
         type: 'success',
@@ -158,21 +160,11 @@ const GeneralInfo = () => {
                     md={6}
                     sm={12}
                   >
-                    <FormGroup>
-                      <FormLabel>
-                        <Typography variant="h4">
-                          Número do prontuário
-                        </Typography>
-                      </FormLabel>
-                      <Field
-                        className={classes.textField}
-                        component={TextField}
-                        label="Número do prontuário"
-                        name="prontuario"
-                        type="number"
-                        variant="outlined"
-                      />
-                    </FormGroup>
+                    <GenericNumberField
+                      className={classes.textField}
+                      label="Número do prontuário"
+                      name="prontuario"
+                    />
                   </Grid>
 
                   {/* data_internacao */}
