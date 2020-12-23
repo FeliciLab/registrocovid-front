@@ -1,12 +1,91 @@
-import { Typography } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
+import GenericNumberField from 'components/Forms/GenericNumberField';
 import React from 'react';
 
-function Gasometria() {
-  return (
-    <Typography variant="h4">
+const Gasometria = (
+  <Grid
+    container
+    item
+    spacing={1}
+  >
+    <Grid
+      component={Typography}
+      item
+      variant="h3"
+      xs={12}
+    >
       Gasometria arterial na admissão hospitalar
-    </Typography>
-  );
-}
+    </Grid>
+    <Grid
+      item
+      xs={3}
+    >
+      <GenericNumberField
+        label="pH"
+        name="prontuario"
+      />
+    </Grid>
+    <Grid
+      item
+      xs={3}
+    >
+      <GenericNumberField
+        endAdornment="mmHg"
+        label="PaO2"
+        name="prontuario"
+      />
+    </Grid>
+    <Grid
+      item
+      xs={3}
+    >
+      <GenericNumberField
+        endAdornment="mmHg"
+        label="PaCO2"
+        name="prontuario"
+      />
+    </Grid>
+    <Grid
+      item
+      xs={3}
+    >
+      <GenericNumberField
+        endAdornment="mEq/L"
+        label="HCO3"
+        name="prontuario"
+      />
+    </Grid>
+    <Grid
+      item
+      xs={3}
+    >
+      <GenericNumberField
+        endAdornment="mEq/L"
+        label="BE"
+        name="prontuario"
+      />
+    </Grid>
+    <Grid
+      item
+      xs={3}
+    >
+      <GenericNumberField
+        endAdornment="%"
+        label="SaO2"
+        name="prontuario"
+      />
+    </Grid>
+    <Grid
+      item
+      xs={3}
+    >
+      <GenericNumberField
+        endAdornment="mmol/L"
+        label="Lactato"
+        name="prontuario"
+      />
+    </Grid>
+  </Grid>
+);
 
 export default Gasometria;

@@ -1,4 +1,9 @@
-import { FormGroup, FormLabel, Typography } from '@material-ui/core';
+import {
+  FormGroup,
+  FormLabel,
+  InputAdornment,
+  Typography,
+} from '@material-ui/core';
 import { Field } from 'formik';
 import { TextField } from 'formik-material-ui';
 import React from 'react';
@@ -11,7 +16,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function GenericNumberField(props) {
-  const { title, label, name, ...rest } = props;
+  const { title, label, name, endAdornment, ...rest } = props;
 
   const classes = useStyles();
 
@@ -24,6 +29,11 @@ function GenericNumberField(props) {
       )}
       <Field
         component={TextField}
+        InputProps={{
+          endAdornment: endAdornment && (
+            <InputAdornment position="start">{endAdornment}</InputAdornment>
+          ),
+        }}
         label={label}
         name={name}
         type="number"
