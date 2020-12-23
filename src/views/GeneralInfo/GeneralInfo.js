@@ -26,6 +26,7 @@ import {
   postGeneralInfo,
 } from 'models/generalInfo/GeneralInfoService';
 import GenericNumberField from 'components/Forms/GenericNumberField';
+import GenericDateField from 'components/Forms/GenericDateField';
 
 const GeneralInfo = () => {
   const { addToast } = useToast();
@@ -161,7 +162,6 @@ const GeneralInfo = () => {
                     sm={12}
                   >
                     <GenericNumberField
-                      className={classes.textField}
                       label="Número do prontuário"
                       name="prontuario"
                     />
@@ -173,7 +173,11 @@ const GeneralInfo = () => {
                     md={6}
                     sm={12}
                   >
-                    <FormGroup>
+                    <GenericDateField
+                      label="Data de internação"
+                      name="data_internacao"
+                    />
+                    {/* <FormGroup>
                       <FormLabel>
                         <Typography variant="h4">Data de internação</Typography>
                       </FormLabel>
@@ -184,7 +188,7 @@ const GeneralInfo = () => {
                         type="date"
                         variant="outlined"
                       />
-                    </FormGroup>
+                    </FormGroup> */}
                   </Grid>
 
                   {/* unidade_primeiro_atendimento */}

@@ -1,8 +1,8 @@
 import { FormGroup, FormLabel, Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 import { Field } from 'formik';
 import { TextField } from 'formik-material-ui';
 import React from 'react';
-import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles(theme => ({
   formLabel: {
@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function GenericNumberField(props) {
+function GenericDateField(props) {
   const { label, name, ...rest } = props;
 
   const classes = useStyles();
@@ -21,10 +21,14 @@ function GenericNumberField(props) {
         <Typography variant="h4">Número do prontuário</Typography>
       </FormLabel>
       <Field
+        className={classes.field}
         component={TextField}
+        InputLabelProps={{
+          shrink: true,
+        }}
         label={label}
         name={name}
-        type="number"
+        type="date"
         variant="outlined"
         {...rest}
       />
@@ -32,4 +36,4 @@ function GenericNumberField(props) {
   );
 }
 
-export default GenericNumberField;
+export default GenericDateField;
