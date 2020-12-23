@@ -11,15 +11,17 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function GenericNumberField(props) {
-  const { label, name, ...rest } = props;
+  const { title, label, name, ...rest } = props;
 
   const classes = useStyles();
 
   return (
     <FormGroup>
-      <FormLabel className={classes.formLabel}>
-        <Typography variant="h4">Número do prontuário</Typography>
-      </FormLabel>
+      {title && (
+        <FormLabel className={classes.formLabel}>
+          <Typography variant="h4">{title}</Typography>
+        </FormLabel>
+      )}
       <Field
         component={TextField}
         label={label}

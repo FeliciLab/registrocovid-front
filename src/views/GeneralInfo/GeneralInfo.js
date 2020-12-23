@@ -27,6 +27,7 @@ import {
 } from 'models/generalInfo/GeneralInfoService';
 import GenericNumberField from 'components/Forms/GenericNumberField';
 import GenericDateField from 'components/Forms/GenericDateField';
+import GenericSelectField from 'components/Forms/GenericSelectField';
 
 const GeneralInfo = () => {
   const { addToast } = useToast();
@@ -155,7 +156,6 @@ const GeneralInfo = () => {
                   lg={8}
                   spacing={2}
                 >
-                  {/* prontuario */}
                   <Grid
                     item
                     md={6}
@@ -164,10 +164,10 @@ const GeneralInfo = () => {
                     <GenericNumberField
                       label="Número do prontuário"
                       name="prontuario"
+                      title="Número do prontuário"
                     />
                   </Grid>
 
-                  {/* data_internacao */}
                   <Grid
                     item
                     md={6}
@@ -176,105 +176,58 @@ const GeneralInfo = () => {
                     <GenericDateField
                       label="Data de internação"
                       name="data_internacao"
+                      title="Data de internação"
                     />
-                    {/* <FormGroup>
-                      <FormLabel>
-                        <Typography variant="h4">Data de internação</Typography>
-                      </FormLabel>
-                      <Field
-                        className={classes.dateField}
-                        component={TextField}
-                        name="data_internacao"
-                        type="date"
-                        variant="outlined"
-                      />
-                    </FormGroup> */}
                   </Grid>
-
-                  {/* unidade_primeiro_atendimento */}
                   <Grid
                     item
                     xs={12}
                   >
-                    <FormGroup>
-                      <FormLabel>
-                        <Typography variant="h4">
-                          Nome do serviço / Unidade de Saúde onde o paciente
-                          recebeu o primeiro atendimento
-                        </Typography>
-                      </FormLabel>
-                      <Field
-                        className={classes.textField}
-                        component={TextField}
-                        label="Unidade de Saúde"
-                        name="unidade_primeiro_atendimento"
-                        select
-                        variant="filled"
-                      >
-                        {instituicoes.map(({ id, nome }) => (
-                          <MenuItem
-                            key={id}
-                            value={id}
-                          >
-                            {nome}
-                          </MenuItem>
-                        ))}
-                      </Field>
-                    </FormGroup>
+                    <GenericSelectField
+                      label="Unidade de Saúde"
+                      name="unidade_primeiro_atendimento"
+                      title="Nome do serviço / Unidade de Saúde onde o paciente
+                      recebeu o primeiro atendimento"
+                    >
+                      {instituicoes.map(({ id, nome }) => (
+                        <MenuItem
+                          key={id}
+                          value={id}
+                        >
+                          {nome}
+                        </MenuItem>
+                      ))}
+                    </GenericSelectField>
                   </Grid>
-
-                  {/* unidade_de_saude */}
                   <Grid
                     item
                     xs={12}
                   >
-                    <FormGroup>
-                      <FormLabel>
-                        <Typography variant="h4">
-                          Nome do serviço / Unidade de Saúde que referenciou o
-                          paciente
-                        </Typography>
-                      </FormLabel>
-                      <Field
-                        className={classes.textField}
-                        component={TextField}
-                        label="Unidade de Saúde"
-                        name="unidade_de_saude"
-                        select
-                        variant="filled"
-                      >
-                        {instituicoes.map(({ id, nome }) => (
-                          <MenuItem
-                            key={id}
-                            value={id}
-                          >
-                            {nome}
-                          </MenuItem>
-                        ))}
-                      </Field>
-                    </FormGroup>
+                    <GenericSelectField
+                      label="Unidade de Saúde"
+                      name="unidade_de_saude"
+                      title="Nome do serviço / Unidade de Saúde que referenciou o
+                      paciente"
+                    >
+                      {instituicoes.map(({ id, nome }) => (
+                        <MenuItem
+                          key={id}
+                          value={id}
+                        >
+                          {nome}
+                        </MenuItem>
+                      ))}
+                    </GenericSelectField>
                   </Grid>
-
-                  {/* data_atendimento */}
                   <Grid
                     item
                     xs={12}
                   >
-                    <FormGroup>
-                      <FormLabel>
-                        <Typography variant="h4">
-                          Data do atendimento na unidade que referenciou o
-                          paciente
-                        </Typography>
-                      </FormLabel>
-                      <Field
-                        className={classes.dateField}
-                        component={TextField}
-                        name="data_atendimento"
-                        type="date"
-                        variant="outlined"
-                      />
-                    </FormGroup>
+                    <GenericDateField
+                      name="data_atendimento"
+                      title="Data do atendimento na unidade que referenciou o
+                      paciente"
+                    />
                   </Grid>
 
                   {/* suporte_respiratorio */}
@@ -299,29 +252,22 @@ const GeneralInfo = () => {
                         }
                       />
                       {/* tipo_suport_respiratorio */}
-                      <FormControl component="fieldset">
-                        <FormLabel component="legend">
-                          Em caso afirmativo, qual o suporte respiratório?
-                        </FormLabel>
-                        <Field
-                          className={classes.textField}
-                          component={TextField}
-                          disabled={!values.suporte_respiratorio}
-                          label="Tipo suporte respiratorio"
-                          name="tipo_suport_respiratorio"
-                          select
-                          variant="filled"
-                        >
-                          {tiposSuporteRespiratorio.map(({ id, nome }) => (
-                            <MenuItem
-                              key={id}
-                              value={id}
-                            >
-                              {nome}
-                            </MenuItem>
-                          ))}
-                        </Field>
-                      </FormControl>
+
+                      <GenericSelectField
+                        disabled={!values.suporte_respiratorio}
+                        label="Tipo suporte respiratorio"
+                        name="tipo_suport_respiratorio"
+                        title="Em caso afirmativo, qual o suporte respiratório?"
+                      >
+                        {tiposSuporteRespiratorio.map(({ id, nome }) => (
+                          <MenuItem
+                            key={id}
+                            value={id}
+                          >
+                            {nome}
+                          </MenuItem>
+                        ))}
+                      </GenericSelectField>
                     </FormGroup>
                   </Grid>
 

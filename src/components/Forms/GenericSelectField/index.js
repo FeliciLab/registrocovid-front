@@ -10,8 +10,8 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function GenericDateField(props) {
-  const { label, title, name, ...rest } = props;
+function GenericSelectField(props) {
+  const { title, label, name, children, ...rest } = props;
 
   const classes = useStyles();
 
@@ -25,17 +25,16 @@ function GenericDateField(props) {
       <Field
         className={classes.field}
         component={TextField}
-        InputLabelProps={{
-          shrink: true,
-        }}
         label={label}
         name={name}
-        type="date"
+        select
         variant="outlined"
         {...rest}
-      />
+      >
+        {children}
+      </Field>
     </FormGroup>
   );
 }
 
-export default GenericDateField;
+export default GenericSelectField;
