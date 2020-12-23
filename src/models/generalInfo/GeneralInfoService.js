@@ -1,3 +1,5 @@
+const { default: api } = require('services/api');
+
 const loadInitialValues = patient => {
   let initialValues = {
     prontuario: '',
@@ -35,4 +37,48 @@ const loadInitialValues = patient => {
   return initialValues;
 };
 
-export default { loadInitialValues };
+const postGeneralInfo = async values => {
+  let patient = {
+    prontuario: values.prontuario,
+    data_internacao: values.data_internacao,
+    instituicao_primeiro_atendimento_id: values.unidade_primeiro_atendimento,
+    instituicao_refererencia_id: values.unidade_de_saude,
+    data_atendimento_referencia: values.data_atendimento,
+    suporte_respiratorio: values.suporte_respiratorio,
+    reinternacao: values.reinternacao,
+    chegou_traqueostomizado: values.chegou_traqueostomizado,
+  };
+
+  if (values.suporte_respiratorio) {
+    patient = {
+      ...patient,
+      tipos_suporte_respiratorio: [{ id: values.tipo_suport_respiratorio }],
+    };
+  }
+
+  const response = await api.post('/pacientes', patient);
+
+  const responsePatient = {
+    id: response.data.paciente.id,
+    prontuario: response.data.paciente.prontuario,
+    created_at: formatDate(response.data.paciente.created_at),
+  };
+
+  const complementaryResponsePatient = {
+    ...responsePatient,
+
+    data_internacao: values.data_internacao,
+    suporte_respiratorio: values.suporte_respiratorio,
+    reinternacao: values.reinternacao,
+
+    instituicao_primeiro_atendimento: {
+      id: values.unidade_primeiro_atendimento,
+    },
+    instituicao_referencia: { id: values.unidade_de_saude },
+    data_atendimento_referencia: values.data_atendimento,
+    tipo_suporte_respiratorios: [{ id: values.tipo_suport_respiratorio }],
+    chegou_traqueostomizado: values.chegou_traqueostomizado,
+  };
+}
+
+export default { loadInitialValues, postGeneralInfo };

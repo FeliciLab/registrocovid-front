@@ -23,6 +23,7 @@ import { usePatient } from 'context/PatientContext';
 import api from 'services/api';
 import formatDate from 'helpers/formatDate';
 import loadInitialValues from 'models/generalInfo/GeneralInfoService';
+import postGeneralInfo from 'models/generalInfo/GeneralInfoService';
 
 const GeneralInfo = () => {
   const { addToast } = useToast();
@@ -64,48 +65,8 @@ const GeneralInfo = () => {
   }, [addToast, history]);
 
   const handleSubmit = async values => {
-    let patient = {
-      prontuario: values.prontuario,
-      data_internacao: values.data_internacao,
-      instituicao_primeiro_atendimento_id: values.unidade_primeiro_atendimento,
-      instituicao_refererencia_id: values.unidade_de_saude,
-      data_atendimento_referencia: values.data_atendimento,
-      suporte_respiratorio: values.suporte_respiratorio,
-      reinternacao: values.reinternacao,
-      chegou_traqueostomizado: values.chegou_traqueostomizado,
-    };
-
-    if (values.suporte_respiratorio) {
-      patient = {
-        ...patient,
-        tipos_suporte_respiratorio: [{ id: values.tipo_suport_respiratorio }],
-      };
-    }
-
     try {
-      const response = await api.post('/pacientes', patient);
-
-      const responsePatient = {
-        id: response.data.paciente.id,
-        prontuario: response.data.paciente.prontuario,
-        created_at: formatDate(response.data.paciente.created_at),
-      };
-
-      const complementaryResponsePatient = {
-        ...responsePatient,
-
-        data_internacao: values.data_internacao,
-        suporte_respiratorio: values.suporte_respiratorio,
-        reinternacao: values.reinternacao,
-
-        instituicao_primeiro_atendimento: {
-          id: values.unidade_primeiro_atendimento,
-        },
-        instituicao_referencia: { id: values.unidade_de_saude },
-        data_atendimento_referencia: values.data_atendimento,
-        tipo_suporte_respiratorios: [{ id: values.tipo_suport_respiratorio }],
-        chegou_traqueostomizado: values.chegou_traqueostomizado,
-      };
+      await postGeneralInfo(values);
 
       addToast({
         type: 'success',
