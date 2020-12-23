@@ -2,90 +2,92 @@ import { Grid, Typography } from '@material-ui/core';
 import GenericNumberField from 'components/Forms/GenericNumberField';
 import React from 'react';
 
-const Gasometria = (
-  <Grid
-    container
-    item
-    spacing={1}
-  >
+function Gasometria() {
+  return (
     <Grid
-      component={Typography}
+      container
       item
-      variant="h3"
-      xs={12}
+      spacing={1}
     >
-      Gasometria arterial na admissão hospitalar
+      <Grid
+        component={Typography}
+        item
+        variant="h3"
+        xs={12}
+      >
+        Gasometria arterial na admissão hospitalar
+      </Grid>
+      <Grid
+        item
+        xs={3}
+      >
+        <GenericNumberField
+          name="prontuario"
+          title="pH"
+        />
+      </Grid>
+      <Grid
+        item
+        xs={3}
+      >
+        <GenericNumberField
+          endAdornment="mmHg"
+          name="prontuario"
+          title="PaO2"
+        />
+      </Grid>
+      <Grid
+        item
+        xs={3}
+      >
+        <GenericNumberField
+          endAdornment="mmHg"
+          name="prontuario"
+          title="PaCO2"
+        />
+      </Grid>
+      <Grid
+        item
+        xs={3}
+      >
+        <GenericNumberField
+          endAdornment="mEq/L"
+          name="prontuario"
+          title="HCO3"
+        />
+      </Grid>
+      <Grid
+        item
+        xs={3}
+      >
+        <GenericNumberField
+          endAdornment="mEq/L"
+          name="prontuario"
+          title="BE"
+        />
+      </Grid>
+      <Grid
+        item
+        xs={3}
+      >
+        <GenericNumberField
+          endAdornment="%"
+          name="prontuario"
+          title="SaO2"
+        />
+      </Grid>
+      <Grid
+        item
+        xs={3}
+      >
+        <GenericNumberField
+          endAdornment="mmol/L"
+          name="prontuario"
+          title="Lactato"
+        />
+      </Grid>
     </Grid>
-    <Grid
-      item
-      xs={3}
-    >
-      <GenericNumberField
-        label="pH"
-        name="prontuario"
-      />
-    </Grid>
-    <Grid
-      item
-      xs={3}
-    >
-      <GenericNumberField
-        endAdornment="mmHg"
-        label="PaO2"
-        name="prontuario"
-      />
-    </Grid>
-    <Grid
-      item
-      xs={3}
-    >
-      <GenericNumberField
-        endAdornment="mmHg"
-        label="PaCO2"
-        name="prontuario"
-      />
-    </Grid>
-    <Grid
-      item
-      xs={3}
-    >
-      <GenericNumberField
-        endAdornment="mEq/L"
-        label="HCO3"
-        name="prontuario"
-      />
-    </Grid>
-    <Grid
-      item
-      xs={3}
-    >
-      <GenericNumberField
-        endAdornment="mEq/L"
-        label="BE"
-        name="prontuario"
-      />
-    </Grid>
-    <Grid
-      item
-      xs={3}
-    >
-      <GenericNumberField
-        endAdornment="%"
-        label="SaO2"
-        name="prontuario"
-      />
-    </Grid>
-    <Grid
-      item
-      xs={3}
-    >
-      <GenericNumberField
-        endAdornment="mmol/L"
-        label="Lactato"
-        name="prontuario"
-      />
-    </Grid>
-  </Grid>
-);
+  );
+}
 
 export default Gasometria;

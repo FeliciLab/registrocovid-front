@@ -131,7 +131,7 @@ const GeneralInfo = () => {
             validateOnMount
             validationSchema={schema}
           >
-            {({ values, isSubmitting, errors }) => (
+            {({ values, isSubmitting }) => (
               <Form component={FormControl}>
                 <div className={classes.titleWrapper}>
                   <Typography variant="h1">Informações Gerais</Typography>
@@ -254,15 +254,20 @@ const GeneralInfo = () => {
                       </GenericSelectField>
                     </FormGroup>
                   </Grid>
+
+                  <Gasometria />
                   <Grid
-                    container
                     item
+                    xs={12}
                   >
-                    <Gasometria />
+                    <GenericNumberField
+                      endAdornment="mL/24h"
+                      name="prontuario"
+                      title="Débito urinário nas primeiras 24 horas da internação hospitalar"
+                    />
                   </Grid>
 
                   <Grid
-                    container
                     item
                     xs={12}
                   >
@@ -272,7 +277,6 @@ const GeneralInfo = () => {
                     />
                   </Grid>
                   <Grid
-                    container
                     item
                     xs={12}
                   >
