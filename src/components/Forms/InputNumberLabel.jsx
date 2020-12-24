@@ -1,14 +1,10 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { InputLabel } from '@material-ui/core'
-import { Field } from 'formik'
-import { TextField } from 'formik-material-ui'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { InputLabel } from '@material-ui/core';
+import { Field } from 'formik';
+import { TextField } from 'formik-material-ui';
 
-const InputNumberLabel = ({
-  name,
-  label,
-  classes
-}) => (
+const InputNumberLabel = ({ name, label, classes }) => (
   <>
     <InputLabel
       className={classes.label}
@@ -25,12 +21,12 @@ const InputNumberLabel = ({
       />
     </div>
   </>
-)
+);
 
 InputNumberLabel.propTypes = {
-  name: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
   classes: PropTypes.instanceOf(Object).isRequired,
-}
+  label: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+};
 
-export default InputNumberLabel
+export default InputNumberLabel;

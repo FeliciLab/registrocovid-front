@@ -1,24 +1,20 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import useStyles from 'views/Comorbidities/styles';
-import {
-  Grid,
-  Typography,
-  Button
-} from '@material-ui/core';
-import { useFormikContext } from 'formik'
+import { Grid, Typography, Button } from '@material-ui/core';
+import { useFormikContext } from 'formik';
 import PatientInfo from 'components/PatientInfo';
-import { validarCamposFormularioParaSalvar } from 'models/comorbidades/ComorbidadeService'
+import { validarCamposFormularioParaSalvar } from 'models/comorbidades/ComorbidadeService';
 
 const FormHeaderComorbidade = () => {
-  const { isSubmitting, isValid, values } = useFormikContext()
-  const [valido, setValido] = useState(false)
+  const { isSubmitting, isValid, values } = useFormikContext();
+  const [valido, setValido] = useState(false);
   const classes = useStyles();
 
   useEffect(() => {
     setValido(
-      !isSubmitting && isValid && validarCamposFormularioParaSalvar(values)
-    )
-  }, [values, isValid, isSubmitting])
+      !isSubmitting && isValid && validarCamposFormularioParaSalvar(values),
+    );
+  }, [values, isValid, isSubmitting]);
 
   return (
     <>
@@ -57,7 +53,7 @@ const FormHeaderComorbidade = () => {
         </Grid>
       </Grid>
     </>
-  )
-}
+  );
+};
 
-export default FormHeaderComorbidade
+export default FormHeaderComorbidade;

@@ -1,19 +1,11 @@
-import React from 'react'
-import {
-  InputLabel,
-  Radio,
-  FormControlLabel
-} from '@material-ui/core'
-import { Field } from 'formik'
-import { RadioGroup } from 'formik-material-ui'
-import PropTypes from 'prop-types'
+import React from 'react';
+import { InputLabel, Radio, FormControlLabel } from '@material-ui/core';
+import { Field } from 'formik';
+import { RadioGroup } from 'formik-material-ui';
+import PropTypes from 'prop-types';
 
-const TrueFalseRadioRow = (props) => {
-  const {
-    classes,
-    name,
-    label
-  } = props
+const TrueFalseRadioRow = props => {
+  const { classes, name, label } = props;
 
   return (
     <>
@@ -40,13 +32,13 @@ const TrueFalseRadioRow = (props) => {
         />
       </Field>
     </>
-  )
-}
+  );
+};
 
 TrueFalseRadioRow.propTypes = {
   classes: PropTypes.instanceOf(Object).isRequired,
   label: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired
-}
+  name: PropTypes.string.isRequired,
+};
 
-export default TrueFalseRadioRow
+export default TrueFalseRadioRow;
