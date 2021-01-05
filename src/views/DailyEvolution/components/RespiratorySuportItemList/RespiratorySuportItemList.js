@@ -9,7 +9,7 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     width: '100%',
     maxWidth: '864px',
-    marginTop: theme.spacing(2)
+    marginTop: theme.spacing(2),
   },
 }));
 
@@ -18,7 +18,7 @@ const RespiratorySuportItemList = props => {
 
   const classes = useStyles();
 
-  if (list.length === 0) return null;
+  if (!list || list.length === 0) return null;
 
   return (
     <Grid

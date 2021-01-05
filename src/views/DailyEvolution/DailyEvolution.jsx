@@ -5,7 +5,6 @@ import { useParams } from 'react-router-dom';
 import DailyEvolutionBreadcrumbs from './components/DailyEvolutionBreadcrumbs';
 import useStyles from './styles';
 import DailyEvolutionForm from './components/DailyEvolutionForm';
-import useQuery from 'hooks/useQuery';
 import RespiratorySuportItemList from './components/RespiratorySuportItemList';
 import {
   buscarTiposSuporteRespiratorio,
@@ -32,7 +31,6 @@ const DailyEvolution = () => {
   );
 
   const [suportesRespiratorios, setSuportesRespiratorios] = useState([]);
-
   const [desmames, setDesmames] = useState([]);
   const [pronacoes, setPronacoes] = useState([]);
 
@@ -49,14 +47,19 @@ const DailyEvolution = () => {
     }
   }, [addToast]);
 
-  // TODO: testando aqui as coisas.
   const handleFetchSuportesRespiratorios = useCallback(async () => {
     try {
+      // TODO: remover depois
+      console.log('handleFetchSuportesRespiratorios chegou aqui');
       const response = await buscarSuportesRespiratorios(patient.id);
       console.log(response);
       setSuportesRespiratorios(response.suporte_respiratorio);
-      setPronacoes(response.tratamento_pronacao);
-      setDesmames(response.tratamento_inclusao_desmame);
+      
+      if (response.tratamento_pronacao)
+        setPronacoes(response.tratamento_pronacao);
+
+      if (response.response.tratamento_inclusao_desmame)
+        setDesmames(response.tratamento_inclusao_desmame);
     } catch (error) {
       console.log(error);
       addToast({
@@ -64,7 +67,7 @@ const DailyEvolution = () => {
         message: 'Erro ao tentar carregar os tipos de Suporte Respiratório',
       });
     }
-  }, [addToast]);
+  }, [patient.id, addToast]);
 
   const handleSubmit = useCallback(() => {
     formRef.current.handleSubmit();
@@ -75,7 +78,7 @@ const DailyEvolution = () => {
       handleFetchSuportesRespiratorios();
     }
     handleFetchTiposSuportesRespiratorios();
-  }, [handleFetchTiposSuportesRespiratorios, handleFetchSuportesRespiratorios]);
+  }, [id, handleFetchTiposSuportesRespiratorios, handleFetchSuportesRespiratorios]);
 
   return (
     <div className={classes.root}>
@@ -120,7 +123,7 @@ const DailyEvolution = () => {
           list={desmames}
         />
       </div>
-      <pre>{JSON.stringify(suportesRespiratorios, null, 2)}</pre>
+      {/* <pre>{JSON.stringify(suportesRespiratorios, null, 2)}</pre> */}
     </div>
   );
 };

@@ -4,7 +4,6 @@ import PatientInfo from 'components/PatientInfo';
 import AddIcon from '@material-ui/icons/Add';
 import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/styles';
-import { usePatient } from 'context/PatientContext';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -21,8 +20,6 @@ const DailyEvolutionListTitle = () => {
   const history = useHistory();
 
   const classes = useStyles();
-
-  const { patient } = usePatient();
 
   return (
     <div className={classes.root}>
