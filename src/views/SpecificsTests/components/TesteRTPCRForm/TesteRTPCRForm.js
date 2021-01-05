@@ -119,7 +119,6 @@ const TesteRTPCRForm = props => {
           >
             {sitiosRTPCR.map(({ id, descricao }) => (
               <FormControlLabel
-                checked={descricao === 'Não informado'}
                 control={<Radio />}
                 key={id}
                 label={descricao}
