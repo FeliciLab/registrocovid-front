@@ -8,7 +8,7 @@ import DailyEvolutionForm from './components/DailyEvolutionForm';
 import RespiratorySuportItemList from './components/RespiratorySuportItemList';
 import {
   buscarTiposSuporteRespiratorio,
-  buscarSuportesRespiratorios,
+  buscarEvolucaoDiariaById,
 } from 'services/requests/datasRequests';
 import { useToast } from 'hooks/toast';
 import { usePatient } from 'context/PatientContext';
@@ -30,6 +30,7 @@ const DailyEvolution = () => {
     [],
   );
 
+  const [evolucaoDiaria, setEvolucaoDiaria] = useState({});
   const [suportesRespiratorios, setSuportesRespiratorios] = useState([]);
   const [desmames, setDesmames] = useState([]);
   const [pronacoes, setPronacoes] = useState([]);
@@ -47,19 +48,19 @@ const DailyEvolution = () => {
     }
   }, [addToast]);
 
-  const handleFetchSuportesRespiratorios = useCallback(async () => {
+  const handleFetchEvolucaoDiaria = useCallback(async () => {
     try {
-      // TODO: remover depois
-      console.log('handleFetchSuportesRespiratorios chegou aqui');
-      const response = await buscarSuportesRespiratorios(patient.id);
-      console.log(response);
-      setSuportesRespiratorios(response.suporte_respiratorio);
-      
-      if (response.tratamento_pronacao)
-        setPronacoes(response.tratamento_pronacao);
+      const response = await buscarEvolucaoDiariaById(patient.id, id);
 
-      if (response.response.tratamento_inclusao_desmame)
-        setDesmames(response.tratamento_inclusao_desmame);
+      console.log(response);
+
+      setEvolucaoDiaria(response.evolucaoDiaria);
+
+      setSuportesRespiratorios(response.suporte_respiratorio);
+
+      setPronacoes(response.tratamento_pronacao);
+
+      setDesmames(response.tratamento_inclusao_desmame);
     } catch (error) {
       console.log(error);
       addToast({
@@ -67,18 +68,16 @@ const DailyEvolution = () => {
         message: 'Erro ao tentar carregar os tipos de Suporte Respiratório',
       });
     }
-  }, [patient.id, addToast]);
+  }, [id, patient.id, addToast]);
 
   const handleSubmit = useCallback(() => {
     formRef.current.handleSubmit();
   }, []);
 
   useEffect(() => {
-    if (id) {
-      handleFetchSuportesRespiratorios();
-    }
+    if (id) handleFetchEvolucaoDiaria();
     handleFetchTiposSuportesRespiratorios();
-  }, [id, handleFetchTiposSuportesRespiratorios, handleFetchSuportesRespiratorios]);
+  }, [id, handleFetchTiposSuportesRespiratorios, handleFetchEvolucaoDiaria]);
 
   return (
     <div className={classes.root}>
@@ -101,6 +100,7 @@ const DailyEvolution = () => {
           </div>
         </div>
         <DailyEvolutionForm
+          evolucaoDiaria={evolucaoDiaria}
           ref={formRef}
           tiposSuportesRespiratorios={tiposSuportesRespiratorios}
         />
@@ -123,7 +123,7 @@ const DailyEvolution = () => {
           list={desmames}
         />
       </div>
-      {/* <pre>{JSON.stringify(suportesRespiratorios, null, 2)}</pre> */}
+      <pre>{JSON.stringify(suportesRespiratorios, null, 2)}</pre>
     </div>
   );
 };

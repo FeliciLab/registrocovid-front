@@ -46,4 +46,5 @@ export default {
   buscarTiposSuporteRespiratorio,
   buscarSuportesRespiratorios,
   createEvolucaoDiaria,
+  buscarEvolucaoDiariaById
 };

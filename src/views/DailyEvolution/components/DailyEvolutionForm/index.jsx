@@ -11,25 +11,10 @@ import api from 'services/api';
 import { usePatient } from 'context/PatientContext';
 import { useToast } from 'hooks/toast';
 import { useHistory } from 'react-router-dom';
-
-const initialValues = {
-  data_evolucao: '',
-  temperatura: '',
-  frequencia_respiratoria: '',
-  peso: '',
-  altura: '',
-  pressao_sistolica: '',
-  pressao_diastolica: '',
-  frequencia_cardiaca: '',
-  ausculta_pulmonar: '',
-  oximetria: '',
-  escala_glasgow: 3,
-  tipo_suporte_selected: 0,
-  newSuportesRespitatorios: [],
-};
+import { getInitialValues } from 'models/evolucoesDiarias/EvolucaoDiariaService';
 
 const DailyEvolutionForm = (props, ref) => {
-  const { tiposSuportesRespiratorios } = props;
+  const { tiposSuportesRespiratorios, evolucaoDiaria } = props;
 
   const classes = useStyles();
 
@@ -43,22 +28,23 @@ const DailyEvolutionForm = (props, ref) => {
 
   // TODO: implementar
   const handleSubmit = async values => {
-    const jsonToSend = {
-      data_evolucao: values.data_evolucao || undefined,
-      temperatura: values.temperatura || undefined,
-      frequencia_respiratoria: values.frequencia_respiratoria || undefined,
-      peso: values.peso || undefined,
-      altura: values.altura || undefined,
-      pressao_sistolica: values.pressao_sistolica || undefined,
-      pressao_diastolica: values.pressao_diastolica || undefined,
-      frequencia_cardiaca: values.frequencia_cardiaca || undefined,
-      ausculta_pulmonar: values.ausculta_pulmonar || undefined,
-      oximetria: values.oximetria || undefined,
-      escala_glasgow: values.escala_glasgow || undefined,
-    };
-    
     try {
+      const jsonToSend = {
+        data_evolucao: values.data_evolucao || undefined,
+        temperatura: values.temperatura || undefined,
+        frequencia_respiratoria: values.frequencia_respiratoria || undefined,
+        peso: values.peso || undefined,
+        altura: values.altura || undefined,
+        pressao_sistolica: values.pressao_sistolica || undefined,
+        pressao_diastolica: values.pressao_diastolica || undefined,
+        frequencia_cardiaca: values.frequencia_cardiaca || undefined,
+        ausculta_pulmonar: values.ausculta_pulmonar || undefined,
+        oximetria: values.oximetria || undefined,
+        escala_glasgow: values.escala_glasgow || undefined,
+      };
+
       await api.post(`/pacientes/${patient.id}/evolucoes-diarias`, jsonToSend);
+      
       const promises = values.newSuportesRespitatorios.map(elem =>
         api.post(`/pacientes/${patient.id}/suportes-respiratorios`, elem),
       );
@@ -83,7 +69,7 @@ const DailyEvolutionForm = (props, ref) => {
   return (
     <Formik
       enableReinitialize
-      initialValues={initialValues}
+      initialValues={getInitialValues(evolucaoDiaria)}
       innerRef={formikRef}
       onSubmit={handleSubmit}
       validateOnMount
