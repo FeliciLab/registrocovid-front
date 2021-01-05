@@ -27,7 +27,7 @@ const PhysicalExam = () => {
     if (patient.id && params.examId) {
       getPhysicalExam(patient.id, params.examId)
         .then(response => {
-          setPhysicalExam(response.data);
+          setPhysicalExam(response.data.evolucaoDiaria);
         })
         .catch(err => {
           addToast({

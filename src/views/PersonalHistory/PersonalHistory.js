@@ -54,7 +54,10 @@ const PersonalHistory = () => {
       const responseHistory = await buscarHistoricoPaciente(patient.id);
       setPatientHistory(responseHistory);
     } catch (err) {
-      if (err.response.status === 404) return null;
+      if (err.response.status === 404) {
+        setPatientHistory(null);
+        return null;
+      }
       addToast({
         type: 'error',
         message: 'Erro ao tentar carregar informações, tente novamente',

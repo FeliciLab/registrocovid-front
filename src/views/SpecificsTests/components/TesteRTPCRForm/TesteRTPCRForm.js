@@ -70,6 +70,12 @@ const TesteRTPCRForm = props => {
         </IconButton>
       </div>
 
+      <ErrorMessage
+        className={classes.errorMessage}
+        component={Typography}
+        name={`newsTestes.${index}`}
+      />
+
       {/* data_coleta */}
       <Grid
         className={classes.fieldTesteRTPCR}
