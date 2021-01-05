@@ -12,6 +12,14 @@ export const loadInitialValues = patient => {
     tipo_suport_respiratorio: '',
     reinternacao: false,
     chegou_traqueostomizado: false,
+    ph: 0,
+    pao2: 0,
+    paco2: 0,
+    hco3: 0,
+    be: 0,
+    sao2: 0,
+    lactato: 0,
+    debito_urinario: 0,
   };
 
   if (patient && patient.prontuario) {
@@ -32,6 +40,14 @@ export const loadInitialValues = patient => {
           ? patient.tipo_suporte_respiratorios[0].id
           : '',
       chegou_traqueostomizado: patient.chegou_traqueostomizado,
+      ph: patient.ph || 0,
+      pao2: patient.pao2 || 0,
+      paco2: patient.paco2 || 0,
+      hco3: patient.hco3 || 0,
+      be: patient.be || 0,
+      sao2: patient.sao2 || 0,
+      lactato: patient.lactato || 0,
+      debito_urinario: patient.debito_urinario || 0,
     };
   }
 
