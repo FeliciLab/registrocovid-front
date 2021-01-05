@@ -64,6 +64,14 @@ export const postGeneralInfo = async values => {
     suporte_respiratorio: values.suporte_respiratorio,
     reinternacao: values.reinternacao,
     chegou_traqueostomizado: values.chegou_traqueostomizado,
+    ph: values.ph,
+    pao2: values.pao2,
+    paco2: values.paco2,
+    hco3: values.hco3,
+    be: values.be,
+    sao2: values.sao2,
+    lactato: values.lactato,
+    debito_urinario: values.debito_urinario,
   };
 
   if (values.suporte_respiratorio) {
@@ -83,11 +91,9 @@ export const postGeneralInfo = async values => {
 
   const complementaryResponsePatient = {
     ...responsePatient,
-
     data_internacao: values.data_internacao,
     suporte_respiratorio: values.suporte_respiratorio,
     reinternacao: values.reinternacao,
-
     instituicao_primeiro_atendimento: {
       id: values.unidade_primeiro_atendimento,
     },
@@ -95,6 +101,14 @@ export const postGeneralInfo = async values => {
     data_atendimento_referencia: values.data_atendimento,
     tipo_suporte_respiratorios: [{ id: values.tipo_suport_respiratorio }],
     chegou_traqueostomizado: values.chegou_traqueostomizado,
+    ph: values.ph,
+    pao2: values.pao2,
+    paco2: values.paco2,
+    hco3: values.hco3,
+    be: values.be,
+    sao2: values.sao2,
+    lactato: values.lactato,
+    debito_urinario: values.debito_urinario,
   };
 
   return complementaryResponsePatient;

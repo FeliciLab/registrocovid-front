@@ -22,7 +22,7 @@ function Gasometria() {
         xs={3}
       >
         <GenericNumberField
-          name="prontuario"
+          name="ph"
           title="pH"
         />
       </Grid>
@@ -32,7 +32,7 @@ function Gasometria() {
       >
         <GenericNumberField
           endAdornment="mmHg"
-          name="prontuario"
+          name="pao2"
           title="PaO2"
         />
       </Grid>
@@ -42,7 +42,7 @@ function Gasometria() {
       >
         <GenericNumberField
           endAdornment="mmHg"
-          name="prontuario"
+          name="paco2"
           title="PaCO2"
         />
       </Grid>
@@ -52,7 +52,7 @@ function Gasometria() {
       >
         <GenericNumberField
           endAdornment="mEq/L"
-          name="prontuario"
+          name="hco3"
           title="HCO3"
         />
       </Grid>
@@ -62,7 +62,7 @@ function Gasometria() {
       >
         <GenericNumberField
           endAdornment="mEq/L"
-          name="prontuario"
+          name="be"
           title="BE"
         />
       </Grid>
@@ -72,7 +72,7 @@ function Gasometria() {
       >
         <GenericNumberField
           endAdornment="%"
-          name="prontuario"
+          name="sao2"
           title="SaO2"
         />
       </Grid>
@@ -82,7 +82,7 @@ function Gasometria() {
       >
         <GenericNumberField
           endAdornment="mmol/L"
-          name="prontuario"
+          name="lactato"
           title="Lactato"
         />
       </Grid>

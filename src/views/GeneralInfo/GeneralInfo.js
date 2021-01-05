@@ -120,7 +120,6 @@ const GeneralInfo = () => {
       <div className={classes.header}>
         <CustomBreadcrumbs links={links} />
       </div>
-
       <div className={classes.formWrapper}>
         {loading ? (
           <CircularProgress />
@@ -146,7 +145,6 @@ const GeneralInfo = () => {
                     Salvar
                   </Button>
                 </div>
-
                 <Grid
                   className={classes.card}
                   component={Card}
@@ -254,7 +252,6 @@ const GeneralInfo = () => {
                       </GenericSelectField>
                     </FormGroup>
                   </Grid>
-
                   <Gasometria />
                   <Grid
                     item
@@ -262,11 +259,10 @@ const GeneralInfo = () => {
                   >
                     <GenericNumberField
                       endAdornment="mL/24h"
-                      name="prontuario"
+                      name="debito_urinario"
                       title="Débito urinário nas primeiras 24 horas da internação hospitalar"
                     />
                   </Grid>
-
                   <Grid
                     item
                     xs={12}
