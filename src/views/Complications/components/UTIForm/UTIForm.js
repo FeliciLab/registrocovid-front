@@ -15,6 +15,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 import { Field, useFormikContext, ErrorMessage } from 'formik';
 import useStyles from './styles';
+import InputTextLabel from 'components/Forms/InputTextLabel';
 
 const UTIForm = ({ index, remove }) => {
   const classes = useStyles();
@@ -33,15 +34,14 @@ const UTIForm = ({ index, remove }) => {
       item
     >
       <div className={classes.formLabel}>
-        <Typography variant="h3">Admissão na Unidade de Terapia Intensiva (UTI)</Typography>
+        <Typography variant="h3">
+          Admissão na Unidade de Terapia Intensiva (UTI)
+        </Typography>
         <IconButton
           aria-label="delete"
           onClick={() => remove(index)}
         >
-          <DeleteIcon
-            fontSize="small"
-            
-          />
+          <DeleteIcon fontSize="small" />
         </IconButton>
       </div>
 
@@ -52,7 +52,7 @@ const UTIForm = ({ index, remove }) => {
       >
         <FormGroup>
           <FormLabel className={classes.selectFieldLabel}>
-            <Typography variant="h4"> Escala de Glasgow</Typography>
+            <Typography variant="h4">Escala de Glasgow</Typography>
           </FormLabel>
 
           <ErrorMessage
@@ -103,6 +103,7 @@ const UTIForm = ({ index, remove }) => {
                 Data
               </Typography>
             </FormLabel>
+
             <Field
               as={TextField}
               className={classes.dateField}
@@ -169,6 +170,16 @@ const UTIForm = ({ index, remove }) => {
         </Grid>
       </Grid>
 
+      <Grid
+        className={classes.fieldFormUTI}
+        item
+        sm={12}
+      >
+        <InputTextLabel
+          label="teste"
+          name="teste"
+        />
+      </Grid>
       <Grid
         className={classes.fieldFormUTI}
         item
