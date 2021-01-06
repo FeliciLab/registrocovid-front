@@ -23,7 +23,6 @@ import GenericNumberField from 'components/Forms/GenericNumberField';
 // sao2: 0,
 // lactato: 0,
 
-
 const UTIForm = ({ index, remove }) => {
   const classes = useStyles();
 
@@ -178,59 +177,83 @@ const UTIForm = ({ index, remove }) => {
       </Grid>
 
       <Grid
-        className={classes.fieldFormUTI}
+        container
         item
-        sm={3}
+        spacing={2}
       >
-        <GenericNumberField
-          label="ph"
-          name={`newsComplicacoes[${index}].ph`}
-          title="ph"
-        />
-      </Grid>
-      <Grid
-        className={classes.fieldFormUTI}
-        item
-        sm={3}
-      >
-        <GenericNumberField
-          label="ph"
-          name={`newsComplicacoes[${index}].ph`}
-          title="ph"
-        />
-      </Grid>
-      <Grid
-        className={classes.fieldFormUTI}
-        item
-        sm={3}
-      >
-        <GenericNumberField
-          label="ph"
-          name={`newsComplicacoes[${index}].ph`}
-          title="ph"
-        />
-      </Grid>
-      <Grid
-        className={classes.fieldFormUTI}
-        item
-        sm={3}
-      >
-        <GenericNumberField
-          label="ph"
-          name={`newsComplicacoes[${index}].ph`}
-          title="ph"
-        />
-      </Grid>
-      <Grid
-        className={classes.fieldFormUTI}
-        item
-        sm={3}
-      >
-        <GenericNumberField
-          label="ph"
-          name={`newsComplicacoes[${index}].ph`}
-          title="ph"
-        />
+        <Grid
+          className={classes.fieldFormUTI}
+          item
+          sm={3}
+        >
+          <GenericNumberField
+            label="ph"
+            name={`newsComplicacoes[${index}].ph`}
+            title="ph"
+          />
+        </Grid>
+        <Grid
+          className={classes.fieldFormUTI}
+          item
+          sm={3}
+        >
+          <GenericNumberField
+            endAdornment="mmHg"
+            label="pao2"
+            name={`newsComplicacoes[${index}].pao2`}
+            title="pao2"
+          />
+        </Grid>
+        <Grid
+          className={classes.fieldFormUTI}
+          item
+          sm={3}
+        >
+          <GenericNumberField
+            endAdornment="mmHg"
+            label="ph"
+            name={`newsComplicacoes[${index}].paco2`}
+            title="ph"
+          />
+        </Grid>
+        <Grid
+          className={classes.fieldFormUTI}
+          item
+          sm={3}
+        >
+          <GenericNumberField
+            endAdornment="mEq/L"
+            label="HCO3"
+            name={`newsComplicacoes[${index}].hco3`}
+            title="HCO3"
+          />
+        </Grid>
+
+        <Grid
+          className={classes.fieldFormUTI}
+          item
+          sm={3}
+        >
+          <GenericNumberField
+            endAdornment="mEq/L"
+            label="BE"
+            name={`newsComplicacoes[${index}].be`}
+            title="BE"
+          />
+        </Grid>
+
+        <Grid
+          className={classes.fieldFormUTI}
+          item
+          sm={3}
+        >
+          <GenericNumberField
+            endAdornment="mmol/L"
+            label="Lactato"
+            name={`newsComplicacoes[${index}].lactato`}
+            title="Lactato"
+          />
+        </Grid>
       </Grid>
       <Grid
         className={classes.fieldFormUTI}
