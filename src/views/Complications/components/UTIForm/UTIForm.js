@@ -10,12 +10,19 @@ import {
   MenuItem,
   Switch,
 } from '@material-ui/core';
-
 import DeleteIcon from '@material-ui/icons/Delete';
-
 import { Field, useFormikContext, ErrorMessage } from 'formik';
 import useStyles from './styles';
-import InputTextLabel from 'components/Forms/InputTextLabel';
+import GenericNumberField from 'components/Forms/GenericNumberField';
+
+// ph: 0,
+// pao2: 0,
+// paco2: 0,
+// hco3: 0,
+// be: 0,
+// sao2: 0,
+// lactato: 0,
+
 
 const UTIForm = ({ index, remove }) => {
   const classes = useStyles();
@@ -173,11 +180,56 @@ const UTIForm = ({ index, remove }) => {
       <Grid
         className={classes.fieldFormUTI}
         item
-        sm={12}
+        sm={3}
       >
-        <InputTextLabel
-          label="teste"
-          name="teste"
+        <GenericNumberField
+          label="ph"
+          name={`newsComplicacoes[${index}].ph`}
+          title="ph"
+        />
+      </Grid>
+      <Grid
+        className={classes.fieldFormUTI}
+        item
+        sm={3}
+      >
+        <GenericNumberField
+          label="ph"
+          name={`newsComplicacoes[${index}].ph`}
+          title="ph"
+        />
+      </Grid>
+      <Grid
+        className={classes.fieldFormUTI}
+        item
+        sm={3}
+      >
+        <GenericNumberField
+          label="ph"
+          name={`newsComplicacoes[${index}].ph`}
+          title="ph"
+        />
+      </Grid>
+      <Grid
+        className={classes.fieldFormUTI}
+        item
+        sm={3}
+      >
+        <GenericNumberField
+          label="ph"
+          name={`newsComplicacoes[${index}].ph`}
+          title="ph"
+        />
+      </Grid>
+      <Grid
+        className={classes.fieldFormUTI}
+        item
+        sm={3}
+      >
+        <GenericNumberField
+          label="ph"
+          name={`newsComplicacoes[${index}].ph`}
+          title="ph"
         />
       </Grid>
       <Grid
