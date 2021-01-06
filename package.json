@@ -35,7 +35,7 @@
     "@material-ui/styles": "^4.2.1",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.0.2",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "chart.js": "^2.8.0",
     "clsx": "^1.0.4",
     "formik": "^2.1.5",
