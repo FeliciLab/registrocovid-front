@@ -39,12 +39,10 @@ const Complications = () => {
   const handleComplications = useCallback(async () => {
     try {
       setLoading(true);
-
       const [complications, tipoComplications] = await Promise.all([
         api.get(`pacientes/${patient.id}/complicacoes`),
         api.get('tipos-complicacoes'),
       ]);
-
       setComplicacoes(comp => [...comp, ...complications.data]);
       setTipoComplicacoes(comp => [...comp, ...tipoComplications.data]);
     } catch (err) {
@@ -65,7 +63,6 @@ const Complications = () => {
   const handleSubmit = async ({ newsComplicacoes }) => {
     try {
       const newsComplicacoesSanitized = sanitizeComplicacoes(newsComplicacoes);
-
       if (newsComplicacoesSanitized.length === 0) {
         addToast({
           type: 'warning',
@@ -145,8 +142,6 @@ const Complications = () => {
                   />
                   <ComplicationsList complicacoes={complicacoes} />
                 </Grid>
-                <pre>{JSON.stringify(values, null, 2)}</pre>
-                <pre>{JSON.stringify(complicacoes, null, 2)}</pre>
               </Form>
             )}
           </Formik>
