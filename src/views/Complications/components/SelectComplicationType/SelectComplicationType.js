@@ -68,6 +68,7 @@ const SelectComplicationType = ({ tiposComplicacoes }) => {
   return (
     <Grid
       className={classes.wrapper}
+      container
       item
     >
       <Grid

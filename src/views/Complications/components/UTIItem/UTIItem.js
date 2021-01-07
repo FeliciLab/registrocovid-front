@@ -7,6 +7,7 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  InputAdornment,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import formatDate from '../../../../helpers/formatDate';
@@ -160,6 +161,11 @@ const UTIItem = ({ complicationData, separator }) => {
               PaO2
             </Typography>
             <TextField
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">mmHg</InputAdornment>
+                ),
+              }}
               name="pao2"
               value={complicationData.pao2 || undefined}
               variant="outlined"
@@ -176,6 +182,11 @@ const UTIItem = ({ complicationData, separator }) => {
               PaCO2
             </Typography>
             <TextField
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">mmHg</InputAdornment>
+                ),
+              }}
               name="paco2"
               value={complicationData.paco2 || undefined}
               variant="outlined"
@@ -192,6 +203,11 @@ const UTIItem = ({ complicationData, separator }) => {
               HCO3
             </Typography>
             <TextField
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">mEq/L</InputAdornment>
+                ),
+              }}
               name="hco3"
               value={complicationData.hco3 || undefined}
               variant="outlined"
@@ -208,6 +224,11 @@ const UTIItem = ({ complicationData, separator }) => {
               BE
             </Typography>
             <TextField
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">mEq/L</InputAdornment>
+                ),
+              }}
               name="be"
               value={complicationData.be || undefined}
               variant="outlined"
@@ -224,6 +245,11 @@ const UTIItem = ({ complicationData, separator }) => {
               SaO2
             </Typography>
             <TextField
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">%</InputAdornment>
+                ),
+              }}
               name="sao2"
               value={complicationData.sao2 || undefined}
               variant="outlined"
@@ -240,14 +266,39 @@ const UTIItem = ({ complicationData, separator }) => {
               Lactato
             </Typography>
             <TextField
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">mmol/L</InputAdornment>
+                ),
+              }}
               name="lactato"
               value={complicationData.lactato || undefined}
               variant="outlined"
             />
           </Grid>
+          <Grid
+            item
+            xs={12}
+          >
+            <Typography
+              className={classes.formSubtitle}
+              variant="h4"
+            >
+              Débito urinário nas primeiras 24 horas da admissão da UTI
+            </Typography>
+            <TextField
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">mL/24h</InputAdornment>
+                ),
+              }}
+              name="lactato"
+              value={complicationData.debito_urinario || undefined}
+              variant="outlined"
+            />
+          </Grid>
         </Grid>
         <Grid
-          className={classes.gridContainer}
           item
           xs={12}
         >
