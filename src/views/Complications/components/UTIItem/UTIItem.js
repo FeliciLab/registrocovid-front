@@ -113,6 +113,7 @@ const UTIItem = ({ complicationData, separator }) => {
                 defaultValue={
                   complicationData ? complicationData.data_termino : ''
                 }
+                editable={false}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -123,6 +124,90 @@ const UTIItem = ({ complicationData, separator }) => {
             </Grid>
           </Grid>
         </Grid>
+        <Grid
+          container
+          item
+          spacing={2}
+        >
+          <Grid
+            item
+            xs={3}
+          >
+            <Typography variant="h4">pH</Typography>
+            <TextField
+              name="ph"
+              value={complicationData.ph}
+              variant="outlined"
+            />
+          </Grid>
+          <Grid
+            item
+            xs={3}
+          >
+            <Typography variant="h4">PaO2</Typography>
+            <TextField
+              name="pao2"
+              value={complicationData.pao2}
+              variant="outlined"
+            />
+          </Grid>
+          <Grid
+            item
+            xs={3}
+          >
+            <Typography variant="h4">PaCO2</Typography>
+            <TextField
+              name="paco2"
+              value={complicationData.paco2}
+              variant="outlined"
+            />
+          </Grid>
+          <Grid
+            item
+            xs={3}
+          >
+            <Typography variant="h4">HCO3</Typography>
+            <TextField
+              name="hco3"
+              value={complicationData.hco3}
+              variant="outlined"
+            />
+          </Grid>
+          <Grid
+            item
+            xs={3}
+          >
+            <Typography variant="h4">BE</Typography>
+            <TextField
+              name="be"
+              value={complicationData.be}
+              variant="outlined"
+            />
+          </Grid>
+          <Grid
+            item
+            xs={3}
+          >
+            <Typography variant="h4">SaO2</Typography>
+            <TextField
+              name="sao2"
+              value={complicationData.sao2}
+              variant="outlined"
+            />
+          </Grid>
+          <Grid
+            item
+            xs={3}
+          >
+            <Typography variant="h4">Lactato</Typography>
+            <TextField
+              name="lactato"
+              value={complicationData.lactato}
+              variant="outlined"
+            />
+          </Grid>
+        </Grid>
+
         <Grid
           className={classes.gridContainer}
           item
