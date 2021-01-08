@@ -108,23 +108,27 @@ const DailyEvolution = () => {
           tiposSuportesRespiratorios={tiposSuportesRespiratorios}
         />
 
-        {tiposSuportesRespiratorios.map((tipo, index) => (
+        <div className={classes.suportesWrapper}>
+          {tiposSuportesRespiratorios.map((tipo, index) => (
+            <RespiratorySuportItemList
+              descricao={tipo.nome}
+              key={index}
+              list={suportesRespiratorios.filter(elem => elem.tipo_suporte_id === tipo.id)}
+            />
+          ))}
+
           <RespiratorySuportItemList
-            descricao={tipo.nome}
-            key={index}
-            list={suportesRespiratorios.filter(elem => elem.tipo_suporte_id === tipo.id)}
+            descricao="Pronação"
+            list={pronacoes}
           />
-        ))}
 
-        <RespiratorySuportItemList
-          descricao="Pronação"
-          list={pronacoes}
-        />
+          <RespiratorySuportItemList
+            descricao="Desmames"
+            list={desmames}
+          />
+        </div>
 
-        <RespiratorySuportItemList
-          descricao="Desmames"
-          list={desmames}
-        />
+
       </div>      
     </div>
   );

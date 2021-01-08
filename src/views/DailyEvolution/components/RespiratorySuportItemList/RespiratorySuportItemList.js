@@ -8,7 +8,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
-    maxWidth: '864px',
+    maxWidth: '684px',
     marginTop: theme.spacing(2),
   },
 }));

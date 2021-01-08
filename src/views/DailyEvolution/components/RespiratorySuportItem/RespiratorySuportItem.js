@@ -27,7 +27,7 @@ function getData(suporteRespiratorio) {
       aux = suporteRespiratorio.data_inicio;
   }
 
-  if(!aux) aux = 'Data não informada'
+  if (!aux) aux = 'Data não informada';
 
   return aux
     .split('-')
@@ -42,8 +42,8 @@ const useStyles = makeStyles(theme => ({
   },
   summary: {
     display: 'flex',
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+  },
 }));
 
 const RespiratorySuportItem = props => {
@@ -64,7 +64,7 @@ const RespiratorySuportItem = props => {
             className={classes.date}
             variant="subtitle2"
           >
-          Data: {getData(suporteRespiratorio)}
+            Data: {getData(suporteRespiratorio)}
           </Typography>
         </section>
       </AccordionSummary>

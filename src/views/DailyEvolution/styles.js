@@ -20,6 +20,11 @@ const useStyles = makeStyles(theme => ({
     width: '258px',
     height: '48px',
   },
+  suportesWrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
 }));
 
 export default useStyles;
