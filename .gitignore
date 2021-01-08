@@ -14,7 +14,7 @@
 # server fake
 dbfake.json
 
-/.history
+.history
 
 # misc
 .DS_Store

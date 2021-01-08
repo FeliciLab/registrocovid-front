@@ -27,7 +27,7 @@ const SelectTestType = () => {
       {
         data_coleta: '',
         data_resultado: '',
-        sitio_tipo: '',
+        sitio_tipo: '6', // tipo default => 'Não informado'
         rt_pcr_resultado: '',
         resultado: '',
         data_realizacao: '',

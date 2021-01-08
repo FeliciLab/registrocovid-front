@@ -26,13 +26,28 @@ const validarCamposBoleanos = campos => {
   ];
 
   return camposBooleanos.find(
+<<<<<<< HEAD
     item => campos[item] === true || campos[item] === 'sim',
+=======
+    item =>
+      campos[item] === true || campos[item] === 'sim' || campos[item] === 'nao',
+>>>>>>> develop
   );
 };
 
 const validarCamposLista = campos => {
+<<<<<<< HEAD
   const camposListas = ['outras_condicoes', 'medicacoes'];
   return camposListas.find(item => campos[item] && campos[item].length > 0);
+=======
+  const camposListas = ['outras_condicoes', 'medicacoes', 'doencas'];
+  return camposListas.find(
+    item =>
+      campos[item] &&
+      campos[item].length > 0 &&
+      campos[item].some(elem => elem === true),
+  );
+>>>>>>> develop
 };
 
 export const validarCamposFormularioParaSalvar = campos => {

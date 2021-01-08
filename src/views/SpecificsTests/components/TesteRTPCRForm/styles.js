@@ -7,13 +7,16 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(2),
     padding: theme.spacing(2),
   },
-  fieldTesteRTPCR:{
-    marginTop: theme.spacing(2)
+  fieldTesteRTPCR: {
+    marginTop: theme.spacing(2),
   },
   formLabel: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  errorMessage: {
+    color:  theme.palette.secondary.main,
   },
 }));
 

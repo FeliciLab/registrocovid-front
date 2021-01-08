@@ -53,7 +53,7 @@ const mapCamposComorbidadesTipoDoencas = [
   },
   {
     campoComorbidade: 'doenca_reumatologica',
-    iidTipoDoenca: 4,
+    idTipoDoenca: 4,
     descricao: 'Doença reumatológica / autoimune',
   },
   {
