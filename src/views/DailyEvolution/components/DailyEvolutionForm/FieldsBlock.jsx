@@ -18,7 +18,6 @@ const escalaGlasgowRange = range(3, 15);
 const FieldsBlock = () => {
   return (
     <>
-      {/* data_evolucao */}
       <Grid
         item
         xs={12}
@@ -34,8 +33,6 @@ const FieldsBlock = () => {
           />
         </FormGroup>
       </Grid>
-
-      {/* temperatura */}
       <Grid
         item
         xs={6}
@@ -57,8 +54,6 @@ const FieldsBlock = () => {
           />
         </FormGroup>
       </Grid>
-
-      {/* frequencia_respiratoria */}
       <Grid
         item
         xs={6}
@@ -80,8 +75,6 @@ const FieldsBlock = () => {
           />
         </FormGroup>
       </Grid>
-
-      {/* peso */}
       <Grid
         item
         xs={6}
@@ -103,8 +96,6 @@ const FieldsBlock = () => {
           />
         </FormGroup>
       </Grid>
-
-      {/* altura */}
       <Grid
         item
         xs={6}
@@ -126,8 +117,6 @@ const FieldsBlock = () => {
           />
         </FormGroup>
       </Grid>
-
-      {/* pressao_sistolica */}
       <Grid
         item
         xs={6}
@@ -151,8 +140,6 @@ const FieldsBlock = () => {
           />
         </FormGroup>
       </Grid>
-
-      {/* pressao_diastolica */}
       <Grid
         item
         xs={6}
@@ -176,8 +163,6 @@ const FieldsBlock = () => {
           />
         </FormGroup>
       </Grid>
-
-      {/* frequencia_cardiaca */}
       <Grid
         item
         xs={6}
@@ -199,8 +184,6 @@ const FieldsBlock = () => {
           />
         </FormGroup>
       </Grid>
-
-      {/* ausculta_pulmonar */}
       <Grid
         item
         xs={6}
@@ -217,8 +200,6 @@ const FieldsBlock = () => {
           />
         </FormGroup>
       </Grid>
-
-      {/* oximetria */}
       <Grid
         item
         xs={6}
@@ -238,8 +219,6 @@ const FieldsBlock = () => {
           />
         </FormGroup>
       </Grid>
-
-      {/* escala_glasgow */}
       <Grid
         item
         xs={6}

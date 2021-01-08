@@ -52,16 +52,16 @@ const DailyEvolutionForm = (props, ref) => {
         elem => ({
           tipo_suporte_id: elem.tipo_suporte_id || undefined,
           fluxo_o2: elem.fluxo_o2 || undefined,
-          data_inicio: elem.data_inicio || undefined,
+          data_inicio: values.data_evolucao || undefined,
           data_termino: elem.data_termino || undefined,
           menos_24h_vmi: elem.menos_24h_vmi || undefined,
           concentracao_o2: elem.concentracao_o2 || undefined,
           fluxo_sangue: elem.fluxo_sangue || undefined,
           fluxo_gasoso: elem.fluxo_gasoso || undefined,
           fio2: elem.fio2 || undefined,
-          data_pronacao: elem.data_pronacao || undefined,
+          data_pronacao: values.data_evolucao || undefined,
           quantidade_horas: elem.quantidade_horas || undefined,
-          data_inclusao_desmame: elem.data_inclusao_desmame || undefined,
+          data_inclusao_desmame: values.data_evolucao || undefined,
         }),
       );
 

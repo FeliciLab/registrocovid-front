@@ -154,7 +154,7 @@ const FieldComposerForm = props => {
           ),
         }}
         name={name}
-        title="Pronação"
+        title="Quantidade de horas"
         type="number"
         variant="outlined"
       />

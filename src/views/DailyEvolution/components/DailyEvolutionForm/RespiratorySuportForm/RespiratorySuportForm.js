@@ -110,10 +110,6 @@ const RespiratorySuportForm = props => {
           spacing={2}
         >
           <FieldComposerForm
-            field="data_pronacao"
-            name={`newSuportesRespitatorios.${index}.data_pronacao`}
-          />
-          <FieldComposerForm
             field="quantidade_horas"
             name={`newSuportesRespitatorios.${index}.quantidade_horas`}
           />

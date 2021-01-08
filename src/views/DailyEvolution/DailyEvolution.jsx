@@ -56,7 +56,10 @@ const DailyEvolution = () => {
 
       setEvolucaoDiaria(response.evolucaoDiaria);
 
-      setSuportesRespiratorios(response.suporte_respiratorio);
+      setSuportesRespiratorios(response.suportesRespiratorios);
+
+      // TODO: Remover depois
+      console.log(response.suportesRespiratorios);
 
       setPronacoes(response.tratamento_pronacao);
 
@@ -107,9 +110,9 @@ const DailyEvolution = () => {
 
         {tiposSuportesRespiratorios.map((tipo, index) => (
           <RespiratorySuportItemList
-            descricao={tipo.descricao}
+            descricao={tipo.nome}
             key={index}
-            list={suportesRespiratorios}
+            list={suportesRespiratorios.filter(elem => elem.tipo_suporte_id === tipo.id)}
           />
         ))}
 
@@ -122,8 +125,7 @@ const DailyEvolution = () => {
           descricao="Desmames"
           list={desmames}
         />
-      </div>
-      <pre>{JSON.stringify(suportesRespiratorios, null, 2)}</pre>
+      </div>      
     </div>
   );
 };
