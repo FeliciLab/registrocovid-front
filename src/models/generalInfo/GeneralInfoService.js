@@ -20,6 +20,8 @@ export const loadInitialValues = patient => {
     sao2: 0,
     lactato: 0,
     debito_urinario: 0,
+    fluxoO2: 0,
+    fiO2: 0,
   };
 
   if (patient && patient.prontuario) {

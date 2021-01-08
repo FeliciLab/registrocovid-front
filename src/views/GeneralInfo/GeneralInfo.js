@@ -7,7 +7,6 @@ import {
   Typography,
   Button,
   FormControl,
-  FormGroup,
   Grid,
   MenuItem,
   CircularProgress,
@@ -230,27 +229,45 @@ const GeneralInfo = () => {
                     item
                     xs={12}
                   >
-                    <FormGroup>
-                      <GenericSwitchField
-                        label="Paciente chegou com suplementação de oxigênio?"
-                        name="suporte_respiratorio"
-                      />
-                      <GenericSelectField
-                        disabled={!values.suporte_respiratorio}
-                        label="Tipo suporte respiratorio"
-                        name="tipo_suport_respiratorio"
-                        title="Em caso afirmativo, qual o suporte respiratório?"
-                      >
-                        {tiposSuporteRespiratorio.map(({ id, nome }) => (
-                          <MenuItem
-                            key={id}
-                            value={id}
-                          >
-                            {nome}
-                          </MenuItem>
-                        ))}
-                      </GenericSelectField>
-                    </FormGroup>
+                    <GenericSwitchField
+                      label="Paciente chegou com suplementação de oxigênio?"
+                      name="suporte_respiratorio"
+                    />
+                    <GenericSelectField
+                      disabled={!values.suporte_respiratorio}
+                      label="Tipo suporte respiratorio"
+                      name="tipo_suport_respiratorio"
+                      title="Em caso afirmativo, qual o suporte respiratório?"
+                    >
+                      {tiposSuporteRespiratorio.map(({ id, nome }) => (
+                        <MenuItem
+                          key={id}
+                          value={id}
+                        >
+                          {nome}
+                        </MenuItem>
+                      ))}
+                    </GenericSelectField>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={6}
+                  >
+                    <GenericNumberField
+                      disabled={!values.suporte_respiratorio}
+                      name="fluxoO2"
+                      title="Fluxo O2"
+                    />
+                  </Grid>
+                  <Grid
+                    item
+                    xs={6}
+                  >
+                    <GenericNumberField
+                      disabled={!values.suporte_respiratorio}
+                      name="fiO2"
+                      title="FiO2"
+                    />
                   </Grid>
                   <Gasometria />
                   <Grid
