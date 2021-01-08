@@ -12,12 +12,10 @@ import {
   GeneralInfo as GeneralInfoView,
   SpecificsTests as SpecificsTestsView,
   PersonalHistory as PersonalHistoryView,
-  PhysicalExam as PhysicalExamView,
   ComplicationsVM as ComplicationsVMView,
   Complications as ComplicationsView,
   InitialSymptoms as InitialSymptomsView,
   Comorbidities as ComorbiditiesView,
-  PhysicalExamsList as PhysicalExamsListView,
   Hemodialise as HemodialiseView,
   ComplementaryTests as ComplementaryTestsView,
   Outcome as OutcomeView,
@@ -64,13 +62,6 @@ const Routes = () => {
         path="/categorias/informacoes-gerais"
       />
       <RouteWithLayout
-        component={PhysicalExamsListView}
-        exact
-        isPrivate
-        layout={MainLayout}
-        path="/categorias/lista-exame-fisico"
-      />
-      <RouteWithLayout
         component={SpecificsTestsView}
         exact
         isPrivate
@@ -91,21 +82,6 @@ const Routes = () => {
         layout={MainLayout}
         path="/categorias/historia-pessoal"
       />
-      <RouteWithLayout
-        component={PhysicalExamView}
-        exact
-        isPrivate
-        layout={MainLayout}
-        path="/categorias/exame-fisico"
-      />
-      <RouteWithLayout
-        component={PhysicalExamView}
-        exact
-        isPrivate
-        layout={MainLayout}
-        path="/categorias/exame-fisico/:examId"
-      />
-
       <RouteWithLayout
         component={ComplicationsView}
         exact

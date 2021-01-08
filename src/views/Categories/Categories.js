@@ -57,11 +57,11 @@ const Categories = () => {
         label: 'Evolução Diária',
         url: 'categorias/evolucao-diaria-list',
       },
-      {
-        id: 1,
-        label: 'Exame físico (admissão e evolução diária)',
-        url: 'categorias/lista-exame-fisico',
-      },
+      // {
+      //   id: 1,
+      //   label: 'Exame físico (admissão e evolução diária)',
+      //   url: 'categorias/lista-exame-fisico',
+      // },
       {
         id: 2,
         label: 'Exames laboratoriais específicos COVID 19',
