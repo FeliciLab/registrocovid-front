@@ -18,7 +18,6 @@ export const sanitizeComplicacoes = newsComplicacoes => {
     be: complicacao.be,
     sao2: complicacao.sao2,
     lactato: complicacao.lactato,
+    debito_urinario: complicacao.debito_urinario,
   }));
 };
-
-

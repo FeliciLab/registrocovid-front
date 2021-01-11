@@ -120,9 +120,8 @@ const UTIForm = ({ index, remove }) => {
           sm={3}
         >
           <GenericNumberField
-            label="ph"
             name={`newsComplicacoes[${index}].ph`}
-            title="ph"
+            title="pH"
           />
         </Grid>
         <Grid
@@ -132,9 +131,8 @@ const UTIForm = ({ index, remove }) => {
         >
           <GenericNumberField
             endAdornment="mmHg"
-            label="pao2"
             name={`newsComplicacoes[${index}].pao2`}
-            title="pao2"
+            title="PaO2"
           />
         </Grid>
         <Grid
@@ -144,9 +142,8 @@ const UTIForm = ({ index, remove }) => {
         >
           <GenericNumberField
             endAdornment="mmHg"
-            label="ph"
             name={`newsComplicacoes[${index}].paco2`}
-            title="ph"
+            title="PaCO2"
           />
         </Grid>
         <Grid
@@ -156,7 +153,6 @@ const UTIForm = ({ index, remove }) => {
         >
           <GenericNumberField
             endAdornment="mEq/L"
-            label="HCO3"
             name={`newsComplicacoes[${index}].hco3`}
             title="HCO3"
           />
@@ -168,7 +164,6 @@ const UTIForm = ({ index, remove }) => {
         >
           <GenericNumberField
             endAdornment="mEq/L"
-            label="BE"
             name={`newsComplicacoes[${index}].be`}
             title="BE"
           />
@@ -180,9 +175,8 @@ const UTIForm = ({ index, remove }) => {
         >
           <GenericNumberField
             endAdornment="%"
-            label="sao2"
             name={`newsComplicacoes[${index}].sao2`}
-            title="sao2"
+            title="SaO2"
           />
         </Grid>
         <Grid
@@ -192,7 +186,6 @@ const UTIForm = ({ index, remove }) => {
         >
           <GenericNumberField
             endAdornment="mmol/L"
-            label="Lactato"
             name={`newsComplicacoes[${index}].lactato`}
             title="Lactato"
           />
@@ -203,8 +196,8 @@ const UTIForm = ({ index, remove }) => {
           sm={12}
         >
           <GenericNumberField
-            endAdornment="mmol/L"
-            name={`newsComplicacoes[${index}].lactato`}
+            endAdornment="mL/24h"
+            name={`newsComplicacoes[${index}].debito_urinario`}
             title="Débito urinário nas primeiras 24 horas da admissão da UTI"
           />
         </Grid>

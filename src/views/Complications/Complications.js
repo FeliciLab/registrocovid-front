@@ -145,8 +145,6 @@ const Complications = () => {
                   />
                   <ComplicationsList complicacoes={complicacoes} />
                 </Grid>
-                <pre>{JSON.stringify(values, null, 2)}</pre>
-                <pre>{JSON.stringify(complicacoes, null, 2)}</pre>
               </Form>
             )}
           </Formik>

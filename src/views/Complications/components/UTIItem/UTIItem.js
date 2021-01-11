@@ -16,6 +16,8 @@ import useStyles from './styles';
 const UTIItem = ({ complicationData, separator }) => {
   const classes = useStyles();
 
+  console.log(complicationData);
+
   return (
     <Accordion className={separator ? classes.typeSeparator : ''}>
       <AccordionSummary
@@ -246,9 +248,7 @@ const UTIItem = ({ complicationData, separator }) => {
             </Typography>
             <TextField
               InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">%</InputAdornment>
-                ),
+                endAdornment: <InputAdornment position="end">%</InputAdornment>,
               }}
               name="sao2"
               value={complicationData.sao2 || undefined}
@@ -287,6 +287,7 @@ const UTIItem = ({ complicationData, separator }) => {
               Débito urinário nas primeiras 24 horas da admissão da UTI
             </Typography>
             <TextField
+              fullWidth
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">mL/24h</InputAdornment>
