@@ -51,21 +51,11 @@ const DailyEvolution = () => {
   const handleFetchEvolucaoDiaria = useCallback(async () => {
     try {
       const response = await buscarEvolucaoDiariaById(patient.id, id);
-
-      console.log(response);
-
       setEvolucaoDiaria(response.evolucaoDiaria);
-
       setSuportesRespiratorios(response.suportesRespiratorios);
-
-      // TODO: Remover depois
-      console.log(response.suportesRespiratorios);
-
       setPronacoes(response.tratamento_pronacao);
-
       setDesmames(response.tratamento_inclusao_desmame);
     } catch (error) {
-      console.log(error);
       addToast({
         type: 'error',
         message: 'Erro ao tentar carregar os tipos de Suporte Respiratório',
