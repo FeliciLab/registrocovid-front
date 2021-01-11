@@ -10,16 +10,16 @@ import {
   MenuItem,
   Switch,
 } from '@material-ui/core';
-
 import DeleteIcon from '@material-ui/icons/Delete';
-
 import { Field, useFormikContext, ErrorMessage } from 'formik';
 import useStyles from './styles';
+import GenericNumberField from 'components/Forms/GenericNumberField';
+import GenericDateField from 'components/Forms/GenericDateField';
 
 const UTIForm = ({ index, remove }) => {
   const classes = useStyles();
 
-  const { values, handleChange, errors, touched } = useFormikContext();
+  const { values, handleChange } = useFormikContext();
   const [isChecked, setIsChecked] = useState(false);
   const handleChangeSwitch = e => {
     setIsChecked(!isChecked);
@@ -33,15 +33,14 @@ const UTIForm = ({ index, remove }) => {
       item
     >
       <div className={classes.formLabel}>
-        <Typography variant="h3">Admissão na Unidade de Terapia Intensiva (UTI)</Typography>
+        <Typography variant="h3">
+          Admissão na Unidade de Terapia Intensiva (UTI)
+        </Typography>
         <IconButton
           aria-label="delete"
           onClick={() => remove(index)}
         >
-          <DeleteIcon
-            fontSize="small"
-            
-          />
+          <DeleteIcon fontSize="small" />
         </IconButton>
       </div>
 
@@ -52,16 +51,14 @@ const UTIForm = ({ index, remove }) => {
       >
         <FormGroup>
           <FormLabel className={classes.selectFieldLabel}>
-            <Typography variant="h4"> Escala de Glasgow</Typography>
+            <Typography variant="h4">Escala de Glasgow</Typography>
           </FormLabel>
-
           <ErrorMessage
             color="error"
             component={Typography}
             name={`newsComplicacoes.${index}.glasgow_admissao_uti`}
             variant="caption"
           />
-
           <Field
             as={TextField}
             className={classes.textField}
@@ -85,90 +82,126 @@ const UTIForm = ({ index, remove }) => {
       </Grid>
       <Grid
         className={classes.fieldFormUTIFlex}
+        container
         item
         sm={12}
+        spacing={2}
       >
         <Grid
           item
           sm={6}
         >
-          <FormGroup>
-            <FormLabel>
-              <Typography variant="h4">Admissão em UTI</Typography>
-
-              <Typography
-                className={classes.UTIFormLabelSubtitle}
-                variant="body1"
-              >
-                Data
-              </Typography>
-            </FormLabel>
-            <Field
-              as={TextField}
-              className={classes.dateField}
-              error={
-                errors.newsComplicacoes && touched.newsComplicacoes
-                  ? !!errors.newsComplicacoes[index]?.data
-                  : false
-              }
-              helperText={
-                errors.newsComplicacoes &&
-                touched.newsComplicacoes &&
-                errors.newsComplicacoes[index]?.data
-                  ? errors.newsComplicacoes[index]?.data
-                  : ''
-              }
-              InputLabelProps={{
-                shrink: true,
-              }}
-              name={`newsComplicacoes[${index}].data`}
-              onChange={handleChange}
-              type="date"
-            />
-          </FormGroup>
+          <GenericDateField
+            label="Data"
+            name={`newsComplicacoes[${index}].data`}
+            title="Admissão em UTI"
+          />
         </Grid>
         <Grid
           item
           sm={6}
         >
-          <FormGroup>
-            <FormLabel>
-              <Typography variant="h4">Saída de UTI</Typography>
-
-              <Typography
-                className={classes.UTIFormLabelSubtitle}
-                variant="body1"
-              >
-                Data
-              </Typography>
-            </FormLabel>
-            <Field
-              as={TextField}
-              className={classes.dateField}
-              error={
-                errors.newsComplicacoes && touched.newsComplicacoes
-                  ? !!errors.newsComplicacoes[index]?.data_termino
-                  : false
-              }
-              helperText={
-                errors.newsComplicacoes &&
-                touched.newsComplicacoes &&
-                errors.newsComplicacoes[index]?.data_termino
-                  ? errors.newsComplicacoes[index]?.data_termino
-                  : ''
-              }
-              InputLabelProps={{
-                shrink: true,
-              }}
-              name={`newsComplicacoes[${index}].data_termino`}
-              onChange={handleChange}
-              type="date"
-              value={values.newsComplicacoes[index].data_termino}
-            />
-          </FormGroup>
+          <GenericDateField
+            label="Data"
+            name={`newsComplicacoes[${index}].data_termino`}
+            title="Saída de UTI"
+          />
         </Grid>
       </Grid>
 
+      <Grid
+        container
+        item
+        spacing={2}
+      >
+        <Grid
+          className={classes.fieldFormUTI}
+          item
+          sm={3}
+        >
+          <GenericNumberField
+            name={`newsComplicacoes[${index}].ph`}
+            title="pH"
+          />
+        </Grid>
+        <Grid
+          className={classes.fieldFormUTI}
+          item
+          sm={3}
+        >
+          <GenericNumberField
+            endAdornment="mmHg"
+            name={`newsComplicacoes[${index}].pao2`}
+            title="PaO2"
+          />
+        </Grid>
+        <Grid
+          className={classes.fieldFormUTI}
+          item
+          sm={3}
+        >
+          <GenericNumberField
+            endAdornment="mmHg"
+            name={`newsComplicacoes[${index}].paco2`}
+            title="PaCO2"
+          />
+        </Grid>
+        <Grid
+          className={classes.fieldFormUTI}
+          item
+          sm={3}
+        >
+          <GenericNumberField
+            endAdornment="mEq/L"
+            name={`newsComplicacoes[${index}].hco3`}
+            title="HCO3"
+          />
+        </Grid>
+        <Grid
+          className={classes.fieldFormUTI}
+          item
+          sm={3}
+        >
+          <GenericNumberField
+            endAdornment="mEq/L"
+            name={`newsComplicacoes[${index}].be`}
+            title="BE"
+          />
+        </Grid>
+        <Grid
+          className={classes.fieldFormUTI}
+          item
+          sm={3}
+        >
+          <GenericNumberField
+            endAdornment="%"
+            name={`newsComplicacoes[${index}].sao2`}
+            title="SaO2"
+          />
+        </Grid>
+        <Grid
+          className={classes.fieldFormUTI}
+          item
+          sm={3}
+        >
+          <GenericNumberField
+            endAdornment="mmol/L"
+            name={`newsComplicacoes[${index}].lactato`}
+            title="Lactato"
+          />
+        </Grid>
+        <Grid
+          className={classes.fieldFormUTI}
+          item
+          sm={12}
+        >
+          <GenericNumberField
+            endAdornment="mL/24h"
+            name={`newsComplicacoes[${index}].debito_urinario`}
+            title="Débito urinário nas primeiras 24 horas da admissão da UTI"
+          />
+        </Grid>
+      </Grid>
       <Grid
         className={classes.fieldFormUTI}
         item
