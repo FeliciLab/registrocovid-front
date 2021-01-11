@@ -11,7 +11,6 @@ import { usePatient } from 'context/PatientContext';
 import { Form, Formik } from 'formik';
 import GenericRadioGroup from 'components/Forms/GenericRadioGroup';
 import GenericCheckboxGroup from 'components/Forms/GenericCheckboxGroup';
-import api from 'services/api';
 import useStyles from './styles';
 import {
   getInitialValuesPersonalHistoryForm,
