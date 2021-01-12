@@ -10,7 +10,7 @@ const PrevJSON = props => {
   return (
     <pre {...rest}>
       <Typography variant="overline">{name}:</Typography>
-      {JSON.stringify(data, null, 4)}
+      {JSON.stringify(data, null, 2)}
     </pre>
   );
 };

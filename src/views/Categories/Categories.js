@@ -54,8 +54,8 @@ const Categories = () => {
     return [
       {
         id: 1,
-        label: 'Exame físico (admissão e evolução diária)',
-        url: 'categorias/lista-exame-fisico',
+        label: 'Evolução Diária',
+        url: 'categorias/evolucao-diaria-list',
       },
       {
         id: 2,
