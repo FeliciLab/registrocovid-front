@@ -121,12 +121,7 @@ const RespiratorySuportForm = props => {
           container
           item
           spacing={2}
-        >
-          <FieldComposerForm
-            field="data_inclusao_desmame"
-            name={`newSuportesRespitatorios.${index}.data_inclusao_desmame`}
-          />
-        </Grid>
+        />
       )}
     </Grid>
   );

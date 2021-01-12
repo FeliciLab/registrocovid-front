@@ -28,7 +28,7 @@ export const postEvolucaoDiaria = async (values, patient) => {
     pressao_sistolica: values.pressao_sistolica || undefined,
     pressao_diastolica: values.pressao_diastolica || undefined,
     frequencia_cardiaca: values.frequencia_cardiaca || undefined,
-    ausculta_pulmonar: values.ausculta_pulmonar || undefined,
+    ausculta_pulmonar: String(values.ausculta_pulmonar) || undefined,
     oximetria: values.oximetria || undefined,
     escala_glasgow: values.escala_glasgow || undefined,
   };
