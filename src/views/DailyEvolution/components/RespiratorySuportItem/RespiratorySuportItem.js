@@ -1,5 +1,4 @@
 import React, { memo } from 'react';
-
 import PropTypes from 'prop-types';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import {
@@ -9,7 +8,6 @@ import {
   Grid,
   Typography,
 } from '@material-ui/core';
-
 import FieldComposerItem from '../FieldComposerItem/FieldComposerItem';
 import { makeStyles } from '@material-ui/styles';
 
@@ -19,12 +17,11 @@ function getData(suporteRespiratorio) {
     case 10: // tipo pronacao
       aux = suporteRespiratorio.data_pronacao;
       break;
-    case 11: // tidpo desmame
+    case 11: // tido desmame
       aux = suporteRespiratorio.data_inclusao_desmame;
       break;
     default:
-      // outros tipos
-      aux = suporteRespiratorio.data_inicio;
+      aux = suporteRespiratorio.data_inicio; // outros tipos
   }
 
   if (!aux) aux = 'Data não informada';
@@ -60,10 +57,7 @@ const RespiratorySuportItem = props => {
       >
         <section className={classes.summary}>
           <Typography variant="h4">{descricao}</Typography>
-          <Typography
-            className={classes.date}
-            variant="subtitle2"
-          >
+          <Typography className={classes.date} variant="subtitle2">
             Data: {getData(suporteRespiratorio)}
           </Typography>
         </section>
@@ -73,11 +67,7 @@ const RespiratorySuportItem = props => {
         Catéter nasal de alto fluxo
         Máscara com reservatório */}
         {[1, 2, 4].some(id => suporteRespiratorio.tipo_suporte_id === id) && (
-          <Grid
-            container
-            item
-            spacing={2}
-          >
+          <Grid container item spacing={2}>
             <FieldComposerItem
               name="fluxo_o2"
               value={suporteRespiratorio.fluxo_o2}
@@ -86,11 +76,7 @@ const RespiratorySuportItem = props => {
         )}
         {/* Máscara de Venturi */}
         {[3].some(id => suporteRespiratorio.tipo_suporte_id === id) && (
-          <Grid
-            container
-            item
-            spacing={2}
-          >
+          <Grid container item spacing={2}>
             <FieldComposerItem
               name="fluxo_o2"
               value={suporteRespiratorio.fluxo_o2}
@@ -105,19 +91,11 @@ const RespiratorySuportItem = props => {
         Intubação Orotraqueal
         Traqueostomia */}
         {[5, 7, 8].some(id => suporteRespiratorio.tipo_suporte_id === id) && (
-          <Grid
-            container
-            item
-            spacing={2}
-          />
+          <Grid container item spacing={2} />
         )}
         {/* Ventilação mecânica invasiva (VNI) */}
         {[6].some(id => suporteRespiratorio.tipo_suporte_id === id) && (
-          <Grid
-            container
-            item
-            spacing={2}
-          >
+          <Grid container item spacing={2}>
             <FieldComposerItem
               name="menos_24h_vmi"
               value={suporteRespiratorio.menos_24h_vmi}
@@ -126,36 +104,21 @@ const RespiratorySuportItem = props => {
         )}
         {/* Oxigenação por membrana extracorpórea (ECMO) */}
         {[9].some(id => suporteRespiratorio.tipo_suporte_id === id) && (
-          <Grid
-            container
-            item
-            spacing={2}
-          >
+          <Grid container item spacing={2}>
             <FieldComposerItem
               name="fluxo_sangue"
-              value={suporteRespiratorio.fluxo_sangue}
+              value={suporteRespiratorio.data}
             />
             <FieldComposerItem
               name="fluxo_gasoso"
               value={suporteRespiratorio.fluxo_gasoso}
             />
-            <FieldComposerItem
-              name="fio2"
-              value={suporteRespiratorio.fio2}
-            />
+            <FieldComposerItem name="fio2" value={suporteRespiratorio.fio2} />
           </Grid>
         )}
         {/* Pronação */}
         {[10].some(id => suporteRespiratorio.tipo_suporte_id === id) && (
-          <Grid
-            container
-            item
-            spacing={2}
-          >
-            <FieldComposerItem
-              name="data_pronacao"
-              value={suporteRespiratorio.data_pronacao}
-            />
+          <Grid container item spacing={2}>
             <FieldComposerItem
               name="quantidade_horas"
               value={suporteRespiratorio.quantidade_horas}
@@ -164,16 +127,7 @@ const RespiratorySuportItem = props => {
         )}
         {/* Desmame */}
         {[11].some(id => suporteRespiratorio.tipo_suporte_id === id) && (
-          <Grid
-            container
-            item
-            spacing={2}
-          >
-            <FieldComposerItem
-              name="data_inclusao_desmame"
-              value={suporteRespiratorio.data_inclusao_desmame}
-            />
-          </Grid>
+          <Grid container item spacing={2} />
         )}
       </AccordionDetails>
     </Accordion>

@@ -94,6 +94,11 @@ const DailyEvolution = () => {
         </div>
         <DailyEvolutionForm
           evolucaoDiaria={evolucaoDiaria}
+          oldSuportesRespiratorios={[
+            ...suportesRespiratorios,
+            ...desmames,
+            ...pronacoes,
+          ]}
           ref={formRef}
           tiposSuportesRespiratorios={tiposSuportesRespiratorios}
         />

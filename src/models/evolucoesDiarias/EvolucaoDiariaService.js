@@ -1,6 +1,7 @@
 import api from 'services/api';
 
-export const getInitialValues = evolucaoDiaria => {
+export const getInitialValues = (evolucaoDiaria, oldSuportesRespiratorios) => {
+  console.log(oldSuportesRespiratorios);
   return {
     data_evolucao: evolucaoDiaria.data_evolucao || '',
     temperatura: evolucaoDiaria.temperatura || '',
@@ -15,6 +16,8 @@ export const getInitialValues = evolucaoDiaria => {
     escala_glasgow: evolucaoDiaria.escala_glasgow || 3,
     tipo_suporte_selected: 0,
     newSuportesRespitatorios: [],
+    // TODO: usar isso na hora de salvar
+    oldSuportesRespitatorios: oldSuportesRespiratorios,
   };
 };
 
@@ -61,4 +64,4 @@ export const postEvolucaoDiaria = async (values, patient) => {
       jsonToSendSuportesRespiratorios,
     );
   }
-}
+};

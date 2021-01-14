@@ -27,28 +27,17 @@ const UTIForm = ({ index, remove }) => {
   };
 
   return (
-    <Grid
-      className={classes.root}
-      component={Card}
-      item
-    >
+    <Grid className={classes.root} component={Card} item>
       <div className={classes.formLabel}>
         <Typography variant="h3">
           Admissão na Unidade de Terapia Intensiva (UTI)
         </Typography>
-        <IconButton
-          aria-label="delete"
-          onClick={() => remove(index)}
-        >
+        <IconButton aria-label="delete" onClick={() => remove(index)}>
           <DeleteIcon fontSize="small" />
         </IconButton>
       </div>
 
-      <Grid
-        className={classes.fieldFormUTI}
-        item
-        sm={12}
-      >
+      <Grid className={classes.fieldFormUTI} item sm={12}>
         <FormGroup>
           <FormLabel className={classes.selectFieldLabel}>
             <Typography variant="h4">Escala de Glasgow</Typography>
@@ -70,10 +59,7 @@ const UTIForm = ({ index, remove }) => {
             variant="outlined"
           >
             {new Array(13).fill('').map((_, index) => (
-              <MenuItem
-                key={String(Math.random())}
-                value={3 + index}
-              >
+              <MenuItem key={String(Math.random())} value={3 + index}>
                 {3 + index}
               </MenuItem>
             ))}
@@ -87,20 +73,14 @@ const UTIForm = ({ index, remove }) => {
         sm={12}
         spacing={2}
       >
-        <Grid
-          item
-          sm={6}
-        >
+        <Grid item sm={6}>
           <GenericDateField
             label="Data"
             name={`newsComplicacoes[${index}].data`}
             title="Admissão em UTI"
           />
         </Grid>
-        <Grid
-          item
-          sm={6}
-        >
+        <Grid item sm={6}>
           <GenericDateField
             label="Data"
             name={`newsComplicacoes[${index}].data_termino`}
@@ -109,92 +89,56 @@ const UTIForm = ({ index, remove }) => {
         </Grid>
       </Grid>
 
-      <Grid
-        container
-        item
-        spacing={2}
-      >
-        <Grid
-          className={classes.fieldFormUTI}
-          item
-          sm={3}
-        >
+      <Grid container item spacing={2}>
+        <Grid className={classes.fieldFormUTI} item sm={3}>
           <GenericNumberField
             name={`newsComplicacoes[${index}].ph`}
             title="pH"
           />
         </Grid>
-        <Grid
-          className={classes.fieldFormUTI}
-          item
-          sm={3}
-        >
+        <Grid className={classes.fieldFormUTI} item sm={3}>
           <GenericNumberField
             endAdornment="mmHg"
             name={`newsComplicacoes[${index}].pao2`}
             title="PaO2"
           />
         </Grid>
-        <Grid
-          className={classes.fieldFormUTI}
-          item
-          sm={3}
-        >
+        <Grid className={classes.fieldFormUTI} item sm={3}>
           <GenericNumberField
             endAdornment="mmHg"
             name={`newsComplicacoes[${index}].paco2`}
             title="PaCO2"
           />
         </Grid>
-        <Grid
-          className={classes.fieldFormUTI}
-          item
-          sm={3}
-        >
+        <Grid className={classes.fieldFormUTI} item sm={3}>
           <GenericNumberField
             endAdornment="mEq/L"
             name={`newsComplicacoes[${index}].hco3`}
             title="HCO3"
           />
         </Grid>
-        <Grid
-          className={classes.fieldFormUTI}
-          item
-          sm={3}
-        >
+        <Grid className={classes.fieldFormUTI} item sm={3}>
           <GenericNumberField
             endAdornment="mEq/L"
             name={`newsComplicacoes[${index}].be`}
             title="BE"
           />
         </Grid>
-        <Grid
-          className={classes.fieldFormUTI}
-          item
-          sm={3}
-        >
+        <Grid className={classes.fieldFormUTI} item sm={3}>
           <GenericNumberField
             endAdornment="%"
             name={`newsComplicacoes[${index}].sao2`}
             title="SaO2"
           />
         </Grid>
-        <Grid
-          className={classes.fieldFormUTI}
-          item
-          sm={3}
-        >
+        <Grid className={classes.fieldFormUTI} item sm={3}>
           <GenericNumberField
             endAdornment="mmol/L"
             name={`newsComplicacoes[${index}].lactato`}
             title="Lactato"
           />
         </Grid>
-        <Grid
-          className={classes.fieldFormUTI}
-          item
-          sm={12}
-        >
+        <Grid className={classes.fieldFormUTI} item sm={12}>
           <GenericNumberField
             endAdornment="mL/24h"
             name={`newsComplicacoes[${index}].debito_urinario`}
@@ -202,11 +146,7 @@ const UTIForm = ({ index, remove }) => {
           />
         </Grid>
       </Grid>
-      <Grid
-        className={classes.fieldFormUTI}
-        item
-        sm={12}
-      >
+      <Grid className={classes.fieldFormUTI} item sm={12}>
         <FormGroup>
           <FormLabel>
             <Typography variant="h4">

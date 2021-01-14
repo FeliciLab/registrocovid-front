@@ -13,9 +13,14 @@ import {
   getInitialValues,
   postEvolucaoDiaria,
 } from 'models/evolucoesDiarias/EvolucaoDiariaService';
+import ArrayOldSuportesRespiratorios from './ArrayOldSuportesRespiratorios';
 
 const DailyEvolutionForm = (props, ref) => {
-  const { tiposSuportesRespiratorios, evolucaoDiaria } = props;
+  const {
+    tiposSuportesRespiratorios,
+    evolucaoDiaria,
+    oldSuportesRespiratorios,
+  } = props;
 
   const classes = useStyles();
 
@@ -50,17 +55,14 @@ const DailyEvolutionForm = (props, ref) => {
   return (
     <Formik
       enableReinitialize
-      initialValues={getInitialValues(evolucaoDiaria)}
+      initialValues={getInitialValues(evolucaoDiaria, oldSuportesRespiratorios)}
       innerRef={formikRef}
       onSubmit={handleSubmit}
       validateOnMount
       validationSchema={schema}
     >
       {() => (
-        <Form
-          className={classes.form}
-          component={FormControl}
-        >
+        <Form className={classes.form} component={FormControl}>
           <Grid
             className={classes.contentForm}
             component={Card}
@@ -70,6 +72,7 @@ const DailyEvolutionForm = (props, ref) => {
             <FieldsBlock />
             <SelectType tipos={tiposSuportesRespiratorios} />
             <RespiratorySuportFormList tipos={tiposSuportesRespiratorios} />
+            <ArrayOldSuportesRespiratorios tipos={tiposSuportesRespiratorios} />
           </Grid>
         </Form>
       )}

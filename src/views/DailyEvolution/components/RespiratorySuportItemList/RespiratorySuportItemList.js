@@ -22,11 +22,8 @@ const RespiratorySuportItemList = props => {
 
   return (
     <Grid
-      className={classes.root}
-      component={Card}
-      container
-      item
-      spacing={2}
+      className={classes.root} component={Card} container
+      item spacing={2}
     >
       {list.map((item, index) => (
         <RespiratorySuportItem

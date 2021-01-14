@@ -164,16 +164,12 @@ const FieldComposerForm = props => {
 FieldComposerForm.propTypes = {
   field: PropTypes.oneOf([
     'fluxo_o2',
-    'data_inicio',
-    'data_termino',
     'menos_24h_vmi',
     'concentracao_o2',
     'fluxo_sangue',
     'fluxo_gasoso',
     'fio2',
-    'data_pronacao', // pronacao
     'quantidade_horas', // pronacao
-    'data_inclusao_desmame', // desmane
   ]).isRequired,
   name: PropTypes.any.isRequired,
 };
