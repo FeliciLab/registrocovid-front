@@ -2,6 +2,8 @@ import formatDate from 'helpers/formatDate';
 import api from 'services/api';
 
 export const loadInitialValues = patient => {
+  console.log(patient);
+
   let initialValues = {
     prontuario: '',
     data_internacao: '',
@@ -20,8 +22,8 @@ export const loadInitialValues = patient => {
     sao2: 0,
     lactato: 0,
     debito_urinario: 0,
-    fluxoO2: 0,
-    fiO2: 0,
+    fluxo_o2: 0,
+    fio2: 0,
   };
 
   if (patient && patient.prontuario) {
@@ -51,6 +53,10 @@ export const loadInitialValues = patient => {
       lactato: patient.lactato || 0,
       debito_urinario: patient.debito_urinario || 0,
     };
+
+    if (patient.suporte_respiratorio) {
+      initialValues = { ...initialValues, fluxo_o2: 10, fio2: 10 };
+    }
   }
 
   return initialValues;
@@ -79,11 +85,19 @@ export const postGeneralInfo = async values => {
   if (values.suporte_respiratorio) {
     patient = {
       ...patient,
-      tipos_suporte_respiratorio: [{ id: values.tipo_suport_respiratorio }],
+      tipos_suporte_respiratorio: [
+        {
+          id: values.tipo_suport_respiratorio,
+          fluxo_o2: values.fluxo_o2,
+          fio2: values.fio2,
+        },
+      ],
     };
   }
 
   const response = await api.post('/pacientes', patient);
+
+  console.log(response);
 
   const responsePatient = {
     id: response.data.paciente.id,

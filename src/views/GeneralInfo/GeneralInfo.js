@@ -69,14 +69,11 @@ const GeneralInfo = () => {
   const handleSubmit = async values => {
     try {
       const complementaryResponsePatient = await postGeneralInfo(values);
-
       addToast({
         type: 'success',
         message: 'Dados salvos com sucesso',
       });
-
       addPatient(complementaryResponsePatient);
-
       history.push('/categorias');
     } catch (err) {
       if (err.response.data.message === 'The given data was invalid.') {
@@ -255,7 +252,7 @@ const GeneralInfo = () => {
                   >
                     <GenericNumberField
                       disabled={!values.suporte_respiratorio}
-                      name="fluxoO2"
+                      name="fluxo_o2"
                       title="Fluxo O2"
                     />
                   </Grid>
@@ -265,7 +262,7 @@ const GeneralInfo = () => {
                   >
                     <GenericNumberField
                       disabled={!values.suporte_respiratorio}
-                      name="fiO2"
+                      name="fio2"
                       title="FiO2"
                     />
                   </Grid>
