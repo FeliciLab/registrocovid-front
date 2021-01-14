@@ -1,6 +1,5 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
-
 import {
   FormControlLabel,
   FormGroup,
@@ -13,18 +12,13 @@ import {
 } from '@material-ui/core';
 
 const FieldGrid = ({ title, component: Component, type, value, ...rest }) => (
-  <Grid
-    item
-    xs={6}
-  >
+  <Grid item xs={6}>
     <FormGroup>
       <FormLabel>
         <Typography variant="h5">{title}</Typography>
       </FormLabel>
       <Component
-        contentEditable={false}
-        type={type}
-        value={value}
+        contentEditable={false} type={type} value={value}
         {...rest}
       />
     </FormGroup>
@@ -36,31 +30,11 @@ const FieldComposerItem = props => {
   const { name, value } = props;
 
   const fields = {
-    data_inicio: (
-      <FieldGrid
-        component={TextField}
-        title="Inicio"
-        type="date"
-        value={value}
-        variant="outlined"
-      />
-    ),
-    data_termino: (
-      <FieldGrid
-        component={TextField}
-        title="Término"
-        type="date"
-        value={value}
-        variant="outlined"
-      />
-    ),
     fluxo_o2: (
       <FieldGrid
         component={TextField}
         InputProps={{
-          endAdornment: (
-            <InputAdornment position="start">l/min</InputAdornment>
-          ),
+          endAdornment: <InputAdornment position="start">l/min</InputAdornment>,
         }}
         title="Fluxo O₂"
         type="number"
@@ -81,10 +55,7 @@ const FieldComposerItem = props => {
       />
     ),
     menos_24h_vmi: (
-      <Grid
-        item
-        xs={12}
-      >
+      <Grid item xs={12}>
         <FormGroup>
           <FormLabel>
             <Typography variant="h5">
@@ -92,13 +63,7 @@ const FieldComposerItem = props => {
             </Typography>
           </FormLabel>
           <FormControlLabel
-            control={
-              <Switch
-                checked={value}
-                color="primary"
-                type="checkbox"
-              />
-            }
+            control={<Switch checked={value} color="primary" type="checkbox" />}
             label={<Typography variant="h5">Sim</Typography>}
           />
         </FormGroup>
@@ -140,32 +105,16 @@ const FieldComposerItem = props => {
         variant="outlined"
       />
     ),
-    data_pronacao: (
-      <FieldGrid
-        component={TextField}
-        title="Data de pronação"
-        type="date"
-        value={value}
-        variant="outlined"
-      />
-    ),
     quantidade_horas: (
       <FieldGrid
         component={TextField}
         InputProps={{
-          endAdornment: <InputAdornment position="start">hora(s)</InputAdornment>,
+          endAdornment: (
+            <InputAdornment position="start">hora(s)</InputAdornment>
+          ),
         }}
         title="Pronação"
         type="number"
-        value={value || ''}
-        variant="outlined"
-      />
-    ),
-    data_inclusao_desmame: (
-      <FieldGrid
-        component={TextField}
-        title="Em caso afirmativo, informe a data da inclusão do paciente no desmame"
-        type="date"
         value={value || ''}
         variant="outlined"
       />
@@ -178,16 +127,12 @@ const FieldComposerItem = props => {
 FieldComposerItem.propTypes = {
   name: PropTypes.oneOf([
     'fluxo_o2',
-    'data_inicio',
-    'data_termino',
     'menos_24h_vmi',
     'concentracao_o2',
     'fluxo_sangue',
     'fluxo_gasoso',
     'fio2',
-    'data_pronacao', // pronacao
     'quantidade_horas', // pronacao
-    'data_inclusao_desmame', // desmane
   ]).isRequired,
   value: PropTypes.any,
 };

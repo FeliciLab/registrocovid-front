@@ -1,15 +1,9 @@
 import React, { useCallback, memo } from 'react';
 import AddIcon from '@material-ui/icons/Add';
-import { Field, useFormikContext } from 'formik';
-import {
-  FormGroup,
-  Button,
-  Grid,
-  MenuItem,
-  Typography,
-} from '@material-ui/core';
-import { TextField } from 'formik-material-ui';
+import { useFormikContext } from 'formik';
+import { Button, Grid, MenuItem, Typography } from '@material-ui/core';
 import useStyles from './styles';
+import GenericSelectField from 'components/Forms/GenericSelectField';
 
 const SelectType = porps => {
   const { tipos } = porps;
@@ -43,57 +37,27 @@ const SelectType = porps => {
   ]);
 
   return (
-    <Grid
-      container
-      item
-      spacing={2}
-    >
-      <Grid
-        component={Typography}
-        item
-        variant="h5"
-      >
+    <Grid container item spacing={2}>
+      <Grid component={Typography} item variant="h4">
         Escolher tipo de suporte ou procedimento:
       </Grid>
       <Grid
-        alignItems="center"
-        container
-        item
+        alignItems="center" container item
         spacing={2}
       >
-        <Grid
-          item
-          xs={7}
-        >
-          <FormGroup>
-            <Field
-              component={TextField}
-              name="tipo_suporte_selected"
-              select
-              type="number"
-              variant="outlined"
-            >
-              <MenuItem
-                disabled
-                value={0}
-              >
-                Escolher
+        <Grid item xs={7}>
+          <GenericSelectField name="tipo_suporte_selected">
+            <MenuItem disabled value={0}>
+              Escolher
+            </MenuItem>
+            {tipos.map(tipo => (
+              <MenuItem key={tipo.id} value={tipo.id}>
+                {tipo.nome}
               </MenuItem>
-              {tipos.map(tipo => (
-                <MenuItem
-                  key={tipo.id}
-                  value={tipo.id}
-                >
-                  {tipo.nome}
-                </MenuItem>
-              ))}
-            </Field>
-          </FormGroup>
+            ))}
+          </GenericSelectField>
         </Grid>
-        <Grid
-          item
-          xs={5}
-        >
+        <Grid item xs={5}>
           <Button
             className={classes.buttonAddType}
             color="secondary"

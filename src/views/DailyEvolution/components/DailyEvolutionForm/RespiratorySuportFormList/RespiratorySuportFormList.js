@@ -3,14 +3,14 @@ import { FieldArray, useFormikContext } from 'formik';
 import React from 'react';
 import RespiratorySuportForm from '../RespiratorySuportForm/RespiratorySuportForm';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   root: {
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
     maxWidth: '864px',
   },
-}));
+});
 
 const RespiratorySuportFormList = props => {
   const { tipos } = props;
@@ -29,9 +29,8 @@ const RespiratorySuportFormList = props => {
               .map((item, index) => (
                 <RespiratorySuportForm
                   descricao={
-                    tipos.filter(
-                      tipo => tipo.id === item.tipo_suporte_id,
-                    )[0].nome
+                    tipos.filter(tipo => tipo.id === item.tipo_suporte_id)[0]
+                      .nome
                   }
                   index={index}
                   key={index}

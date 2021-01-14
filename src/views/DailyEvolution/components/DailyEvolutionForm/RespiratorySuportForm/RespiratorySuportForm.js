@@ -1,7 +1,6 @@
 import { Card, Grid, IconButton, Typography } from '@material-ui/core';
 import React from 'react';
 import FieldComposerForm from '../FieldComposerForm';
-
 import DeleteIcon from '@material-ui/icons/Delete';
 import useStyles from './styles';
 
