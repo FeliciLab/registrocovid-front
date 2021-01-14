@@ -2,8 +2,6 @@ import formatDate from 'helpers/formatDate';
 import api from 'services/api';
 
 export const loadInitialValues = patient => {
-  console.log(patient);
-
   let initialValues = {
     prontuario: '',
     data_internacao: '',
@@ -85,7 +83,7 @@ export const postGeneralInfo = async values => {
   if (values.suporte_respiratorio) {
     patient = {
       ...patient,
-      tipos_suporte_respiratorio: [
+      tipo_suporte_respiratorios: [
         {
           id: values.tipo_suport_respiratorio,
           fluxo_o2: values.fluxo_o2,
@@ -94,6 +92,9 @@ export const postGeneralInfo = async values => {
       ],
     };
   }
+
+  // TODO: remover depois
+  console.log(patient);
 
   const response = await api.post('/pacientes', patient);
 
