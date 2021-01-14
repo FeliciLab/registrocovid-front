@@ -1,19 +1,9 @@
 import React from 'react';
-import {
-  FormGroup,
-  FormLabel,
-  Grid,
-  InputAdornment,
-  Typography,
-  MenuItem,
-} from '@material-ui/core';
-import { Field } from 'formik';
-import { TextField } from 'formik-material-ui';
+import { Grid, MenuItem } from '@material-ui/core';
 import range from 'helpers/range';
 import GenericDateField from 'components/Forms/GenericDateField';
 import GenericNumberField from 'components/Forms/GenericNumberField';
-
-const variant = 'h5';
+import GenericSelectField from 'components/Forms/GenericSelectField';
 
 const escalaGlasgowRange = range(3, 15);
 
@@ -75,40 +65,20 @@ const FieldsBlock = () => {
         />
       </Grid>
       <Grid item xs={6}>
-        <FormGroup>
-          <FormLabel>
-            <Typography variant={variant}>Oximetria de pulso</Typography>
-          </FormLabel>
-          <Field
-            component={TextField}
-            InputProps={{
-              endAdornment: <InputAdornment position="start">%</InputAdornment>,
-            }}
-            name="oximetria"
-            type="number"
-            variant="outlined"
-          />
-        </FormGroup>
+        <GenericNumberField
+          endAdornment="%"
+          name="oximetria"
+          title="Oximetria de pulso"
+        />
       </Grid>
       <Grid item xs={6}>
-        <FormGroup>
-          <FormLabel>
-            <Typography variant={variant}>Escala de Glasgow</Typography>
-          </FormLabel>
-          <Field
-            component={TextField}
-            name="escala_glasgow"
-            select
-            type="number"
-            variant="outlined"
-          >
-            {escalaGlasgowRange.map(elem => (
-              <MenuItem key={elem} value={elem}>
-                {elem}
-              </MenuItem>
-            ))}
-          </Field>
-        </FormGroup>
+        <GenericSelectField name="escala_glasgow" title="Escala de Glasgow">
+          {escalaGlasgowRange.map(elem => (
+            <MenuItem key={elem} value={elem}>
+              {elem}
+            </MenuItem>
+          ))}
+        </GenericSelectField>
       </Grid>
     </>
   );

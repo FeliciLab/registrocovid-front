@@ -12,18 +12,13 @@ import { TextField, Switch } from 'formik-material-ui';
 import React, { memo } from 'react';
 
 const FieldGrid = ({ title, component, type, name, ...rest }) => (
-  <Grid
-    item
-    xs={6}
-  >
+  <Grid item xs={6}>
     <FormGroup>
       <FormLabel>
         <Typography variant="h5">{title}</Typography>
       </FormLabel>
       <Field
-        component={component}
-        name={name}
-        type={type}
+        component={component} name={name} type={type}
         {...rest}
       />
     </FormGroup>
@@ -76,10 +71,7 @@ const FieldComposerForm = props => {
       />
     ),
     menos_24h_vmi: (
-      <Grid
-        item
-        xs={6}
-      >
+      <Grid item xs={6}>
         <FormGroup>
           <FormLabel>
             <Typography variant="h5">
@@ -88,11 +80,7 @@ const FieldComposerForm = props => {
           </FormLabel>
           <FormControlLabel
             control={
-              <Field
-                color="primary"
-                component={Switch}
-                type="checkbox"
-              />
+              <Field color="primary" component={Switch} type="checkbox" />
             }
             label={<Typography variant="h5">Sim</Typography>}
             name={name}

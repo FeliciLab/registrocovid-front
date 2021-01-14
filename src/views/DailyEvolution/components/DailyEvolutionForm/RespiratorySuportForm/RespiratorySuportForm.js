@@ -12,17 +12,12 @@ const RespiratorySuportForm = props => {
 
   return (
     <Grid
-      className={classes.root}
-      component={Card}
-      container
+      className={classes.root} component={Card} container
       item
     >
       <div className={classes.title}>
         <Typography variant="h4">{descricao}</Typography>
-        <IconButton
-          aria-label="delete"
-          onClick={() => remove(index)}
-        >
+        <IconButton aria-label="delete" onClick={() => remove(index)}>
           <DeleteIcon fontSize="small" />
         </IconButton>
       </div>
@@ -30,11 +25,7 @@ const RespiratorySuportForm = props => {
         Catéter nasal de alto fluxo
         Máscara com reservatório */}
       {[1, 2, 4].some(id => tipo === id) && (
-        <Grid
-          container
-          item
-          spacing={2}
-        >
+        <Grid container item spacing={2}>
           <FieldComposerForm
             field="fluxo_o2"
             name={`newSuportesRespitatorios.${index}.fluxo_o2`}
@@ -43,11 +34,7 @@ const RespiratorySuportForm = props => {
       )}
       {/* Máscara de Venturi */}
       {[3].some(id => tipo === id) && (
-        <Grid
-          container
-          item
-          spacing={2}
-        >
+        <Grid container item spacing={2}>
           <FieldComposerForm
             field="fluxo_o2"
             name={`newSuportesRespitatorios.${index}.fluxo_o2`}
@@ -61,20 +48,10 @@ const RespiratorySuportForm = props => {
       {/* Ventilação mecânica não invasiva (VNI)
         Intubação Orotraqueal
         Traqueostomia */}
-      {[5, 7, 8].some(id => tipo === id) && (
-        <Grid
-          container
-          item
-          spacing={2}
-        />
-      )}
+      {[5, 7, 8].some(id => tipo === id) && <Grid container item spacing={2} />}
       {/* Ventilação mecânica invasiva */}
       {[6].some(id => tipo === id) && (
-        <Grid
-          container
-          item
-          spacing={2}
-        >
+        <Grid container item spacing={2}>
           <FieldComposerForm
             field="menos_24h_vmi"
             name={`newSuportesRespitatorios.${index}.menos_24h_vmi`}
@@ -83,11 +60,7 @@ const RespiratorySuportForm = props => {
       )}
       {/* Oxigenação por membrana extracorpórea (ECMO) */}
       {[9].some(id => tipo === id) && (
-        <Grid
-          container
-          item
-          spacing={2}
-        >
+        <Grid container item spacing={2}>
           <FieldComposerForm
             field="fluxo_sangue"
             name={`newSuportesRespitatorios.${index}.fluxo_sangue`}
@@ -104,11 +77,7 @@ const RespiratorySuportForm = props => {
       )}
       {/* Pronação */}
       {[10].some(id => tipo === id) && (
-        <Grid
-          container
-          item
-          spacing={2}
-        >
+        <Grid container item spacing={2}>
           <FieldComposerForm
             field="quantidade_horas"
             name={`newSuportesRespitatorios.${index}.quantidade_horas`}
@@ -116,13 +85,7 @@ const RespiratorySuportForm = props => {
         </Grid>
       )}
       {/* Inclusão em desmame da ventilação mecânica */}
-      {[11].some(id => tipo === id) && (
-        <Grid
-          container
-          item
-          spacing={2}
-        />
-      )}
+      {[11].some(id => tipo === id) && <Grid container item spacing={2} />}
     </Grid>
   );
 };
