@@ -42,11 +42,11 @@ function HemodialiseItem({ tratamento }) {
               <Typography variant="h5">Primeira Sessão</Typography>
             </FormLabel>
             <TextField
+              className={classes.field}
+              contentEditable={false}
               InputLabelProps={{
                 shrink: true,
               }}
-              className={classes.field}
-              contentEditable={false}
               label="Data"
               type="date"
               value={tratamento.data_inicio}
@@ -65,11 +65,11 @@ function HemodialiseItem({ tratamento }) {
               <Typography variant="h5">Última Sessão</Typography>
             </FormLabel>
             <TextField
+              className={classes.field}
+              contentEditable={false}
               InputLabelProps={{
                 shrink: true,
               }}
-              className={classes.field}
-              contentEditable={false}
               label="Data"
               type="date"
               value={tratamento.data_termino}
@@ -88,11 +88,11 @@ function HemodialiseItem({ tratamento }) {
               <Typography variant="h5">Motivo</Typography>
             </FormLabel>
             <TextField
+              className={classes.field}
+              contentEditable={false}
               InputLabelProps={{
                 shrink: true,
               }}
-              className={classes.field}
-              contentEditable={false}
               type="text"
               value={tratamento.motivo_hemodialise || ''}
               variant="outlined"
@@ -111,11 +111,11 @@ function HemodialiseItem({ tratamento }) {
               <Typography variant="h5">Frequência</Typography>
             </FormLabel>
             <TextField
+              className={classes.field}
+              contentEditable={false}
               InputLabelProps={{
                 shrink: true,
               }}
-              className={classes.field}
-              contentEditable={false}
               type="text"
               value={tratamento.frequencia_hemodialise || ''}
               variant="outlined"

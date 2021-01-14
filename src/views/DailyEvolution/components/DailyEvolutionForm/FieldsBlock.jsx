@@ -9,7 +9,9 @@ import {
 } from '@material-ui/core';
 import { Field } from 'formik';
 import { TextField } from 'formik-material-ui';
-import range from 'helpers/range'
+import range from 'helpers/range';
+import GenericDateField from 'components/Forms/GenericDateField';
+import GenericNumberField from 'components/Forms/GenericNumberField';
 
 const variant = 'h5';
 
@@ -18,192 +20,61 @@ const escalaGlasgowRange = range(3, 15);
 const FieldsBlock = () => {
   return (
     <>
-      <Grid
-        item
-        xs={12}
-      >
-        <FormGroup>
-          <FormLabel>
-            <Typography variant={variant}>Data de evolução*</Typography>
-          </FormLabel>
-          <Field
-            component={TextField}
-            name="data_evolucao"
-            type="date"
-          />
-        </FormGroup>
+      <Grid item xs={12}>
+        <GenericDateField
+          label="Data Admissão em UTI"
+          name={'data_evolucao'}
+          title="Admissão em UTI"
+        />
       </Grid>
-      <Grid
-        item
-        xs={6}
-      >
-        <FormGroup>
-          <FormLabel>
-            <Typography variant={variant}>Temperatura</Typography>
-          </FormLabel>
-          <Field
-            component={TextField}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="start">°C</InputAdornment>
-              ),
-            }}
-            name="temperatura"
-            type="number"
-            variant="outlined"
-          />
-        </FormGroup>
+      <Grid item xs={6}>
+        <GenericNumberField
+          endAdornment="°C"
+          name="temperatura"
+          title="Temperatura"
+        />
       </Grid>
-      <Grid
-        item
-        xs={6}
-      >
-        <FormGroup>
-          <FormLabel>
-            <Typography variant={variant}>Frequência respiratória</Typography>
-          </FormLabel>
-          <Field
-            component={TextField}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="start">irpm</InputAdornment>
-              ),
-            }}
-            name="frequencia_respiratoria"
-            type="number"
-            variant="outlined"
-          />
-        </FormGroup>
+      <Grid item xs={6}>
+        <GenericNumberField
+          endAdornment="irpm"
+          name="frequencia_respiratoria"
+          title="Frequência respiratória"
+        />
       </Grid>
-      <Grid
-        item
-        xs={6}
-      >
-        <FormGroup>
-          <FormLabel>
-            <Typography variant={variant}>Peso</Typography>
-          </FormLabel>
-          <Field
-            component={TextField}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="start">Kg</InputAdornment>
-              ),
-            }}
-            name="peso"
-            type="number"
-            variant="outlined"
-          />
-        </FormGroup>
+      <Grid item xs={6}>
+        <GenericNumberField endAdornment="Kg" name="peso" title="Peso" />
       </Grid>
-      <Grid
-        item
-        xs={6}
-      >
-        <FormGroup>
-          <FormLabel>
-            <Typography variant={variant}>Altura</Typography>
-          </FormLabel>
-          <Field
-            component={TextField}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="start">cm</InputAdornment>
-              ),
-            }}
-            name="altura"
-            type="number"
-            variant="outlined"
-          />
-        </FormGroup>
+      <Grid item xs={6}>
+        <GenericNumberField endAdornment="cm" name="altura" title="Altura" />
       </Grid>
-      <Grid
-        item
-        xs={6}
-      >
-        <FormGroup>
-          <FormLabel>
-            <Typography variant={variant}>
-              Pressão arterial sistólica
-            </Typography>
-          </FormLabel>
-          <Field
-            component={TextField}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="start">mmHg</InputAdornment>
-              ),
-            }}
-            name="pressao_sistolica"
-            type="number"
-            variant="outlined"
-          />
-        </FormGroup>
+      <Grid item xs={6}>
+        <GenericNumberField
+          endAdornment="mmHg"
+          name="pressao_sistolica"
+          title="Pressão arterial sistólica"
+        />
       </Grid>
-      <Grid
-        item
-        xs={6}
-      >
-        <FormGroup>
-          <FormLabel>
-            <Typography variant={variant}>
-              Pressão arterial diastólica
-            </Typography>
-          </FormLabel>
-          <Field
-            component={TextField}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="start">mmHg</InputAdornment>
-              ),
-            }}
-            name="pressao_diastolica"
-            type="number"
-            variant="outlined"
-          />
-        </FormGroup>
+      <Grid item xs={6}>
+        <GenericNumberField
+          endAdornment="mmHg"
+          name="pressao_diastolica"
+          title="Pressão arterial diastólica"
+        />
       </Grid>
-      <Grid
-        item
-        xs={6}
-      >
-        <FormGroup>
-          <FormLabel>
-            <Typography variant={variant}>Frequência cardíaca</Typography>
-          </FormLabel>
-          <Field
-            component={TextField}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="start">bpm</InputAdornment>
-              ),
-            }}
-            name="frequencia_cardiaca"
-            type="number"
-            variant="outlined"
-          />
-        </FormGroup>
+      <Grid item xs={6}>
+        <GenericNumberField
+          endAdornment="bpm"
+          name="frequencia_cardiaca"
+          title="Frequência cardíaca"
+        />
       </Grid>
-      <Grid
-        item
-        xs={6}
-      >
-        <FormGroup>
-          <FormLabel>
-            <Typography variant={variant}>Ausculta pulmonar</Typography>
-          </FormLabel>
-          <Field
-            component={TextField}
-            name="ausculta_pulmonar"
-            type="number"
-            variant="outlined"
-          />
-        </FormGroup>
+      <Grid item xs={6}>
+        <GenericNumberField
+          name="ausculta_pulmonar"
+          title="Ausculta pulmonar"
+        />
       </Grid>
-      <Grid
-        item
-        xs={6}
-      >
+      <Grid item xs={6}>
         <FormGroup>
           <FormLabel>
             <Typography variant={variant}>Oximetria de pulso</Typography>
@@ -219,10 +90,7 @@ const FieldsBlock = () => {
           />
         </FormGroup>
       </Grid>
-      <Grid
-        item
-        xs={6}
-      >
+      <Grid item xs={6}>
         <FormGroup>
           <FormLabel>
             <Typography variant={variant}>Escala de Glasgow</Typography>
@@ -235,10 +103,7 @@ const FieldsBlock = () => {
             variant="outlined"
           >
             {escalaGlasgowRange.map(elem => (
-              <MenuItem
-                key={elem}
-                value={elem}
-              >
+              <MenuItem key={elem} value={elem}>
                 {elem}
               </MenuItem>
             ))}

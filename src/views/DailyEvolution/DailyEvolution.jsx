@@ -103,23 +103,15 @@ const DailyEvolution = () => {
             <RespiratorySuportItemList
               descricao={tipo.nome}
               key={index}
-              list={suportesRespiratorios.filter(elem => elem.tipo_suporte_id === tipo.id)}
+              list={suportesRespiratorios.filter(
+                elem => elem.tipo_suporte_id === tipo.id,
+              )}
             />
           ))}
-
-          <RespiratorySuportItemList
-            descricao="Pronação"
-            list={pronacoes}
-          />
-
-          <RespiratorySuportItemList
-            descricao="Desmames"
-            list={desmames}
-          />
+          <RespiratorySuportItemList descricao="Pronação" list={pronacoes} />
+          <RespiratorySuportItemList descricao="Desmames" list={desmames} />
         </div>
-
-
-      </div>      
+      </div>
     </div>
   );
 };
