@@ -24,6 +24,8 @@ function ArrayOldSuportesRespiratorios(props) {
 
   console.log(values[NAME]);
 
+  if(!values[NAME]) return null;
+
   return (
     <FieldArray name={NAME}>
       {({ remove }) => (
