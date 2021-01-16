@@ -19,7 +19,7 @@ const DailyEvolutionList = () => {
       const response = await buscarEvolucoesDiarias(patient.id);
       setEvolucoesDiarias(response);
     } catch (error) {
-      // TODO: melhor isso aqui
+      // TODO: colocar um toast aqui
       console.log(error);
     }
   }, [patient.id]);

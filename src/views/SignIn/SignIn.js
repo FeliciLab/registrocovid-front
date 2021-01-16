@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import * as Yup from 'yup';
 import useStyles from './styles';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
@@ -17,26 +16,15 @@ import {
   InputAdornment,
 } from '@material-ui/core';
 import { TextMaskCPF } from 'components';
-
-// Schema do Yup para validação dos campos.
-const schema = Yup.object().shape({
-  cpf: Yup.string()
-    // eslint-disable-next-line
-    // .matches(/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/, 'Digite um CPF válido (xxx.xxx.xxx-xx).')
-    .required('Campo obrigatório'),
-  password: Yup.string()
-    .min(6, 'O campo Password deve ter pelo menos 6 caracteres.')
-    .required('Campo obrigatório'),
-});
+import schema from './schema';
 
 const SignIn = props => {
-  // const { history } = props;
   const { isModal } = props;
 
   const classes = useStyles();
 
-  // Contexto de autenticação.
   const { handleLogin, erroLogin } = useContext(Context);
+
   const useProfile = useUser();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -85,10 +73,7 @@ const SignIn = props => {
               </div>
 
               <div className={classes.viewForm}>
-                <Typography
-                  className={classes.title}
-                  variant="h2"
-                >
+                <Typography className={classes.title} variant="h2">
                   Entrar no sistema
                 </Typography>
                 <Field
