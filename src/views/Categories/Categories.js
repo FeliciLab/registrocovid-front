@@ -1,11 +1,6 @@
 import React, { useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
 import useStyles from './styles';
-
-// Icons
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
-
-// Material-UI Components
 import {
   Typography,
   Button,
@@ -16,9 +11,9 @@ import {
   TableRow,
   Paper,
 } from '@material-ui/core';
-
 import CustomBreadcrumbs from 'components/CustomBreadcrumbs';
 import PatientInfo from 'components/PatientInfo';
+import { NavigateNextIcon } from 'icons';
 
 const Categories = () => {
   const history = useHistory();
@@ -67,28 +62,23 @@ const Categories = () => {
         label: 'Exames complementares',
         url: 'categorias/exames-complementares/',
       },
+      { id: 4, label: 'Complicações', url: 'categorias/complicacoes/' },
       {
-        id: 4,
-        label: 'Suporte respiratório',
-        url: 'categorias/suporte-respiratorio',
-      },
-      { id: 5, label: 'Complicações', url: 'categorias/complicacoes/' },
-      {
-        id: 6,
+        id: 5,
         label: 'Complicações relacionadas à ventilação mecânica',
         url: 'categorias/complicacoes-vm',
       },
       {
-        id: 7,
+        id: 6,
         label: 'Infecções relacionadas à assistência à saúde (IRAS)',
         url: '/categorias/iras/',
       },
       {
-        id: 8,
+        id: 7,
         label: 'Hemodiálise',
         url: 'categorias/hemodialise/',
       },
-      { id: 9, label: 'Desfecho', url: 'categorias/desfecho/' },
+      { id: 8, label: 'Desfecho', url: 'categorias/desfecho/' },
     ];
   }, []);
 

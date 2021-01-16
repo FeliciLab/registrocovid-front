@@ -20,7 +20,6 @@ import {
   ComplementaryTests as ComplementaryTestsView,
   Outcome as OutcomeView,
   RelatedInfections as RelatedInfectionsView,
-  RespiratorySupport as RespiratorySupportView,
   DailyEvolutionList as DailyEvolutionListView,
   DailyEvolution as DailyEvolutionView,
 } from './views';
@@ -151,13 +150,6 @@ const Routes = () => {
         isPrivate
         layout={MainLayout}
         path="/categorias/iras/"
-      />
-      <RouteWithLayout
-        component={RespiratorySupportView}
-        exact
-        isPrivate
-        layout={MainLayout}
-        path="/categorias/suporte-respiratorio/"
       />
       <RouteWithLayout
         component={DailyEvolutionListView}
