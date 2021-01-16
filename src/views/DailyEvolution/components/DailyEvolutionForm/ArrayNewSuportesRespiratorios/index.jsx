@@ -6,6 +6,13 @@ import useStyles from './styles';
 
 const NAME = 'newSuportesRespitatorios';
 
+const getDescricao = (tiposSuporte, tipoSuporteId) => {
+  return (
+    tiposSuporte.filter(tipo => tipo.id === tipoSuporteId)[0].nome ||
+    'Não definido'
+  );
+};
+
 function ArrayNewSuportesRespiratorios(props) {
   const { tipos } = props;
 
@@ -25,7 +32,7 @@ function ArrayNewSuportesRespiratorios(props) {
           {values[NAME] &&
             values[NAME].map((elem, index) => (
               <NewRespiratorySuportForm
-                descricao="Alguma coisa aqui"
+                descricao={getDescricao(tipos, elem.tipo_suporte_id)}
                 index={index}
                 key={index}
                 name={NAME}
