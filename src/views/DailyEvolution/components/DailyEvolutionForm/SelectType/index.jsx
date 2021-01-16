@@ -37,7 +37,10 @@ const SelectType = porps => {
   ]);
 
   return (
-    <Grid container item spacing={2}>
+    <Grid
+      alignItems="center" container item
+      spacing={2}
+    >
       <Grid component={Typography} item variant="h4">
         Escolher tipo de suporte ou procedimento:
       </Grid>

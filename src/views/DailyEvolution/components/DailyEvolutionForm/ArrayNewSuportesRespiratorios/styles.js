@@ -1,8 +1,11 @@
 import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles({
-  buttonAddType: {
-    height: '50px',
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+    maxWidth: '864px',
   },
 });
 
