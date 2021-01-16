@@ -1,7 +1,7 @@
 import React, { forwardRef, useImperativeHandle, useRef } from 'react';
 import { Card, FormControl, Grid } from '@material-ui/core';
 import { Form, Formik } from 'formik';
-import RespiratorySuportFormList from './RespiratorySuportFormList';
+// import RespiratorySuportFormList from './RespiratorySuportFormList';
 import FieldsBlock from './FieldsBlock';
 import schema from './schema';
 import SelectType from './SelectType';
@@ -14,6 +14,7 @@ import {
   postEvolucaoDiaria,
 } from 'models/evolucoesDiarias/EvolucaoDiariaService';
 import ArrayOldSuportesRespiratorios from './ArrayOldSuportesRespiratorios';
+import ArrayNewSuportesRespiratorios from './ArrayNewSuportesRespiratorios';
 
 const DailyEvolutionForm = (props, ref) => {
   const {
@@ -71,7 +72,9 @@ const DailyEvolutionForm = (props, ref) => {
           >
             <FieldsBlock />
             <SelectType tipos={tiposSuportesRespiratorios} />
-            <RespiratorySuportFormList tipos={tiposSuportesRespiratorios} />
+            {/* <RespiratorySuportFormList tipos={tiposSuportesRespiratorios} /> */}
+            
+            <ArrayNewSuportesRespiratorios tipos={tiposSuportesRespiratorios} />
             <ArrayOldSuportesRespiratorios tipos={tiposSuportesRespiratorios} />
           </Grid>
         </Form>

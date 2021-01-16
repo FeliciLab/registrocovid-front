@@ -14,7 +14,7 @@ import React from 'react';
 import FieldFormikComposer from '../FieldFormikComposer';
 import useStyles from './styles';
 
-function RespiratorySuportFormTest({ descricao, index, remove, tipo, name }) {
+function OldRespiratorySuportForm({ descricao, index, remove, tipo, name }) {
   const classes = useStyles();
 
   const { values } = useFormikContext();
@@ -108,4 +108,4 @@ function RespiratorySuportFormTest({ descricao, index, remove, tipo, name }) {
   );
 }
 
-export default RespiratorySuportFormTest;
+export default OldRespiratorySuportForm;

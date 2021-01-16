@@ -1,13 +1,16 @@
 /* eslint-disable no-unused-vars */
 import { FieldArray, useFormikContext } from 'formik';
 import React from 'react';
-import RespiratorySuportFormTest from '../RespiratorySuportFormTest';
+import NewRespiratorySuportForm from '../NewRespiratorySuportForm';
 import useStyles from './styles';
 
 const NAME = 'newSuportesRespitatorios';
 
 function ArrayNewSuportesRespiratorios(props) {
   const { tipos } = props;
+
+  // TODO: remover isso depois
+  console.log(tipos);
 
   const classes = useStyles();
 
@@ -21,7 +24,7 @@ function ArrayNewSuportesRespiratorios(props) {
         <div className={classes.root}>
           {values[NAME] &&
             values[NAME].map((elem, index) => (
-              <RespiratorySuportFormTest
+              <NewRespiratorySuportForm
                 descricao="Alguma coisa aqui"
                 index={index}
                 key={index}
