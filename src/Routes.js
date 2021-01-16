@@ -1,9 +1,7 @@
 import React from 'react';
 import { Switch, Redirect } from 'react-router-dom';
-
 import { RouteWithLayout } from './components';
 import { Main as MainLayout, Minimal as MinimalLayout } from './layouts';
-
 import {
   NotFound as NotFoundView,
   SignIn as SignInView,
@@ -24,161 +22,158 @@ import {
   DailyEvolution as DailyEvolutionView,
 } from './views';
 import PatientIdentification from 'views/PatientIdentification';
+import paths from 'paths';
 
 const Routes = () => {
   return (
     <Switch>
-      <Redirect
-        exact
-        from="/"
-        to="/meus-pacientes"
-      />
+      <Redirect exact from="/" to={paths.MEUS_PACIENTES} />
       <RouteWithLayout
         component={SignInView}
         exact
         layout={MinimalLayout}
-        path="/sign-in"
+        path={paths.SIGN_IN}
       />
       <RouteWithLayout
         component={ListPatientsView}
         exact
         isPrivate
         layout={MainLayout}
-        path="/meus-pacientes"
+        path={paths.MEUS_PACIENTES}
       />
       <RouteWithLayout
         component={CategoriesView}
         exact
         isPrivate
         layout={MainLayout}
-        path="/categorias"
+        path={paths.CATEGORIAS}
       />
       <RouteWithLayout
         component={GeneralInfoView}
         exact
         isPrivate
         layout={MainLayout}
-        path="/categorias/informacoes-gerais"
+        path={paths.CATEGORIA_INFORMACOES_GERAIS}
       />
       <RouteWithLayout
         component={SpecificsTestsView}
         exact
         isPrivate
         layout={MainLayout}
-        path="/categorias/exames-especificos/:id"
+        path={paths.CATEGORIA_EXAMES_ESPECIFICOS}
       />
       <RouteWithLayout
         component={SpecificsTestsView}
         exact
         isPrivate
         layout={MainLayout}
-        path="/categorias/exames-especificos/"
+        path={`${paths.CATEGORIA_EXAMES_ESPECIFICOS}/:id`}
       />
       <RouteWithLayout
         component={PersonalHistoryView}
         exact
         isPrivate
         layout={MainLayout}
-        path="/categorias/historia-pessoal"
+        path={paths.CATEGORIA_HISTORIA_PESSOAL}
       />
       <RouteWithLayout
         component={ComplicationsView}
         exact
         isPrivate
         layout={MainLayout}
-        path="/categorias/complicacoes"
+        path={paths.CATEGORIA_COMPLICACOES}
       />
       <RouteWithLayout
         component={ComplicationsVMView}
         exact
         isPrivate
         layout={MainLayout}
-        path="/categorias/complicacoes-vm"
+        path={paths.CATEGORIA_COMPLICACOES_VM}
       />
       <RouteWithLayout
         component={InitialSymptomsView}
         exact
         isPrivate
         layout={MainLayout}
-        path="/categorias/sintomas-iniciais"
+        path={paths.CATEGORIA_SINTOMAS_INICIAIS}
       />
       <RouteWithLayout
         component={ComorbiditiesView}
         exact
         isPrivate
         layout={MainLayout}
-        path="/categorias/comorbidades"
+        path={paths.CATEGORIA_COMORBIDADES}
       />
       <RouteWithLayout
         component={PatientIdentification}
         exact
         isPrivate
         layout={MainLayout}
-        path="/categorias/identificacao-paciente"
+        path={paths.CATEGORIA_IDENTIFICACAO_PACIENTE}
       />
       <RouteWithLayout
         component={PatientIdentification}
         exact
         isPrivate
         layout={MainLayout}
-        path="/categorias/identificacao-paciente/:id"
+        path={`${paths.CATEGORIA_IDENTIFICACAO_PACIENTE}/:id`}
       />
       <RouteWithLayout
         component={HemodialiseView}
         exact
         isPrivate
         layout={MainLayout}
-        path="/categorias/hemodialise/"
+        path={paths.CATEGORIA_HEMODIALISE}
       />
       <RouteWithLayout
         component={ComplementaryTestsView}
         exact
         isPrivate
         layout={MainLayout}
-        path="/categorias/exames-complementares/"
+        path={paths.CATEGORIA_EXAMES_COMPLEMENTARES}
       />
       <RouteWithLayout
         component={OutcomeView}
         exact
         isPrivate
         layout={MainLayout}
-        path="/categorias/desfecho/"
+        path={paths.CATEGORIA_DESFECHO}
       />
       <RouteWithLayout
         component={RelatedInfectionsView}
         exact
         isPrivate
         layout={MainLayout}
-        path="/categorias/iras/"
+        path={paths.CATEGORIA_IRAS}
       />
       <RouteWithLayout
         component={DailyEvolutionListView}
         exact
         isPrivate
         layout={MainLayout}
-        path="/categorias/evolucao-diaria-list/"
+        path={paths.CATEGORIA_EVOLUCAO_DIARIA_LIST}
       />
       <RouteWithLayout
         component={DailyEvolutionView}
         exact
         isPrivate
         layout={MainLayout}
-        path="/categorias/evolucao-diaria/"
+        path={paths.CATEGORIA_EVOLUCAO_DIARIA}
       />
       <RouteWithLayout
         component={DailyEvolutionView}
         exact
         isPrivate
         layout={MainLayout}
-        path="/categorias/evolucao-diaria/:id"
+        path={`${paths.CATEGORIA_EVOLUCAO_DIARIA}/:id`}
       />
       <RouteWithLayout
         component={NotFoundView}
         exact
         layout={MinimalLayout}
-        path="/not-found"
+        path={paths.NOT_FOUND}
       />
-      <Redirect to="/not-found" />
+      <Redirect to={paths.NOT_FOUND} />
     </Switch>
   );
 };

@@ -14,6 +14,7 @@ import {
 import CustomBreadcrumbs from 'components/CustomBreadcrumbs';
 import PatientInfo from 'components/PatientInfo';
 import { NavigateNextIcon } from 'icons';
+import paths from 'paths';
 
 const Categories = () => {
   const history = useHistory();
@@ -24,23 +25,23 @@ const Categories = () => {
       {
         id: 1,
         label: 'Informações gerais',
-        url: 'categorias/informacoes-gerais',
+        url: paths.CATEGORIA_INFORMACOES_GERAIS,
       },
       {
         id: 2,
         label: 'Identificação do paciente',
-        url: 'categorias/identificacao-paciente',
+        url: paths.CATEGORIA_IDENTIFICACAO_PACIENTE,
       },
       { id: 3, label: 'História pessoal', url: 'categorias/historia-pessoal' },
       {
         id: 4,
         label: 'Sintomas iniciais da COVID-19',
-        url: 'categorias/sintomas-iniciais',
+        url: paths.CATEGORIA_SINTOMAS_INICIAIS,
       },
       {
         id: 5,
         label: 'Comorbidades / Condições clínicas de base',
-        url: 'categorias/comorbidades',
+        url: paths.CATEGORIA_COMORBIDADES,
       },
     ];
   }, []);
@@ -50,35 +51,35 @@ const Categories = () => {
       {
         id: 1,
         label: 'Evolução Diária',
-        url: 'categorias/evolucao-diaria-list',
+        url: paths.CATEGORIA_EVOLUCAO_DIARIA_LIST,
       },
       {
         id: 2,
         label: 'Exames laboratoriais específicos COVID 19',
-        url: 'categorias/exames-especificos/',
+        url: paths.CATEGORIA_EXAMES_ESPECIFICOS,
       },
       {
         id: 3,
         label: 'Exames complementares',
-        url: 'categorias/exames-complementares/',
+        url: paths.CATEGORIA_EXAMES_COMPLEMENTARES,
       },
       { id: 4, label: 'Complicações', url: 'categorias/complicacoes/' },
       {
         id: 5,
         label: 'Complicações relacionadas à ventilação mecânica',
-        url: 'categorias/complicacoes-vm',
+        url: paths.CATEGORIA_COMPLICACOES_VM,
       },
       {
         id: 6,
         label: 'Infecções relacionadas à assistência à saúde (IRAS)',
-        url: '/categorias/iras/',
+        url: paths.CATEGORIA_IRAS,
       },
       {
         id: 7,
         label: 'Hemodiálise',
-        url: 'categorias/hemodialise/',
+        url: paths.CATEGORIA_HEMODIALISE,
       },
-      { id: 8, label: 'Desfecho', url: 'categorias/desfecho/' },
+      { id: 8, label: 'Desfecho', url: paths.CATEGORIA_DESFECHO },
     ];
   }, []);
 
@@ -91,8 +92,8 @@ const Categories = () => {
       <div className={classes.header}>
         <CustomBreadcrumbs
           links={[
-            { label: 'Meus pacientes', route: '/meus-pacientes' },
-            { label: 'Categorias', route: '/categorias' },
+            { label: 'Meus pacientes', route: paths.MEUS_PACIENTES },
+            { label: 'Categorias', route: paths.CATEGORIAS },
           ]}
         />
       </div>
@@ -117,10 +118,7 @@ const Categories = () => {
                   key={form.id}
                   onClick={() => handleNavigate(form.url)}
                 >
-                  <TableCell
-                    component="th"
-                    scope="row"
-                  >
+                  <TableCell component="th" scope="row">
                     {form.label}
                   </TableCell>
                   <TableCell align="right">
@@ -136,10 +134,7 @@ const Categories = () => {
       </div>
 
       <div>
-        <Typography
-          style={{ marginTop: 24 }}
-          variant="h4"
-        >
+        <Typography style={{ marginTop: 24 }} variant="h4">
           Ficha de Prontuário
         </Typography>
 
@@ -155,10 +150,7 @@ const Categories = () => {
                   key={form.id}
                   onClick={() => handleNavigate(form.url)}
                 >
-                  <TableCell
-                    component="th"
-                    scope="row"
-                  >
+                  <TableCell component="th" scope="row">
                     {form.label}
                   </TableCell>
                   <TableCell align="right">
