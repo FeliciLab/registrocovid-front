@@ -5,7 +5,6 @@ import { useParams } from 'react-router-dom';
 import DailyEvolutionBreadcrumbs from './components/DailyEvolutionBreadcrumbs';
 import useStyles from './styles';
 import DailyEvolutionForm from './components/DailyEvolutionForm';
-import RespiratorySuportItemList from './components/RespiratorySuportItemList';
 import {
   buscarTiposSuporteRespiratorio,
   buscarEvolucaoDiariaById,
@@ -102,20 +101,6 @@ const DailyEvolution = () => {
           ref={formRef}
           tiposSuportesRespiratorios={tiposSuportesRespiratorios}
         />
-
-        <div className={classes.suportesWrapper}>
-          {tiposSuportesRespiratorios.map((tipo, index) => (
-            <RespiratorySuportItemList
-              descricao={tipo.nome}
-              key={index}
-              list={suportesRespiratorios.filter(
-                elem => elem.tipo_suporte_id === tipo.id,
-              )}
-            />
-          ))}
-          <RespiratorySuportItemList descricao="Pronação" list={pronacoes} />
-          <RespiratorySuportItemList descricao="Desmames" list={desmames} />
-        </div>
       </div>
     </div>
   );

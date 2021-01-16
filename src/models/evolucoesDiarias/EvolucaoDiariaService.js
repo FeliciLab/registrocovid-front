@@ -65,3 +65,22 @@ export const postEvolucaoDiaria = async (values, patient) => {
     );
   }
 };
+
+export const getDataSuporteRespiratorio = suporteRespiratorio => {
+  let aux;
+  switch (suporteRespiratorio.tipo_suporte_id) {
+    case 10: // tipo pronacao
+      aux = suporteRespiratorio.data_pronacao;
+      break;
+    case 11: // tido desmame
+      aux = suporteRespiratorio.data_inclusao_desmame;
+      break;
+    default:
+      aux = suporteRespiratorio.data_inicio; // outros tipos
+  }
+  if (!aux) aux = 'Data não informada';
+  return aux
+    .split('-')
+    .reverse()
+    .join('/');
+};

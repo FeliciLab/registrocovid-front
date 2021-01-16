@@ -1,19 +1,17 @@
 /* eslint-disable no-unused-vars */
-import { makeStyles } from '@material-ui/styles';
 import { FieldArray, useFormikContext } from 'formik';
 import React from 'react';
-import RespiratorySuportForm from 'views/RespiratorySupport/components/RespiratorySuportForm';
-
-const useStyles = makeStyles({
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-    width: '100%',
-    maxWidth: '864px',
-  },
-});
+import RespiratorySuportFormTest from '../RespiratorySuportFormTest';
+import useStyles from './styles';
 
 const NAME = 'oldSuportesRespitatorios';
+
+const getDescricao = (tiposSuporte, tipoSuporteId) => {
+  return (
+    tiposSuporte.filter(tipo => tipo.id === tipoSuporteId)[0].nome ||
+    'Não definido'
+  );
+};
 
 function ArrayOldSuportesRespiratorios(props) {
   const { tipos } = props;
@@ -22,9 +20,7 @@ function ArrayOldSuportesRespiratorios(props) {
 
   const { values } = useFormikContext();
 
-  console.log(values[NAME]);
-
-  if(!values[NAME]) return null;
+  if (!values[NAME]) return null;
 
   return (
     <FieldArray name={NAME}>
@@ -32,10 +28,11 @@ function ArrayOldSuportesRespiratorios(props) {
         <div className={classes.root}>
           {values[NAME] &&
             values[NAME].map((elem, index) => (
-              <RespiratorySuportForm
-                descricao={elem.tipo_suporte_id}
+              <RespiratorySuportFormTest
+                descricao={getDescricao(tipos, elem.tipo_suporte_id)}
                 index={index}
                 key={index}
+                name={NAME}
                 remove={remove}
                 tipo={elem.tipo_suporte_id}
               />
