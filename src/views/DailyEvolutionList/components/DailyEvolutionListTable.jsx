@@ -15,6 +15,7 @@ import { useHistory } from 'react-router-dom';
 import palette from 'theme/palette';
 import PropTypes from 'prop-types';
 import formatDate from 'helpers/formatDate';
+import paths from 'paths';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -61,7 +62,7 @@ const DailyEvolutionListTable = props => {
               className={classes.tableRowExamDate}
               key={exam.id}
               onClick={() =>
-                history.push(`/categorias/evolucao-diaria/${exam.id}`)
+                history.push(`${paths.CATEGORIA_EVOLUCAO_DIARIA}/${exam.id}`)
               }
             >
               <TableCell
