@@ -123,10 +123,7 @@ const Categories = () => {
                   key={form.id}
                   onClick={() => handleNavigate(form.url)}
                 >
-                  <TableCell
-                    component="th"
-                    scope="row"
-                  >
+                  <TableCell component="th" scope="row">
                     {form.label}
                   </TableCell>
                   <TableCell align="right">
@@ -142,10 +139,7 @@ const Categories = () => {
       </div>
 
       <div>
-        <Typography
-          style={{ marginTop: 24 }}
-          variant="h4"
-        >
+        <Typography style={{ marginTop: 24 }} variant="h4">
           Ficha de Prontuário
         </Typography>
 
@@ -162,10 +156,7 @@ const Categories = () => {
                   key={form.id}
                   onClick={() => handleNavigate(form.url)}
                 >
-                  <TableCell
-                    component="th"
-                    scope="row"
-                  >
+                  <TableCell component="th" scope="row">
                     {form.label}
                   </TableCell>
                   <TableCell align="right">

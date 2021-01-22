@@ -4,11 +4,8 @@ import React from 'react';
 
 function Gasometria() {
   return (
-    <Grid container item spacing={1}>
-      <Grid
-        component={Typography} item variant="h3"
-        xs={12}
-      >
+    <Grid container item spacing={2}>
+      <Grid component={Typography} item variant="h3" xs={12}>
         Gasometria arterial na admissão hospitalar
       </Grid>
       <Grid item xs={3}>
