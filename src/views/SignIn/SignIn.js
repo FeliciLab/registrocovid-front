@@ -1,42 +1,35 @@
-import React, { useState, useContext } from 'react';
-import { withRouter } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import * as Yup from 'yup';
-import useStyles from './styles';
-import VisibilityIcon from '@material-ui/icons/Visibility';
-import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
-import InfoIcon from '@material-ui/icons/Info';
-import { Formik, Form, Field } from 'formik';
-import { useUser } from '../../context/UserContext';
-import { Context } from '../../context/AuthContext';
 import {
   Button,
   IconButton,
+  InputAdornment,
   TextField,
   Typography,
-  InputAdornment,
 } from '@material-ui/core';
+import InfoIcon from '@material-ui/icons/Info';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import { TextMaskCPF } from 'components';
+import CPFField from 'components/Forms/CPFField';
+import { Field, Form, Formik } from 'formik';
+import React, { useContext, useState } from 'react';
+import { withRouter } from 'react-router-dom';
+import { Context } from '../../context/AuthContext';
+import { useUser } from '../../context/UserContext';
+import schema from './schema';
+import useStyles from './styles';
 
-// Schema do Yup para validação dos campos.
-const schema = Yup.object().shape({
-  cpf: Yup.string()
-    // eslint-disable-next-line
-    // .matches(/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/, 'Digite um CPF válido (xxx.xxx.xxx-xx).')
-    .required('Campo obrigatório'),
-  password: Yup.string()
-    .min(6, 'O campo Password deve ter pelo menos 6 caracteres.')
-    .required('Campo obrigatório'),
-});
+const initialValues = {
+  cpf: '',
+  password: '',
+};
 
 const SignIn = props => {
-  // const { history } = props;
   const { isModal } = props;
 
   const classes = useStyles();
 
-  // Contexto de autenticação.
   const { handleLogin, erroLogin } = useContext(Context);
+
   const useProfile = useUser();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -50,7 +43,6 @@ const SignIn = props => {
       cpf: values.cpf,
       password: values.password,
     };
-
     // sanitizando o cpf
     user.cpf = user.cpf.split('.').join('');
     user.cpf = user.cpf.split('-').join('');
@@ -64,10 +56,7 @@ const SignIn = props => {
   return (
     <div className={classes.root}>
       <Formik
-        initialValues={{
-          cpf: '',
-          password: '',
-        }}
+        initialValues={initialValues}
         onSubmit={handleSignIn}
         validateOnMount
         validationSchema={schema}
@@ -78,36 +67,24 @@ const SignIn = props => {
               <div className={classes.divImage}>
                 <img
                   alt="Under development"
-                  // style={{ height: 500 }}
                   className={classes.image}
                   src="/images/logo.svg"
                 />
               </div>
 
               <div className={classes.viewForm}>
-                <Typography
-                  className={classes.title}
-                  variant="h2"
-                >
+                <Typography className={classes.title} variant="h2">
                   Entrar no sistema
                 </Typography>
+                <CPFField className={classes.textField} label="cpf" name="cpf" />
                 <Field
-                  InputProps={{
-                    inputComponent: TextMaskCPF,
-                  }}
                   as={TextField}
                   className={classes.textField}
-                  error={errors.cpf && touched.cpf}
+                  error={errors.password && touched.password}
                   fullWidth
-                  helperText={errors.cpf && touched.cpf ? errors.cpf : null}
-                  label="cpf"
-                  name="cpf"
-                  onChange={handleChange}
-                  type="text"
-                  value={values.cpf}
-                  variant="outlined"
-                />
-                <Field
+                  helperText={
+                    errors.password && touched.password ? errors.password : null
+                  }
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
@@ -125,13 +102,6 @@ const SignIn = props => {
                       </InputAdornment>
                     ),
                   }}
-                  as={TextField}
-                  className={classes.textField}
-                  error={errors.password && touched.password}
-                  fullWidth
-                  helperText={
-                    errors.password && touched.password ? errors.password : null
-                  }
                   label="Password"
                   name="password"
                   onChange={handleChange}
@@ -171,10 +141,6 @@ const SignIn = props => {
       </Formik>
     </div>
   );
-};
-
-SignIn.propTypes = {
-  history: PropTypes.object,
 };
 
 export default withRouter(SignIn);
