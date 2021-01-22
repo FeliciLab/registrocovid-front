@@ -15,15 +15,13 @@ import { usePatient } from 'context/PatientContext';
 const DailyEvolution = () => {
   const classes = useStyles();
 
-  const { id } = useParams(); // esse é o id da Evolução Diária
+  const { id } = useParams();
 
-  const { patient } = usePatient(); // dados do paciente
+  const { patient } = usePatient();
 
   const { addToast } = useToast();
 
   const formRef = useRef(null);
-
-  const disableSaveButton = !!id;
 
   const [tiposSuportesRespiratorios, setTiposSuportesRespiratorios] = useState(
     [],
@@ -82,7 +80,6 @@ const DailyEvolution = () => {
             <Button
               className={classes.buttonSave}
               color="secondary"
-              disabled={disableSaveButton}
               onClick={handleSubmit}
               type="submit"
               variant="contained"

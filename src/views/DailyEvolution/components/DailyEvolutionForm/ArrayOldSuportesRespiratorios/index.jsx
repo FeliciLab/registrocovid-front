@@ -8,7 +8,7 @@ const NAME = 'oldSuportesRespitatorios';
 
 const getDescricao = (tiposSuporte, tipoSuporteId) => {
   return (
-    tiposSuporte.filter(tipo => tipo.id === tipoSuporteId)[0].nome ||
+    tiposSuporte.filter(tipo => tipo.id === tipoSuporteId)[0]?.nome ||
     'Não definido'
   );
 };

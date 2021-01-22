@@ -1,8 +1,10 @@
 import api from 'services/api';
 
 export const getInitialValues = (evolucaoDiaria, oldSuportesRespiratorios) => {
-  console.log(oldSuportesRespiratorios);
+  // TODO: remover depois
+  console.log(JSON.stringify(oldSuportesRespiratorios, null, 2));
   return {
+    id: evolucaoDiaria.id || 0,
     data_evolucao: evolucaoDiaria.data_evolucao || '',
     temperatura: evolucaoDiaria.temperatura || '',
     frequencia_respiratoria: evolucaoDiaria.frequencia_respiratoria || '',
@@ -16,13 +18,13 @@ export const getInitialValues = (evolucaoDiaria, oldSuportesRespiratorios) => {
     escala_glasgow: evolucaoDiaria.escala_glasgow || 3,
     tipo_suporte_selected: 0,
     newSuportesRespitatorios: [],
-    // TODO: usar isso na hora de salvar
     oldSuportesRespitatorios: oldSuportesRespiratorios,
   };
 };
 
 export const postEvolucaoDiaria = async (values, patient) => {
-  const jsonToSendEvolucaoDiaria = {
+  let jsonToSendEvolucaoDiaria = {
+    id: values.id || 0,
     data_evolucao: values.data_evolucao || undefined,
     temperatura: values.temperatura || undefined,
     frequencia_respiratoria: values.frequencia_respiratoria || undefined,
@@ -36,27 +38,35 @@ export const postEvolucaoDiaria = async (values, patient) => {
     escala_glasgow: values.escala_glasgow || undefined,
   };
 
+  if (values.id !== 0) {
+    jsonToSendEvolucaoDiaria = { ...jsonToSendEvolucaoDiaria, id: values.id };
+  }
+
   await api.post(
     `/pacientes/${patient.id}/evolucoes-diarias`,
     jsonToSendEvolucaoDiaria,
   );
 
-  const jsonToSendSuportesRespiratorios = values.newSuportesRespitatorios.map(
-    elem => ({
-      tipo_suporte_id: elem.tipo_suporte_id || undefined,
-      fluxo_o2: elem.fluxo_o2 || undefined,
-      data_inicio: values.data_evolucao || undefined,
-      data_termino: elem.data_termino || undefined,
-      menos_24h_vmi: elem.menos_24h_vmi || undefined,
-      concentracao_o2: elem.concentracao_o2 || undefined,
-      fluxo_sangue: elem.fluxo_sangue || undefined,
-      fluxo_gasoso: elem.fluxo_gasoso || undefined,
-      fio2: elem.fio2 || undefined,
-      data_pronacao: values.data_evolucao || undefined,
-      quantidade_horas: elem.quantidade_horas || undefined,
-      data_inclusao_desmame: values.data_evolucao || undefined,
-    }),
-  );
+  const { newSuportesRespitatorios, oldSuportesRespitatorios } = values;
+
+  const jsonToSendSuportesRespiratorios = [
+    ...newSuportesRespitatorios,
+    ...oldSuportesRespitatorios,
+  ].map(elem => ({
+    id: elem.id || undefined,
+    tipo_suporte_id: elem.tipo_suporte_id || undefined,
+    fluxo_o2: elem.fluxo_o2 || undefined,
+    data_inicio: values.data_evolucao || undefined,
+    data_termino: elem.data_termino || undefined,
+    menos_24h_vmi: elem.menos_24h_vmi || undefined,
+    concentracao_o2: elem.concentracao_o2 || undefined,
+    fluxo_sangue: elem.fluxo_sangue || undefined,
+    fluxo_gasoso: elem.fluxo_gasoso || undefined,
+    fio2: elem.fio2 || undefined,
+    data_pronacao: values.data_evolucao || undefined,
+    quantidade_horas: elem.quantidade_horas || undefined,
+    data_inclusao_desmame: values.data_evolucao || undefined,
+  }));
 
   if (jsonToSendSuportesRespiratorios.length > 0) {
     await api.post(

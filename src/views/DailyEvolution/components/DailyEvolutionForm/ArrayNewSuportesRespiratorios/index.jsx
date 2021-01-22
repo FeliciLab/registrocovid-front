@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { FieldArray, useFormikContext } from 'formik';
-import React from 'react';
+import React, { memo } from 'react';
 import NewRespiratorySuportForm from '../NewRespiratorySuportForm';
 import useStyles from './styles';
 
@@ -15,9 +15,6 @@ const getDescricao = (tiposSuporte, tipoSuporteId) => {
 
 function ArrayNewSuportesRespiratorios(props) {
   const { tipos } = props;
-
-  // TODO: remover isso depois
-  console.log(tipos);
 
   const classes = useStyles();
 
@@ -46,4 +43,4 @@ function ArrayNewSuportesRespiratorios(props) {
   );
 }
 
-export default ArrayNewSuportesRespiratorios;
+export default memo(ArrayNewSuportesRespiratorios);

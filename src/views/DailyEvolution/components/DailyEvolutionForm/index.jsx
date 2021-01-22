@@ -1,7 +1,6 @@
 import React, { forwardRef, useImperativeHandle, useRef } from 'react';
 import { Card, FormControl, Grid } from '@material-ui/core';
 import { Form, Formik } from 'formik';
-// import RespiratorySuportFormList from './RespiratorySuportFormList';
 import FieldsBlock from './FieldsBlock';
 import schema from './schema';
 import SelectType from './SelectType';
@@ -41,7 +40,8 @@ const DailyEvolutionForm = (props, ref) => {
         message: 'Dados salvos com sucesso',
       });
       history.push('/categorias/evolucao-diaria-list/');
-    } catch {
+    } catch (error) {
+      console.error(error);
       addToast({
         type: 'error',
         message: 'Erro ao tentar registrar exame físico, tente novamente',
@@ -62,7 +62,7 @@ const DailyEvolutionForm = (props, ref) => {
       validateOnMount
       validationSchema={schema}
     >
-      {() => (
+      {({ values }) => (
         <Form className={classes.form} component={FormControl}>
           <Grid
             className={classes.contentForm}
@@ -72,10 +72,11 @@ const DailyEvolutionForm = (props, ref) => {
           >
             <FieldsBlock />
             <SelectType tipos={tiposSuportesRespiratorios} />
-            {/* <RespiratorySuportFormList tipos={tiposSuportesRespiratorios} /> */}
-            
             <ArrayNewSuportesRespiratorios tipos={tiposSuportesRespiratorios} />
             <ArrayOldSuportesRespiratorios tipos={tiposSuportesRespiratorios} />
+            <Grid item>
+              <pre>{JSON.stringify(values, null, 2)}</pre>
+            </Grid>
           </Grid>
         </Form>
       )}
