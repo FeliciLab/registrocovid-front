@@ -5,12 +5,10 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     padding: theme.spacing(4),
-    // overflowY: 'auto',
-    // scrollbarWidth: 'none',
   },
   header: {
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   titleWrapper: {
     display: 'flex',
@@ -41,7 +39,7 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: theme.spacing(10),
-  }
+  },
 }));
 
 export default useStyles;

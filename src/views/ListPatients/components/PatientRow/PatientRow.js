@@ -1,18 +1,18 @@
+import { Button, TableCell, TableRow } from '@material-ui/core';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import { usePatient } from 'context/PatientContext';
+import formatDate from 'helpers/formatDate';
+import PropTypes from 'prop-types';
 import React, { memo } from 'react';
 import { useHistory } from 'react-router-dom';
-import PropTypes from 'prop-types';
-
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
-
-import { TableRow, TableCell, Button } from '@material-ui/core';
-
-import { usePatient } from 'context/PatientContext';
-
-import formatDate from 'helpers/formatDate';
+import useStyles from './styles';
 
 const PatientRow = props => {
   const { patient, ...rest } = props;
+
   const { addPatient } = usePatient();
+
+  const classes = useStyles();
 
   const history = useHistory();
 
@@ -24,6 +24,7 @@ const PatientRow = props => {
   return (
     <TableRow
       {...rest}
+      className={classes.row}
       onClick={() => handleNavigate(patient)}
     >
       <TableCell align="left">
