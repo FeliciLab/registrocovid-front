@@ -8,32 +8,12 @@ const useStyles = makeStyles(theme => ({
   },
   header: {
     display: 'flex',
-    flexDirection: 'column'
-  },
-  titleWrapper: {
-    display: 'flex',
-    marginTop: theme.spacing(3),
-    marginBottom: theme.spacing(3),
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  buttonSave: {
-    width: '258px',
-    height: '48px',
+    flexDirection: 'column',
   },
   formWrapper: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'left',
-  },
-  textField: {
-    marginTop: theme.spacing(1),
-  },
-  dateField: {
-    marginTop: theme.spacing(1),
-  },
-  card: {
-    padding: theme.spacing(1)
   },
 }));
 

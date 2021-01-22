@@ -1,10 +1,10 @@
 import {
   Button,
+  Card,
   FormControl,
   Grid,
   MenuItem,
   Typography,
-  Card,
 } from '@material-ui/core';
 import GenericDateField from 'components/Forms/GenericDateField';
 import GenericNumberField from 'components/Forms/GenericNumberField';
@@ -13,31 +13,14 @@ import GenericSwitchField from 'components/Forms/GenericSwitchField';
 import { Form, useFormikContext } from 'formik';
 import React from 'react';
 import Gasometria from '../Gasometria';
-import { makeStyles } from '@material-ui/styles';
+import useStyles from './styles';
 
-const useStyles = makeStyles(theme => ({
-  titleWrapper: {
-    display: 'flex',
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2),
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  buttonSave: {
-    width: '258px',
-    height: '48px',
-  },
-  card: {
-    padding: theme.spacing(2),
-  },
-}));
-
-function GeneralInfoForm(props) {
+const GeneralInfoForm = props => {
   const classes = useStyles();
 
   const { patient, instituicoes, tiposSuporteRespiratorio } = props;
 
-  const {values, isSubmitting} = useFormikContext();
+  const { values, isSubmitting } = useFormikContext();
 
   return (
     <Form component={FormControl}>
@@ -209,6 +192,6 @@ function GeneralInfoForm(props) {
       </Grid>
     </Form>
   );
-}
+};
 
 export default GeneralInfoForm;

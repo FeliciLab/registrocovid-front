@@ -94,11 +94,11 @@ export const postGeneralInfo = async values => {
   }
 
   // TODO: remover depois
-  console.log(patient);
+  console.log(`Enviando isso: ${JSON.stringify(patient, null, 2)}`);
 
   const response = await api.post('/pacientes', patient);
 
-  console.log(response);
+  console.log(`Retornando isso: ${JSON.stringify(response.data, null, 2)}`);
 
   const responsePatient = {
     id: response.data.paciente.id,
