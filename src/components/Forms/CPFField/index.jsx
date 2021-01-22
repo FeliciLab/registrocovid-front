@@ -26,9 +26,6 @@ const CPFField = props => {
       <Field
         className={classes.field}
         component={TextField}
-        InputLabelProps={{
-          shrink: true,
-        }}
         InputProps={{
           inputComponent: TextMaskCPF,
         }}
