@@ -13,16 +13,13 @@ import {
 } from '@material-ui/core';
 
 const TablePatients = props => {
-
   const { patients, ...rest } = props;
 
   return (
-
     <TableContainer
       component={Paper}
       elevation={2}
     >
-
       <Table
         {...rest}
         size="small"
@@ -32,36 +29,32 @@ const TablePatients = props => {
             <TableCell align="left">Número do prontuário</TableCell>
             <TableCell align="left">Data de internação</TableCell>
             <TableCell align="left">Data do cadastro</TableCell>
-            <TableCell align="right">
-              {/* Nada aqui */}
-            </TableCell>
+            <TableCell align="right">{/* Nada aqui */}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-
-          {patients.map((patient) => (
+          {patients.map(patient => (
             <PatientRow
               key={patient.id}
               patient={patient}
             />
           ))}
-
         </TableBody>
       </Table>
     </TableContainer>
   );
-}
+};
 // id,prontuario,data_internacao,created_at
 TablePatients.propTypes = {
   className: PropTypes.string,
   patients: PropTypes.arrayOf(
-    PropTypes.exact({
+    PropTypes.shape({
       id: PropTypes.number,
       prontuario: PropTypes.string,
       data_internacao: PropTypes.string,
       created_at: PropTypes.string,
-    })
-  ).isRequired
+    }),
+  ).isRequired,
 };
 
 export default TablePatients;
