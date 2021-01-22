@@ -1,18 +1,18 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { useHistory } from 'react-router-dom';
-import useStyles from './styles';
-import { Formik } from 'formik';
-import CustomBreadcrumbs from 'components/CustomBreadcrumbs';
 import { CircularProgress } from '@material-ui/core';
-import schema from './schema';
-import { useToast } from 'hooks/toast';
+import CustomBreadcrumbs from 'components/CustomBreadcrumbs';
 import { usePatient } from 'context/PatientContext';
-import api from 'services/api';
+import { Formik } from 'formik';
+import { useToast } from 'hooks/toast';
 import {
   loadInitialValues,
   postGeneralInfo,
 } from 'models/generalInfo/GeneralInfoService';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import api from 'services/api';
 import GeneralInfoForm from './components/GeneralInfoForm';
+import schema from './schema';
+import useStyles from './styles';
 
 const GeneralInfo = () => {
   const { addToast } = useToast();

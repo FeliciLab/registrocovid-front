@@ -44,32 +44,21 @@ const GeneralInfoForm = props => {
         lg={8}
         spacing={2}
       >
-        <Grid
-          item
-          md={6}
-          sm={12}
-        >
+        <Grid item md={6} sm={12}>
           <GenericNumberField
             label="Número do prontuário"
             name="prontuario"
             title="Número do prontuário"
           />
         </Grid>
-        <Grid
-          item
-          md={6}
-          sm={12}
-        >
+        <Grid item md={6} sm={12}>
           <GenericDateField
             label="Data de internação"
             name="data_internacao"
             title="Data de internação"
           />
         </Grid>
-        <Grid
-          item
-          xs={12}
-        >
+        <Grid item xs={12}>
           <GenericSelectField
             label="Unidade de Saúde"
             name="unidade_primeiro_atendimento"
@@ -77,19 +66,13 @@ const GeneralInfoForm = props => {
                       recebeu o primeiro atendimento"
           >
             {instituicoes.map(({ id, nome }) => (
-              <MenuItem
-                key={id}
-                value={id}
-              >
+              <MenuItem key={id} value={id}>
                 {nome}
               </MenuItem>
             ))}
           </GenericSelectField>
         </Grid>
-        <Grid
-          item
-          xs={12}
-        >
+        <Grid item xs={12}>
           <GenericSelectField
             label="Unidade de Saúde"
             name="unidade_de_saude"
@@ -97,29 +80,20 @@ const GeneralInfoForm = props => {
                       paciente"
           >
             {instituicoes.map(({ id, nome }) => (
-              <MenuItem
-                key={id}
-                value={id}
-              >
+              <MenuItem key={id} value={id}>
                 {nome}
               </MenuItem>
             ))}
           </GenericSelectField>
         </Grid>
-        <Grid
-          item
-          xs={12}
-        >
+        <Grid item xs={12}>
           <GenericDateField
             name="data_atendimento"
             title="Data do atendimento na unidade que referenciou o
                       paciente"
           />
         </Grid>
-        <Grid
-          item
-          xs={12}
-        >
+        <Grid item xs={12}>
           <GenericSwitchField
             label="Paciente chegou com suplementação de oxigênio?"
             name="suporte_respiratorio"
@@ -131,29 +105,20 @@ const GeneralInfoForm = props => {
             title="Em caso afirmativo, qual o suporte respiratório?"
           >
             {tiposSuporteRespiratorio.map(({ id, nome }) => (
-              <MenuItem
-                key={id}
-                value={id}
-              >
+              <MenuItem key={id} value={id}>
                 {nome}
               </MenuItem>
             ))}
           </GenericSelectField>
         </Grid>
-        <Grid
-          item
-          xs={6}
-        >
+        <Grid item xs={6}>
           <GenericNumberField
             disabled={!values.suporte_respiratorio}
             name="fluxo_o2"
             title="Fluxo O2"
           />
         </Grid>
-        <Grid
-          item
-          xs={6}
-        >
+        <Grid item xs={6}>
           <GenericNumberField
             disabled={!values.suporte_respiratorio}
             name="fio2"
@@ -161,33 +126,21 @@ const GeneralInfoForm = props => {
           />
         </Grid>
         <Gasometria />
-        <Grid
-          item
-          xs={12}
-        >
+        <Grid item xs={12}>
           <GenericNumberField
             endAdornment="mL/24h"
             name="debito_urinario"
             title="Débito urinário nas primeiras 24 horas da internação hospitalar"
           />
         </Grid>
-        <Grid
-          item
-          xs={12}
-        >
+        <Grid item xs={12}>
           <GenericSwitchField
             label="Paciente chegou traqueostomizado?"
             name="chegou_traqueostomizado"
           />
         </Grid>
-        <Grid
-          item
-          xs={12}
-        >
-          <GenericSwitchField
-            label="Reinternação?"
-            name="reinternacao"
-          />
+        <Grid item xs={12}>
+          <GenericSwitchField label="Reinternação?" name="reinternacao" />
         </Grid>
       </Grid>
     </Form>
