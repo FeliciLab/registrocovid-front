@@ -1,24 +1,19 @@
-import React, { useMemo } from 'react';
-import { useHistory } from 'react-router-dom';
-import useStyles from './styles';
-
-// Icons
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
-
-// Material-UI Components
 import {
-  Typography,
   Button,
-  TableContainer,
+  Paper,
   Table,
   TableBody,
   TableCell,
+  TableContainer,
   TableRow,
-  Paper,
+  Typography,
 } from '@material-ui/core';
-
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import CustomBreadcrumbs from 'components/CustomBreadcrumbs';
 import PatientInfo from 'components/PatientInfo';
+import React, { useMemo } from 'react';
+import { useHistory } from 'react-router-dom';
+import useStyles from './styles';
 
 const Categories = () => {
   const history = useHistory();
@@ -124,6 +119,7 @@ const Categories = () => {
             <TableBody>
               {initialForm.map(form => (
                 <TableRow
+                  className={classes.row}
                   key={form.id}
                   onClick={() => handleNavigate(form.url)}
                 >
@@ -162,6 +158,7 @@ const Categories = () => {
             <TableBody>
               {secondaryForm.map(form => (
                 <TableRow
+                  className={classes.row}
                   key={form.id}
                   onClick={() => handleNavigate(form.url)}
                 >

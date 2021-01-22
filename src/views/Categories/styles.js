@@ -5,12 +5,10 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     padding: theme.spacing(4),
-    // overflowY: 'auto',
-    // scrollbarWidth: 'none',
   },
   header: {
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   titleWrapper: {
     display: 'flex',
@@ -19,29 +17,12 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  actionsWrapper: {
-    display: 'flex',
-    alignItems: 'center',
+  row: {
+    '&:hover': {
+      cursor: 'pointer',
+      backgroundColor: '#E6E6E6',
+    },
   },
-  fieldNumProntuario: {
-    width: '362px',
-    height: '48px',
-    marginRight: theme.spacing(3),
-  },
-  buttonAddPatient: {
-    width: '258px',
-    height: '48px',
-  },
-  tableWrapper: {
-    display: 'flex',
-  },
-  notPatients: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: theme.spacing(10),
-  }
 }));
 
 export default useStyles;
