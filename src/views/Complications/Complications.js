@@ -12,6 +12,7 @@ import api from 'services/api';
 import { useToast } from 'hooks/toast';
 import PatientInfo from 'components/PatientInfo';
 import { usePatient } from 'context/PatientContext';
+import { sanitizeComplicacoes } from 'models/complicacaoes/ComplicacaoesService';
 
 const initialValues = {
   newsComplicacoes: [],
@@ -63,21 +64,7 @@ const Complications = () => {
 
   const handleSubmit = async ({ newsComplicacoes }) => {
     try {
-      const newsComplicacoesSanitized = newsComplicacoes.map(complicacao => ({
-        tipo_complicacao_id: complicacao.tipo_complicacao_id,
-        data: complicacao.data,
-        data_termino: complicacao.data_termino
-          ? complicacao.data_termino
-          : null,
-        descricao: complicacao.descricao ? complicacao.descricao : null,
-        glasgow_admissao_uti: complicacao.glasgow_admissao_uti
-          ? complicacao.glasgow_admissao_uti
-          : null,
-        menos_24h_uti:
-          typeof complicacao.menos_24h_uti === 'boolean'
-            ? complicacao.menos_24h_uti
-            : null,
-      }));
+      const newsComplicacoesSanitized = sanitizeComplicacoes(newsComplicacoes);
 
       if (newsComplicacoesSanitized.length === 0) {
         addToast({
@@ -131,7 +118,7 @@ const Complications = () => {
             validateOnMount
             validationSchema={schema}
           >
-            {({ isSubmitting }) => (
+            {({ isSubmitting, values }) => (
               <Form>
                 <div className={classes.titleWrapper}>
                   <Typography variant="h2">Complicações</Typography>
@@ -156,7 +143,6 @@ const Complications = () => {
                   <SelectComplicationType
                     tiposComplicacoes={tipoComplicacoes}
                   />
-
                   <ComplicationsList complicacoes={complicacoes} />
                 </Grid>
               </Form>

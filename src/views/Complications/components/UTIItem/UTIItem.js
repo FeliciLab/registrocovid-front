@@ -7,14 +7,16 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  InputAdornment,
 } from '@material-ui/core';
-
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import formatDate from '../../../../helpers/formatDate';
 import useStyles from './styles';
 
 const UTIItem = ({ complicationData, separator }) => {
   const classes = useStyles();
+
+  console.log(complicationData);
 
   return (
     <Accordion className={separator ? classes.typeSeparator : ''}>
@@ -76,7 +78,11 @@ const UTIItem = ({ complicationData, separator }) => {
           item
           xs={12}
         >
-          <Grid className={classes.formControlContainer}>
+          <Grid
+            container
+            item
+            spacing={2}
+          >
             <Grid
               item
               xs={6}
@@ -88,14 +94,15 @@ const UTIItem = ({ complicationData, separator }) => {
                 Admissão Em UTI
               </Typography>
               <TextField
-                className={classes.formInputDate}
                 defaultValue={complicationData ? complicationData.data : ''}
+                fullWidth
                 InputLabelProps={{
                   shrink: true,
                 }}
                 label="Data"
                 name="admissao_uti"
                 type="date"
+                variant="outlined"
               />
             </Grid>
             <Grid
@@ -109,22 +116,190 @@ const UTIItem = ({ complicationData, separator }) => {
                 Saída de UTI
               </Typography>
               <TextField
-                className={classes.formInputDate}
                 defaultValue={
                   complicationData ? complicationData.data_termino : ''
                 }
+                fullWidth
                 InputLabelProps={{
                   shrink: true,
                 }}
                 label="Data"
                 name="saida_uti"
                 type="date"
+                variant="outlined"
               />
             </Grid>
           </Grid>
         </Grid>
         <Grid
-          className={classes.gridContainer}
+          container
+          item
+          spacing={2}
+        >
+          <Grid
+            item
+            xs={3}
+          >
+            <Typography
+              className={classes.formSubtitle}
+              variant="h4"
+            >
+              pH
+            </Typography>
+            <TextField
+              name="ph"
+              value={complicationData.ph || undefined}
+              variant="outlined"
+            />
+          </Grid>
+          <Grid
+            item
+            xs={3}
+          >
+            <Typography
+              className={classes.formSubtitle}
+              variant="h4"
+            >
+              PaO2
+            </Typography>
+            <TextField
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">mmHg</InputAdornment>
+                ),
+              }}
+              name="pao2"
+              value={complicationData.pao2 || undefined}
+              variant="outlined"
+            />
+          </Grid>
+          <Grid
+            item
+            xs={3}
+          >
+            <Typography
+              className={classes.formSubtitle || undefined}
+              variant="h4"
+            >
+              PaCO2
+            </Typography>
+            <TextField
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">mmHg</InputAdornment>
+                ),
+              }}
+              name="paco2"
+              value={complicationData.paco2 || undefined}
+              variant="outlined"
+            />
+          </Grid>
+          <Grid
+            item
+            xs={3}
+          >
+            <Typography
+              className={classes.formSubtitle || undefined}
+              variant="h4"
+            >
+              HCO3
+            </Typography>
+            <TextField
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">mEq/L</InputAdornment>
+                ),
+              }}
+              name="hco3"
+              value={complicationData.hco3 || undefined}
+              variant="outlined"
+            />
+          </Grid>
+          <Grid
+            item
+            xs={3}
+          >
+            <Typography
+              className={classes.formSubtitle}
+              variant="h4"
+            >
+              BE
+            </Typography>
+            <TextField
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">mEq/L</InputAdornment>
+                ),
+              }}
+              name="be"
+              value={complicationData.be || undefined}
+              variant="outlined"
+            />
+          </Grid>
+          <Grid
+            item
+            xs={3}
+          >
+            <Typography
+              className={classes.formSubtitle || undefined}
+              variant="h4"
+            >
+              SaO2
+            </Typography>
+            <TextField
+              InputProps={{
+                endAdornment: <InputAdornment position="end">%</InputAdornment>,
+              }}
+              name="sao2"
+              value={complicationData.sao2 || undefined}
+              variant="outlined"
+            />
+          </Grid>
+          <Grid
+            item
+            xs={3}
+          >
+            <Typography
+              className={classes.formSubtitle}
+              variant="h4"
+            >
+              Lactato
+            </Typography>
+            <TextField
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">mmol/L</InputAdornment>
+                ),
+              }}
+              name="lactato"
+              value={complicationData.lactato || undefined}
+              variant="outlined"
+            />
+          </Grid>
+          <Grid
+            item
+            xs={12}
+          >
+            <Typography
+              className={classes.formSubtitle}
+              variant="h4"
+            >
+              Débito urinário nas primeiras 24 horas da admissão da UTI
+            </Typography>
+            <TextField
+              fullWidth
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">mL/24h</InputAdornment>
+                ),
+              }}
+              name="lactato"
+              value={complicationData.debito_urinario || undefined}
+              variant="outlined"
+            />
+          </Grid>
+        </Grid>
+        <Grid
           item
           xs={12}
         >

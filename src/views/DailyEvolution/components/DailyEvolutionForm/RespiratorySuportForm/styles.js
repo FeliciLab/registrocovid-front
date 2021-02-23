@@ -4,24 +4,17 @@ const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
+    width: '100%',
     maxWidth: '864px',
     padding: theme.spacing(2),
+    marginTop: theme.spacing(2),
   },
-  actionWrapper: {
+  title: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  textField: {
-    marginTop: theme.spacing(1),
-    flexGrow: 1,
-    marginRight: theme.spacing(1),
-  },
-  buttonAddType: {
-    width: '258px',
-    height: '50px',
-    fontSize: '14px',
-  },
 }));
 
 export default useStyles;
+
