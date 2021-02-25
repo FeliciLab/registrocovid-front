@@ -7,6 +7,17 @@ export default function useAuth() {
   const [loading, setLoading] = useState(true);
   const [erroLogin, setErroLogin] = useState(false);
 
+  useEffect(() => {
+    const token = localStorage.getItem('@RegistroCovid:token');
+    if (token) {
+      setAuthenticated(true);
+    } else {
+      setAuthenticated(false);
+    }
+
+    setLoading(false);
+  }, []);
+
   async function handleLogin({ cpf, password, isModal = false }) {
     await api
       .post('/auth/login', { cpf, password })
