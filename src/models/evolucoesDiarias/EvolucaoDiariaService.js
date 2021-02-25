@@ -12,7 +12,7 @@ export const getInitialValues = evolucaoDiaria => {
     frequencia_cardiaca: evolucaoDiaria.frequencia_cardiaca || '',
     ausculta_pulmonar: evolucaoDiaria.ausculta_pulmonar || '',
     oximetria: evolucaoDiaria.oximetria || '',
-    escala_glasgow: evolucaoDiaria.escala_glasgow || 3,
+    escala_glasgow: evolucaoDiaria.escala_glasgow || '',
     tipo_suporte_selected: 0,
     newSuportesRespitatorios: [],
   };

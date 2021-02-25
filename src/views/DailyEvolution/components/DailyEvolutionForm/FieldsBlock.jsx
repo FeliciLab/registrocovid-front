@@ -233,7 +233,10 @@ const FieldsBlock = () => {
             select
             type="number"
             variant="outlined"
+            SelectProps={{ displayEmpty: true }}
           >
+            <MenuItem value="" > Não Informado </MenuItem>
+
             {escalaGlasgowRange.map(elem => (
               <MenuItem
                 key={elem}
