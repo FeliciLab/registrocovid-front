@@ -195,7 +195,7 @@ const FieldsBlock = () => {
           <Field
             component={TextField}
             name="ausculta_pulmonar"
-            type="number"
+            type="text"
             variant="outlined"
           />
         </FormGroup>
@@ -233,7 +233,10 @@ const FieldsBlock = () => {
             select
             type="number"
             variant="outlined"
+            SelectProps={{ displayEmpty: true }}
           >
+            <MenuItem value="" > Não Informado </MenuItem>
+
             {escalaGlasgowRange.map(elem => (
               <MenuItem
                 key={elem}
