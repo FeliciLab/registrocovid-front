@@ -9,9 +9,7 @@ export default function useAuth() {
 
   useEffect(() => {
     const token = localStorage.getItem('@RegistroCovid:token');
-
     if (token) {
-      api.defaults.headers.Authorization = `Bearer ${token}`;
       setAuthenticated(true);
     } else {
       setAuthenticated(false);

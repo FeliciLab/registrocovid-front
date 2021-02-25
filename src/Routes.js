@@ -153,13 +153,6 @@ const Routes = () => {
         path="/categorias/iras/"
       />
       <RouteWithLayout
-        component={RespiratorySupportView}
-        exact
-        isPrivate
-        layout={MainLayout}
-        path="/categorias/suporte-respiratorio/"
-      />
-      <RouteWithLayout
         component={DailyEvolutionListView}
         exact
         isPrivate

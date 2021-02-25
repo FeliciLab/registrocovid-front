@@ -27,23 +27,19 @@ const Categories = () => {
   const initialForm = useMemo(() => {
     return [
       {
-        id: 1,
         label: 'Informações gerais',
         url: 'categorias/informacoes-gerais',
       },
       {
-        id: 2,
         label: 'Identificação do paciente',
         url: 'categorias/identificacao-paciente',
       },
-      { id: 3, label: 'História pessoal', url: 'categorias/historia-pessoal' },
+      { label: 'História pessoal', url: 'categorias/historia-pessoal' },
       {
-        id: 4,
         label: 'Sintomas iniciais da COVID-19',
         url: 'categorias/sintomas-iniciais',
       },
       {
-        id: 5,
         label: 'Comorbidades / Condições clínicas de base',
         url: 'categorias/comorbidades',
       },
@@ -53,42 +49,31 @@ const Categories = () => {
   const secondaryForm = useMemo(() => {
     return [
       {
-        id: 1,
         label: 'Evolução Diária',
         url: 'categorias/evolucao-diaria-list',
       },
       {
-        id: 2,
         label: 'Exames laboratoriais específicos COVID 19',
         url: 'categorias/exames-especificos/',
       },
       {
-        id: 3,
         label: 'Exames complementares',
         url: 'categorias/exames-complementares/',
       },
+      { label: 'Complicações', url: 'categorias/complicacoes/' },
       {
-        id: 4,
-        label: 'Suporte respiratório',
-        url: 'categorias/suporte-respiratorio',
-      },
-      { id: 5, label: 'Complicações', url: 'categorias/complicacoes/' },
-      {
-        id: 6,
         label: 'Complicações relacionadas à ventilação mecânica',
         url: 'categorias/complicacoes-vm',
       },
       {
-        id: 7,
         label: 'Infecções relacionadas à assistência à saúde (IRAS)',
         url: '/categorias/iras/',
       },
       {
-        id: 8,
         label: 'Hemodiálise',
         url: 'categorias/hemodialise/',
       },
-      { id: 9, label: 'Desfecho', url: 'categorias/desfecho/' },
+      { label: 'Desfecho', url: 'categorias/desfecho/' },
     ];
   }, []);
 
@@ -122,9 +107,9 @@ const Categories = () => {
         >
           <Table size="small">
             <TableBody>
-              {initialForm.map(form => (
+              {initialForm.map((form, index) => (
                 <TableRow
-                  key={form.id}
+                  key={index + 1}
                   onClick={() => handleNavigate(form.url)}
                 >
                   <TableCell
@@ -160,9 +145,9 @@ const Categories = () => {
         >
           <Table size="small">
             <TableBody>
-              {secondaryForm.map(form => (
+              {secondaryForm.map((form, index) => (
                 <TableRow
-                  key={form.id}
+                  key={index + 1}
                   onClick={() => handleNavigate(form.url)}
                 >
                   <TableCell
