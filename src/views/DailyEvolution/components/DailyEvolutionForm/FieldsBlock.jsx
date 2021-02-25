@@ -195,7 +195,7 @@ const FieldsBlock = () => {
           <Field
             component={TextField}
             name="ausculta_pulmonar"
-            type="number"
+            type="text"
             variant="outlined"
           />
         </FormGroup>
