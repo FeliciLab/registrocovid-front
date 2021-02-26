@@ -41,7 +41,7 @@ const ComplicationsVM = () => {
   const { patient } = usePatient();
 
   const formRef = useRef(null);
-  const selectedComplication = useRef();
+  const selectedComplication = useRef('');
 
   const [loading, setLoading] = useState(false);
   const [complicationsTypes, setComplicationsTypes] = useState([]);
@@ -51,32 +51,36 @@ const ComplicationsVM = () => {
   const [complicationId, setComplicationId] = useState(0);
 
   const handleInfos = useCallback(async () => {
-    try {
-      setLoading(true);
+    setLoading(true);
 
-      const [complications, complicationsPatient] = await Promise.all([
+    let result = [];
+    try {
+      result = await Promise.all([
         api.get('/tipos-complicacao-vm'),
         api.get(`pacientes/${patient.id}/ventilacao-mecanica`),
       ]);
-      let ordenedByDate = await orderByDate(
-        complicationsPatient.data.transfussoes_ocorrencia,
-      );
-
-      setComplicationsTypes(complications.data);
-      setOldComplications(
-        complicationsPatient.data.complicacoes_ventilacao_mecanica,
-      );
-      setTransfusions(ordenedByDate);
-    } catch {
+    } catch (err) {
+      console.log('falha ao consultar dados', err)
       addToast({
         type: 'error',
         message: 'Erro ao tentar carregar informações, tente novamente',
       });
 
       history.goBack();
-    } finally {
-      setLoading(false);
     }
+
+    const [complications, complicationsPatient] = result;
+    const ordenedByDate = !complicationsPatient.data.transfussoes_ocorrencia ? [] : orderByDate(
+      complicationsPatient.data.transfussoes_ocorrencia
+    );
+
+    setComplicationsTypes(complications.data);
+    setOldComplications(
+      complicationsPatient.data.complicacoes_ventilacao_mecanica,
+    );
+    setTransfusions(ordenedByDate);
+    setLoading(false);
+
   }, [addToast, history, patient.id]);
 
   useEffect(() => {
@@ -124,6 +128,7 @@ const ComplicationsVM = () => {
         a.data_transfusao < b.data_transfusao
       )
         return -1;
+
       return 0;
     });
   };
