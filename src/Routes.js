@@ -20,7 +20,6 @@ import {
   ComplementaryTests as ComplementaryTestsView,
   Outcome as OutcomeView,
   RelatedInfections as RelatedInfectionsView,
-  RespiratorySupport as RespiratorySupportView,
   DailyEvolutionList as DailyEvolutionListView,
   DailyEvolution as DailyEvolutionView,
 } from './views';
