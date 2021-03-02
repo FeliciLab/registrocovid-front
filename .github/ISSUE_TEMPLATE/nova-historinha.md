@@ -2,7 +2,7 @@
 name: Nova historinha
 about: Describe this issue template's purpose here.
 title: '"Verbo" ...'
-labels: ''
+labels: FRONT
 assignees: ''
 
 ---

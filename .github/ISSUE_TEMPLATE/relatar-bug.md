@@ -2,7 +2,7 @@
 name: Relatar Bug
 about: Modelo de reporte de bug
 title: "<Tela de login não aparece ao clicar em 'Já possuo Id Saúde'> ..."
-labels: bug
+labels: bug, FRONT
 assignees: ''
 
 ---
