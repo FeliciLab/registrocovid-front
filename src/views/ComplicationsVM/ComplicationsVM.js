@@ -6,33 +6,22 @@ import React, {
   useMemo,
 } from 'react';
 import { useHistory } from 'react-router-dom';
-
 import {
   Typography,
   Button,
   CircularProgress,
   Paper,
   Grid,
-  FormGroup,
-  FormLabel,
-  FormControl,
-  Select,
-  MenuItem,
 } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
-
 import CustomBreadcrumbs from 'components/CustomBreadcrumbs';
 import PatientInfo from 'components/PatientInfo';
 import Form from './components/Form';
-
 import { useToast } from 'hooks/toast';
 import { usePatient } from 'context/PatientContext';
-
 import Complications from './components';
-
 import api from 'services/api';
-
 import useStyles from './styles';
+import FormAddNewComplication from './forms/FormAddNewComplication'
 
 const ComplicationsVM = () => {
   const classes = useStyles();
@@ -41,24 +30,18 @@ const ComplicationsVM = () => {
   const { patient } = usePatient();
 
   const formRef = useRef(null);
-  const selectedComplication = useRef('');
 
   const [loading, setLoading] = useState(false);
-  const [complicationsTypes, setComplicationsTypes] = useState([]);
   const [oldComplications, setOldComplications] = useState([]);
-  const [transfusions, setTransfusions] = useState([]);
   const [newsComplications, setNewsComplications] = useState([]);
-  const [complicationId, setComplicationId] = useState(0);
+  const [transfusions, setTransfusions] = useState([]);
 
   const handleInfos = useCallback(async () => {
     setLoading(true);
 
-    let result = [];
+    let complicationsPatient = [];
     try {
-      result = await Promise.all([
-        api.get('/tipos-complicacao-vm'),
-        api.get(`pacientes/${patient.id}/ventilacao-mecanica`),
-      ]);
+      complicationsPatient = await api.get(`pacientes/${patient.id}/ventilacao-mecanica`);
     } catch (err) {
       console.log('falha ao consultar dados', err)
       addToast({
@@ -69,12 +52,10 @@ const ComplicationsVM = () => {
       history.goBack();
     }
 
-    const [complications, complicationsPatient] = result;
     const ordenedByDate = !complicationsPatient.data.transfussoes_ocorrencia ? [] : orderByDate(
       complicationsPatient.data.transfussoes_ocorrencia
     );
 
-    setComplicationsTypes(complications.data);
     setOldComplications(
       complicationsPatient.data.complicacoes_ventilacao_mecanica,
     );
@@ -87,18 +68,13 @@ const ComplicationsVM = () => {
     handleInfos();
   }, [handleInfos]);
 
-  const handleSelect = event => {
-    selectedComplication.current = event.target.value;
-  };
-
-  const handleNewComplication = () => {
-    if (selectedComplication.current) {
+  const handleNewComplication = (selectedComplication) => {
+    if (selectedComplication) {
       const newComplication = {
-        id: complicationId,
-        complication: selectedComplication.current,
+        id: selectedComplication.id,
+        complication: selectedComplication.id,
       };
 
-      setComplicationId(oldState => oldState + 1);
       setNewsComplications(oldState => [newComplication, ...oldState]);
     }
   };
@@ -193,60 +169,7 @@ const ComplicationsVM = () => {
               justify={'center'}
             >
               <Paper className={classes.centralPaper}>
-                <FormLabel>
-                  <Typography variant="h4">
-                    Escolher tipo de complicação (ventilação mecânica):
-                  </Typography>
-                </FormLabel>
-
-                <div className={classes.headerForm}>
-                  <Grid
-                    item
-                    lg={8}
-                  >
-                    <FormGroup>
-                      <FormControl variant={'outlined'}>
-                        <Select
-                          className={classes.selectField}
-                          name="complication"
-                          onChange={handleSelect}
-                          value={selectedComplication.current}
-                        >
-                          <MenuItem
-                            disabled
-                            value={0}
-                          >
-                            Escolher tipo de complicação (ventilação mecânica)
-                          </MenuItem>
-                          {complicationsTypes.map(complication => (
-                            <MenuItem
-                              key={complication.id}
-                              value={complication.id}
-                            >
-                              {complication.descricao}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
-                    </FormGroup>
-                  </Grid>
-
-                  <Grid
-                    item
-                    lg={4}
-                  >
-                    <Button
-                      className={classes.buttonSave}
-                      color="secondary"
-                      onClick={handleNewComplication}
-                      startIcon={<AddIcon />}
-                      type="button"
-                      variant="contained"
-                    >
-                      Adicionar Ocorrência
-                    </Button>
-                  </Grid>
-                </div>
+                <FormAddNewComplication onSubmit={handleNewComplication}/>
 
                 <Form
                   className={classes.examsFormGroup}
