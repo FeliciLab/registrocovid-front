@@ -6,11 +6,14 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 import useStyles from '../styles';
 
-const DeleteAction = (props) => {
+const DeleteAction = ({ onClick }) => {
   const classes = useStyles();
 
   return (
-    <IconButton onClick={() => props.onClick()}>
+    <IconButton
+      aria-label="delete"
+      onClick={() => onClick()}
+    >
       <DeleteIcon className={classes.deleteIcon} />
     </IconButton >
   )
